@@ -13,7 +13,7 @@ website:
       - href: research.qmd
         text: Research
       - href: resources.qmd
-        text: Resources 
+        text: Resources
   
   page-footer: 
     center: "Website is made with [Quarto](https://quarto.org/), by Calvin Chiou" 
