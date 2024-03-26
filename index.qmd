@@ -31,6 +31,9 @@ about:
 ---
 
 Calvin J. Chiou (邱健嘉) is an Assistant Professor in the Department of Finance at [National Chengchi University](https://www.nccu.edu.tw/) (NCCU). His research interests include corporate innovation, institutional investors, corporate governance, corporate finance, and behavioral finance. Calvin received his PhD in finance from the [Nanyang Technological University](https://www.ntu.edu.sg/index), Nanyang Business School in 2024. When not exploring on academic research, Calvin enjoys spending time on traveling, playing basketball, badminton, and the guitar.
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 ## Research Interests

@@ -13,9 +13,14 @@ website:
       - href: research.qmd
         text: Research
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
       - href: resources.qmd
         text: Resources
+=======
+      - href: resources.qmd
+        text: Resources 
+>>>>>>> Stashed changes
   
   page-footer: 
     center: "Website is made with [Quarto](https://quarto.org/), by Calvin Chiou" 
