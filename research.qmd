@@ -1,0 +1,8 @@
+---
+title: "{{< li gqdnbnwt >}} Research"
+listing:
+  contents: papers
+  sort: "date desc"
+  type: default
+  categories: true
+---
