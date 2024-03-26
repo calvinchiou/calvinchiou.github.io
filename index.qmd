@@ -10,24 +10,16 @@ about:
   image-shape: round
   links:
     - icon: envelope
-      text: Email
       href: jjchiou@nccu.edu.tw
     - icon: github
-      text: Github
       href: https://github.com/calvinchiou
     - icon: linkedin
-      text: Linkedin
       href: https://www.linkedin.com/in/calvinchiou1992/
-    - icon: google
-      text: Google Scholar
+    - text: "{{< ai google-scholar >}}"
       href: https://scholar.google.com.tw/citations?user=WvORrXMAAAAJ&hl=en
 ---
 
-<<<<<<< Updated upstream
-Calvin J. Chiou is an Assistant Professor of Department of Finance at National Chengchi University (NCCU). When not exploring on academic research, Calvin enjoys spending time playing basketball, badminton, and the guitar.
-=======
 Calvin J. Chiou (邱健嘉) is an Assistant Professor in the Department of Finance at [National Chengchi University](https://www.nccu.edu.tw/) (NCCU). His research interests include financial innovation, institutional investors, corporate governance, corporate finance, and behavioral finance. Calvin received his PhD in finance from the [Nanyang Technological University](https://www.ntu.edu.sg/index), Nanyang Business School in 2024. When not exploring on academic research, Calvin enjoys spending time on traveling, playing basketball, badminton, and the guitar.
->>>>>>> Stashed changes
 
 ------------------------------------------------------------------------
 
