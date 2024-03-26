@@ -1,0 +1,22 @@
+---
+title: "{{< li gqdnbnwt >}} Research"
+---
+
+------------------------------------------------------------------------
+
+## Publications
+
+| Title                                                                                   | Author                                                             | Year | Journal                                 | DOI                                                                                                               |
+|---------------|-------------|-------------|-------------|--------------------|
+| A Taxonomy of Individual Liquidity Provision: Evidence from the Taiwan Stock Exchange   | **Chiou**, **Calvin J.**, Xiaozhou Zhou, and Chang Chan            | 2022 | Finance Research Letters                | [https://doi.org/10.1016/j.frl.2022.103246](http://127.0.0.1:9179/#0 "https://doi.org/10.1016/j.frl.2022.103246") |
+| The Impact of Mandatory Corporate Social Responsibility Reporting on Liquidity and Risk | Chan, Chang, Chao-Hung Huang, **Jian-Jia Chiou**, and Wen-Chyan Ke | 2021 | Journal of Accounting Review (會計評論) | <http://dx.doi.org/DOI:%2010.6552/JOAR.202101_(72).0002>                                                          |
+|                                                                                         |                                                                    |      |                                         |                                                                                                                   |
+
+## Working Paper
+
+| Title                                                                                                                                 | Author                                                                | Year | Presentation                                      | Link                                                                                                                                                  |
+|---------------|---------------|---------------|---------------|---------------|
+| When Black Swan and Green Swan Come Together: Exploring ESG Engagement in United States Airline Industry during the Covid-19 Pandemic | Chen, Hui-Chieh, **Calvin J. Chiou**, and Yue-Neng Lin                | 2023 | TFA 2023                                          |                                                                                                                                                       |
+| The Impact of Environmental Performance on Financial Performance and Stock Returns: Evidence from Listed Companies in Taiwan          | Chan, Chang, **Calvin J. Chiou**, Chun-Kuei Hsieh, and Tsung-Hsuan Li | 2023 | TFA 2023                                          |                                                                                                                                                       |
+| Does Limited Attention Drive Currency Momentum?                                                                                       | **Chiou, Calvin J.**, and Yin-Feng, Gau                               | 2017 | TFA 2017, AsianFA 2017, TSC Thesis Symposium 2017 | [https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3109118](http://127.0.0.1:9179/#0 "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3109118") |
+| Clearing Frequency and Volatility: Evidence from the Taiwan Stock Market                                                              | Chan, Chang, and **Calvin J. Chiou**                                  | 2016 | TFA 2016                                          |                                                                                                                                                       |

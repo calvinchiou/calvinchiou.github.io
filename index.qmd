@@ -6,20 +6,16 @@ title-block-banner: false
 about:
   template: jolla
   image: img/profile.jpg
-  image-width: 30em
+  image-width: 25em
   image-shape: round
   links:
     - icon: envelope
-      text: Email
       href: jjchiou@nccu.edu.tw
     - icon: github
-      text: Github
       href: https://github.com/calvinchiou
     - icon: linkedin
-      text: Linkedin
       href: https://www.linkedin.com/in/calvinchiou1992/
-    - icon: google
-      text: Google Scholar
+    - text: "{{< ai google-scholar >}}"
       href: https://scholar.google.com.tw/citations?user=WvORrXMAAAAJ&hl=en
 ---
 

@@ -3,10 +3,7 @@ title: "About me"
 table-of-contents: true
 about:
   template: marquee
-  image: profile.jpg
 ---
-
-Calvin J. Chiou is an Assistant Professor of Department of Finance at National Chengchi University (NCCU). When not exploring on academic research, Calvin enjoys spending time playing basketball, badminton, and the guitar.
 
 ## Research Interests
 
