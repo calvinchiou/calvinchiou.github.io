@@ -2,21 +2,26 @@ project:
   type: website
 
 website:
-  title: "Calvin J. Chiou"
-  favicon: nccu_logo.png
+  favicon: /img/nccu_logo.png
   navbar:
+    logo: /img/nccu_logo.png
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
+      - href: about.qmd
+        text: Resume
       - href: research.qmd
         text: Research
+  
+  page-footer: 
+    center: "Website is made with [Quarto](https://quarto.org/), by Calvin Chiou" 
+    
 
 format:
   html:
     theme:
-      light: cosmo
-      dark: [cosmo, theme-dark.scss]
+      light: [sandstone, theme-light.scss]
+      dark: [sandstone, theme-dark.scss]
     css: styles.css
     toc: true
 
@@ -25,3 +30,4 @@ editor: visual
 comments:
   hypothesis: 
     theme: clean
+

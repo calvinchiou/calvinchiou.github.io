@@ -1,30 +1,27 @@
 ---
-title: "About me"
+title: "Resume"
 table-of-contents: true
 about:
   template: marquee
-  image: profile.jpg
 ---
-
-Calvin J. Chiou is an Assistant Professor of Department of Finance at National Chengchi University (NCCU). When not exploring on academic research, Calvin enjoys spending time playing basketball, badminton, and the guitar.
-
-## Research Interests
-
-Innovation, Institutional Investors, Corporate Governance, Empirical Corporate Finance, Behavioral Finance
-
-## Education
-
-Nanyang Technological University \| Singapore \| PhD in Finance \| Jul 2019 - Jan 2024
-
-National University of Singapore \| Singapore \| Visiting PhD Student \| Oct 2019 - Jan 2020
-
-National Central University \| Taiwan \| M.S in Finance \| Sep 2015 - Dec 2017
-
-National Taipei University \| Taiwan \| B.A in Finance and Cooperative Management \| Sep 2011 - Jun 2015
 
 ## Experience
 
 National Chengchi University \| Assistant Professor \| Feb 2024 - present
+
+## Education
+
+Nanyang Technological University \| Singapore \| PhD in Finance \| 2019 - 2024
+
+National University of Singapore \| Singapore \| Visiting PhD Student \| 2019
+
+National Central University \| Taiwan \| M.S in Finance \| 2015 - 2017
+
+National Taipei University \| Taiwan \| B.A in Finance and Cooperative Management \| 2011 - 2015
+
+## Research Interests
+
+Innovation, Institutional Investors, Corporate Governance, Empirical Corporate Finance, Behavioral Finance
 
 ## Awards and Honor
 

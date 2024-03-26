@@ -1,0 +1,18 @@
+---
+title: "Resources"
+table-of-contents: true
+---
+
+This page shares something that are all for free but excellent for beginners!
+
+# Books
+
+### Finance
+
+1.  
+
+### Data Science
+
+1.  
+
+# Websites
