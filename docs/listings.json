@@ -1,17 +1,5 @@
 [
   {
-    "listing": "/index.html",
-    "items": []
-  },
-  {
-    "listing": "/blog.html",
-    "items": [
-      "/posts/InstOwn_1.html",
-      "/posts/SRI.html",
-      "/posts/Welcome to my blog.html"
-    ]
-  },
-  {
     "listing": "/research.html",
     "items": [
       "/papers/CO_Diversity_WP.html",

@@ -1,7 +1,7 @@
 ---
 title: "A Taxonomy of Individual Liquidity Provision: Evidence from the Taiwan Stock Exchange"
 description: "*Finance Research Letters*, Vol. 50, 103246"
-author: "Chang Chan, Xiaozhou Zhou"
+author: "Calvin J. Chiou, Chang Chan, Xiaozhou Zhou"
 date: "December 2022"
 doi: https://doi.org/10.1016/j.frl.2022.103246
 categories:

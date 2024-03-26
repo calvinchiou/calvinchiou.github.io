@@ -1,7 +1,7 @@
 ---
 title: "Calvin J. Chiou [{{< ai orcid >}}](https://orcid.org/0000-0002-4961-1545)"
 page-layout: full
-table-of-contents: true
+table-of-contents: false
 title-block-banner: false
 about:
   template: jolla
