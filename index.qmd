@@ -10,7 +10,7 @@ about:
   image-shape: round
   links:
     - icon: envelope
-      href: jjchiou@nccu.edu.tw
+      href: mailto:jjchiou@nccu.edu.tw
     - icon: github
       href: https://github.com/calvinchiou
     - icon: linkedin
