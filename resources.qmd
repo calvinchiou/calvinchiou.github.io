@@ -9,11 +9,11 @@ This page shares something that are excellent for academic beginners!
 
 ### Finance
 
-1.  [The Economist's Craft](https://press.princeton.edu/books/hardcover/9780691216492/the-economists-craft): An Introduction to Research, Publishing, and Professional Development, Michael S. Weisbach, 2021, Princeton University Press.
+-   [The Economist's Craft](https://press.princeton.edu/books/hardcover/9780691216492/the-economists-craft): An Introduction to Research, Publishing, and Professional Development, Michael S. Weisbach, 2021, Princeton University Press.
 
 ### Data Science
 
-1.  [Data Science Live Book](https://livebook.datascienceheroes.com/), Pablo Casas, 2019.
+-   [Data Science Live Book](https://livebook.datascienceheroes.com/), Pablo Casas, 2019.
 
 # Websites
 

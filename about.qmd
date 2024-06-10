@@ -5,51 +5,65 @@ about:
   template: marquee
 ---
 
+## Employment
+
+National Chengchi University \| Assistant Professor \| Feb 2024 - present
+
 ## Research Interests
 
 Innovation, Institutional Investors, Corporate Governance, Empirical Corporate Finance, Behavioral Finance
 
 ## Education
 
-Nanyang Technological University \| Singapore \| PhD in Finance \| Jul 2019 - Jan 2024
+Nanyang Technological University \| Singapore \| PhD in Finance \| 2024
 
-National University of Singapore \| Singapore \| Visiting PhD Student \| Oct 2019 - Jan 2020
+National University of Singapore \| Singapore \| Visiting PhD Student \| 2019
 
-National Central University \| Taiwan \| M.S in Finance \| Sep 2015 - Dec 2017
+National Central University \| Taiwan \| M.S in Finance \| 2017
 
-National Taipei University \| Taiwan \| B.A in Finance and Cooperative Management \| Sep 2011 - Jun 2015
+National Taipei University \| Taiwan \| B.A in Finance and Cooperative Management \| 2015
 
-## Experience
+## Awards and Honors
 
-National Chengchi University \| Assistant Professor \| Feb 2024 - present
-
-## Awards and Honor
+Fubon Best Paper Award \| 2024
 
 Taiwanese Government Scholarship to Study Abroad \| 2022 - 2023
 
 NTU Research Scholarship \| 2019 - 2023
 
-TSC Thesis Symposium, The Best Paper Award \| 2017
+Best Paper Award, TSC Thesis Symposium \| 2017
 
-The Shanghai Commercial & Savings Bank Scholarship \| 2017
+Shanghai Commercial & Savings Bank Scholarship \| 2017
 
 ## Professional Services
 
 **Journal Referee**: Pacific-Basin Finance Journal, British Accounting Review, Emerging Markets Finance and Trade
 
+## Conference Presentations
+
+2024: International Conference of Taiwan Finance Association (TFA), Frontier in Accounting and Finance International Conference, INFORMS Annual Meeting (scheduled)
+
+2023: International Conference of TFA
+
+2021: Cross Country Perspectives in Finance (CCPF), CCPF-JIFMIM Symposium, International Conference of TFA
+
+2018: AsianFA Annual Meeting$^*$
+
+2017: International Conference of TFA$^\dagger$, TFA Conference on Asset Pricing$^*$, Conference on the Theories and Practices of Securities and Financial Markets$^*$
+
+($^*$ Presented by Coauthor, $^\dagger$ Discussant)
+
 ## Selected Certificates
 
--   Data Analysis with R Specialization, Duke University \| [Coursera](https://www.coursera.org/account/accomplishments/specialization/certificate/HZ6WHJQG3TSW)
+Data Analysis with R Specialization, Duke University \| [Coursera](https://www.coursera.org/account/accomplishments/specialization/certificate/HZ6WHJQG3TSW)
 
--   Google Data Analytics Specialization, Google \| [Coursera](https://www.coursera.org/account/accomplishments/specialization/certificate/9T2PRT75NGR3)
+Google Data Analytics Specialization, Google \| [Coursera](https://www.coursera.org/account/accomplishments/specialization/certificate/9T2PRT75NGR3)
 
--   SQL Essential Training \| [LinkedIn](https://www.linkedin.com/learning/certificates/eedeb209c1edb03618b92f9db436e455ab4e7ac99e3e51339c15f633f16289aa)
+SQL Essential Training \| [LinkedIn](https://www.linkedin.com/learning/certificates/eedeb209c1edb03618b92f9db436e455ab4e7ac99e3e51339c15f633f16289aa)
 
--   Applied Text Mining in Python, University of Michigan \| [Coursera](coursera.org/verify/PVT7B574ACNF)
+Applied Text Mining in Python, University of Michigan \| [Coursera](coursera.org/verify/PVT7B574ACNF)
 
--   Fundamentals of Machine Learning in Finance, New York University \| [Coursera](coursera.org/verify/N4LWW7YT4W37)
-
--   Chartered Financial Analyst (CFA) Level 1
+Fundamentals of Machine Learning in Finance, New York University \| [Coursera](coursera.org/verify/N4LWW7YT4W37)
 
 ## Programming
 

@@ -1,0 +1,18 @@
+---
+title: "Teaching"
+toc: true
+---
+
+# Current Teaching
+
+-   **Financial Management** (Undergraduate), National Chengchi University, Spring 2024.
+
+# Previous Teaching
+
+-   **Textual Analysis and Web Crawling using R** (mini-workshop), National Central University, Fall 2017.
+
+# Lecture Notes
+
+-   Financial Management, *Estimating Beta Coefficients*, [lecture note](notes/Beta.qmd).
+
+-   *`ggplot2` Themes and Styles*, [lecture note](notes/GG%20Themes.qmd).

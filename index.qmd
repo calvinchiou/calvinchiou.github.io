@@ -4,7 +4,7 @@ page-layout: full
 table-of-contents: false
 title-block-banner: false
 about:
-  template: jolla
+  template: broadside
   image: img/profile.jpg
   image-width: 25em
   image-shape: round

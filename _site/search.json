@@ -4,7 +4,7 @@
     "href": "research.html",
     "title": " Research",
     "section": "",
-    "text": "Common Ownership Network and the Expansion of Female Board Representation\n\n\n\n\n\n\n\nWorking Papers\n\n\n\n\nWorking Paper\n\n\n\n\n\n\nJan 1, 2024\n\n\nCalvin J. Chiou\n\n\n\n\n\n\n  \n\n\n\n\nA Taxonomy of Individual Liquidity Provision: Evidence from the Taiwan Stock Exchange\n\n\n\n\n\n\n\nPublications\n\n\n\n\nFinance Research Letters, Vol. 50, 103246\n\n\n\n\n\n\nDec 1, 2022\n\n\nCalvin J. Chiou, Chang Chan, Xiaozhou Zhou\n\n\n\n\n\n\n  \n\n\n\n\nThe impact of mandatory corporate social responsibility reporting on liquidity and risk\n\n\n\n\n\n\n\nPublications\n\n\n\n\nJournal of Accounting Review, Vol. 72, 35-82\n\n\n\n\n\n\nJan 1, 2021\n\n\nChang Chan, Chao-Hung Huang, Calvin J. Chiou, and Wen-Chyan Ke\n\n\n\n\n\n\nNo matching items"
+    "text": "Date\n\n\nTitle\n\n\nAuthor\n\n\nJournal\n\n\n\n\n\n\nDec 1, 2022\n\n\nA Taxonomy of Individual Liquidity Provision: Evidence from the Taiwan Stock Exchange\n\n\nCalvin J. Chiou, Chang Chan, Xiaozhou Zhou\n\n\nFinance Research Letters, Vol. 50, 103246\n\n\n\n\nJan 1, 2021\n\n\nThe impact of mandatory corporate social responsibility reporting on liquidity and risk\n\n\nChang Chan, Chao-Hung Huang, Calvin J. Chiou, and Wen-Chyan Ke\n\n\nJournal of Accounting Review, Vol. 72, 35-82 (TSSCI)\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "resources.html",
@@ -32,28 +32,28 @@
     "href": "papers/CO_Diversity_WP.html",
     "title": "Common Ownership Network and the Expansion of Female Board Representation",
     "section": "",
-    "text": "Abstract\nThis study investigates the potential of common ownership to expand the pool of female director candidates and alleviate the underrepresentation of women on corporate boards. Using the California Senate Bill No. 826 and peer female director appointments as quasi-experimental settings, our findings demonstrate that firms under common ownership exhibit greater female board representation and a higher propensity to appoint new female directors. Furthermore, these firms show an increased likelihood of women attaining leadership positions on board committees. Our results remain robust to accounting for the activeness of the Big Three, underscore the network effect of common ownership on the supply side of the labor market for female directors."
+    "text": "This study investigates the potential of common ownership to expand the pool of female director candidates and alleviate the underrepresentation of women on corporate boards. Using the California Senate Bill No. 826 and peer female director appointments as quasi-experimental settings, our findings demonstrate that firms under common ownership exhibit greater female board representation and a higher propensity to appoint new female directors. Furthermore, these firms show an increased likelihood of women attaining leadership positions on board committees. Our results remain robust to accounting for the activeness of the Big Three, underscore the network effect of common ownership on the supply side of the labor market for female directors."
   },
   {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About me",
     "section": "",
-    "text": "Innovation, Institutional Investors, Corporate Governance, Empirical Corporate Finance, Behavioral Finance"
+    "text": "National Chengchi University | Assistant Professor | Feb 2024 - present"
   },
   {
     "objectID": "about.html#research-interests",
     "href": "about.html#research-interests",
     "title": "About me",
-    "section": "",
-    "text": "Innovation, Institutional Investors, Corporate Governance, Empirical Corporate Finance, Behavioral Finance"
+    "section": "Research Interests",
+    "text": "Research Interests\nInnovation, Institutional Investors, Corporate Governance, Empirical Corporate Finance, Behavioral Finance"
   },
   {
     "objectID": "about.html#education",
     "href": "about.html#education",
     "title": "About me",
     "section": "Education",
-    "text": "Education\nNanyang Technological University | Singapore | PhD in Finance | Jul 2019 - Jan 2024\nNational University of Singapore | Singapore | Visiting PhD Student | Oct 2019 - Jan 2020\nNational Central University | Taiwan | M.S in Finance | Sep 2015 - Dec 2017\nNational Taipei University | Taiwan | B.A in Finance and Cooperative Management | Sep 2011 - Jun 2015"
+    "text": "Education\nNanyang Technological University | Singapore | PhD in Finance | 2024\nNational University of Singapore | Singapore | Visiting PhD Student | 2019\nNational Central University | Taiwan | M.S in Finance | 2017\nNational Taipei University | Taiwan | B.A in Finance and Cooperative Management | 2015"
   },
   {
     "objectID": "about.html#experience",
@@ -67,7 +67,7 @@
     "href": "about.html#awards-and-honor",
     "title": "About me",
     "section": "Awards and Honor",
-    "text": "Awards and Honor\nTaiwanese Government Scholarship to Study Abroad | 2022 - 2023\nNTU Research Scholarship | 2019 - 2023\nTSC Thesis Symposium, The Best Paper Award | 2017\nThe Shanghai Commercial & Savings Bank Scholarship | 2017"
+    "text": "Awards and Honor\nFubon Best Paper Award | 2024\nTaiwanese Government Scholarship to Study Abroad | 2022 - 2023\nNTU Research Scholarship | 2019 - 2023\nTSC Thesis Symposium, The Best Paper Award | 2017\nThe Shanghai Commercial & Savings Bank Scholarship | 2017"
   },
   {
     "objectID": "about.html#professional-services",
@@ -81,7 +81,7 @@
     "href": "about.html#selected-certificates",
     "title": "About me",
     "section": "Selected Certificates",
-    "text": "Selected Certificates\n\nData Analysis with R Specialization, Duke University | Coursera\nGoogle Data Analytics Specialization, Google | Coursera\nSQL Essential Training | LinkedIn\nApplied Text Mining in Python, University of Michigan | Coursera\nFundamentals of Machine Learning in Finance, New York University | Coursera\nChartered Financial Analyst (CFA) Level 1"
+    "text": "Selected Certificates\nData Analysis with R Specialization, Duke University | Coursera\nGoogle Data Analytics Specialization, Google | Coursera\nSQL Essential Training | LinkedIn\nApplied Text Mining in Python, University of Michigan | Coursera\nFundamentals of Machine Learning in Finance, New York University | Coursera"
   },
   {
     "objectID": "about.html#programming",
@@ -131,5 +131,383 @@
     "title": "Welcome to my blog",
     "section": "",
     "text": "Welcome to my website!\nI am a Finance PhD at Nanyang Technological University (NTU). I am primarily intrigued in corporate finance, corporate governance, and behavioral finance. Sub-fields include innovation, ESG, institutional investors, and mutual funds.\nHere is our new building for Nanyang Business School, GAIA, just launching in use since June 2023."
+  },
+  {
+    "objectID": "teaching.html",
+    "href": "teaching.html",
+    "title": "Teaching",
+    "section": "",
+    "text": "Current Teaching\n\nFinancial Management (Undergraduate), National Chengchi University, Spring 2024.\n\n\n\nPrevious Teaching\n\nTextual Analysis and Web Crawling using R (mini-workshop), National Central University, Fall 2017.\n\n\n\nLecture Notes\n\nFinancial Management, Estimating Beta Coefficients, lecture note.\nggplot2 Themes and Styles, lecture note."
+  },
+  {
+    "objectID": "notes/Beta.html",
+    "href": "notes/Beta.html",
+    "title": "Estimating Beta Coefficients",
+    "section": "",
+    "text": "Course: Financial Management\nCode: 000347061/000347071"
+  },
+  {
+    "objectID": "notes/Beta.html#setup",
+    "href": "notes/Beta.html#setup",
+    "title": "Estimating Beta Coefficients",
+    "section": "Setup",
+    "text": "Setup\nFirst, we need to install and load the required packages. Ensure you have tidyquant, dplyr, broom, and knitr installed.\n\n# Install the necessary packages if not already installed \nif (!require(tidyquant)) install.packages(\"tidyquant\") \nif (!require(dplyr)) install.packages(\"dplyr\") \nif (!require(broom)) install.packages(\"broom\")\nif (!require(knitr)) install.packages(\"knitr\")\nif (!require(ggplot2)) install.packages(\"ggplot2\")\n# Load the packages\nlibrary(tidyquant) \nlibrary(dplyr) \nlibrary(broom)\nlibrary(knitr)\nlibrary(ggplot2)"
+  },
+  {
+    "objectID": "notes/Beta.html#data-download",
+    "href": "notes/Beta.html#data-download",
+    "title": "Estimating Beta Coefficients",
+    "section": "Data Download",
+    "text": "Data Download\nWe will download stock prices for a chosen stock (e.g., Apple Inc., ticker: AAPL) and a market index (e.g., S&P 500, ticker: ^GSPC) from Yahoo Finance during the estimation window 2020-2022.1 You can find any corresponding tickers that you would like to explore from its website.\n\n# Define the tickers for the stock and the market index\nstock_ticker &lt;- \"AAPL\"\nmarket_ticker &lt;- \"^GSPC\"\n\n# Set the time period for the data\nstart_date &lt;- \"2020-01-01\"\nend_date &lt;- \"2023-01-01\"\n\n# Download stock and market data\nstock_data &lt;- tq_get(stock_ticker, from = start_date, to = end_date)\nmarket_data &lt;- tq_get(market_ticker, from = start_date, to = end_date)"
+  },
+  {
+    "objectID": "notes/Beta.html#preview-data",
+    "href": "notes/Beta.html#preview-data",
+    "title": "Estimating Beta Coefficients",
+    "section": "Preview Data",
+    "text": "Preview Data\nLet’s take a look at the first few rows of the stock data in a pretty format.\n\n# Print the head of the stock data in a pretty format\nkable(head(stock_data), caption = \"Stock Data: Apple Inc. (AAPL)\")\n\n\nStock Data: Apple Inc. (AAPL)\n\n\n\n\n\n\n\n\n\n\n\n\nsymbol\ndate\nopen\nhigh\nlow\nclose\nvolume\nadjusted\n\n\n\n\nAAPL\n2020-01-02\n74.0600\n75.1500\n73.7975\n75.0875\n135480400\n72.96046\n\n\nAAPL\n2020-01-03\n74.2875\n75.1450\n74.1250\n74.3575\n146322800\n72.25113\n\n\nAAPL\n2020-01-06\n73.4475\n74.9900\n73.1875\n74.9500\n118387200\n72.82687\n\n\nAAPL\n2020-01-07\n74.9600\n75.2250\n74.3700\n74.5975\n108872000\n72.48433\n\n\nAAPL\n2020-01-08\n74.2900\n76.1100\n74.2900\n75.7975\n132079200\n73.65034\n\n\nAAPL\n2020-01-09\n76.8100\n77.6075\n76.5500\n77.4075\n170108400\n75.21473"
+  },
+  {
+    "objectID": "notes/Beta.html#data-preparation",
+    "href": "notes/Beta.html#data-preparation",
+    "title": "Estimating Beta Coefficients",
+    "section": "Data Preparation",
+    "text": "Data Preparation\nNext, we will prepare the data by calculating daily returns for both the stock and the market index. tq_transmute() is used to manipulate stock data by creating a new variable, stock_return. Stock (or market) returns are calculated as the difference between the current and the past return divided by the past return. Because we are looking at daily data, the past return refers to the return that occurred on the previous trading day. na.omit() is used to drop observations with missing values.\n\n# Calculate daily returns for the stock and the market\nstock_returns &lt;- stock_data %&gt;%\n  tq_transmute(select = adjusted, \n               mutate_fun = periodReturn, \n               period = \"daily\", \n               col_rename = \"stock_return\")\n\nmarket_returns &lt;- market_data %&gt;%\n  tq_transmute(select = adjusted, \n               mutate_fun = periodReturn, \n               period = \"daily\", \n               col_rename = \"market_return\")\n\n# Combine the returns data into one data frame\nreturns_data &lt;- left_join(stock_returns, market_returns, \n                          by = \"date\") %&gt;%\n  na.omit()\n# Print the head of the stock data in a pretty format\nkable(head(returns_data), caption = \"Return Data\")\n\n\nReturn Data\n\n\ndate\nstock_return\nmarket_return\n\n\n\n\n2020-01-02\n0.0000000\n0.0000000\n\n\n2020-01-03\n-0.0097221\n-0.0070599\n\n\n2020-01-06\n0.0079686\n0.0035334\n\n\n2020-01-07\n-0.0047034\n-0.0028032\n\n\n2020-01-08\n0.0160865\n0.0049025\n\n\n2020-01-09\n0.0212407\n0.0066553"
+  },
+  {
+    "objectID": "notes/Beta.html#visualize-stock-prices",
+    "href": "notes/Beta.html#visualize-stock-prices",
+    "title": "Estimating Beta Coefficients",
+    "section": "Visualize Stock Prices",
+    "text": "Visualize Stock Prices\nWe will visualize the stock prices of Apple using ggplot2 with a nice theme.\n\n# Plot the stock prices using ggplot2\nggplot(stock_data, aes(x = date, y = adjusted)) +\n  geom_line(color = \"blue\") +\n  labs(title = \"Apple Inc. (AAPL) Stock Prices\",\n       x = \"Date\",\n       y = \"Adjusted Closing Price\") +\n  theme_minimal() +\n  theme(plot.title = element_text(hjust = 0.5, size = 14),\n        axis.title = element_text(size = 12),\n        axis.text = element_text(size = 10))"
+  },
+  {
+    "objectID": "notes/Beta.html#systematic-risk",
+    "href": "notes/Beta.html#systematic-risk",
+    "title": "Estimating Beta Coefficients",
+    "section": "Systematic Risk",
+    "text": "Systematic Risk\nThe beta coefficient is the slope of the regression line. We can extract it from the regression model.\n\n# Extract the beta coefficient\nbeta_coefficient &lt;- tidy(model) %&gt;%\n  filter(term == \"market_return\") %&gt;%\n  select(estimate) %&gt;%\n  pull()\n\ncat(\"The estimated beta coefficient for\", \n    stock_ticker, \"is\", \n    round(beta_coefficient, 2))\n\nThe estimated beta coefficient for AAPL is 1.2\n\n\nThe estimated beta coefficient tells us how sensitive the stock’s return is to the market’s return. For instance, if the beta is 1.2, it means that if the market return increases by 1%, the stock’s return is expected to increase by 1.2%, indicating higher volatility relative to the market."
+  },
+  {
+    "objectID": "notes/Beta.html#idiosyncratic-risk",
+    "href": "notes/Beta.html#idiosyncratic-risk",
+    "title": "Estimating Beta Coefficients",
+    "section": "Idiosyncratic Risk",
+    "text": "Idiosyncratic Risk\nIdiosyncratic (unsystematic) volatility represents the portion of the stock’s volatility that is not explained by market movements. It can be estimated by taking the standard deviation of the residuals from the market model. The residuals (\\(\\epsilon\\)) represent the differences between the observed stock returns and the returns predicted by the market model.\n\n# Calculate the residuals from the market model\nresiduals &lt;- resid(model)\n\n# Calculate the standard deviation of the residuals\nidiosyncratic_volatility &lt;- sd(residuals)\n\ncat(\"The estimated idiosyncratic risk for\", \n    stock_ticker, \"is\", \n    round(idiosyncratic_volatility, 2))\n\nThe estimated idiosyncratic risk for AAPL is 0.01"
+  },
+  {
+    "objectID": "notes/Beta.html#footnotes",
+    "href": "notes/Beta.html#footnotes",
+    "title": "Estimating Beta Coefficients",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nThere is no unique answer to how to set the estimation window. In this case, we choose to look at the previous three years of daily returns. You can choose any time horizon that suits your analysis. This is based on the implicit assumption that the estimated beta using historical data represents the stock’s riskiness in recent periods.↩︎\nYou might be wondering why the risk-free rate is ignored in the market model. Indeed, some people would regress \\(R_i-R_f\\) on \\(R_M-R_f\\), where the risk-free rate, \\(R_f\\), is typically measured by Treasury Bill yields. Including the risk-free rate will make beta coefficient slightly different, but the change will be usually minor. For simplicity, you may choose to ignore the risk-free rate.↩︎"
+  },
+  {
+    "objectID": "notes/GG Themes.html",
+    "href": "notes/GG Themes.html",
+    "title": "ggplot2 Themes",
+    "section": "",
+    "text": "In this document, we will explore various themes and styles available in ggplot2.\n\nlibrary(ggplot2)\nlibrary(ggthemes)\n\n# Basic plot\np &lt;- ggplot(mpg, aes(x=displ, y=hwy, color=class)) +\n  geom_point() +\n  labs(title=\"Default Theme\")\n\np\n\n\n\n\n\n\n\n\nBelow are examples of applying different themes to your plot:"
+  },
+  {
+    "objectID": "notes/GG Themes.html#introduction",
+    "href": "notes/GG Themes.html#introduction",
+    "title": "ggplot2 Themes",
+    "section": "",
+    "text": "In this document, we will explore various themes and styles available in ggplot2.\n\nlibrary(ggplot2)\nlibrary(ggthemes)\n\n# Basic plot\np &lt;- ggplot(mpg, aes(x=displ, y=hwy, color=class)) +\n  geom_point() +\n  labs(title=\"Default Theme\")\n\np\n\n\n\n\n\n\n\n\nBelow are examples of applying different themes to your plot:"
+  },
+  {
+    "objectID": "notes/GG Themes.html#theme-minimal",
+    "href": "notes/GG Themes.html#theme-minimal",
+    "title": "ggplot2 Themes",
+    "section": "Theme Minimal",
+    "text": "Theme Minimal\n\np + theme_minimal() +\n  labs(title=\"Theme Minimal\")"
+  },
+  {
+    "objectID": "notes/GG Themes.html#theme-classic",
+    "href": "notes/GG Themes.html#theme-classic",
+    "title": "ggplot2 Themes",
+    "section": "Theme Classic",
+    "text": "Theme Classic\n\np + theme_dark() +\n  labs(title=\"Theme Dark\")"
+  },
+  {
+    "objectID": "notes/GG Themes.html#theme-economist",
+    "href": "notes/GG Themes.html#theme-economist",
+    "title": "ggplot2 Themes",
+    "section": "Theme Economist",
+    "text": "Theme Economist\n\np + theme_economist() +\n  labs(title=\"Theme Economist\")"
+  },
+  {
+    "objectID": "notes/GG Themes.html#theme-economist---white",
+    "href": "notes/GG Themes.html#theme-economist---white",
+    "title": "ggplot2 Themes",
+    "section": "Theme Economist - White",
+    "text": "Theme Economist - White\n\np + theme_economist_white() +\n  labs(title=\"Theme Economist - White\")"
+  },
+  {
+    "objectID": "notes/GG Themes.html#theme-excel",
+    "href": "notes/GG Themes.html#theme-excel",
+    "title": "ggplot2 Themes",
+    "section": "Theme Excel",
+    "text": "Theme Excel\n\np + theme_excel() +\n  labs(title=\"Theme Excel\")"
+  },
+  {
+    "objectID": "notes/GG Themes.html#theme-excel---new",
+    "href": "notes/GG Themes.html#theme-excel---new",
+    "title": "ggplot2 Themes",
+    "section": "Theme Excel - New",
+    "text": "Theme Excel - New\n\np + theme_excel_new() +\n  labs(title=\"Theme Excel - New\")"
+  },
+  {
+    "objectID": "notes/GG Themes.html#theme-highcharts",
+    "href": "notes/GG Themes.html#theme-highcharts",
+    "title": "ggplot2 Themes",
+    "section": "Theme Highcharts",
+    "text": "Theme Highcharts\n\np + theme_hc() +\n  labs(title=\"Theme Highcharts\")"
+  },
+  {
+    "objectID": "notes/GG Themes.html#theme-google-docs",
+    "href": "notes/GG Themes.html#theme-google-docs",
+    "title": "ggplot2 Themes",
+    "section": "Theme Google Docs",
+    "text": "Theme Google Docs\n\np + theme_gdocs() +\n  labs(title=\"Theme Google Docs\")"
+  },
+  {
+    "objectID": "notes/GG Themes.html#theme-538",
+    "href": "notes/GG Themes.html#theme-538",
+    "title": "ggplot2 Themes",
+    "section": "Theme 538",
+    "text": "Theme 538\n\np + theme_fivethirtyeight() +\n  labs(title=\"Theme 538\")"
+  },
+  {
+    "objectID": "notes/GG Themes.html#theme-stata",
+    "href": "notes/GG Themes.html#theme-stata",
+    "title": "ggplot2 Themes",
+    "section": "Theme Stata",
+    "text": "Theme Stata\n\np + theme_stata() +\n  labs(title=\"Theme Stata\")"
+  },
+  {
+    "objectID": "notes/GG Themes.html#theme-wall-street-journal-wsj",
+    "href": "notes/GG Themes.html#theme-wall-street-journal-wsj",
+    "title": "ggplot2 Themes",
+    "section": "Theme Wall Street Journal (WSJ)",
+    "text": "Theme Wall Street Journal (WSJ)\n\np + theme_wsj() +\n  labs(title=\"Theme Wall Street Journal\")"
+  },
+  {
+    "objectID": "notes/GG Themes.html#theme-pander",
+    "href": "notes/GG Themes.html#theme-pander",
+    "title": "ggplot2 Themes",
+    "section": "Theme Pander",
+    "text": "Theme Pander\n\np + theme_pander() +\n  labs(title=\"Theme Pander\")"
+  },
+  {
+    "objectID": "notes/GG Themes.html#custom-theme",
+    "href": "notes/GG Themes.html#custom-theme",
+    "title": "ggplot2 Themes",
+    "section": "Custom Theme",
+    "text": "Custom Theme\n\ncustom_theme &lt;- theme(\n  plot.title = element_text(size=14, face=\"bold\", hjust=0.5),\n  axis.title = element_text(size=12, face=\"bold\"),\n  axis.text = element_text(size=10),\n  panel.background = element_rect(fill=\"white\"),\n  panel.grid.major = element_line(color=\"grey\", size=0.5),\n  panel.grid.minor = element_line(color=\"lightgrey\", size=0.25)\n)\n\nWarning: The `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.\nℹ Please use the `linewidth` argument instead.\n\np + custom_theme + labs(title=\"Custom Theme\")"
+  },
+  {
+    "objectID": "notes/CAR.html",
+    "href": "notes/CAR.html",
+    "title": "Cumulative Abnormal Returns",
+    "section": "",
+    "text": "In this document, we will extend the analysis from estimating the beta coefficient to measuring cumulative abnormal returns (CAR). CAR is used in event studies to assess the impact of a specific event on a stock’s price. We will first estimate the market model, calculate abnormal returns, and then compute the cumulative abnormal returns.\n\n\nFirst, we need to install and load the required packages. Ensure you have `tidyquant`, `dplyr`, `broom`, `knitr`, `ggplot2`, and `lubridate` installed.\n\n# Install the necessary packages if not already installed\nif (!require(tidyquant)) install.packages(\"tidyquant\")\nif (!require(dplyr)) install.packages(\"dplyr\")\nif (!require(tidyr)) install.packages(\"tidyr\")\nif (!require(broom)) install.packages(\"broom\")\nif (!require(knitr)) install.packages(\"knitr\")\nif (!require(ggplot2)) install.packages(\"ggplot2\")\nif (!require(lubridate)) install.packages(\"lubridate\")\n# Load the packages\nlibrary(tidyquant)\nlibrary(dplyr)\nlibrary(tidyr)\nlibrary(broom)\nlibrary(knitr)\nlibrary(ggplot2)\nlibrary(lubridate)"
+  },
+  {
+    "objectID": "notes/CAR.html#setup",
+    "href": "notes/CAR.html#setup",
+    "title": "Cumulative Abnormal Returns",
+    "section": "",
+    "text": "First, we need to install and load the required packages. Ensure you have `tidyquant`, `dplyr`, `broom`, `knitr`, `ggplot2`, and `lubridate` installed.\n\n# Install the necessary packages if not already installed\nif (!require(tidyquant)) install.packages(\"tidyquant\")\nif (!require(dplyr)) install.packages(\"dplyr\")\nif (!require(tidyr)) install.packages(\"tidyr\")\nif (!require(broom)) install.packages(\"broom\")\nif (!require(knitr)) install.packages(\"knitr\")\nif (!require(ggplot2)) install.packages(\"ggplot2\")\nif (!require(lubridate)) install.packages(\"lubridate\")\n# Load the packages\nlibrary(tidyquant)\nlibrary(dplyr)\nlibrary(tidyr)\nlibrary(broom)\nlibrary(knitr)\nlibrary(ggplot2)\nlibrary(lubridate)"
+  },
+  {
+    "objectID": "notes/CAR.html#data-download",
+    "href": "notes/CAR.html#data-download",
+    "title": "Cumulative Abnormal Returns",
+    "section": "Data Download",
+    "text": "Data Download\nWe will download stock prices for a chosen stock (e.g., Apple Inc., ticker: AAPL) and a market index (e.g., S&P 500, ticker: ^GSPC) from Yahoo Finance during the estimation window 2020-2022. You can find any corresponding tickers that you would like to explore from its website.\n\n# Define the tickers for the stock and the market index\nstock_ticker &lt;- \"AAPL\"\nmarket_ticker &lt;- \"^GSPC\"\n\n# Set the time period for the data\nstart_date &lt;- \"2020-01-01\"\nend_date &lt;- \"2023-01-01\"\n\n# Download stock and market data\nstock_data &lt;- tq_get(stock_ticker, from = start_date, to = end_date)\nmarket_data &lt;- tq_get(market_ticker, from = start_date, to = end_date)"
+  },
+  {
+    "objectID": "notes/CAR.html#preview-data",
+    "href": "notes/CAR.html#preview-data",
+    "title": "Cumulative Abnormal Returns",
+    "section": "Preview Data",
+    "text": "Preview Data\nLet’s take a look at the first few rows of the stock data in a pretty format.\n\n# Print the head of the stock data in a pretty format\nkable(head(stock_data), caption = \"Stock Data: Apple Inc. (AAPL)\")\n\n\nStock Data: Apple Inc. (AAPL)\n\n\n\n\n\n\n\n\n\n\n\n\nsymbol\ndate\nopen\nhigh\nlow\nclose\nvolume\nadjusted\n\n\n\n\nAAPL\n2020-01-02\n74.0600\n75.1500\n73.7975\n75.0875\n135480400\n72.96045\n\n\nAAPL\n2020-01-03\n74.2875\n75.1450\n74.1250\n74.3575\n146322800\n72.25114\n\n\nAAPL\n2020-01-06\n73.4475\n74.9900\n73.1875\n74.9500\n118387200\n72.82685\n\n\nAAPL\n2020-01-07\n74.9600\n75.2250\n74.3700\n74.5975\n108872000\n72.48436\n\n\nAAPL\n2020-01-08\n74.2900\n76.1100\n74.2900\n75.7975\n132079200\n73.65035\n\n\nAAPL\n2020-01-09\n76.8100\n77.6075\n76.5500\n77.4075\n170108400\n75.21477"
+  },
+  {
+    "objectID": "notes/CAR.html#data-preparation",
+    "href": "notes/CAR.html#data-preparation",
+    "title": "Cumulative Abnormal Returns",
+    "section": "Data Preparation",
+    "text": "Data Preparation\nNext, we will prepare the data by calculating daily returns for both the stock and the market index.\n\n# Calculate daily returns for the stock and the market\nstock_returns &lt;- stock_data %&gt;%\n  tq_transmute(select = adjusted, \n               mutate_fun = periodReturn, \n               period = \"daily\", \n               col_rename = \"stock_return\")\n\nmarket_returns &lt;- market_data %&gt;%\n  tq_transmute(select = adjusted, \n               mutate_fun = periodReturn, \n               period = \"daily\", \n               col_rename = \"market_return\")\n\n# Combine the returns data into one data frame\nreturns_data &lt;- left_join(stock_returns, \n                          market_returns, \n                          by = \"date\") %&gt;%\n  na.omit()"
+  },
+  {
+    "objectID": "notes/CAR.html#calculating-abnormal-returns",
+    "href": "notes/CAR.html#calculating-abnormal-returns",
+    "title": "Cumulative Abnormal Returns",
+    "section": "Calculating Abnormal Returns",
+    "text": "Calculating Abnormal Returns\nAbnormal returns are the difference between the actual returns and the returns predicted by the market model.\n\n# Calculate the predicted returns\nreturns_data &lt;- returns_data %&gt;%\n  mutate(predicted_return = alpha_hat + beta_hat * market_return)\n\n# Calculate the abnormal returns\nreturns_data &lt;- returns_data %&gt;%\n  mutate(abnormal_return = stock_return - predicted_return)\n\n# Display the first few rows with abnormal returns\nkable(head(returns_data), caption = \"Returns Data with Abnormal Returns\")\n\n\nReturns Data with Abnormal Returns\n\n\n\n\n\n\n\n\n\ndate\nstock_return\nmarket_return\npredicted_return\nabnormal_return\n\n\n\n\n2020-01-02\n0.0000000\n0.0000000\n0.0006081\n-0.0006081\n\n\n2020-01-03\n-0.0097218\n-0.0070599\n-0.0078374\n-0.0018844\n\n\n2020-01-06\n0.0079681\n0.0035334\n0.0048349\n0.0031332\n\n\n2020-01-07\n-0.0047028\n-0.0028032\n-0.0027453\n-0.0019575\n\n\n2020-01-08\n0.0160861\n0.0049025\n0.0064727\n0.0096134\n\n\n2020-01-09\n0.0212411\n0.0066553\n0.0085695\n0.0126716"
+  },
+  {
+    "objectID": "notes/CAR.html#measuring-cumulative-abnormal-returns-car",
+    "href": "notes/CAR.html#measuring-cumulative-abnormal-returns-car",
+    "title": "Cumulative Abnormal Returns",
+    "section": "Measuring Cumulative Abnormal Returns (CAR)",
+    "text": "Measuring Cumulative Abnormal Returns (CAR)\nCumulative abnormal returns (CAR) are the sum of abnormal returns over a specified event window. We need to define an event date and the event window around this date.\n\n# Define the event date and the event window\nevent_date &lt;- ymd(\"2022-01-01\")\nevent_window &lt;- 5  # Days before and after the event date\n\n# Filter the returns data for the event window\nevent_window_data &lt;- returns_data %&gt;%\n  filter(date &gt;= event_date - event_window & \n           date &lt;= event_date + event_window)\n\n# Calculate the cumulative abnormal returns (CAR)\ncar &lt;- sum(event_window_data$abnormal_return)\n\n# Display the cumulative abnormal returns\ncat(\"The cumulative abnormal returns (CAR) for the event window around\", \n    as.character(event_date), \"is\", round(car, 4))\n\nThe cumulative abnormal returns (CAR) for the event window around 2022-01-01 is -0.0217"
+  },
+  {
+    "objectID": "papers/EnvNTPU.html",
+    "href": "papers/EnvNTPU.html",
+    "title": "The Impact of Environmental Performance on Financial Performance and Stock Returns - Evidence from Listed Companies in Taiwan",
+    "section": "",
+    "text": "This paper examines the impact of a firm’s environmental performance on its financial performance and stock return. We refer to the methods of Lins et al. (2017) and Chen et al. (2018) and use the data of the Taiwan Sustainability Rating for listed companies and OTC companies that have issued sustainability reports of the previous year from 2016 to 2021. The findings include: (1) For the manufacturing industry, environmental performance has a significant positive correlation with financial performance and stock returns. (2) For the electronics industry, environmental performance has a significant negative correlation with financial performance and has no correlation with stock returns. However, there is a significant positive correlation between economic performance and stock returns. (3) As far as the service industry and the financial industry are concerned, environmental performance has no significant relationship with financial performance and stock returns; however, the social performance of the service industry and the economic performance of the financial industry have a significant positive relationship with financial performance and stock returns. The above findings imply that, for the listed companies and OTC companies in Taiwan, the impact of environmental performance on financial performance and stock returns is not only related to the degree of government and public attention to the environmental issues in the industry to which the company belongs, but also related to the closeness of the industry’s connection with the international supply chain."
+  },
+  {
+    "objectID": "papers/EnvNTPU.html#abstract",
+    "href": "papers/EnvNTPU.html#abstract",
+    "title": "The Impact of Environmental Performance on Financial Performance and Stock Returns - Evidence from Listed Companies in Taiwan",
+    "section": "",
+    "text": "This paper examines the impact of a firm’s environmental performance on its financial performance and stock return. We refer to the methods of Lins et al. (2017) and Chen et al. (2018) and use the data of the Taiwan Sustainability Rating for listed companies and OTC companies that have issued sustainability reports of the previous year from 2016 to 2021. The findings include: (1) For the manufacturing industry, environmental performance has a significant positive correlation with financial performance and stock returns. (2) For the electronics industry, environmental performance has a significant negative correlation with financial performance and has no correlation with stock returns. However, there is a significant positive correlation between economic performance and stock returns. (3) As far as the service industry and the financial industry are concerned, environmental performance has no significant relationship with financial performance and stock returns; however, the social performance of the service industry and the economic performance of the financial industry have a significant positive relationship with financial performance and stock returns. The above findings imply that, for the listed companies and OTC companies in Taiwan, the impact of environmental performance on financial performance and stock returns is not only related to the degree of government and public attention to the environmental issues in the industry to which the company belongs, but also related to the closeness of the industry’s connection with the international supply chain."
+  },
+  {
+    "objectID": "papers/EnvNTPU.html#keywords",
+    "href": "papers/EnvNTPU.html#keywords",
+    "title": "The Impact of Environmental Performance on Financial Performance and Stock Returns - Evidence from Listed Companies in Taiwan",
+    "section": "Keywords",
+    "text": "Keywords\nSustainability Report, CSR, ESG, Taiwan Sustainability Ratings, Financial Performance, Stock Returns"
+  },
+  {
+    "objectID": "papers/EnvNTPU.html#conference",
+    "href": "papers/EnvNTPU.html#conference",
+    "title": "The Impact of Environmental Performance on Financial Performance and Stock Returns - Evidence from Listed Companies in Taiwan",
+    "section": "Conference",
+    "text": "Conference\n\nInternational Conference of Taiwan Finance Association (TFA), Taichung, Taiwan, Jun 2023."
+  },
+  {
+    "objectID": "papers/CO_Diversity_WP.html#abstract",
+    "href": "papers/CO_Diversity_WP.html#abstract",
+    "title": "Common Ownership Network and the Expansion of Female Board Representation",
+    "section": "",
+    "text": "This study investigates the potential of common ownership to expand the pool of female director candidates and alleviate the underrepresentation of women on corporate boards. Using the California Senate Bill No. 826 and peer female director appointments as quasi-experimental settings, our findings demonstrate that firms under common ownership exhibit greater female board representation and a higher propensity to appoint new female directors. Furthermore, these firms show an increased likelihood of women attaining leadership positions on board committees. Our results remain robust to accounting for the activeness of the Big Three, underscore the network effect of common ownership on the supply side of the labor market for female directors."
+  },
+  {
+    "objectID": "papers/CO_Diversity_WP.html#conference",
+    "href": "papers/CO_Diversity_WP.html#conference",
+    "title": "Common Ownership Network and the Expansion of Female Board Representation",
+    "section": "Conference",
+    "text": "Conference\n\nFrontier in Accounting and Finance International Conference, Taipei, Taiwan, Apr 2024.\nInternational Conference of Taiwan Finance Association (TFA), Kaohsiung, Taiwan, Jun 2024 (scheduled).\nINFORMS Annual Meeting, Seattle, USA, Oct 2024 (scheduled)."
+  },
+  {
+    "objectID": "research.html#publications",
+    "href": "research.html#publications",
+    "title": " Research",
+    "section": "",
+    "text": "Date\n\n\nTitle\n\n\nAuthor\n\n\nJournal\n\n\n\n\n\n\nDec 1, 2022\n\n\nA Taxonomy of Individual Liquidity Provision: Evidence from the Taiwan Stock Exchange\n\n\nCalvin J. Chiou, Chang Chan, Xiaozhou Zhou\n\n\nFinance Research Letters, Vol. 50, 103246\n\n\n\n\nJan 1, 2021\n\n\nThe impact of mandatory corporate social responsibility reporting on liquidity and risk\n\n\nChang Chan, Chao-Hung Huang, Calvin J. Chiou, and Wen-Chyan Ke\n\n\nJournal of Accounting Review, Vol. 72, 35-82 (TSSCI)\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "research.html#meeting-notes",
+    "href": "research.html#meeting-notes",
+    "title": " Research",
+    "section": "Meeting Notes",
+    "text": "Meeting Notes\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\nDescription\n\n\n\n\n\n\nJun 1, 2024\n\n\nCommon Ownership Network and the Expansion of Female Board Representation\n\n\nCalvin J. Chiou\n\n\nWorking Paper\n\n\n\n\nJun 1, 2024\n\n\nThe Impact of Environmental Performance on Financial Performance and Stock Returns - Evidence from Listed Companies in Taiwan\n\n\nCalvin J. Chiou, Tsung-Hsuan Li, Chang Chan, and Chun-Kuei Hsieh\n\n\nR&R at Journal of Financial Studies\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "wps/CO_Diversity.html",
+    "href": "wps/CO_Diversity.html",
+    "title": "Common Ownership Network and the Expansion of Female Board Representation",
+    "section": "",
+    "text": "This study investigates the potential of common ownership to expand the pool of female director candidates and alleviate the underrepresentation of women on corporate boards. By measuring the fraction of female directors from peer firms sharing the same blockholder as the focal firm, I proxy the potential supply of female directors. The baseline results indicate a positive correlation between the supply of female directors in peer firms and the representation of women in the focal firm, as well as an increased likelihood of new female director appointments. In addition, these firms show an increased likelihood of women attaining leadership positions on board committees. Using the California Senate Bill No. 826 and peer female director appointments as quasi-experimental settings, the difference-in-difference-in-differences (DDD) analysis shows that firms under common ownership narrow the gap between the current and mandated numbers of female directors. The results remain robust in accounting for the activeness of the Big Three and underscore the network effect of common ownership on the supply side of the labor market for female directors."
+  },
+  {
+    "objectID": "wps/CO_Diversity.html#abstract",
+    "href": "wps/CO_Diversity.html#abstract",
+    "title": "Common Ownership Network and the Expansion of Female Board Representation",
+    "section": "",
+    "text": "This study investigates the potential of common ownership to expand the pool of female director candidates and alleviate the underrepresentation of women on corporate boards. By measuring the fraction of female directors from peer firms sharing the same blockholder as the focal firm, I proxy the potential supply of female directors. The baseline results indicate a positive correlation between the supply of female directors in peer firms and the representation of women in the focal firm, as well as an increased likelihood of new female director appointments. In addition, these firms show an increased likelihood of women attaining leadership positions on board committees. Using the California Senate Bill No. 826 and peer female director appointments as quasi-experimental settings, the difference-in-difference-in-differences (DDD) analysis shows that firms under common ownership narrow the gap between the current and mandated numbers of female directors. The results remain robust in accounting for the activeness of the Big Three and underscore the network effect of common ownership on the supply side of the labor market for female directors."
+  },
+  {
+    "objectID": "wps/CO_Diversity.html#keywords",
+    "href": "wps/CO_Diversity.html#keywords",
+    "title": "Common Ownership Network and the Expansion of Female Board Representation",
+    "section": "Keywords",
+    "text": "Keywords\nBoard gender diversity, common ownership, gender quota, institutional investors, corporate governance"
+  },
+  {
+    "objectID": "wps/CO_Diversity.html#award",
+    "href": "wps/CO_Diversity.html#award",
+    "title": "Common Ownership Network and the Expansion of Female Board Representation",
+    "section": "Award",
+    "text": "Award\n\nFubon Best Paper Award, Jun 2024."
+  },
+  {
+    "objectID": "wps/CO_Diversity.html#conference",
+    "href": "wps/CO_Diversity.html#conference",
+    "title": "Common Ownership Network and the Expansion of Female Board Representation",
+    "section": "Conference",
+    "text": "Conference\n\nFrontier in Accounting and Finance International Conference, Taipei, Taiwan, Apr 2024.\nInternational Conference of Taiwan Finance Association (TFA), Kaohsiung, Taiwan, Jun 2024.\nINFORMS Annual Meeting, Seattle, USA, Oct 2024 (scheduled)."
+  },
+  {
+    "objectID": "wps/EnvNTPU.html",
+    "href": "wps/EnvNTPU.html",
+    "title": "The Impact of Environmental Performance on Financial Performance and Stock Returns - Evidence from Listed Companies in Taiwan",
+    "section": "",
+    "text": "This paper examines the impact of a firm’s environmental performance on its financial performance and stock return. We refer to the methods of Lins et al. (2017) and Chen et al. (2018) and use the data of the Taiwan Sustainability Rating for listed companies and OTC companies that have issued sustainability reports of the previous year from 2016 to 2021. The findings include: (1) For the manufacturing industry, environmental performance has a significant positive correlation with financial performance and stock returns. (2) For the electronics industry, environmental performance has a significant negative correlation with financial performance and has no correlation with stock returns. However, there is a significant positive correlation between economic performance and stock returns. (3) As far as the service industry and the financial industry are concerned, environmental performance has no significant relationship with financial performance and stock returns; however, the social performance of the service industry and the economic performance of the financial industry have a significant positive relationship with financial performance and stock returns. The above findings imply that, for the listed companies and OTC companies in Taiwan, the impact of environmental performance on financial performance and stock returns is not only related to the degree of government and public attention to the environmental issues in the industry to which the company belongs, but also related to the closeness of the industry’s connection with the international supply chain."
+  },
+  {
+    "objectID": "wps/EnvNTPU.html#abstract",
+    "href": "wps/EnvNTPU.html#abstract",
+    "title": "The Impact of Environmental Performance on Financial Performance and Stock Returns - Evidence from Listed Companies in Taiwan",
+    "section": "",
+    "text": "This paper examines the impact of a firm’s environmental performance on its financial performance and stock return. We refer to the methods of Lins et al. (2017) and Chen et al. (2018) and use the data of the Taiwan Sustainability Rating for listed companies and OTC companies that have issued sustainability reports of the previous year from 2016 to 2021. The findings include: (1) For the manufacturing industry, environmental performance has a significant positive correlation with financial performance and stock returns. (2) For the electronics industry, environmental performance has a significant negative correlation with financial performance and has no correlation with stock returns. However, there is a significant positive correlation between economic performance and stock returns. (3) As far as the service industry and the financial industry are concerned, environmental performance has no significant relationship with financial performance and stock returns; however, the social performance of the service industry and the economic performance of the financial industry have a significant positive relationship with financial performance and stock returns. The above findings imply that, for the listed companies and OTC companies in Taiwan, the impact of environmental performance on financial performance and stock returns is not only related to the degree of government and public attention to the environmental issues in the industry to which the company belongs, but also related to the closeness of the industry’s connection with the international supply chain."
+  },
+  {
+    "objectID": "wps/EnvNTPU.html#keywords",
+    "href": "wps/EnvNTPU.html#keywords",
+    "title": "The Impact of Environmental Performance on Financial Performance and Stock Returns - Evidence from Listed Companies in Taiwan",
+    "section": "Keywords",
+    "text": "Keywords\nSustainability Report, CSR, ESG, Taiwan Sustainability Ratings, Financial Performance, Stock Returns"
+  },
+  {
+    "objectID": "wps/EnvNTPU.html#conference",
+    "href": "wps/EnvNTPU.html#conference",
+    "title": "The Impact of Environmental Performance on Financial Performance and Stock Returns - Evidence from Listed Companies in Taiwan",
+    "section": "Conference",
+    "text": "Conference\n\nInternational Conference of Taiwan Finance Association (TFA), Taichung, Taiwan, Jun 2023."
+  },
+  {
+    "objectID": "research.html#working-papers",
+    "href": "research.html#working-papers",
+    "title": " Research",
+    "section": "Working Papers",
+    "text": "Working Papers\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\nDescription\n\n\n\n\n\n\nJun 1, 2024\n\n\nCommon Ownership Network and the Expansion of Female Board Representation\n\n\nCalvin J. Chiou\n\n\nWorking Paper\n\n\n\n\nJun 1, 2024\n\n\nThe Impact of Environmental Performance on Financial Performance and Stock Returns - Evidence from Listed Companies in Taiwan\n\n\nCalvin J. Chiou, Tsung-Hsuan Li, Chang Chan, and Chun-Kuei Hsieh\n\n\nR&R at Journal of Financial Studies (TSSCI)\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "about.html#employment",
+    "href": "about.html#employment",
+    "title": "About me",
+    "section": "",
+    "text": "National Chengchi University | Assistant Professor | Feb 2024 - present"
+  },
+  {
+    "objectID": "about.html#awards-and-honors",
+    "href": "about.html#awards-and-honors",
+    "title": "About me",
+    "section": "Awards and Honors",
+    "text": "Awards and Honors\nFubon Best Paper Award | 2024\nTaiwanese Government Scholarship to Study Abroad | 2022 - 2023\nNTU Research Scholarship | 2019 - 2023\nBest Paper Award, TSC Thesis Symposium | 2017\nShanghai Commercial & Savings Bank Scholarship | 2017"
+  },
+  {
+    "objectID": "about.html#conference-presentations",
+    "href": "about.html#conference-presentations",
+    "title": "About me",
+    "section": "Conference Presentations",
+    "text": "Conference Presentations\n2024: International Conference of Taiwan Finance Association (TFA), Frontier in Accounting and Finance International Conference, INFORMS Annual Meeting (scheduled)\n2023: International Conference of TFA\n2021: Cross Country Perspectives in Finance (CCPF), CCPF-JIFMIM Symposium, International Conference of TFA\n2018: AsianFA Annual Meeting\\(^*\\)\n2017: International Conference of TFA\\(^\\dagger\\), TFA Conference on Asset Pricing\\(^*\\), Conference on the Theories and Practices of Securities and Financial Markets\\(^*\\)\n(\\(^*\\) Presented by Coauthor, \\(^\\dagger\\) Discussant)"
+  },
+  {
+    "objectID": "about.html#footnotes",
+    "href": "about.html#footnotes",
+    "title": "About me",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nPresented by coauthor.↩︎"
   }
 ]

@@ -12,17 +12,19 @@ website:
         text: Resume
       - href: research.qmd
         text: Research
+      - href: teaching.qmd
+        text: Teaching
       - href: resources.qmd
         text: Resources
   
   page-footer: 
-    center: "Website is made with [Quarto](https://quarto.org/), by Calvin Chiou" 
+    right: "This website is built with [Quarto](https://quarto.org/)"
     
 
 format:
   html:
     theme:
-      light: [sandstone, theme-light.scss]
+      light: sandstone
       dark: [sandstone, theme-dark.scss]
     css: styles.css
     toc: true
