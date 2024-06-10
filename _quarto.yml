@@ -16,6 +16,15 @@ website:
         text: Teaching
       - href: resources.qmd
         text: Resources
+    right: 
+      - icon: linkedin
+        href: https://www.linkedin.com/in/calvinchiou1992/
+      - icon: github
+        href: https://github.com/calvinchiou
+      - icon: envelope
+        href: "mailto:jjchiou@nccu.edu.tw"
+      - text: "{{< ai google-scholar >}}"
+        href: https://scholar.google.com.tw/citations?user=WvORrXMAAAAJ&hl=en
   
   page-footer: 
     right: "This website is built with [Quarto](https://quarto.org/)"
@@ -24,8 +33,8 @@ website:
 format:
   html:
     theme:
-      light: sandstone
       dark: [sandstone, theme-dark.scss]
+      light: sandstone
     css: styles.css
     toc: true
 
