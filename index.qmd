@@ -1,0 +1,32 @@
+---
+title: "Calvin J. Chiou [{{< ai orcid >}}](https://orcid.org/0000-0002-4961-1545)"
+page-layout: full
+table-of-contents: false
+title-block-banner: false
+about:
+  template: jolla
+  image: img/profile.jpg
+  image-width: 25em
+  image-shape: round
+  links:
+    - icon: envelope
+      href: mailto:jjchiou@nccu.edu.tw
+    - icon: github
+      href: https://github.com/calvinchiou
+    - icon: linkedin
+      href: https://www.linkedin.com/in/calvinchiou1992/
+    - text: "{{< ai google-scholar >}}"
+      href: https://scholar.google.com.tw/citations?user=WvORrXMAAAAJ&hl=en
+---
+
+Calvin J. Chiou (邱健嘉) is an Assistant Professor in the Department of Finance at [National Chengchi University](https://www.nccu.edu.tw/) (NCCU). His research interests include corporate innovation, institutional investors, corporate governance, corporate finance, and behavioral finance. Calvin received his PhD in finance from the [Nanyang Technological University](https://www.ntu.edu.sg/index), Nanyang Business School in 2024. When not exploring on academic research, Calvin enjoys spending time on traveling, playing basketball, badminton, and the guitar.
+
+------------------------------------------------------------------------
+
+Contact Info:
+
+No. 64, Sec. 2, Zhinan Rd., Wenshan Dist.
+
+Taipei City 11605, Taiwan
+
+Phone: +886-2-2939-3091 ext. 81233
