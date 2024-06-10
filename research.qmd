@@ -1,0 +1,32 @@
+---
+title: "{{< li gqdnbnwt >}} Research"
+listing:
+  - id: publications
+    contents: "papers/*.qmd"
+    type: table
+    field-display-names:
+      description: "Journal"
+    fields: [date, title, author, description]
+    sort-ui: false
+    filter-ui: false
+    sort: "date desc"
+    table-hover: true
+  - id: working-papers
+    contents: "wps/*.qmd"
+    type: table
+    fields: [date, title, author, description]
+    sort-ui: false
+    filter-ui: false
+    sort: "date desc"
+    table-hover: true
+---
+
+## Publications
+
+::: {#publications}
+:::
+
+## Working Papers
+
+::: {#working-papers}
+:::
