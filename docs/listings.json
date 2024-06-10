@@ -2,9 +2,10 @@
   {
     "listing": "/research.html",
     "items": [
-      "/papers/CO_Diversity_WP.html",
       "/papers/ILP_FRL.html",
-      "/papers/CSR_JAR.html"
+      "/papers/CSR_JAR.html",
+      "/wps/CO_Diversity.html",
+      "/wps/EnvNTPU.html"
     ]
   }
 ]
