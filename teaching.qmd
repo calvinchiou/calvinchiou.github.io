@@ -5,10 +5,12 @@ toc: true
 
 # Current Teaching
 
--   **Financial Management** (Undergraduate), National Chengchi University, Spring 2024.
+-   **Seminars in Corporate Finance** (PhD), National Chengchi University, Spring 2025.
+-   **Investment** (Undergraduate), National Chengchi University, Spring 2025.
 
 # Previous Teaching
 
+-   **Financial Management** (Undergraduate), National Chengchi University, 2024.
 -   **Textual Analysis and Web Crawling using R** (mini-workshop), National Central University, Fall 2017.
 
 # Lecture Notes

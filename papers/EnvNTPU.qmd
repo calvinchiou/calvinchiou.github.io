@@ -1,0 +1,20 @@
+---
+title: "The Impact of Environmental Performance on Financial Performance and Stock Returns - Evidence from Listed Companies in Taiwan"
+description: "*Forthcoming at Journal of Financial Studies* (TSSCI)"
+author: "Calvin J. Chiou, Tsung-Hsuan Li, Chang Chan, and Chun-Kuei Hsieh"
+date: "March, 2025"
+categories:
+  - Publications
+---
+
+## Abstract
+
+This study uses Taiwan Sustainability Ratings (TSR) data and applies the Heckman two-stage model to explore cross-industry differences in the impact of corporate environmental performance while controlling for corporate social, economic, and disclosure performance. The impact of environmental performance on financial performance and stock returns is not only related to the government regulations and public attention to environmental issues in the company’s industry, but also to the degree to which the industry is integrated into global supply chains. For the manufacturing industry, corporate environmental performance has a significant positive impact on both financial performance and stock returns of the company.
+
+## Keywords
+
+*Sustainability Report, CSR, ESG, Taiwan Sustainability Ratings, Sample Selection Bias*
+
+## Conference
+
+-   International Conference of Taiwan Finance Association (TFA), Taichung, Taiwan, Jun 2023.

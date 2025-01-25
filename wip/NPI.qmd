@@ -1,0 +1,20 @@
+---
+title: "Product Disclosure following Seasoned Equity Offerings"
+description: "*Work in Progress*"
+author: "Calvin J. Chiou"
+date: "Jan 12, 2025"
+categories:
+  - Work in Progress
+---
+
+## Abstract
+
+This study highlights the significance of product disclosure (PD) following seasoned equity offerings (SEOs) in indicating potential failure risks within the uncertain landscape of the innovation process. Employing a news-based dataset, we observe a substantial increase in PD relating to innovation progress post-SEO, in contrast to disclosures concerning new product introductions. Moreover, we find a negative association between post-issue operating performance and progress-type PD. These findings imply a tendency in equity markets to underestimate the failure risks associated with product innovation. The robustness of our results is maintained even after controlling for endogeneity concerns.
+
+## Keywords
+
+Seasoned equity offerings, corporate innovation, product disclosure, investment financing
+
+## Seminars
+
+National Chengchi University, National Central University

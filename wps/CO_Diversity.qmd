@@ -1,8 +1,8 @@
 ---
-title: "Common Ownership Network and the Expansion of Female Board Representation"
+title: "Common Ownership Network and Board Gender Diversity"
 description: "*Working Paper*"
 author: "Calvin J. Chiou"
-date: "June 1, 2024"
+date: "Jan 12, 2025"
 categories:
   - Working Papers
 ---
@@ -21,8 +21,12 @@ This study investigates the potential of common ownership to expand the pool of 
 
 ## Conference
 
--   Frontier in Accounting and Finance International Conference, Taipei, Taiwan, Apr 2024.
+-   Sydney Banking and Financial Stability Conference, Sydney, Australia, Dec 2024.
+
+-   2024 NTU Winter Workshop on Entrepreneurship, Taipei, Taiwan, Dec 2024.
+
+-   INFORMS Annual Meeting, Seattle, USA, Oct 2024.
 
 -   International Conference of Taiwan Finance Association (TFA), Kaohsiung, Taiwan, Jun 2024.
 
--   INFORMS Annual Meeting, Seattle, USA, Oct 2024 (scheduled).
+-   Frontier in Accounting and Finance International Conference, Taipei, Taiwan, Apr 2024.
