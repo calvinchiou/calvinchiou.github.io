@@ -33,11 +33,16 @@ website:
 format:
   html:
     theme:
+      light: [sandstone, theme-light.scss]
       dark: [sandstone, theme-dark.scss]
-      light: sandstone
+      
     css: styles.css
     toc: true
-
+    grid:
+      sidebar-width: 300px
+      body-width: 1250px
+      margin-width: 450px
+      gutter-width: 2.0rem
 editor: visual
 
 comments:
