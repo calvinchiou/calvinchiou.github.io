@@ -8,5 +8,17 @@
       "/wps/CO_Diversity.html",
       "/wip/NPI.html"
     ]
+  },
+  {
+    "listing": "/investment.html",
+    "items": [
+      "/notes/investment/n1_introduction.html"
+    ]
+  },
+  {
+    "listing": "/investments.html",
+    "items": [
+      "/notes/investments/n1_introduction.html"
+    ]
   }
 ]

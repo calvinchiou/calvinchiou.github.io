@@ -291,7 +291,7 @@
     "href": "teaching.html",
     "title": "Teaching",
     "section": "",
-    "text": "Current Teaching\n\nSeminars in Corporate Finance (PhD), National Chengchi University, Spring 2025.\nInvestment (Undergraduate), National Chengchi University, Spring 2025.\n\n\n\nPrevious Teaching\n\nFinancial Management (Undergraduate), National Chengchi University, 2024.\nTextual Analysis and Web Crawling using R (mini-workshop), National Central University, Fall 2017.\n\n\n\nLecture Notes\n\nFinancial Management, Estimating Beta Coefficients, lecture note.\nggplot2 Themes and Styles, lecture note."
+    "text": "Undergraduate level\n\nInvestments, National Chengchi University, Spring 2025.\nFinancial Management, National Chengchi University, 2024.\n\n\n\nPh.D. level\n\nSeminars in Corporate Finance (PhD), National Chengchi University, Spring 2025.\n\n\n\nOther\n\nTextual Analysis and Web Crawling using R (mini-workshop), National Central University, Fall 2017.\n\n\n\nGeneral Notes\n\nFinancial Management, Estimating Beta Coefficients, lecture note.\nggplot2 Themes and Styles, lecture note."
   },
   {
     "objectID": "research.html#publications",
@@ -551,5 +551,173 @@
     "title": "Product Disclosure following Seasoned Equity Offerings",
     "section": "Seminars",
     "text": "Seminars\nNational Chengchi University, National Central University"
+  },
+  {
+    "objectID": "investment.html",
+    "href": "investment.html",
+    "title": "Investment",
+    "section": "",
+    "text": "R Lecture Notes\n\n\n\n\n\nTitle\n\n\nModified\n\n\n\n\n\n\nR Note 1 - Introduction to R and Financial Data Handling\n\n\n3/1/25, 10:54:09 PM\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "notes/investment/n1_introduction.html",
+    "href": "notes/investment/n1_introduction.html",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "",
+    "text": "Course: Investments\nCode: 000351051"
+  },
+  {
+    "objectID": "notes/investment/n1_introduction.html#setting-up-r-and-rstudio",
+    "href": "notes/investment/n1_introduction.html#setting-up-r-and-rstudio",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "1. Setting Up R and RStudio",
+    "text": "1. Setting Up R and RStudio\nBefore we begin, ensure you have installed: - R - RStudio\n\n# Install packages\ninstall.packages(\"tidyquant\")\ninstall.packages(\"tidyverse\")\n\n\n# Load packages\nlibrary(tidyquant)\nlibrary(tidyverse)\nlibrary(ggplot2)\nlibrary(ggthemes)\nlibrary(highcharter)\nlibrary(DT)"
+  },
+  {
+    "objectID": "notes/investment/n1_introduction.html#basic-r-syntax",
+    "href": "notes/investment/n1_introduction.html#basic-r-syntax",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "2. Basic R Syntax",
+    "text": "2. Basic R Syntax\n\n# Basic operations in R\nx &lt;- 10\ny &lt;- 5\n\nsum_xy &lt;- x + y\ndiff_xy &lt;- x - y\nprod_xy &lt;- x * y\nquot_xy &lt;- x / y\nexp_xy &lt;- x^y\n\nprint(sum_xy)\n\n[1] 15\n\nprint(diff_xy)\n\n[1] 5\n\nprint(prod_xy)\n\n[1] 50\n\nprint(quot_xy)\n\n[1] 2\n\nprint(exp_xy)\n\n[1] 1e+05"
+  },
+  {
+    "objectID": "notes/investment/n1_introduction.html#understanding-data-types-in-r",
+    "href": "notes/investment/n1_introduction.html#understanding-data-types-in-r",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "3. Understanding Data Types in R",
+    "text": "3. Understanding Data Types in R\n\nNumeric\n\nnum_var &lt;- 42\nprint(num_var)\n\n[1] 42\n\n\n\n\nCharacter (String)\n\nchar_var &lt;- \"Hello, R!\"\nprint(char_var)\n\n[1] \"Hello, R!\"\n\n\n\n\nLogical (Boolean)\n\nbool_var &lt;- TRUE\nprint(bool_var)\n\n[1] TRUE\n\n\n\n\nFactor (Categorical Data)\n\nfactor_var &lt;- factor(c(\"low\", \"medium\", \"high\", \"medium\"))\nprint(factor_var)\n\n[1] low    medium high   medium\nLevels: high low medium\n\n\n\n\nData Structure\n\n# Vectors\nprices &lt;- c(100, 102, 105, 107, 110)\nprint(prices)\n\n[1] 100 102 105 107 110\n\n# Lists (Collection of different types)\nlist_var &lt;- list(num_var, char_var, bool_var, prices)\nprint(list_var)\n\n[[1]]\n[1] 42\n\n[[2]]\n[1] \"Hello, R!\"\n\n[[3]]\n[1] TRUE\n\n[[4]]\n[1] 100 102 105 107 110\n\n# Matrices (2D array)\nmatrix_var &lt;- matrix(1:9, nrow=3)\nprint(matrix_var)\n\n     [,1] [,2] [,3]\n[1,]    1    4    7\n[2,]    2    5    8\n[3,]    3    6    9\n\n# Data Frames\nstock_data &lt;- data.frame(\n  Date = as.Date('2024-01-01') + 0:4,\n  Price = prices\n)\nprint(stock_data)\n\n        Date Price\n1 2024-01-01   100\n2 2024-01-02   102\n3 2024-01-03   105\n4 2024-01-04   107\n5 2024-01-05   110"
+  },
+  {
+    "objectID": "notes/investment/n1_introduction.html#the-pipe-operator-and",
+    "href": "notes/investment/n1_introduction.html#the-pipe-operator-and",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "4. The Pipe Operator (%>% and |>)",
+    "text": "4. The Pipe Operator (%&gt;% and |&gt;)\nThe pipe operator allows you to pass the output of one function directly into another function, making your code cleaner and easier to read.\n\nUsing %&gt;% from dplyr (or tidyverse family)\nThe dplyr package provides the %&gt;% pipe operator, which allows for chaining multiple operations.\n\n# Example dataset\ndata &lt;- data.frame(x = 1:5, y = c(2, 4, 6, 8, 10))\n\ndata %&gt;% \n  mutate(z = x + y) %&gt;% \n  filter(z &gt; 6) %&gt;% \n  arrange(desc(z))\n\n  x  y  z\n1 5 10 15\n2 4  8 12\n3 3  6  9\n\n\n\n\nUsing |&gt; (Base R Pipe)\nR introduced the native |&gt; pipe operator in version 4.1.0. It works similarly but has slightly different behavior:\n\ndata |&gt; \n  mutate(z = x + y) |&gt; \n  filter(z &gt; 6) |&gt; \n  arrange(desc(z))\n\n  x  y  z\n1 5 10 15\n2 4  8 12\n3 3  6  9\n\n\nKey Differences:\n\n%&gt;% allows passing arguments to functions with . placeholder (useful for non-standard functions).\n|&gt; is optimized for performance and is recommended for base R users.\n\n\n# An alternative example:\n# normal use of a function\nmean(prices)\n\n[1] 104.8\n\n# pipe from dplyr\nprices %&gt;% mean\n\n[1] 104.8\n\n# pipe in base R\nprices |&gt; mean()\n\n[1] 104.8"
+  },
+  {
+    "objectID": "notes/investment/n1_introduction.html#importing-financial-data",
+    "href": "notes/investment/n1_introduction.html#importing-financial-data",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "5. Importing Financial Data",
+    "text": "5. Importing Financial Data\nUsing tidyquant to fetch stock prices:\n\n# Get Apple (AAPL) stock data\napple_stock &lt;- tq_get(\"AAPL\", from = \"2023-01-01\", to = \"2024-01-01\")\n# Interactive table\ndatatable(apple_stock) |&gt; \n  formatRound(columns = c(\"open\",\"high\",\"low\",\"close\",\"adjusted\"), digits = 2)"
+  },
+  {
+    "objectID": "notes/investment/n1_introduction.html#basic-data-manipulation-with-dplyr",
+    "href": "notes/investment/n1_introduction.html#basic-data-manipulation-with-dplyr",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "6. Basic Data Manipulation with dplyr",
+    "text": "6. Basic Data Manipulation with dplyr\n\n# Calculate daily returns\napple_stock &lt;- apple_stock |&gt; \n  arrange(date) |&gt; \n  mutate(daily_return = adjusted / lag(adjusted) - 1)\nhead(apple_stock)\n\n# A tibble: 6 × 9\n  symbol date        open  high   low close    volume adjusted daily_return\n  &lt;chr&gt;  &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;\n1 AAPL   2023-01-03  130.  131.  124.  125. 112117500     124.     NA      \n2 AAPL   2023-01-04  127.  129.  125.  126.  89113600     125.      0.0103 \n3 AAPL   2023-01-05  127.  128.  125.  125.  80962700     124.     -0.0106 \n4 AAPL   2023-01-06  126.  130.  125.  130.  87754700     128.      0.0368 \n5 AAPL   2023-01-09  130.  133.  130.  130.  70790800     129.      0.00409\n6 AAPL   2023-01-10  130.  131.  128.  131.  63896200     129.      0.00446"
+  },
+  {
+    "objectID": "notes/investment/n1_introduction.html#visualizing-stock-prices-with-ggplot2",
+    "href": "notes/investment/n1_introduction.html#visualizing-stock-prices-with-ggplot2",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "7. Visualizing Stock Prices with ggplot2",
+    "text": "7. Visualizing Stock Prices with ggplot2\n\n# Plot price trend\nggplot(apple_stock, aes(x = date, y = adjusted)) +\n  geom_line(color = \"red\", linewidth = 1) +\n  labs(title = \"AAPL Stock Price\", x = \"Date\", y = \"Adjusted Close\") +\n  theme_wsj()"
+  },
+  {
+    "objectID": "notes/investment/n1_introduction.html#interactive-visualization-with-highcharter",
+    "href": "notes/investment/n1_introduction.html#interactive-visualization-with-highcharter",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "8. Interactive Visualization with highcharter",
+    "text": "8. Interactive Visualization with highcharter\n\n# Create interactive stock price and volume plot\nhighchart(type = \"stock\") |&gt; \n  hc_add_series(apple_stock, type = \"line\", hcaes(x = date, y = adjusted), name = \"AAPL Price\") |&gt; \n  hc_add_series(apple_stock, type = \"column\", hcaes(x = date, y = volume), name = \"Trading Volume\", yAxis = 1) |&gt; \n  hc_yAxis_multiples(\n    list(title = list(text = \"Stock Price\")),\n    list(title = list(text = \"Trading Volume\"), opposite = TRUE)\n  ) |&gt; \n  hc_title(text = \"AAPL Stock Price and Trading Volume\") |&gt;\n  hc_add_theme(hc_theme_ft())"
+  },
+  {
+    "objectID": "notes/investment/n1_introduction.html#exercises",
+    "href": "notes/investment/n1_introduction.html#exercises",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "Exercises",
+    "text": "Exercises\n\nFetch stock price data for MSFT using tidyquant.\nCompute daily returns for MSFT.\nCreate a price trend plot for MSFT.\nCreate a vector, matrix, and data frame, and perform calculations on them.\nUse highcharter to plot MSFT price and trading volume."
+  },
+  {
+    "objectID": "notes/investment/n1_introduction.html#resources",
+    "href": "notes/investment/n1_introduction.html#resources",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "Resources",
+    "text": "Resources\n\nCookbook for R.\nR Workflow.\nGenAI: ChatGPT, Gemini, etc.\nData Analysis with R, Coursera, Mine Çetinkaya-Rundel, Duke University.\nGoogle Data Analytics, Coursera, Google.\nStack Overflow for coding Q&A!\n\n\nHappy coding! 🚀"
+  },
+  {
+    "objectID": "investments.html",
+    "href": "investments.html",
+    "title": "Investments",
+    "section": "",
+    "text": "R Lecture Notes\n\n\n\n\n\nTitle\n\n\nModified\n\n\n\n\n\n\nR Note 1 - Introduction to R and Financial Data Handling\n\n\n3/3/25, 9:43:56 PM\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "notes/investments/n1_introduction.html",
+    "href": "notes/investments/n1_introduction.html",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "",
+    "text": "Course: Investments\nCode: 000351051"
+  },
+  {
+    "objectID": "notes/investments/n1_introduction.html#setting-up-r-and-rstudio",
+    "href": "notes/investments/n1_introduction.html#setting-up-r-and-rstudio",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "1. Setting Up R and RStudio",
+    "text": "1. Setting Up R and RStudio\nBefore we begin, ensure you have installed: - R - RStudio\n\n# Install packages\ninstall.packages(\"tidyquant\")\ninstall.packages(\"tidyverse\")\n\n\n# Load packages\nlibrary(tidyquant)\nlibrary(tidyverse)\nlibrary(ggplot2)\nlibrary(ggthemes)\nlibrary(highcharter)\nlibrary(DT)"
+  },
+  {
+    "objectID": "notes/investments/n1_introduction.html#basic-r-syntax",
+    "href": "notes/investments/n1_introduction.html#basic-r-syntax",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "2. Basic R Syntax",
+    "text": "2. Basic R Syntax\n\n# Basic operations in R\nx &lt;- 10\ny &lt;- 5\n\nsum_xy &lt;- x + y\ndiff_xy &lt;- x - y\nprod_xy &lt;- x * y\nquot_xy &lt;- x / y\nexp_xy &lt;- x^y\n\nprint(sum_xy)\n\n[1] 15\n\nprint(diff_xy)\n\n[1] 5\n\nprint(prod_xy)\n\n[1] 50\n\nprint(quot_xy)\n\n[1] 2\n\nprint(exp_xy)\n\n[1] 1e+05"
+  },
+  {
+    "objectID": "notes/investments/n1_introduction.html#understanding-data-types-in-r",
+    "href": "notes/investments/n1_introduction.html#understanding-data-types-in-r",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "3. Understanding Data Types in R",
+    "text": "3. Understanding Data Types in R\n\nNumeric\n\nnum_var &lt;- 42\nprint(num_var)\n\n[1] 42\n\n\n\n\nCharacter (String)\n\nchar_var &lt;- \"Hello, R!\"\nprint(char_var)\n\n[1] \"Hello, R!\"\n\n\n\n\nLogical (Boolean)\n\nbool_var &lt;- TRUE\nprint(bool_var)\n\n[1] TRUE\n\n\n\n\nFactor (Categorical Data)\n\nfactor_var &lt;- factor(c(\"low\", \"medium\", \"high\", \"medium\"))\nprint(factor_var)\n\n[1] low    medium high   medium\nLevels: high low medium\n\n\n\n\nData Structure\n\n# Vectors\nprices &lt;- c(100, 102, 105, 107, 110)\nprint(prices)\n\n[1] 100 102 105 107 110\n\n# Lists (Collection of different types)\nlist_var &lt;- list(num_var, char_var, bool_var, prices)\nprint(list_var)\n\n[[1]]\n[1] 42\n\n[[2]]\n[1] \"Hello, R!\"\n\n[[3]]\n[1] TRUE\n\n[[4]]\n[1] 100 102 105 107 110\n\n# Matrices (2D array)\nmatrix_var &lt;- matrix(1:9, nrow=3)\nprint(matrix_var)\n\n     [,1] [,2] [,3]\n[1,]    1    4    7\n[2,]    2    5    8\n[3,]    3    6    9\n\n# Data Frames\nstock_data &lt;- data.frame(\n  Date = as.Date('2024-01-01') + 0:4,\n  Price = prices\n)\nprint(stock_data)\n\n        Date Price\n1 2024-01-01   100\n2 2024-01-02   102\n3 2024-01-03   105\n4 2024-01-04   107\n5 2024-01-05   110"
+  },
+  {
+    "objectID": "notes/investments/n1_introduction.html#the-pipe-operator-and",
+    "href": "notes/investments/n1_introduction.html#the-pipe-operator-and",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "4. The Pipe Operator (%>% and |>)",
+    "text": "4. The Pipe Operator (%&gt;% and |&gt;)\nThe pipe operator allows you to pass the output of one function directly into another function, making your code cleaner and easier to read.\n\nUsing %&gt;% from dplyr (or tidyverse family)\nThe dplyr package provides the %&gt;% pipe operator, which allows for chaining multiple operations.\n\n# Example dataset\ndata &lt;- data.frame(x = 1:5, y = c(2, 4, 6, 8, 10))\n\ndata %&gt;% \n  mutate(z = x + y) %&gt;% \n  filter(z &gt; 6) %&gt;% \n  arrange(desc(z))\n\n  x  y  z\n1 5 10 15\n2 4  8 12\n3 3  6  9\n\n\n\n\nUsing |&gt; (Base R Pipe)\nR introduced the native |&gt; pipe operator in version 4.1.0. It works similarly but has slightly different behavior:\n\ndata |&gt; \n  mutate(z = x + y) |&gt; \n  filter(z &gt; 6) |&gt; \n  arrange(desc(z))\n\n  x  y  z\n1 5 10 15\n2 4  8 12\n3 3  6  9\n\n\nKey Differences:\n\n%&gt;% allows passing arguments to functions with . placeholder (useful for non-standard functions).\n|&gt; is optimized for performance and is recommended for base R users.\n\n\n# An alternative example:\n# normal use of a function\nmean(prices)\n\n[1] 104.8\n\n# pipe from dplyr\nprices %&gt;% mean\n\n[1] 104.8\n\n# pipe in base R\nprices |&gt; mean()\n\n[1] 104.8"
+  },
+  {
+    "objectID": "notes/investments/n1_introduction.html#importing-financial-data",
+    "href": "notes/investments/n1_introduction.html#importing-financial-data",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "5. Importing Financial Data",
+    "text": "5. Importing Financial Data\nUsing tidyquant to fetch stock prices:\n\n# Get Apple (AAPL) stock data\napple_stock &lt;- tq_get(\"AAPL\", from = \"2023-01-01\", to = \"2024-01-01\")\n# Interactive table\ndatatable(apple_stock) |&gt; \n  formatRound(columns = c(\"open\",\"high\",\"low\",\"close\",\"adjusted\"), digits = 2)"
+  },
+  {
+    "objectID": "notes/investments/n1_introduction.html#basic-data-manipulation-with-dplyr",
+    "href": "notes/investments/n1_introduction.html#basic-data-manipulation-with-dplyr",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "6. Basic Data Manipulation with dplyr",
+    "text": "6. Basic Data Manipulation with dplyr\n\n# Calculate daily returns\napple_stock &lt;- apple_stock |&gt; \n  arrange(date) |&gt; \n  mutate(daily_return = adjusted / lag(adjusted) - 1)\nhead(apple_stock)\n\n# A tibble: 6 × 9\n  symbol date        open  high   low close    volume adjusted daily_return\n  &lt;chr&gt;  &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;\n1 AAPL   2023-01-03  130.  131.  124.  125. 112117500     124.     NA      \n2 AAPL   2023-01-04  127.  129.  125.  126.  89113600     125.      0.0103 \n3 AAPL   2023-01-05  127.  128.  125.  125.  80962700     124.     -0.0106 \n4 AAPL   2023-01-06  126.  130.  125.  130.  87754700     128.      0.0368 \n5 AAPL   2023-01-09  130.  133.  130.  130.  70790800     129.      0.00409\n6 AAPL   2023-01-10  130.  131.  128.  131.  63896200     129.      0.00446"
+  },
+  {
+    "objectID": "notes/investments/n1_introduction.html#visualizing-stock-prices-with-ggplot2",
+    "href": "notes/investments/n1_introduction.html#visualizing-stock-prices-with-ggplot2",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "7. Visualizing Stock Prices with ggplot2",
+    "text": "7. Visualizing Stock Prices with ggplot2\n\n# Plot price trend\nggplot(apple_stock, aes(x = date, y = adjusted)) +\n  geom_line(color = \"red\", linewidth = 1) +\n  labs(title = \"AAPL Stock Price\", x = \"Date\", y = \"Adjusted Close\") +\n  theme_wsj()"
+  },
+  {
+    "objectID": "notes/investments/n1_introduction.html#interactive-visualization-with-highcharter",
+    "href": "notes/investments/n1_introduction.html#interactive-visualization-with-highcharter",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "8. Interactive Visualization with highcharter",
+    "text": "8. Interactive Visualization with highcharter\n\n# Create interactive stock price and volume plot\nhighchart(type = \"stock\") |&gt; \n  hc_add_series(apple_stock, type = \"line\", hcaes(x = date, y = adjusted), name = \"AAPL Price\") |&gt; \n  hc_add_series(apple_stock, type = \"column\", hcaes(x = date, y = volume), name = \"Trading Volume\", yAxis = 1) |&gt; \n  hc_yAxis_multiples(\n    list(title = list(text = \"Stock Price\")),\n    list(title = list(text = \"Trading Volume\"), opposite = TRUE)\n  ) |&gt; \n  hc_title(text = \"AAPL Stock Price and Trading Volume\") |&gt;\n  hc_add_theme(hc_theme_ft())"
+  },
+  {
+    "objectID": "notes/investments/n1_introduction.html#exercises",
+    "href": "notes/investments/n1_introduction.html#exercises",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "Exercises",
+    "text": "Exercises\n\nFetch stock price data for MSFT using tidyquant.\nCompute daily returns for MSFT.\nCreate a price trend plot for MSFT.\nCreate a vector, matrix, and data frame, and perform calculations on them.\nUse highcharter to plot MSFT price and trading volume."
+  },
+  {
+    "objectID": "notes/investments/n1_introduction.html#resources",
+    "href": "notes/investments/n1_introduction.html#resources",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "Resources",
+    "text": "Resources\n\nCookbook for R.\nR Workflow.\nGenAI: ChatGPT, Gemini, etc.\nData Analysis with R, Coursera, Mine Çetinkaya-Rundel, Duke University.\nGoogle Data Analytics, Coursera, Google.\nStack Overflow for coding Q&A!\n\n\nHappy coding! 🚀"
   }
 ]

@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Calvin J. Chiou">
 
-<title>Teaching</title>
+<title>Investments</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,6 +32,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href=".//img/nccu_logo.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-listing/list.min.js"></script>
+<script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -71,6 +74,35 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script>
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-notes .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-title','listing-file-modified',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
+      
+      searchColumns: ["listing-title","listing-author"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-notes'] = new List('listing-notes', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
 <script type="application/json" class="js-hypothesis-config">
 {
   "theme": "clean"
@@ -83,6 +115,35 @@ ul.task-list li input[type="checkbox"] {
   });
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -117,7 +178,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Research</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./teaching.html" aria-current="page"> 
+    <a class="nav-link" href="./teaching.html"> 
 <span class="menu-text">Teaching</span></a>
   </li>  
   <li class="nav-item">
@@ -162,10 +223,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#undergraduate-level" id="toc-undergraduate-level" class="nav-link active" data-scroll-target="#undergraduate-level">Undergraduate level</a></li>
-  <li><a href="#ph.d.-level" id="toc-ph.d.-level" class="nav-link" data-scroll-target="#ph.d.-level">Ph.D.&nbsp;level</a></li>
-  <li><a href="#other" id="toc-other" class="nav-link" data-scroll-target="#other">Other</a></li>
-  <li><a href="#general-notes" id="toc-general-notes" class="nav-link" data-scroll-target="#general-notes">General Notes</a></li>
+  <li><a href="#r-lecture-notes" id="toc-r-lecture-notes" class="nav-link active" data-scroll-target="#r-lecture-notes">R Lecture Notes</a></li>
   </ul>
 </nav>
     </div>
@@ -174,14 +232,27 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Teaching</h1>
+<h1 class="title">Investments</h1>
 </div>
 
 
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Calvin J. Chiou <a href="mailto:jjchiou@nccu.edu.tw" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            National Chengchi University (NCCU)
+          </p>
+      </div>
+  </div>
 
 <div class="quarto-title-meta">
 
-    
+      
   
     
   </div>
@@ -191,31 +262,37 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="undergraduate-level" class="level1">
-<h1>Undergraduate level</h1>
-<ul>
-<li><a href="./investments.html"><strong>Investments</strong></a>, National Chengchi University, Spring 2025.</li>
-<li><strong>Financial Management</strong>, National Chengchi University, 2024.</li>
-</ul>
-</section>
-<section id="ph.d.-level" class="level1">
-<h1>Ph.D.&nbsp;level</h1>
-<ul>
-<li><strong>Seminars in Corporate Finance</strong> (PhD), National Chengchi University, Spring 2025.</li>
-</ul>
-</section>
-<section id="other" class="level1">
-<h1>Other</h1>
-<ul>
-<li><strong>Textual Analysis and Web Crawling using R</strong> (mini-workshop), National Central University, Fall 2017.</li>
-</ul>
-</section>
-<section id="general-notes" class="level1">
-<h1>General Notes</h1>
-<ul>
-<li><p>Financial Management, <em>Estimating Beta Coefficients</em>, <a href="./notes/Beta.html">lecture note</a>.</p></li>
-<li><p><em><code>ggplot2</code> Themes and Styles</em>, <a href="./notes/GG Themes.html">lecture note</a>.</p></li>
-</ul>
+<section id="r-lecture-notes" class="level1">
+<h1>R Lecture Notes</h1>
+<div id="listing-notes" class="quarto-listing quarto-listing-container-table">
+<table class="quarto-listing-table table table-hover">
+<thead>
+<tr>
+<th>
+Title
+</th>
+<th>
+Modified
+</th>
+</tr>
+</thead>
+<tbody class="list">
+<tr data-index="0" data-listing-file-modified-sort="1741009436996" data-listing-reading-time-sort="3" data-listing-word-count-sort="591" data-listing-title-sort="R Note 1 - Introduction to R and Financial Data Handling" data-listing-filename-sort="n1_introduction.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+ if (href) { window.location=href ; return false; }">
+<td>
+<a href="./notes/investments/n1_introduction.html" class="title listing-title">R Note 1 - Introduction to R and Financial Data Handling</a>
+</td>
+<td>
+<span class="listing-file-modified">3/3/25, 9:43:56 PM</span>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="listing-no-matching d-none">
+No matching items
+</div>
+</div>
+
 
 
 </section>
