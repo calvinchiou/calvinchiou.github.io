@@ -1,0 +1,23 @@
+---
+title: "Investments"
+listing:
+  - id: notes
+    contents: "notes/investments/*.qmd"
+    type: table
+    fields: [title, file-modified]
+    sort-ui: false
+    filter-ui: false
+    sort: "id aesc"
+    table-hover: true
+author: 
+  - name: Calvin J. Chiou
+    email: jjchiou@nccu.edu.tw
+    affiliations: 
+    - name: National Chengchi University (NCCU)
+editor: visual
+---
+
+# R Lecture Notes
+
+::: {#notes}
+:::

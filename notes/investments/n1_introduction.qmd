@@ -1,0 +1,232 @@
+---
+title: "R Note 1 - Introduction to R and Financial Data Handling"
+author: 
+  - name: Asst. Prof. Calvin J. Chiou
+    email: jjchiou@nccu.edu.tw
+    affiliations: 
+    - name: National Chengchi University (NCCU)
+format: html
+editor: visual
+---
+
+# Course Information
+
+**Course:** Investments
+
+**Code:** 000351051
+
+# Introduction to R & RStudio
+
+Welcome to the first session of Investments! This tutorial introduces the **R programming language** and how to handle **financial data** for investment research.
+
+## 1. Setting Up R and RStudio
+
+Before we begin, ensure you have installed: - [R](https://www.r-project.org/) - [RStudio](https://posit.co/downloads/)
+
+```{r, eval=FALSE}
+# Install packages
+install.packages("tidyquant")
+install.packages("tidyverse")
+
+```
+
+```{r, message=FALSE}
+# Load packages
+library(tidyquant)
+library(tidyverse)
+library(ggplot2)
+library(ggthemes)
+library(highcharter)
+library(DT)
+```
+
+## 2. Basic R Syntax
+
+```{r}
+# Basic operations in R
+x <- 10
+y <- 5
+
+sum_xy <- x + y
+diff_xy <- x - y
+prod_xy <- x * y
+quot_xy <- x / y
+exp_xy <- x^y
+
+print(sum_xy)
+print(diff_xy)
+print(prod_xy)
+print(quot_xy)
+print(exp_xy)
+```
+
+## 3. Understanding Data Types in R
+
+### Numeric
+
+```{r}
+num_var <- 42
+print(num_var)
+```
+
+### Character (String)
+
+```{r}
+char_var <- "Hello, R!"
+print(char_var)
+```
+
+### Logical (Boolean)
+
+```{r}
+bool_var <- TRUE
+print(bool_var)
+```
+
+### Factor (Categorical Data)
+
+```{r}
+factor_var <- factor(c("low", "medium", "high", "medium"))
+print(factor_var)
+```
+
+### Data Structure
+
+```{r}
+# Vectors
+prices <- c(100, 102, 105, 107, 110)
+print(prices)
+
+# Lists (Collection of different types)
+list_var <- list(num_var, char_var, bool_var, prices)
+print(list_var)
+
+# Matrices (2D array)
+matrix_var <- matrix(1:9, nrow=3)
+print(matrix_var)
+
+# Data Frames
+stock_data <- data.frame(
+  Date = as.Date('2024-01-01') + 0:4,
+  Price = prices
+)
+print(stock_data)
+```
+
+## 4. The Pipe Operator (`%>%` and `|>`)
+
+The **pipe operator** allows you to pass the output of one function directly into another function, making your code cleaner and easier to read.
+
+### Using `%>%` from `dplyr` (or `tidyverse` family)
+
+The `dplyr` package provides the `%>%` pipe operator, which allows for chaining multiple operations.
+
+```{r}
+# Example dataset
+data <- data.frame(x = 1:5, y = c(2, 4, 6, 8, 10))
+
+data %>% 
+  mutate(z = x + y) %>% 
+  filter(z > 6) %>% 
+  arrange(desc(z))
+```
+
+### Using `|>` (Base R Pipe)
+
+R introduced the native `|>` pipe operator in version 4.1.0. It works similarly but has slightly different behavior:
+
+```{r}
+data |> 
+  mutate(z = x + y) |> 
+  filter(z > 6) |> 
+  arrange(desc(z))
+```
+
+**Key Differences:**
+
+-   `%>%` allows passing arguments to functions with `.` placeholder (useful for non-standard functions).
+
+-   `|>` is optimized for performance and is recommended for base R users.
+
+```{r}
+# An alternative example:
+# normal use of a function
+mean(prices)
+# pipe from dplyr
+prices %>% mean
+# pipe in base R
+prices |> mean()
+```
+
+## 5. Importing Financial Data
+
+Using `tidyquant` to fetch stock prices:
+
+```{r}
+# Get Apple (AAPL) stock data
+apple_stock <- tq_get("AAPL", from = "2023-01-01", to = "2024-01-01")
+# Interactive table
+datatable(apple_stock) |> 
+  formatRound(columns = c("open","high","low","close","adjusted"), digits = 2)
+```
+
+## 6. Basic Data Manipulation with `dplyr`
+
+```{r}
+# Calculate daily returns
+apple_stock <- apple_stock |> 
+  arrange(date) |> 
+  mutate(daily_return = adjusted / lag(adjusted) - 1)
+head(apple_stock)
+```
+
+## 7. Visualizing Stock Prices with `ggplot2`
+
+```{r}
+# Plot price trend
+ggplot(apple_stock, aes(x = date, y = adjusted)) +
+  geom_line(color = "red", linewidth = 1) +
+  labs(title = "AAPL Stock Price", x = "Date", y = "Adjusted Close") +
+  theme_wsj()
+```
+
+## 8. Interactive Visualization with `highcharter`
+
+```{r}
+# Create interactive stock price and volume plot
+highchart(type = "stock") |> 
+  hc_add_series(apple_stock, type = "line", hcaes(x = date, y = adjusted), name = "AAPL Price") |> 
+  hc_add_series(apple_stock, type = "column", hcaes(x = date, y = volume), name = "Trading Volume", yAxis = 1) |> 
+  hc_yAxis_multiples(
+    list(title = list(text = "Stock Price")),
+    list(title = list(text = "Trading Volume"), opposite = TRUE)
+  ) |> 
+  hc_title(text = "AAPL Stock Price and Trading Volume") |>
+  hc_add_theme(hc_theme_ft())
+```
+
+## Exercises
+
+1.  Fetch stock price data for **MSFT** using `tidyquant`.
+2.  Compute daily returns for MSFT.
+3.  Create a price trend plot for MSFT.
+4.  Create a **vector, matrix, and data frame**, and perform calculations on them.
+5.  Use **`highcharter`** to plot **MSFT price and trading volume**.
+
+## Resources
+
+1.  [Cookbook for R](http://www.cookbook-r.com/).
+
+2.  [R Workflow](https://hbiostat.org/rflow/).
+
+3.  GenAI: ChatGPT, Gemini, etc.
+
+4.  [Data Analysis with R](https://www.coursera.org/specializations/statistics), Coursera, [Mine Çetinkaya-Rundel](https://www.coursera.org/instructor/minecetinkayarundel), Duke University.
+
+5.  [Google Data Analytics](https://www.coursera.org/professional-certificates/google-data-analytics), Coursera, Google.
+
+6.  [Stack Overflow](https://stackoverflow.com/questions) for coding Q&A!
+
+------------------------------------------------------------------------
+
+Happy coding! 🚀

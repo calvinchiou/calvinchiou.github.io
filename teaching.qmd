@@ -3,17 +3,20 @@ title: "Teaching"
 toc: true
 ---
 
-# Current Teaching
+# Undergraduate level
+
+-   [**Investments**](investments.qmd), National Chengchi University, Spring 2025.
+-   **Financial Management**, National Chengchi University, 2024.
+
+# Ph.D. level
 
 -   **Seminars in Corporate Finance** (PhD), National Chengchi University, Spring 2025.
--   **Investment** (Undergraduate), National Chengchi University, Spring 2025.
 
-# Previous Teaching
+# Other
 
--   **Financial Management** (Undergraduate), National Chengchi University, 2024.
 -   **Textual Analysis and Web Crawling using R** (mini-workshop), National Central University, Fall 2017.
 
-# Lecture Notes
+# General Notes
 
 -   Financial Management, *Estimating Beta Coefficients*, [lecture note](notes/Beta.qmd).
 
