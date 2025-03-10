@@ -11,7 +11,7 @@
     "href": "resources.html",
     "title": "Resources",
     "section": "",
-    "text": "This page shares something that are excellent for academic beginners!\n\nBooks\n\nFinance\n\nThe Economist’s Craft: An Introduction to Research, Publishing, and Professional Development, Michael S. Weisbach, 2021, Princeton University Press.\n\n\n\nData Science\n\nData Science Live Book, Pablo Casas, 2019.\n\n\n\n\nWebsites\n\nProf. Robert Faff’s Pitching Research Template\nFinance Conference Deadlines\nThe American Finance Association (AFA)"
+    "text": "This page shares something that are excellent for academic beginners!\n\nBooks\n\nFinance\n\nThe Economist’s Craft: An Introduction to Research, Publishing, and Professional Development, Michael S. Weisbach, 2021, Princeton University Press.\n\n\n\nData Science\n\nTidy Finance\nData Science Live Book, Pablo Casas, 2019.\nCookbook for R, Winston Chang, 2013.\n\n\n\n\nWebsites\n\nProf. Robert Faff’s Pitching Research Template\nFinance Conference Calendar via AFA"
   },
   {
     "objectID": "papers/CSR_JAR.html",
@@ -641,7 +641,7 @@
     "href": "investments.html",
     "title": "Investments",
     "section": "",
-    "text": "R Lecture Notes\n\n\n\n\n\nTitle\n\n\nModified\n\n\n\n\n\n\nR Note 1 - Introduction to R and Financial Data Handling\n\n\n3/3/25, 9:43:56 PM\n\n\n\n\n\nNo matching items"
+    "text": "R Lecture Notes\n\n\n\n\n\nTitle\n\n\nModified\n\n\n\n\n\n\nR Note 1 - Introduction to R and Financial Data Handling\n\n\n3/10/25, 6:44:20 PM\n\n\n\n\nR Note 2 - Portfolio Formation using R\n\n\n3/10/25, 7:51:40 PM\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "notes/investments/n1_introduction.html",
@@ -682,29 +682,29 @@
     "objectID": "notes/investments/n1_introduction.html#importing-financial-data",
     "href": "notes/investments/n1_introduction.html#importing-financial-data",
     "title": "R Note 1 - Introduction to R and Financial Data Handling",
-    "section": "5. Importing Financial Data",
-    "text": "5. Importing Financial Data\nUsing tidyquant to fetch stock prices:\n\n# Get Apple (AAPL) stock data\napple_stock &lt;- tq_get(\"AAPL\", from = \"2023-01-01\", to = \"2024-01-01\")\n# Interactive table\ndatatable(apple_stock) |&gt; \n  formatRound(columns = c(\"open\",\"high\",\"low\",\"close\",\"adjusted\"), digits = 2)"
+    "section": "6. Importing Financial Data",
+    "text": "6. Importing Financial Data\nUsing tidyquant to fetch stock prices:\n\n# Get Apple (AAPL) stock data\napple_stock &lt;- tq_get(\"AAPL\", from = \"2023-01-01\", to = \"2024-01-01\")\n# Interactive table\ndatatable(apple_stock) |&gt; \n  formatRound(columns = c(\"open\",\"high\",\"low\",\"close\",\"adjusted\"), digits = 2)"
   },
   {
     "objectID": "notes/investments/n1_introduction.html#basic-data-manipulation-with-dplyr",
     "href": "notes/investments/n1_introduction.html#basic-data-manipulation-with-dplyr",
     "title": "R Note 1 - Introduction to R and Financial Data Handling",
-    "section": "6. Basic Data Manipulation with dplyr",
-    "text": "6. Basic Data Manipulation with dplyr\n\n# Calculate daily returns\napple_stock &lt;- apple_stock |&gt; \n  arrange(date) |&gt; \n  mutate(daily_return = adjusted / lag(adjusted) - 1)\nhead(apple_stock)\n\n# A tibble: 6 × 9\n  symbol date        open  high   low close    volume adjusted daily_return\n  &lt;chr&gt;  &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;\n1 AAPL   2023-01-03  130.  131.  124.  125. 112117500     124.     NA      \n2 AAPL   2023-01-04  127.  129.  125.  126.  89113600     125.      0.0103 \n3 AAPL   2023-01-05  127.  128.  125.  125.  80962700     124.     -0.0106 \n4 AAPL   2023-01-06  126.  130.  125.  130.  87754700     128.      0.0368 \n5 AAPL   2023-01-09  130.  133.  130.  130.  70790800     129.      0.00409\n6 AAPL   2023-01-10  130.  131.  128.  131.  63896200     129.      0.00446"
+    "section": "7. Basic Data Manipulation with dplyr",
+    "text": "7. Basic Data Manipulation with dplyr\n\n# Calculate daily returns\napple_stock &lt;- apple_stock |&gt; \n  arrange(date) |&gt; \n  mutate(daily_return = adjusted / lag(adjusted) - 1)\nhead(apple_stock)\n\n# A tibble: 6 × 9\n  symbol date        open  high   low close    volume adjusted daily_return\n  &lt;chr&gt;  &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;\n1 AAPL   2023-01-03  130.  131.  124.  125. 112117500     124.     NA      \n2 AAPL   2023-01-04  127.  129.  125.  126.  89113600     125.      0.0103 \n3 AAPL   2023-01-05  127.  128.  125.  125.  80962700     124.     -0.0106 \n4 AAPL   2023-01-06  126.  130.  125.  130.  87754700     128.      0.0368 \n5 AAPL   2023-01-09  130.  133.  130.  130.  70790800     129.      0.00409\n6 AAPL   2023-01-10  130.  131.  128.  131.  63896200     129.      0.00446"
   },
   {
     "objectID": "notes/investments/n1_introduction.html#visualizing-stock-prices-with-ggplot2",
     "href": "notes/investments/n1_introduction.html#visualizing-stock-prices-with-ggplot2",
     "title": "R Note 1 - Introduction to R and Financial Data Handling",
-    "section": "7. Visualizing Stock Prices with ggplot2",
-    "text": "7. Visualizing Stock Prices with ggplot2\n\n# Plot price trend\nggplot(apple_stock, aes(x = date, y = adjusted)) +\n  geom_line(color = \"red\", linewidth = 1) +\n  labs(title = \"AAPL Stock Price\", x = \"Date\", y = \"Adjusted Close\") +\n  theme_wsj()"
+    "section": "8. Visualizing Stock Prices with ggplot2",
+    "text": "8. Visualizing Stock Prices with ggplot2\nThe ggplot2 is a powerful tool for creating visualizations in R. It follows the Grammar of Graphics approach, allowing users to build complex charts by adding multiple layers.\n\nKey Features of ggplot2:\n\nLayered approach to building plots.\nHighly customizable aesthetic mappings.\nSupports multiple themes for different styling.\n\n\n\nUsing Themes with ggthemes\nThe ggthemes package provides multiple predefined themes to enhance the aesthetics of plots. More styles of ggthemes can be found via ggplot2 Themes and Styles.\nNow, let’s plot the stock price trend for AAPL and use the wall street journal (WSJ) theme:\n\n# Plot price trend\nggplot(apple_stock, aes(x = date, y = adjusted)) +\n  geom_line(color = \"blue\", linewidth = 1) +\n  labs(title = \"AAPL Stock Price\", x = \"Date\", y = \"Adjusted Close\") +\n  theme_wsj()"
   },
   {
     "objectID": "notes/investments/n1_introduction.html#interactive-visualization-with-highcharter",
     "href": "notes/investments/n1_introduction.html#interactive-visualization-with-highcharter",
     "title": "R Note 1 - Introduction to R and Financial Data Handling",
-    "section": "8. Interactive Visualization with highcharter",
-    "text": "8. Interactive Visualization with highcharter\n\n# Create interactive stock price and volume plot\nhighchart(type = \"stock\") |&gt; \n  hc_add_series(apple_stock, type = \"line\", hcaes(x = date, y = adjusted), name = \"AAPL Price\") |&gt; \n  hc_add_series(apple_stock, type = \"column\", hcaes(x = date, y = volume), name = \"Trading Volume\", yAxis = 1) |&gt; \n  hc_yAxis_multiples(\n    list(title = list(text = \"Stock Price\")),\n    list(title = list(text = \"Trading Volume\"), opposite = TRUE)\n  ) |&gt; \n  hc_title(text = \"AAPL Stock Price and Trading Volume\") |&gt;\n  hc_add_theme(hc_theme_ft())"
+    "section": "9. Interactive Visualization with highcharter",
+    "text": "9. Interactive Visualization with highcharter\n\n# Create interactive stock price and volume plot\nhighchart(type = \"stock\") |&gt; \n  hc_add_series(apple_stock, type = \"line\", hcaes(x = date, y = adjusted), name = \"AAPL Price\") |&gt; \n  hc_add_series(apple_stock, type = \"column\", hcaes(x = date, y = volume), name = \"Trading Volume\", yAxis = 1) |&gt; \n  hc_yAxis_multiples(\n    list(title = list(text = \"Stock Price\")),\n    list(title = list(text = \"Trading Volume\"), opposite = TRUE)\n  ) |&gt; \n  hc_title(text = \"AAPL Stock Price and Trading Volume\") |&gt;\n  hc_add_theme(hc_theme_ft())\n\n\n\n\n# Candlestick Chart\nhighchart(type = \"stock\") |&gt; \n  hc_add_series(apple_stock, type = \"candlestick\", hcaes(x = date, open = open, high = high, low = low, close = adjusted), name = \"AAPL Price\") |&gt; \n  hc_title(text = \"AAPL Candlestick Chart\")"
   },
   {
     "objectID": "notes/investments/n1_introduction.html#exercises",
@@ -775,5 +775,173 @@
     "title": "Common Ownership Network and Board Gender Diversity",
     "section": "Stylized Fact",
     "text": "Stylized Fact\n\n\n\n\n\nThis figure displays female board representation for cross-owned and non-cross-owned firms over time. I use two measures: (1) average female ratio, (2) share of firms with newly appointed female director(s). Firms are classified as cross-owned or non-cross-owned firms. Cross-owned firm refers to a firm sharing at least one blockholder with another peer firm within the same industry (Fama-French 48 industry classification)."
+  },
+  {
+    "objectID": "notes/investments/n1_introduction.html#using-for-loops-in-r",
+    "href": "notes/investments/n1_introduction.html#using-for-loops-in-r",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "5. Using For Loops in R",
+    "text": "5. Using For Loops in R\nA for loop allows us to iterate over a sequence and perform operations repeatedly.\n\nBasic For Loop Example\n\n# Print numbers from 1 to 5\nfor (i in 1:5) {\n  print(i)\n}\n\n[1] 1\n[1] 2\n[1] 3\n[1] 4\n[1] 5\n\n\n\n\nLooping Over a Vector\n\nprices &lt;- c(100, 102, 105, 107, 110)\n\nfor (price in prices) {\n  print(price * 1.1)  # Increase price by 10%\n}\n\n[1] 110\n[1] 112.2\n[1] 115.5\n[1] 117.7\n[1] 121\n\n\n\n\nStoring Loop Output in a Vector\n\nadjusted_prices &lt;- numeric(length(prices))\n\nfor (i in seq_along(prices)) {\n  adjusted_prices[i] &lt;- prices[i] * 1.1\n}\nprint(adjusted_prices)\n\n[1] 110.0 112.2 115.5 117.7 121.0\n\n\n\n\nNesting Loops Example\n\nfor (i in 1:3) {\n  for (j in 1:2) {\n    print(paste(\"i:\", i, \"j:\", j))\n  }\n}\n\n[1] \"i: 1 j: 1\"\n[1] \"i: 1 j: 2\"\n[1] \"i: 2 j: 1\"\n[1] \"i: 2 j: 2\"\n[1] \"i: 3 j: 1\"\n[1] \"i: 3 j: 2\""
+  },
+  {
+    "objectID": "notes/ggthemes.html",
+    "href": "notes/ggthemes.html",
+    "title": "ggplot2 Themes",
+    "section": "",
+    "text": "In this document, we will explore various themes and styles available in ggplot2.\n\nlibrary(ggplot2)\nlibrary(ggthemes)\n\n# Basic plot\np &lt;- ggplot(mpg, aes(x=displ, y=hwy, color=class)) +\n  geom_point() +\n  labs(title=\"Default Theme\")\n\np\n\n\n\n\n\n\n\n\nBelow are examples of applying different themes to your plot:"
+  },
+  {
+    "objectID": "notes/ggthemes.html#introduction",
+    "href": "notes/ggthemes.html#introduction",
+    "title": "ggplot2 Themes",
+    "section": "",
+    "text": "In this document, we will explore various themes and styles available in ggplot2.\n\nlibrary(ggplot2)\nlibrary(ggthemes)\n\n# Basic plot\np &lt;- ggplot(mpg, aes(x=displ, y=hwy, color=class)) +\n  geom_point() +\n  labs(title=\"Default Theme\")\n\np\n\n\n\n\n\n\n\n\nBelow are examples of applying different themes to your plot:"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-minimal",
+    "href": "notes/ggthemes.html#theme-minimal",
+    "title": "ggplot2 Themes",
+    "section": "Theme Minimal",
+    "text": "Theme Minimal\n\np + theme_minimal() +\n  labs(title=\"Theme Minimal\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-classic",
+    "href": "notes/ggthemes.html#theme-classic",
+    "title": "ggplot2 Themes",
+    "section": "Theme Classic",
+    "text": "Theme Classic\n\np + theme_dark() +\n  labs(title=\"Theme Dark\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-economist",
+    "href": "notes/ggthemes.html#theme-economist",
+    "title": "ggplot2 Themes",
+    "section": "Theme Economist",
+    "text": "Theme Economist\n\np + theme_economist() +\n  labs(title=\"Theme Economist\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-economist---white",
+    "href": "notes/ggthemes.html#theme-economist---white",
+    "title": "ggplot2 Themes",
+    "section": "Theme Economist - White",
+    "text": "Theme Economist - White\n\np + theme_economist_white() +\n  labs(title=\"Theme Economist - White\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-excel",
+    "href": "notes/ggthemes.html#theme-excel",
+    "title": "ggplot2 Themes",
+    "section": "Theme Excel",
+    "text": "Theme Excel\n\np + theme_excel() +\n  labs(title=\"Theme Excel\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-excel---new",
+    "href": "notes/ggthemes.html#theme-excel---new",
+    "title": "ggplot2 Themes",
+    "section": "Theme Excel - New",
+    "text": "Theme Excel - New\n\np + theme_excel_new() +\n  labs(title=\"Theme Excel - New\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-highcharts",
+    "href": "notes/ggthemes.html#theme-highcharts",
+    "title": "ggplot2 Themes",
+    "section": "Theme Highcharts",
+    "text": "Theme Highcharts\n\np + theme_hc() +\n  labs(title=\"Theme Highcharts\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-google-docs",
+    "href": "notes/ggthemes.html#theme-google-docs",
+    "title": "ggplot2 Themes",
+    "section": "Theme Google Docs",
+    "text": "Theme Google Docs\n\np + theme_gdocs() +\n  labs(title=\"Theme Google Docs\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-538",
+    "href": "notes/ggthemes.html#theme-538",
+    "title": "ggplot2 Themes",
+    "section": "Theme 538",
+    "text": "Theme 538\n\np + theme_fivethirtyeight() +\n  labs(title=\"Theme 538\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-stata",
+    "href": "notes/ggthemes.html#theme-stata",
+    "title": "ggplot2 Themes",
+    "section": "Theme Stata",
+    "text": "Theme Stata\n\np + theme_stata() +\n  labs(title=\"Theme Stata\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-wall-street-journal-wsj",
+    "href": "notes/ggthemes.html#theme-wall-street-journal-wsj",
+    "title": "ggplot2 Themes",
+    "section": "Theme Wall Street Journal (WSJ)",
+    "text": "Theme Wall Street Journal (WSJ)\n\np + theme_wsj() +\n  labs(title=\"Theme Wall Street Journal\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-pander",
+    "href": "notes/ggthemes.html#theme-pander",
+    "title": "ggplot2 Themes",
+    "section": "Theme Pander",
+    "text": "Theme Pander\n\np + theme_pander() +\n  labs(title=\"Theme Pander\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#custom-theme",
+    "href": "notes/ggthemes.html#custom-theme",
+    "title": "ggplot2 Themes",
+    "section": "Custom Theme",
+    "text": "Custom Theme\n\ncustom_theme &lt;- theme(\n  plot.title = element_text(size=14, face=\"bold\", hjust=0.5),\n  axis.title = element_text(size=12, face=\"bold\"),\n  axis.text = element_text(size=10),\n  panel.background = element_rect(fill=\"white\"),\n  panel.grid.major = element_line(color=\"grey\", size=0.5),\n  panel.grid.minor = element_line(color=\"lightgrey\", size=0.25)\n)\n\nWarning: The `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.\nℹ Please use the `linewidth` argument instead.\n\np + custom_theme + labs(title=\"Custom Theme\")"
+  },
+  {
+    "objectID": "notes/investments/n2_portfolio.html",
+    "href": "notes/investments/n2_portfolio.html",
+    "title": "R Note 2 - Portfolio Formation using R",
+    "section": "",
+    "text": "We use R to create an equally weighted portfolio consisting of four stocks: ExxonMobil (XOM), Walmart (WMT), NVIDIA (NVDA), and Apple (AAPL).\n\nlibrary(tidyquant)\nlibrary(tidyverse)\nlibrary(highcharter)\nlibrary(DT)\n\n\n# Define stock tickers and date range\nstocks &lt;- c(\"XOM\", \"WMT\", \"NVDA\", \"AAPL\")\nstart_date &lt;- \"2023-01-01\"\nend_date &lt;- \"2023-04-30\"\n# Download stock prices\nprices &lt;- tq_get(stocks, from = start_date, to = end_date)\n# Print out interactive table\ndatatable(prices) |&gt; \n  formatRound(columns = c(\"open\",\"high\",\"low\",\"close\",\"adjusted\"), digits = 2)"
+  },
+  {
+    "objectID": "notes/investments/n2_portfolio.html#fetching-stock-data",
+    "href": "notes/investments/n2_portfolio.html#fetching-stock-data",
+    "title": "R Note 2 - Portfolio Formation using R",
+    "section": "",
+    "text": "We use R to create an equally weighted portfolio consisting of four stocks: ExxonMobil (XOM), Walmart (WMT), NVIDIA (NVDA), and Apple (AAPL).\n\nlibrary(tidyquant)\nlibrary(tidyverse)\nlibrary(highcharter)\nlibrary(DT)\n\n\n# Define stock tickers and date range\nstocks &lt;- c(\"XOM\", \"WMT\", \"NVDA\", \"AAPL\")\nstart_date &lt;- \"2023-01-01\"\nend_date &lt;- \"2023-04-30\"\n# Download stock prices\nprices &lt;- tq_get(stocks, from = start_date, to = end_date)\n# Print out interactive table\ndatatable(prices) |&gt; \n  formatRound(columns = c(\"open\",\"high\",\"low\",\"close\",\"adjusted\"), digits = 2)"
+  },
+  {
+    "objectID": "notes/investments/n2_portfolio.html#constructing-an-equally-weighted-portfolio",
+    "href": "notes/investments/n2_portfolio.html#constructing-an-equally-weighted-portfolio",
+    "title": "R Note 2 - Portfolio Formation using R",
+    "section": "2. Constructing an Equally Weighted Portfolio",
+    "text": "2. Constructing an Equally Weighted Portfolio\nAssuming a $1,000,000 budget divided equally among the four stocks, we calculate how many shares we can purchase on the first business day in January 2023.\n\n# Assigned budget\nbudget &lt;- 1000000\nnum_stocks &lt;- length(stocks)\nbudget_per_stock &lt;- budget / length(stocks)\n# Positions for each stock\ninitial_positions &lt;- prices |&gt; \n  filter(date == min(date)) |&gt; \n  mutate(shares = floor(budget_per_stock / adjusted)) |&gt; \n  select(symbol, shares)\n\ninitial_positions\n\n# A tibble: 4 × 2\n  symbol shares\n  &lt;chr&gt;   &lt;dbl&gt;\n1 XOM      2532\n2 WMT      5366\n3 NVDA    17476\n4 AAPL     2022"
+  },
+  {
+    "objectID": "notes/investments/n2_portfolio.html#portfolio-valuation-and-return-calculation",
+    "href": "notes/investments/n2_portfolio.html#portfolio-valuation-and-return-calculation",
+    "title": "R Note 2 - Portfolio Formation using R",
+    "section": "3. Portfolio Valuation and Return Calculation",
+    "text": "3. Portfolio Valuation and Return Calculation\n\nPortfolio Value\nCalculate the portfolio value for each trading day:\n\nportfolio &lt;- prices |&gt; \n  inner_join(initial_positions, by = \"symbol\") |&gt; \n  mutate(position_value = shares * adjusted) |&gt; \n  group_by(date) |&gt; \n  summarize(total_value = sum(position_value)) |&gt; \n  arrange(date)\n\nhead(portfolio)\n\n# A tibble: 6 × 2\n  date       total_value\n  &lt;date&gt;           &lt;dbl&gt;\n1 2023-01-03     999911.\n2 2023-01-04    1011075.\n3 2023-01-05    1004700.\n4 2023-01-06    1033475.\n5 2023-01-09    1039944.\n6 2023-01-10    1049655.\n\n\n\n\nPortfolio Returns\nCalculate discrete and continuous returns for the portfolio:\n\nportfolio &lt;- portfolio |&gt; \n  mutate(discrete_return = 100*(total_value / lag(total_value) - 1),\n         continuous_return = 100*log(total_value / lag(total_value)))\nhead(portfolio)\n\n# A tibble: 6 × 4\n  date       total_value discrete_return continuous_return\n  &lt;date&gt;           &lt;dbl&gt;           &lt;dbl&gt;             &lt;dbl&gt;\n1 2023-01-03     999911.          NA                NA    \n2 2023-01-04    1011075.           1.12              1.11 \n3 2023-01-05    1004700.          -0.631            -0.633\n4 2023-01-06    1033475.           2.86              2.82 \n5 2023-01-09    1039944.           0.626             0.624\n6 2023-01-10    1049655.           0.934             0.929"
+  },
+  {
+    "objectID": "notes/investments/n2_portfolio.html#visualizing-portfolio-value-with-highcharter",
+    "href": "notes/investments/n2_portfolio.html#visualizing-portfolio-value-with-highcharter",
+    "title": "R Note 2 - Portfolio Formation using R",
+    "section": "4. Visualizing Portfolio Value with highcharter",
+    "text": "4. Visualizing Portfolio Value with highcharter\n\n# Portfolio value\nhchart(portfolio, type = \"area\", hcaes(x = date, y = total_value)) |&gt; \n  hc_title(text = \"Portfolio Value Over Time\") |&gt; \n  hc_yAxis(title = list(text = \"Total Portfolio Value ($)\")) |&gt; \n  hc_xAxis(title = list(text = \"Date\")) |&gt; \n  hc_add_theme(hc_theme_smpl())\n\n\n\n\n# Portfolio returns (continous returns)\nhchart(portfolio, type = \"line\", hcaes(x = date, y = continuous_return)) |&gt; \n  hc_title(text = \"Portfolio Returns Over Time\") |&gt; \n  hc_yAxis(title = list(text = \"Portfolio Return (%)\")) |&gt; \n  hc_xAxis(title = list(text = \"Date\")) |&gt; \n  hc_add_theme(hc_theme_smpl())\n\n\n\n\n\nThis interactive visualization shows how the value of your equally weighted portfolio changes throughout sample period."
+  },
+  {
+    "objectID": "notes/investments/n2_portfolio.html#buy-and-hold-returns",
+    "href": "notes/investments/n2_portfolio.html#buy-and-hold-returns",
+    "title": "R Note 2 - Portfolio Formation using R",
+    "section": "5. Buy-and-Hold Returns",
+    "text": "5. Buy-and-Hold Returns\nBuy-and-hold returns represent the total return from buying a stock and holding it over a specified period, without any transactions in between.\n\nCalculation\nTo calculate buy-and-hold returns:\n\nbuy_hold_returns &lt;- portfolio |&gt; \n  mutate(buy_hold_return = 100*(total_value / first(total_value) - 1),\n         cumulative_return = cumsum(coalesce(discrete_return, 0)))\n\nhead(buy_hold_returns)\n\n# A tibble: 6 × 6\n  date       total_value discrete_return continuous_return buy_hold_return\n  &lt;date&gt;           &lt;dbl&gt;           &lt;dbl&gt;             &lt;dbl&gt;           &lt;dbl&gt;\n1 2023-01-03     999911.          NA                NA               0    \n2 2023-01-04    1011075.           1.12              1.11            1.12 \n3 2023-01-05    1004700.          -0.631            -0.633           0.479\n4 2023-01-06    1033475.           2.86              2.82            3.36 \n5 2023-01-09    1039944.           0.626             0.624           4.00 \n6 2023-01-10    1049655.           0.934             0.929           4.97 \n# ℹ 1 more variable: cumulative_return &lt;dbl&gt;"
+  },
+  {
+    "objectID": "notes/investments/n2_portfolio.html#portfolio-comparison-equally-weighted-portfolio-vs.-100-nvda-portfolio",
+    "href": "notes/investments/n2_portfolio.html#portfolio-comparison-equally-weighted-portfolio-vs.-100-nvda-portfolio",
+    "title": "R Note 2 - Portfolio Formation using R",
+    "section": "6. Portfolio Comparison: Equally Weighted Portfolio vs. 100% NVDA Portfolio",
+    "text": "6. Portfolio Comparison: Equally Weighted Portfolio vs. 100% NVDA Portfolio\nLet’s compare our equally weighted portfolio against a portfolio fully invested in NVDA.\n\n# NVDA only portfolio: see how many shares we can purchase at most\nnvda_only_position &lt;- prices |&gt; \n  filter(symbol == \"NVDA\", date == min(date)) |&gt; \n  mutate(shares = floor(budget / adjusted)) |&gt; \n  select(symbol, shares)\n# Hold such shares of Nvdia\nnvda_portfolio &lt;- prices |&gt; \n  filter(symbol == \"NVDA\") |&gt; \n  inner_join(nvda_only_position, by = \"symbol\") |&gt; \n  mutate(total_value = shares * adjusted) |&gt; \n  select(date, total_value)\n\n# Combine both portfolios for comparison\ncombined_portfolios &lt;- portfolio |&gt; \n  select(date, equally_weighted = total_value) |&gt; \n  inner_join(nvda_portfolio |&gt; rename(nvda_only = total_value), by = \"date\")\n\nhead(combined_portfolios)\n\n# A tibble: 6 × 3\n  date       equally_weighted nvda_only\n  &lt;date&gt;                &lt;dbl&gt;     &lt;dbl&gt;\n1 2023-01-03          999911.   999991.\n2 2023-01-04         1011075.  1030309.\n3 2023-01-05         1004700.   996499.\n4 2023-01-06         1033475.  1037993.\n5 2023-01-09         1039944.  1091713.\n6 2023-01-10         1049655.  1111342.\n\n\n\nVisualization of Both Portfolios\n\ncombined_portfolios_long &lt;- combined_portfolios |&gt; \n  pivot_longer(cols = c(equally_weighted, nvda_only), names_to = \"Portfolio\", values_to = \"Value\")\n\nhchart(combined_portfolios_long, \"line\", hcaes(x = date, y = Value, group = Portfolio)) |&gt; \n  hc_title(text = \"Equally Weighted vs. 100% NVDA Portfolio\") |&gt; \n  hc_yAxis(title = list(text = \"Portfolio Value ($)\")) |&gt; \n  hc_xAxis(title = list(text = \"Date\")) |&gt; \n  hc_add_theme(hc_theme_smpl())"
+  },
+  {
+    "objectID": "notes/investments/n2_portfolio.html#exercises",
+    "href": "notes/investments/n2_portfolio.html#exercises",
+    "title": "R Note 2 - Portfolio Formation using R",
+    "section": "Exercises",
+    "text": "Exercises\n\nSuppose we use the following portfolio weights: XOM (20%), WMT (30%), NVDA (30%), and AAPL (20%).\n\nRecalculate how many shares you would purchase initially.\nCompute and visualize the portfolio value and returns.\n\nChange the budget to $500,000 and use portfolio weights: XOM (25%), WMT (25%), NVDA (25%), and AAPL (25%).\n\nRecalculate the shares purchased, portfolio value, and returns.\nProvide an interactive visualization for this scenario.\n\n\n\nHappy coding! 🚀 This version will be continuously updated."
   }
 ]
