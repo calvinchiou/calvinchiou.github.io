@@ -2,10 +2,25 @@
   {
     "listing": "/research.html",
     "items": [
+      "/papers/EnvNTPU.html",
       "/papers/ILP_FRL.html",
       "/papers/CSR_JAR.html",
       "/wps/CO_Diversity.html",
-      "/wps/EnvNTPU.html"
+      "/workinprogress/CO_interlocks.html",
+      "/workinprogress/NPI.html"
+    ]
+  },
+  {
+    "listing": "/investment.html",
+    "items": [
+      "/notes/investment/n1_introduction.html"
+    ]
+  },
+  {
+    "listing": "/investments.html",
+    "items": [
+      "/notes/investments/n1_introduction.html",
+      "/notes/investments/n2_portfolio.html"
     ]
   }
 ]

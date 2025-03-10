@@ -4,14 +4,14 @@
     "href": "research.html",
     "title": " Research",
     "section": "",
-    "text": "Date\n\n\nTitle\n\n\nAuthor\n\n\nJournal\n\n\n\n\n\n\nDec 1, 2022\n\n\nA Taxonomy of Individual Liquidity Provision: Evidence from the Taiwan Stock Exchange\n\n\nCalvin J. Chiou, Chang Chan, Xiaozhou Zhou\n\n\nFinance Research Letters, Vol. 50, 103246\n\n\n\n\nJan 1, 2021\n\n\nThe impact of mandatory corporate social responsibility reporting on liquidity and risk\n\n\nChang Chan, Chao-Hung Huang, Calvin J. Chiou, and Wen-Chyan Ke\n\n\nJournal of Accounting Review, Vol. 72, 35-82 (TSSCI)\n\n\n\n\n\nNo matching items"
+    "text": "Date\n\n\nTitle\n\n\nAuthor\n\n\nJournal\n\n\n\n\n\n\nMar 2025\n\n\nThe Impact of Environmental Performance on Financial Performance and Stock Returns - Evidence from Listed Companies in Taiwan\n\n\nCalvin J. Chiou, Tsung-Hsuan Li, Chang Chan, and Chun-Kuei Hsieh\n\n\nForthcoming at Journal of Financial Studies (TSSCI)\n\n\n\n\nDec 2022\n\n\nA Taxonomy of Individual Liquidity Provision: Evidence from the Taiwan Stock Exchange\n\n\nCalvin J. Chiou, Chang Chan, Xiaozhou Zhou\n\n\nFinance Research Letters, Vol. 50, 103246\n\n\n\n\nJan 2021\n\n\nThe impact of mandatory corporate social responsibility reporting on liquidity and risk\n\n\nChang Chan, Chao-Hung Huang, Calvin J. Chiou, and Wen-Chyan Ke\n\n\nJournal of Accounting Review, Vol. 72, 35-82 (TSSCI)\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "resources.html",
     "href": "resources.html",
     "title": "Resources",
     "section": "",
-    "text": "This page shares something that are excellent for academic beginners!\n\nBooks\n\nFinance\n\nThe Economist’s Craft: An Introduction to Research, Publishing, and Professional Development, Michael S. Weisbach, 2021, Princeton University Press.\n\n\n\nData Science\n\nData Science Live Book, Pablo Casas, 2019.\n\n\n\n\nWebsites\n\nProf. Robert Faff’s Pitching Research Template\nFinance Conference Deadlines\nThe American Finance Association (AFA)"
+    "text": "This page shares something that are excellent for academic beginners!\n\nBooks\n\nFinance\n\nThe Economist’s Craft: An Introduction to Research, Publishing, and Professional Development, Michael S. Weisbach, 2021, Princeton University Press.\n\n\n\nData Science\n\nTidy Finance\nData Science Live Book, Pablo Casas, 2019.\nCookbook for R, Winston Chang, 2013.\n\n\n\n\nWebsites\n\nProf. Robert Faff’s Pitching Research Template\nFinance Conference Calendar via AFA"
   },
   {
     "objectID": "papers/CSR_JAR.html",
@@ -74,7 +74,7 @@
     "href": "about.html#professional-services",
     "title": "About me",
     "section": "Professional Services",
-    "text": "Professional Services\nJournal Referee: Pacific-Basin Finance Journal, British Accounting Review, Emerging Markets Finance and Trade"
+    "text": "Professional Services\nJournal Referee: Pacific-Basin Finance Journal, British Accounting Review, Finance Research Letters, Emerging Markets Finance and Trade, Review of Securities and Futures Markets"
   },
   {
     "objectID": "about.html#selected-certificates",
@@ -116,7 +116,7 @@
     "href": "index.html",
     "title": "Calvin J. Chiou ",
     "section": "",
-    "text": "Calvin J. Chiou (邱健嘉) is an Assistant Professor in the Department of Finance at National Chengchi University (NCCU). His research interests include corporate innovation, institutional investors, corporate governance, corporate finance, and behavioral finance. Calvin received his PhD in finance from the Nanyang Technological University, Nanyang Business School in 2024. When not exploring on academic research, Calvin enjoys spending time on traveling, playing basketball, badminton, and the guitar.\n\nContact Info:\nNo. 64, Sec. 2, Zhinan Rd., Wenshan Dist.\nTaipei City 11605, Taiwan\nPhone: +886-2-2939-3091 ext. 81233"
+    "text": "Calvin J. Chiou (邱健嘉) is an Assistant Professor in the Department of Finance at National Chengchi University (NCCU). His research interests include corporate innovation, institutional investors, corporate governance, corporate finance, and behavioral finance. Calvin received his PhD in finance from the Nanyang Technological University, Nanyang Business School in 2024. When not exploring on academic research, Calvin enjoys spending time on traveling, playing basketball, badminton, and the guitar.\n\nContact Info:\nEmail: jjchiou@nccu.edu.tw\nNo. 64, Sec. 2, Zhinan Rd., Wenshan Dist.\nTaipei City 11605, Taiwan\nPhone: +886-2-2939-3091 ext. 81233"
   },
   {
     "objectID": "posts_hidden/SRI.html",
@@ -242,21 +242,21 @@
     "href": "wps/EnvNTPU.html",
     "title": "The Impact of Environmental Performance on Financial Performance and Stock Returns - Evidence from Listed Companies in Taiwan",
     "section": "",
-    "text": "This paper examines the impact of a firm’s environmental performance on its financial performance and stock return. We refer to the methods of Lins et al. (2017) and Chen et al. (2018) and use the data of the Taiwan Sustainability Rating for listed companies and OTC companies that have issued sustainability reports of the previous year from 2016 to 2021. The findings include: (1) For the manufacturing industry, environmental performance has a significant positive correlation with financial performance and stock returns. (2) For the electronics industry, environmental performance has a significant negative correlation with financial performance and has no correlation with stock returns. However, there is a significant positive correlation between economic performance and stock returns. (3) As far as the service industry and the financial industry are concerned, environmental performance has no significant relationship with financial performance and stock returns; however, the social performance of the service industry and the economic performance of the financial industry have a significant positive relationship with financial performance and stock returns. The above findings imply that, for the listed companies and OTC companies in Taiwan, the impact of environmental performance on financial performance and stock returns is not only related to the degree of government and public attention to the environmental issues in the industry to which the company belongs, but also related to the closeness of the industry’s connection with the international supply chain."
+    "text": "This study uses Taiwan Sustainability Ratings (TSR) data and applies the Heckman two-stage model to explore cross-industry differences in the impact of corporate environmental performance while controlling for corporate social, economic, and disclosure performance. The impact of environmental performance on financial performance and stock returns is not only related to the government regulations and public attention to environmental issues in the company’s industry, but also to the degree to which the industry is integrated into global supply chains. For the manufacturing industry, corporate environmental performance has a significant positive impact on both financial performance and stock returns of the company."
   },
   {
     "objectID": "wps/EnvNTPU.html#abstract",
     "href": "wps/EnvNTPU.html#abstract",
     "title": "The Impact of Environmental Performance on Financial Performance and Stock Returns - Evidence from Listed Companies in Taiwan",
     "section": "",
-    "text": "This paper examines the impact of a firm’s environmental performance on its financial performance and stock return. We refer to the methods of Lins et al. (2017) and Chen et al. (2018) and use the data of the Taiwan Sustainability Rating for listed companies and OTC companies that have issued sustainability reports of the previous year from 2016 to 2021. The findings include: (1) For the manufacturing industry, environmental performance has a significant positive correlation with financial performance and stock returns. (2) For the electronics industry, environmental performance has a significant negative correlation with financial performance and has no correlation with stock returns. However, there is a significant positive correlation between economic performance and stock returns. (3) As far as the service industry and the financial industry are concerned, environmental performance has no significant relationship with financial performance and stock returns; however, the social performance of the service industry and the economic performance of the financial industry have a significant positive relationship with financial performance and stock returns. The above findings imply that, for the listed companies and OTC companies in Taiwan, the impact of environmental performance on financial performance and stock returns is not only related to the degree of government and public attention to the environmental issues in the industry to which the company belongs, but also related to the closeness of the industry’s connection with the international supply chain."
+    "text": "This study uses Taiwan Sustainability Ratings (TSR) data and applies the Heckman two-stage model to explore cross-industry differences in the impact of corporate environmental performance while controlling for corporate social, economic, and disclosure performance. The impact of environmental performance on financial performance and stock returns is not only related to the government regulations and public attention to environmental issues in the company’s industry, but also to the degree to which the industry is integrated into global supply chains. For the manufacturing industry, corporate environmental performance has a significant positive impact on both financial performance and stock returns of the company."
   },
   {
     "objectID": "wps/EnvNTPU.html#keywords",
     "href": "wps/EnvNTPU.html#keywords",
     "title": "The Impact of Environmental Performance on Financial Performance and Stock Returns - Evidence from Listed Companies in Taiwan",
     "section": "Keywords",
-    "text": "Keywords\nSustainability Report, CSR, ESG, Taiwan Sustainability Ratings, Financial Performance, Stock Returns"
+    "text": "Keywords\nSustainability Report, CSR, ESG, Taiwan Sustainability Ratings, Sample Selection Bias"
   },
   {
     "objectID": "wps/EnvNTPU.html#conference",
@@ -277,7 +277,7 @@
     "href": "about.html#awards-and-honors",
     "title": "About me",
     "section": "Awards and Honors",
-    "text": "Awards and Honors\nFubon Best Paper Award | 2024\nTaiwanese Government Scholarship to Study Abroad | 2022 - 2023\nNTU Research Scholarship | 2019 - 2023\nBest Paper Award, TSC Thesis Symposium | 2017\nShanghai Commercial & Savings Bank Scholarship | 2017"
+    "text": "Awards and Honors\nFubon Best Paper Award | 2024\nExcellent Undergraduate English-taught Course Award, NCCU | 2024\nTaiwanese Government Scholarship to Study Abroad | 2022 - 2023\nNTU Research Scholarship | 2019 - 2023\nBest Paper Award, TSC Thesis Symposium | 2017\nShanghai Commercial & Savings Bank Scholarship | 2017"
   },
   {
     "objectID": "about.html#conference-presentations",
@@ -291,56 +291,56 @@
     "href": "teaching.html",
     "title": "Teaching",
     "section": "",
-    "text": "Current Teaching\n\nFinancial Management (Undergraduate), National Chengchi University, Spring 2024.\n\n\n\nPrevious Teaching\n\nTextual Analysis and Web Crawling using R (mini-workshop), National Central University, Fall 2017.\n\n\n\nLecture Notes\n\nFinancial Management, Estimating Beta Coefficients, lecture note.\nggplot2 Themes and Styles, lecture note."
+    "text": "Undergraduate level\n\nInvestments, National Chengchi University, Spring 2025.\nFinancial Management, National Chengchi University, 2024.\n\n\n\nPh.D. level\n\nSeminars in Corporate Finance (PhD), National Chengchi University, Spring 2025.\n\n\n\nOther\n\nTextual Analysis and Web Crawling using R (mini-workshop), National Central University, Fall 2017.\n\n\n\nGeneral Notes\n\nFinancial Management, Estimating Beta Coefficients, lecture note.\nggplot2 Themes and Styles, lecture note."
   },
   {
     "objectID": "research.html#publications",
     "href": "research.html#publications",
     "title": " Research",
     "section": "",
-    "text": "Date\n\n\nTitle\n\n\nAuthor\n\n\nJournal\n\n\n\n\n\n\nDec 1, 2022\n\n\nA Taxonomy of Individual Liquidity Provision: Evidence from the Taiwan Stock Exchange\n\n\nCalvin J. Chiou, Chang Chan, Xiaozhou Zhou\n\n\nFinance Research Letters, Vol. 50, 103246\n\n\n\n\nJan 1, 2021\n\n\nThe impact of mandatory corporate social responsibility reporting on liquidity and risk\n\n\nChang Chan, Chao-Hung Huang, Calvin J. Chiou, and Wen-Chyan Ke\n\n\nJournal of Accounting Review, Vol. 72, 35-82 (TSSCI)\n\n\n\n\n\nNo matching items"
+    "text": "Date\n\n\nTitle\n\n\nAuthor\n\n\nJournal\n\n\n\n\n\n\nMar 2025\n\n\nThe Impact of Environmental Performance on Financial Performance and Stock Returns - Evidence from Listed Companies in Taiwan\n\n\nCalvin J. Chiou, Tsung-Hsuan Li, Chang Chan, and Chun-Kuei Hsieh\n\n\nForthcoming at Journal of Financial Studies (TSSCI)\n\n\n\n\nDec 2022\n\n\nA Taxonomy of Individual Liquidity Provision: Evidence from the Taiwan Stock Exchange\n\n\nCalvin J. Chiou, Chang Chan, Xiaozhou Zhou\n\n\nFinance Research Letters, Vol. 50, 103246\n\n\n\n\nJan 2021\n\n\nThe impact of mandatory corporate social responsibility reporting on liquidity and risk\n\n\nChang Chan, Chao-Hung Huang, Calvin J. Chiou, and Wen-Chyan Ke\n\n\nJournal of Accounting Review, Vol. 72, 35-82 (TSSCI)\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "research.html#working-papers",
     "href": "research.html#working-papers",
     "title": " Research",
     "section": "Working Papers",
-    "text": "Working Papers\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\nDescription\n\n\n\n\n\n\nJun 1, 2024\n\n\nCommon Ownership Network and the Expansion of Female Board Representation\n\n\nCalvin J. Chiou\n\n\nWorking Paper\n\n\n\n\nJun 1, 2024\n\n\nThe Impact of Environmental Performance on Financial Performance and Stock Returns - Evidence from Listed Companies in Taiwan\n\n\nCalvin J. Chiou, Tsung-Hsuan Li, Chang Chan, and Chun-Kuei Hsieh\n\n\nR&R at Journal of Financial Studies (TSSCI)\n\n\n\n\n\nNo matching items"
+    "text": "Working Papers\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\nDescription\n\n\n\n\n\n\nJan 12, 2025\n\n\nCommon Ownership Network and Board Gender Diversity\n\n\nCalvin J. Chiou (single-authored)\n\n\nWorking Paper\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "wps/CO_Diversity.html",
     "href": "wps/CO_Diversity.html",
-    "title": "Common Ownership Network and the Expansion of Female Board Representation",
+    "title": "Common Ownership Network and Board Gender Diversity",
     "section": "",
-    "text": "This study investigates the potential of common ownership to expand the pool of female director candidates and alleviate the underrepresentation of women on corporate boards. By measuring the fraction of female directors from peer firms sharing the same blockholder as the focal firm, I proxy the potential supply of female directors. The baseline results indicate a positive correlation between the supply of female directors in peer firms and the representation of women in the focal firm, as well as an increased likelihood of new female director appointments. In addition, these firms show an increased likelihood of women attaining leadership positions on board committees. Using the California Senate Bill No. 826 and peer female director appointments as quasi-experimental settings, the difference-in-difference-in-differences (DDD) analysis shows that firms under common ownership narrow the gap between the current and mandated numbers of female directors. The results remain robust in accounting for the activeness of the Big Three and underscore the network effect of common ownership on the supply side of the labor market for female directors."
+    "text": "This study examines the network hypothesis, proposing that interconnections among top executives facilitated by common institutional ownership contribute to greater board gender diversity. The effect is particularly pronounced in firms with higher female representation among industry peers. Using California Senate Bill No. 826 and peer female director appointments as quasi-experimental settings, empirical evidence shows that firms under common ownership are more likely to increase female board representation, appoint new female directors, and facilitate interlocking female directorates across portfolio firms. Furthermore, these firms exhibit a higher propensity for women to attain leadership positions on board committees, reinforcing the role of ownership networks in expanding opportunities for female directors beyond mere representation. The findings remain robust after accounting for the influence of the Big Three, highlighting the importance of common ownership as a structural mechanism that shapes governance practices, facilitates director mobility, and influences the broader labor market for female executives."
   },
   {
     "objectID": "wps/CO_Diversity.html#abstract",
     "href": "wps/CO_Diversity.html#abstract",
-    "title": "Common Ownership Network and the Expansion of Female Board Representation",
+    "title": "Common Ownership Network and Board Gender Diversity",
     "section": "",
-    "text": "This study investigates the potential of common ownership to expand the pool of female director candidates and alleviate the underrepresentation of women on corporate boards. By measuring the fraction of female directors from peer firms sharing the same blockholder as the focal firm, I proxy the potential supply of female directors. The baseline results indicate a positive correlation between the supply of female directors in peer firms and the representation of women in the focal firm, as well as an increased likelihood of new female director appointments. In addition, these firms show an increased likelihood of women attaining leadership positions on board committees. Using the California Senate Bill No. 826 and peer female director appointments as quasi-experimental settings, the difference-in-difference-in-differences (DDD) analysis shows that firms under common ownership narrow the gap between the current and mandated numbers of female directors. The results remain robust in accounting for the activeness of the Big Three and underscore the network effect of common ownership on the supply side of the labor market for female directors."
+    "text": "This study examines the network hypothesis, proposing that interconnections among top executives facilitated by common institutional ownership contribute to greater board gender diversity. The effect is particularly pronounced in firms with higher female representation among industry peers. Using California Senate Bill No. 826 and peer female director appointments as quasi-experimental settings, empirical evidence shows that firms under common ownership are more likely to increase female board representation, appoint new female directors, and facilitate interlocking female directorates across portfolio firms. Furthermore, these firms exhibit a higher propensity for women to attain leadership positions on board committees, reinforcing the role of ownership networks in expanding opportunities for female directors beyond mere representation. The findings remain robust after accounting for the influence of the Big Three, highlighting the importance of common ownership as a structural mechanism that shapes governance practices, facilitates director mobility, and influences the broader labor market for female executives."
   },
   {
     "objectID": "wps/CO_Diversity.html#keywords",
     "href": "wps/CO_Diversity.html#keywords",
-    "title": "Common Ownership Network and the Expansion of Female Board Representation",
+    "title": "Common Ownership Network and Board Gender Diversity",
     "section": "Keywords",
     "text": "Keywords\nBoard gender diversity, common ownership, gender quota, institutional investors, corporate governance"
   },
   {
     "objectID": "wps/CO_Diversity.html#award",
     "href": "wps/CO_Diversity.html#award",
-    "title": "Common Ownership Network and the Expansion of Female Board Representation",
+    "title": "Common Ownership Network and Board Gender Diversity",
     "section": "Award",
     "text": "Award\n\nFubon Best Paper Award, Jun 2024."
   },
   {
     "objectID": "wps/CO_Diversity.html#conference",
     "href": "wps/CO_Diversity.html#conference",
-    "title": "Common Ownership Network and the Expansion of Female Board Representation",
+    "title": "Common Ownership Network and Board Gender Diversity",
     "section": "Conference",
-    "text": "Conference\n\nFrontier in Accounting and Finance International Conference, Taipei, Taiwan, Apr 2024.\nInternational Conference of Taiwan Finance Association (TFA), Kaohsiung, Taiwan, Jun 2024.\nINFORMS Annual Meeting, Seattle, USA, Oct 2024 (scheduled)."
+    "text": "Conference\n\nSydney Banking and Financial Stability Conference, Sydney, Australia, Dec 2024.\n2024 NTU Winter Workshop on Entrepreneurship, Taipei, Taiwan, Dec 2024.\nINFORMS Annual Meeting, Seattle, USA, Oct 2024.\nInternational Conference of Taiwan Finance Association (TFA), Kaohsiung, Taiwan, Jun 2024.\nFrontier in Accounting and Finance International Conference, Taipei, Taiwan, Apr 2024."
   },
   {
     "objectID": "notes/Beta.html",
@@ -453,5 +453,495 @@
     "title": "Cumulative Abnormal Returns",
     "section": "Measuring Cumulative Abnormal Returns (CAR)",
     "text": "Measuring Cumulative Abnormal Returns (CAR)\nCumulative abnormal returns (CAR) are the sum of abnormal returns over a specified event window. We need to define an event date and the event window around this date.\n\n# Define the event date and the event window\nevent_date &lt;- ymd(\"2022-01-01\")\nevent_window &lt;- 5  # Days before and after the event date\n\n# Filter the returns data for the event window\nevent_window_data &lt;- returns_data %&gt;%\n  filter(date &gt;= event_date - event_window & \n           date &lt;= event_date + event_window)\n\n# Calculate the cumulative abnormal returns (CAR)\ncar &lt;- sum(event_window_data$abnormal_return)\n\n# Display the cumulative abnormal returns\ncat(\"The cumulative abnormal returns (CAR) for the event window around\", \n    as.character(event_date), \"is\", round(car, 4))\n\nThe cumulative abnormal returns (CAR) for the event window around 2022-01-01 is -0.0217"
+  },
+  {
+    "objectID": "about.html#presentations",
+    "href": "about.html#presentations",
+    "title": "About me",
+    "section": "Presentations",
+    "text": "Presentations\n2024: International Conference of Taiwan Finance Association (TFA), Frontier in Accounting and Finance International Conference, INFORMS Annual Meeting, Sydney Banking and Financial Stability Conference, Chang Gung University, National Central University, National Chengchi University\n2023: International Conference of TFA, National Kaohsiung University of Science and Technology, National Taipei University\n2022: National Chengchi University, National Central University, National Taipei University\n2021: Cross Country Perspectives in Finance (CCPF), CCPF-JIFMIM Symposium, International Conference of TFA\n2018: AsianFA Annual Meeting\\(^*\\)\n2017: International Conference of TFA\\(^\\dagger\\), TFA Conference on Asset Pricing\\(^*\\), Conference on the Theories and Practices of Securities and Financial Markets\\(^*\\)\n(\\(^*\\) Presented by Coauthor, \\(^\\dagger\\) Discussant)"
+  },
+  {
+    "objectID": "research.html#work-in-progress",
+    "href": "research.html#work-in-progress",
+    "title": " Research",
+    "section": "Work in Progress",
+    "text": "Work in Progress\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\nDescription\n\n\n\n\n\n\nJan 29, 2025\n\n\nCommon Ownership and Board Interlocks: Industry Boundary Matters\n\n\nCalvin J. Chiou & Zheng Yang\n\n\nWork in Progress\n\n\n\n\nJan 12, 2025\n\n\nProduct Disclosure following Seasoned Equity Offerings\n\n\nCalvin J. Chiou, Claire Liu, and Angie Low\n\n\nWork in Progress\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "wps/NPI.html",
+    "href": "wps/NPI.html",
+    "title": "Product Disclosure following Seasoned Equity Offerings",
+    "section": "",
+    "text": "This study highlights the significance of product disclosure (PD) following seasoned equity offerings (SEOs) in indicating potential failure risks within the uncertain landscape of the innovation process. Employing a news-based dataset, we observe a substantial increase in PD relating to innovation progress post-SEO, in contrast to disclosures concerning new product introductions. Moreover, we find a negative association between post-issue operating performance and progress-type PD. These findings imply a tendency in equity markets to underestimate the failure risks associated with product innovation. The robustness of our results is maintained even after controlling for endogeneity concerns."
+  },
+  {
+    "objectID": "wps/NPI.html#abstract",
+    "href": "wps/NPI.html#abstract",
+    "title": "Product Disclosure following Seasoned Equity Offerings",
+    "section": "",
+    "text": "This study highlights the significance of product disclosure (PD) following seasoned equity offerings (SEOs) in indicating potential failure risks within the uncertain landscape of the innovation process. Employing a news-based dataset, we observe a substantial increase in PD relating to innovation progress post-SEO, in contrast to disclosures concerning new product introductions. Moreover, we find a negative association between post-issue operating performance and progress-type PD. These findings imply a tendency in equity markets to underestimate the failure risks associated with product innovation. The robustness of our results is maintained even after controlling for endogeneity concerns."
+  },
+  {
+    "objectID": "wps/NPI.html#keywords",
+    "href": "wps/NPI.html#keywords",
+    "title": "Product Disclosure following Seasoned Equity Offerings",
+    "section": "Keywords",
+    "text": "Keywords\nSeasoned equity offerings, corporate innovation, product disclosure, investment financing"
+  },
+  {
+    "objectID": "wps/NPI.html#seminars",
+    "href": "wps/NPI.html#seminars",
+    "title": "Product Disclosure following Seasoned Equity Offerings",
+    "section": "Seminars",
+    "text": "Seminars\nNational Chengchi University, National Central University"
+  },
+  {
+    "objectID": "papers/EnvNTPU.html",
+    "href": "papers/EnvNTPU.html",
+    "title": "The Impact of Environmental Performance on Financial Performance and Stock Returns - Evidence from Listed Companies in Taiwan",
+    "section": "",
+    "text": "This study uses Taiwan Sustainability Ratings (TSR) data and applies the Heckman two-stage model to explore cross-industry differences in the impact of corporate environmental performance while controlling for corporate social, economic, and disclosure performance. The impact of environmental performance on financial performance and stock returns is not only related to the government regulations and public attention to environmental issues in the company’s industry, but also to the degree to which the industry is integrated into global supply chains. For the manufacturing industry, corporate environmental performance has a significant positive impact on both financial performance and stock returns of the company."
+  },
+  {
+    "objectID": "papers/EnvNTPU.html#abstract",
+    "href": "papers/EnvNTPU.html#abstract",
+    "title": "The Impact of Environmental Performance on Financial Performance and Stock Returns - Evidence from Listed Companies in Taiwan",
+    "section": "",
+    "text": "This study uses Taiwan Sustainability Ratings (TSR) data and applies the Heckman two-stage model to explore cross-industry differences in the impact of corporate environmental performance while controlling for corporate social, economic, and disclosure performance. The impact of environmental performance on financial performance and stock returns is not only related to the government regulations and public attention to environmental issues in the company’s industry, but also to the degree to which the industry is integrated into global supply chains. For the manufacturing industry, corporate environmental performance has a significant positive impact on both financial performance and stock returns of the company."
+  },
+  {
+    "objectID": "papers/EnvNTPU.html#keywords",
+    "href": "papers/EnvNTPU.html#keywords",
+    "title": "The Impact of Environmental Performance on Financial Performance and Stock Returns - Evidence from Listed Companies in Taiwan",
+    "section": "Keywords",
+    "text": "Keywords\nSustainability Report, CSR, ESG, Taiwan Sustainability Ratings, Sample Selection Bias"
+  },
+  {
+    "objectID": "papers/EnvNTPU.html#conference",
+    "href": "papers/EnvNTPU.html#conference",
+    "title": "The Impact of Environmental Performance on Financial Performance and Stock Returns - Evidence from Listed Companies in Taiwan",
+    "section": "Conference",
+    "text": "Conference\n\nInternational Conference of Taiwan Finance Association (TFA), Taichung, Taiwan, Jun 2023."
+  },
+  {
+    "objectID": "wip/NPI.html",
+    "href": "wip/NPI.html",
+    "title": "Product Disclosure following Seasoned Equity Offerings",
+    "section": "",
+    "text": "This study highlights the significance of product disclosure (PD) following seasoned equity offerings (SEOs) in indicating potential failure risks within the uncertain landscape of the innovation process. Employing a news-based dataset, we observe a substantial increase in PD relating to innovation progress post-SEO, in contrast to disclosures concerning new product introductions. Moreover, we find a negative association between post-issue operating performance and progress-type PD. These findings imply a tendency in equity markets to underestimate the failure risks associated with product innovation. The robustness of our results is maintained even after controlling for endogeneity concerns."
+  },
+  {
+    "objectID": "wip/NPI.html#abstract",
+    "href": "wip/NPI.html#abstract",
+    "title": "Product Disclosure following Seasoned Equity Offerings",
+    "section": "",
+    "text": "This study highlights the significance of product disclosure (PD) following seasoned equity offerings (SEOs) in indicating potential failure risks within the uncertain landscape of the innovation process. Employing a news-based dataset, we observe a substantial increase in PD relating to innovation progress post-SEO, in contrast to disclosures concerning new product introductions. Moreover, we find a negative association between post-issue operating performance and progress-type PD. These findings imply a tendency in equity markets to underestimate the failure risks associated with product innovation. The robustness of our results is maintained even after controlling for endogeneity concerns."
+  },
+  {
+    "objectID": "wip/NPI.html#keywords",
+    "href": "wip/NPI.html#keywords",
+    "title": "Product Disclosure following Seasoned Equity Offerings",
+    "section": "Keywords",
+    "text": "Keywords\nSeasoned equity offerings, corporate innovation, product disclosure, investment financing"
+  },
+  {
+    "objectID": "wip/NPI.html#seminars",
+    "href": "wip/NPI.html#seminars",
+    "title": "Product Disclosure following Seasoned Equity Offerings",
+    "section": "Seminars",
+    "text": "Seminars\nNational Chengchi University, National Central University"
+  },
+  {
+    "objectID": "investment.html",
+    "href": "investment.html",
+    "title": "Investment",
+    "section": "",
+    "text": "R Lecture Notes\n\n\n\n\n\nTitle\n\n\nModified\n\n\n\n\n\n\nR Note 1 - Introduction to R and Financial Data Handling\n\n\n3/1/25, 10:54:09 PM\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "notes/investment/n1_introduction.html",
+    "href": "notes/investment/n1_introduction.html",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "",
+    "text": "Course: Investments\nCode: 000351051"
+  },
+  {
+    "objectID": "notes/investment/n1_introduction.html#setting-up-r-and-rstudio",
+    "href": "notes/investment/n1_introduction.html#setting-up-r-and-rstudio",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "1. Setting Up R and RStudio",
+    "text": "1. Setting Up R and RStudio\nBefore we begin, ensure you have installed: - R - RStudio\n\n# Install packages\ninstall.packages(\"tidyquant\")\ninstall.packages(\"tidyverse\")\n\n\n# Load packages\nlibrary(tidyquant)\nlibrary(tidyverse)\nlibrary(ggplot2)\nlibrary(ggthemes)\nlibrary(highcharter)\nlibrary(DT)"
+  },
+  {
+    "objectID": "notes/investment/n1_introduction.html#basic-r-syntax",
+    "href": "notes/investment/n1_introduction.html#basic-r-syntax",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "2. Basic R Syntax",
+    "text": "2. Basic R Syntax\n\n# Basic operations in R\nx &lt;- 10\ny &lt;- 5\n\nsum_xy &lt;- x + y\ndiff_xy &lt;- x - y\nprod_xy &lt;- x * y\nquot_xy &lt;- x / y\nexp_xy &lt;- x^y\n\nprint(sum_xy)\n\n[1] 15\n\nprint(diff_xy)\n\n[1] 5\n\nprint(prod_xy)\n\n[1] 50\n\nprint(quot_xy)\n\n[1] 2\n\nprint(exp_xy)\n\n[1] 1e+05"
+  },
+  {
+    "objectID": "notes/investment/n1_introduction.html#understanding-data-types-in-r",
+    "href": "notes/investment/n1_introduction.html#understanding-data-types-in-r",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "3. Understanding Data Types in R",
+    "text": "3. Understanding Data Types in R\n\nNumeric\n\nnum_var &lt;- 42\nprint(num_var)\n\n[1] 42\n\n\n\n\nCharacter (String)\n\nchar_var &lt;- \"Hello, R!\"\nprint(char_var)\n\n[1] \"Hello, R!\"\n\n\n\n\nLogical (Boolean)\n\nbool_var &lt;- TRUE\nprint(bool_var)\n\n[1] TRUE\n\n\n\n\nFactor (Categorical Data)\n\nfactor_var &lt;- factor(c(\"low\", \"medium\", \"high\", \"medium\"))\nprint(factor_var)\n\n[1] low    medium high   medium\nLevels: high low medium\n\n\n\n\nData Structure\n\n# Vectors\nprices &lt;- c(100, 102, 105, 107, 110)\nprint(prices)\n\n[1] 100 102 105 107 110\n\n# Lists (Collection of different types)\nlist_var &lt;- list(num_var, char_var, bool_var, prices)\nprint(list_var)\n\n[[1]]\n[1] 42\n\n[[2]]\n[1] \"Hello, R!\"\n\n[[3]]\n[1] TRUE\n\n[[4]]\n[1] 100 102 105 107 110\n\n# Matrices (2D array)\nmatrix_var &lt;- matrix(1:9, nrow=3)\nprint(matrix_var)\n\n     [,1] [,2] [,3]\n[1,]    1    4    7\n[2,]    2    5    8\n[3,]    3    6    9\n\n# Data Frames\nstock_data &lt;- data.frame(\n  Date = as.Date('2024-01-01') + 0:4,\n  Price = prices\n)\nprint(stock_data)\n\n        Date Price\n1 2024-01-01   100\n2 2024-01-02   102\n3 2024-01-03   105\n4 2024-01-04   107\n5 2024-01-05   110"
+  },
+  {
+    "objectID": "notes/investment/n1_introduction.html#the-pipe-operator-and",
+    "href": "notes/investment/n1_introduction.html#the-pipe-operator-and",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "4. The Pipe Operator (%>% and |>)",
+    "text": "4. The Pipe Operator (%&gt;% and |&gt;)\nThe pipe operator allows you to pass the output of one function directly into another function, making your code cleaner and easier to read.\n\nUsing %&gt;% from dplyr (or tidyverse family)\nThe dplyr package provides the %&gt;% pipe operator, which allows for chaining multiple operations.\n\n# Example dataset\ndata &lt;- data.frame(x = 1:5, y = c(2, 4, 6, 8, 10))\n\ndata %&gt;% \n  mutate(z = x + y) %&gt;% \n  filter(z &gt; 6) %&gt;% \n  arrange(desc(z))\n\n  x  y  z\n1 5 10 15\n2 4  8 12\n3 3  6  9\n\n\n\n\nUsing |&gt; (Base R Pipe)\nR introduced the native |&gt; pipe operator in version 4.1.0. It works similarly but has slightly different behavior:\n\ndata |&gt; \n  mutate(z = x + y) |&gt; \n  filter(z &gt; 6) |&gt; \n  arrange(desc(z))\n\n  x  y  z\n1 5 10 15\n2 4  8 12\n3 3  6  9\n\n\nKey Differences:\n\n%&gt;% allows passing arguments to functions with . placeholder (useful for non-standard functions).\n|&gt; is optimized for performance and is recommended for base R users.\n\n\n# An alternative example:\n# normal use of a function\nmean(prices)\n\n[1] 104.8\n\n# pipe from dplyr\nprices %&gt;% mean\n\n[1] 104.8\n\n# pipe in base R\nprices |&gt; mean()\n\n[1] 104.8"
+  },
+  {
+    "objectID": "notes/investment/n1_introduction.html#importing-financial-data",
+    "href": "notes/investment/n1_introduction.html#importing-financial-data",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "5. Importing Financial Data",
+    "text": "5. Importing Financial Data\nUsing tidyquant to fetch stock prices:\n\n# Get Apple (AAPL) stock data\napple_stock &lt;- tq_get(\"AAPL\", from = \"2023-01-01\", to = \"2024-01-01\")\n# Interactive table\ndatatable(apple_stock) |&gt; \n  formatRound(columns = c(\"open\",\"high\",\"low\",\"close\",\"adjusted\"), digits = 2)"
+  },
+  {
+    "objectID": "notes/investment/n1_introduction.html#basic-data-manipulation-with-dplyr",
+    "href": "notes/investment/n1_introduction.html#basic-data-manipulation-with-dplyr",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "6. Basic Data Manipulation with dplyr",
+    "text": "6. Basic Data Manipulation with dplyr\n\n# Calculate daily returns\napple_stock &lt;- apple_stock |&gt; \n  arrange(date) |&gt; \n  mutate(daily_return = adjusted / lag(adjusted) - 1)\nhead(apple_stock)\n\n# A tibble: 6 × 9\n  symbol date        open  high   low close    volume adjusted daily_return\n  &lt;chr&gt;  &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;\n1 AAPL   2023-01-03  130.  131.  124.  125. 112117500     124.     NA      \n2 AAPL   2023-01-04  127.  129.  125.  126.  89113600     125.      0.0103 \n3 AAPL   2023-01-05  127.  128.  125.  125.  80962700     124.     -0.0106 \n4 AAPL   2023-01-06  126.  130.  125.  130.  87754700     128.      0.0368 \n5 AAPL   2023-01-09  130.  133.  130.  130.  70790800     129.      0.00409\n6 AAPL   2023-01-10  130.  131.  128.  131.  63896200     129.      0.00446"
+  },
+  {
+    "objectID": "notes/investment/n1_introduction.html#visualizing-stock-prices-with-ggplot2",
+    "href": "notes/investment/n1_introduction.html#visualizing-stock-prices-with-ggplot2",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "7. Visualizing Stock Prices with ggplot2",
+    "text": "7. Visualizing Stock Prices with ggplot2\n\n# Plot price trend\nggplot(apple_stock, aes(x = date, y = adjusted)) +\n  geom_line(color = \"red\", linewidth = 1) +\n  labs(title = \"AAPL Stock Price\", x = \"Date\", y = \"Adjusted Close\") +\n  theme_wsj()"
+  },
+  {
+    "objectID": "notes/investment/n1_introduction.html#interactive-visualization-with-highcharter",
+    "href": "notes/investment/n1_introduction.html#interactive-visualization-with-highcharter",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "8. Interactive Visualization with highcharter",
+    "text": "8. Interactive Visualization with highcharter\n\n# Create interactive stock price and volume plot\nhighchart(type = \"stock\") |&gt; \n  hc_add_series(apple_stock, type = \"line\", hcaes(x = date, y = adjusted), name = \"AAPL Price\") |&gt; \n  hc_add_series(apple_stock, type = \"column\", hcaes(x = date, y = volume), name = \"Trading Volume\", yAxis = 1) |&gt; \n  hc_yAxis_multiples(\n    list(title = list(text = \"Stock Price\")),\n    list(title = list(text = \"Trading Volume\"), opposite = TRUE)\n  ) |&gt; \n  hc_title(text = \"AAPL Stock Price and Trading Volume\") |&gt;\n  hc_add_theme(hc_theme_ft())"
+  },
+  {
+    "objectID": "notes/investment/n1_introduction.html#exercises",
+    "href": "notes/investment/n1_introduction.html#exercises",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "Exercises",
+    "text": "Exercises\n\nFetch stock price data for MSFT using tidyquant.\nCompute daily returns for MSFT.\nCreate a price trend plot for MSFT.\nCreate a vector, matrix, and data frame, and perform calculations on them.\nUse highcharter to plot MSFT price and trading volume."
+  },
+  {
+    "objectID": "notes/investment/n1_introduction.html#resources",
+    "href": "notes/investment/n1_introduction.html#resources",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "Resources",
+    "text": "Resources\n\nCookbook for R.\nR Workflow.\nGenAI: ChatGPT, Gemini, etc.\nData Analysis with R, Coursera, Mine Çetinkaya-Rundel, Duke University.\nGoogle Data Analytics, Coursera, Google.\nStack Overflow for coding Q&A!\n\n\nHappy coding! 🚀"
+  },
+  {
+    "objectID": "investments.html",
+    "href": "investments.html",
+    "title": "Investments",
+    "section": "",
+    "text": "R Lecture Notes\n\n\n\n\n\nTitle\n\n\nModified\n\n\n\n\n\n\nR Note 1 - Introduction to R and Financial Data Handling\n\n\n3/10/25, 6:44:20 PM\n\n\n\n\nR Note 2 - Portfolio Formation using R\n\n\n3/10/25, 7:51:40 PM\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "notes/investments/n1_introduction.html",
+    "href": "notes/investments/n1_introduction.html",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "",
+    "text": "Course: Investments\nCode: 000351051"
+  },
+  {
+    "objectID": "notes/investments/n1_introduction.html#setting-up-r-and-rstudio",
+    "href": "notes/investments/n1_introduction.html#setting-up-r-and-rstudio",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "1. Setting Up R and RStudio",
+    "text": "1. Setting Up R and RStudio\nBefore we begin, ensure you have installed: - R - RStudio\n\n# Install packages\ninstall.packages(\"tidyquant\")\ninstall.packages(\"tidyverse\")\n\n\n# Load packages\nlibrary(tidyquant)\nlibrary(tidyverse)\nlibrary(ggplot2)\nlibrary(ggthemes)\nlibrary(highcharter)\nlibrary(DT)"
+  },
+  {
+    "objectID": "notes/investments/n1_introduction.html#basic-r-syntax",
+    "href": "notes/investments/n1_introduction.html#basic-r-syntax",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "2. Basic R Syntax",
+    "text": "2. Basic R Syntax\n\n# Basic operations in R\nx &lt;- 10\ny &lt;- 5\n\nsum_xy &lt;- x + y\ndiff_xy &lt;- x - y\nprod_xy &lt;- x * y\nquot_xy &lt;- x / y\nexp_xy &lt;- x^y\n\nprint(sum_xy)\n\n[1] 15\n\nprint(diff_xy)\n\n[1] 5\n\nprint(prod_xy)\n\n[1] 50\n\nprint(quot_xy)\n\n[1] 2\n\nprint(exp_xy)\n\n[1] 1e+05"
+  },
+  {
+    "objectID": "notes/investments/n1_introduction.html#understanding-data-types-in-r",
+    "href": "notes/investments/n1_introduction.html#understanding-data-types-in-r",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "3. Understanding Data Types in R",
+    "text": "3. Understanding Data Types in R\n\nNumeric\n\nnum_var &lt;- 42\nprint(num_var)\n\n[1] 42\n\n\n\n\nCharacter (String)\n\nchar_var &lt;- \"Hello, R!\"\nprint(char_var)\n\n[1] \"Hello, R!\"\n\n\n\n\nLogical (Boolean)\n\nbool_var &lt;- TRUE\nprint(bool_var)\n\n[1] TRUE\n\n\n\n\nFactor (Categorical Data)\n\nfactor_var &lt;- factor(c(\"low\", \"medium\", \"high\", \"medium\"))\nprint(factor_var)\n\n[1] low    medium high   medium\nLevels: high low medium\n\n\n\n\nData Structure\n\n# Vectors\nprices &lt;- c(100, 102, 105, 107, 110)\nprint(prices)\n\n[1] 100 102 105 107 110\n\n# Lists (Collection of different types)\nlist_var &lt;- list(num_var, char_var, bool_var, prices)\nprint(list_var)\n\n[[1]]\n[1] 42\n\n[[2]]\n[1] \"Hello, R!\"\n\n[[3]]\n[1] TRUE\n\n[[4]]\n[1] 100 102 105 107 110\n\n# Matrices (2D array)\nmatrix_var &lt;- matrix(1:9, nrow=3)\nprint(matrix_var)\n\n     [,1] [,2] [,3]\n[1,]    1    4    7\n[2,]    2    5    8\n[3,]    3    6    9\n\n# Data Frames\nstock_data &lt;- data.frame(\n  Date = as.Date('2024-01-01') + 0:4,\n  Price = prices\n)\nprint(stock_data)\n\n        Date Price\n1 2024-01-01   100\n2 2024-01-02   102\n3 2024-01-03   105\n4 2024-01-04   107\n5 2024-01-05   110"
+  },
+  {
+    "objectID": "notes/investments/n1_introduction.html#the-pipe-operator-and",
+    "href": "notes/investments/n1_introduction.html#the-pipe-operator-and",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "4. The Pipe Operator (%>% and |>)",
+    "text": "4. The Pipe Operator (%&gt;% and |&gt;)\nThe pipe operator allows you to pass the output of one function directly into another function, making your code cleaner and easier to read.\n\nUsing %&gt;% from dplyr (or tidyverse family)\nThe dplyr package provides the %&gt;% pipe operator, which allows for chaining multiple operations.\n\n# Example dataset\ndata &lt;- data.frame(x = 1:5, y = c(2, 4, 6, 8, 10))\n\ndata %&gt;% \n  mutate(z = x + y) %&gt;% \n  filter(z &gt; 6) %&gt;% \n  arrange(desc(z))\n\n  x  y  z\n1 5 10 15\n2 4  8 12\n3 3  6  9\n\n\n\n\nUsing |&gt; (Base R Pipe)\nR introduced the native |&gt; pipe operator in version 4.1.0. It works similarly but has slightly different behavior:\n\ndata |&gt; \n  mutate(z = x + y) |&gt; \n  filter(z &gt; 6) |&gt; \n  arrange(desc(z))\n\n  x  y  z\n1 5 10 15\n2 4  8 12\n3 3  6  9\n\n\nKey Differences:\n\n%&gt;% allows passing arguments to functions with . placeholder (useful for non-standard functions).\n|&gt; is optimized for performance and is recommended for base R users.\n\n\n# An alternative example:\n# normal use of a function\nmean(prices)\n\n[1] 104.8\n\n# pipe from dplyr\nprices %&gt;% mean\n\n[1] 104.8\n\n# pipe in base R\nprices |&gt; mean()\n\n[1] 104.8"
+  },
+  {
+    "objectID": "notes/investments/n1_introduction.html#importing-financial-data",
+    "href": "notes/investments/n1_introduction.html#importing-financial-data",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "6. Importing Financial Data",
+    "text": "6. Importing Financial Data\nUsing tidyquant to fetch stock prices:\n\n# Get Apple (AAPL) stock data\napple_stock &lt;- tq_get(\"AAPL\", from = \"2023-01-01\", to = \"2024-01-01\")\n# Interactive table\ndatatable(apple_stock) |&gt; \n  formatRound(columns = c(\"open\",\"high\",\"low\",\"close\",\"adjusted\"), digits = 2)"
+  },
+  {
+    "objectID": "notes/investments/n1_introduction.html#basic-data-manipulation-with-dplyr",
+    "href": "notes/investments/n1_introduction.html#basic-data-manipulation-with-dplyr",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "7. Basic Data Manipulation with dplyr",
+    "text": "7. Basic Data Manipulation with dplyr\n\n# Calculate daily returns\napple_stock &lt;- apple_stock |&gt; \n  arrange(date) |&gt; \n  mutate(daily_return = adjusted / lag(adjusted) - 1)\nhead(apple_stock)\n\n# A tibble: 6 × 9\n  symbol date        open  high   low close    volume adjusted daily_return\n  &lt;chr&gt;  &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;\n1 AAPL   2023-01-03  130.  131.  124.  125. 112117500     124.     NA      \n2 AAPL   2023-01-04  127.  129.  125.  126.  89113600     125.      0.0103 \n3 AAPL   2023-01-05  127.  128.  125.  125.  80962700     124.     -0.0106 \n4 AAPL   2023-01-06  126.  130.  125.  130.  87754700     128.      0.0368 \n5 AAPL   2023-01-09  130.  133.  130.  130.  70790800     129.      0.00409\n6 AAPL   2023-01-10  130.  131.  128.  131.  63896200     129.      0.00446"
+  },
+  {
+    "objectID": "notes/investments/n1_introduction.html#visualizing-stock-prices-with-ggplot2",
+    "href": "notes/investments/n1_introduction.html#visualizing-stock-prices-with-ggplot2",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "8. Visualizing Stock Prices with ggplot2",
+    "text": "8. Visualizing Stock Prices with ggplot2\nThe ggplot2 is a powerful tool for creating visualizations in R. It follows the Grammar of Graphics approach, allowing users to build complex charts by adding multiple layers.\n\nKey Features of ggplot2:\n\nLayered approach to building plots.\nHighly customizable aesthetic mappings.\nSupports multiple themes for different styling.\n\n\n\nUsing Themes with ggthemes\nThe ggthemes package provides multiple predefined themes to enhance the aesthetics of plots. More styles of ggthemes can be found via ggplot2 Themes and Styles.\nNow, let’s plot the stock price trend for AAPL and use the wall street journal (WSJ) theme:\n\n# Plot price trend\nggplot(apple_stock, aes(x = date, y = adjusted)) +\n  geom_line(color = \"blue\", linewidth = 1) +\n  labs(title = \"AAPL Stock Price\", x = \"Date\", y = \"Adjusted Close\") +\n  theme_wsj()"
+  },
+  {
+    "objectID": "notes/investments/n1_introduction.html#interactive-visualization-with-highcharter",
+    "href": "notes/investments/n1_introduction.html#interactive-visualization-with-highcharter",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "9. Interactive Visualization with highcharter",
+    "text": "9. Interactive Visualization with highcharter\n\n# Create interactive stock price and volume plot\nhighchart(type = \"stock\") |&gt; \n  hc_add_series(apple_stock, type = \"line\", hcaes(x = date, y = adjusted), name = \"AAPL Price\") |&gt; \n  hc_add_series(apple_stock, type = \"column\", hcaes(x = date, y = volume), name = \"Trading Volume\", yAxis = 1) |&gt; \n  hc_yAxis_multiples(\n    list(title = list(text = \"Stock Price\")),\n    list(title = list(text = \"Trading Volume\"), opposite = TRUE)\n  ) |&gt; \n  hc_title(text = \"AAPL Stock Price and Trading Volume\") |&gt;\n  hc_add_theme(hc_theme_ft())\n\n\n\n\n# Candlestick Chart\nhighchart(type = \"stock\") |&gt; \n  hc_add_series(apple_stock, type = \"candlestick\", hcaes(x = date, open = open, high = high, low = low, close = adjusted), name = \"AAPL Price\") |&gt; \n  hc_title(text = \"AAPL Candlestick Chart\")"
+  },
+  {
+    "objectID": "notes/investments/n1_introduction.html#exercises",
+    "href": "notes/investments/n1_introduction.html#exercises",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "Exercises",
+    "text": "Exercises\n\nFetch stock price data for MSFT using tidyquant.\nCompute daily returns for MSFT.\nCreate a price trend plot for MSFT.\nCreate a vector, matrix, and data frame, and perform calculations on them.\nUse highcharter to plot MSFT price and trading volume."
+  },
+  {
+    "objectID": "notes/investments/n1_introduction.html#resources",
+    "href": "notes/investments/n1_introduction.html#resources",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "Resources",
+    "text": "Resources\n\nCookbook for R.\nR Workflow.\nGenAI: ChatGPT, Gemini, etc.\nData Analysis with R, Coursera, Mine Çetinkaya-Rundel, Duke University.\nGoogle Data Analytics, Coursera, Google.\nStack Overflow for coding Q&A!\n\n\nHappy coding! 🚀"
+  },
+  {
+    "objectID": "workinprogress/NPI.html",
+    "href": "workinprogress/NPI.html",
+    "title": "Product Disclosure following Seasoned Equity Offerings",
+    "section": "",
+    "text": "This study highlights the significance of product disclosure (PD) following seasoned equity offerings (SEOs) in indicating potential failure risks within the uncertain landscape of the innovation process. Employing a news-based dataset, we observe a substantial increase in PD relating to innovation progress post-SEO, in contrast to disclosures concerning new product introductions. Moreover, we find a negative association between post-issue operating performance and progress-type PD. These findings imply a tendency in equity markets to underestimate the failure risks associated with product innovation. The robustness of our results is maintained even after controlling for endogeneity concerns."
+  },
+  {
+    "objectID": "workinprogress/NPI.html#abstract",
+    "href": "workinprogress/NPI.html#abstract",
+    "title": "Product Disclosure following Seasoned Equity Offerings",
+    "section": "",
+    "text": "This study highlights the significance of product disclosure (PD) following seasoned equity offerings (SEOs) in indicating potential failure risks within the uncertain landscape of the innovation process. Employing a news-based dataset, we observe a substantial increase in PD relating to innovation progress post-SEO, in contrast to disclosures concerning new product introductions. Moreover, we find a negative association between post-issue operating performance and progress-type PD. These findings imply a tendency in equity markets to underestimate the failure risks associated with product innovation. The robustness of our results is maintained even after controlling for endogeneity concerns."
+  },
+  {
+    "objectID": "workinprogress/NPI.html#keywords",
+    "href": "workinprogress/NPI.html#keywords",
+    "title": "Product Disclosure following Seasoned Equity Offerings",
+    "section": "Keywords",
+    "text": "Keywords\nSeasoned equity offerings, corporate innovation, product disclosure, investment financing"
+  },
+  {
+    "objectID": "workinprogress/NPI.html#seminars",
+    "href": "workinprogress/NPI.html#seminars",
+    "title": "Product Disclosure following Seasoned Equity Offerings",
+    "section": "Seminars",
+    "text": "Seminars\nNational Chengchi University, National Central University"
+  },
+  {
+    "objectID": "workinprogress/CO_interlocks.html",
+    "href": "workinprogress/CO_interlocks.html",
+    "title": "Common Ownership and Board Interlocks: Industry Boundary Matters",
+    "section": "",
+    "text": "We investigate whether common ownership influences the formation of interlocking directorates between portfolio firms. Using financial institution mergers as quasi-natural experiments, we find that an increase in common ownership reduces the likelihood of a firm sharing an interlocking director with another firm in a different industry. However, within-industry board interlocks become more prevalent under common ownership. These findings suggest that institutional investors actively shape corporate governance by discouraging board interlocks across unrelated industries while fostering governance ties within the same industry."
+  },
+  {
+    "objectID": "workinprogress/CO_interlocks.html#abstract",
+    "href": "workinprogress/CO_interlocks.html#abstract",
+    "title": "Common Ownership and Board Interlocks: Industry Boundary Matters",
+    "section": "",
+    "text": "We investigate whether common ownership influences the formation of interlocking directorates between portfolio firms. Using financial institution mergers as quasi-natural experiments, we find that an increase in common ownership reduces the likelihood of a firm sharing an interlocking director with another firm in a different industry. However, within-industry board interlocks become more prevalent under common ownership. These findings suggest that institutional investors actively shape corporate governance by discouraging board interlocks across unrelated industries while fostering governance ties within the same industry."
+  },
+  {
+    "objectID": "workinprogress/CO_interlocks.html#keywords",
+    "href": "workinprogress/CO_interlocks.html#keywords",
+    "title": "Common Ownership and Board Interlocks: Industry Boundary Matters",
+    "section": "Keywords",
+    "text": "Keywords\nCommon ownership, board interlocks, corporate governance"
+  },
+  {
+    "objectID": "wps/CO_Diversity.html#stylized-fact",
+    "href": "wps/CO_Diversity.html#stylized-fact",
+    "title": "Common Ownership Network and Board Gender Diversity",
+    "section": "Stylized Fact",
+    "text": "Stylized Fact\n\n\n\n\n\nThis figure displays female board representation for cross-owned and non-cross-owned firms over time. I use two measures: (1) average female ratio, (2) share of firms with newly appointed female director(s). Firms are classified as cross-owned or non-cross-owned firms. Cross-owned firm refers to a firm sharing at least one blockholder with another peer firm within the same industry (Fama-French 48 industry classification)."
+  },
+  {
+    "objectID": "notes/investments/n1_introduction.html#using-for-loops-in-r",
+    "href": "notes/investments/n1_introduction.html#using-for-loops-in-r",
+    "title": "R Note 1 - Introduction to R and Financial Data Handling",
+    "section": "5. Using For Loops in R",
+    "text": "5. Using For Loops in R\nA for loop allows us to iterate over a sequence and perform operations repeatedly.\n\nBasic For Loop Example\n\n# Print numbers from 1 to 5\nfor (i in 1:5) {\n  print(i)\n}\n\n[1] 1\n[1] 2\n[1] 3\n[1] 4\n[1] 5\n\n\n\n\nLooping Over a Vector\n\nprices &lt;- c(100, 102, 105, 107, 110)\n\nfor (price in prices) {\n  print(price * 1.1)  # Increase price by 10%\n}\n\n[1] 110\n[1] 112.2\n[1] 115.5\n[1] 117.7\n[1] 121\n\n\n\n\nStoring Loop Output in a Vector\n\nadjusted_prices &lt;- numeric(length(prices))\n\nfor (i in seq_along(prices)) {\n  adjusted_prices[i] &lt;- prices[i] * 1.1\n}\nprint(adjusted_prices)\n\n[1] 110.0 112.2 115.5 117.7 121.0\n\n\n\n\nNesting Loops Example\n\nfor (i in 1:3) {\n  for (j in 1:2) {\n    print(paste(\"i:\", i, \"j:\", j))\n  }\n}\n\n[1] \"i: 1 j: 1\"\n[1] \"i: 1 j: 2\"\n[1] \"i: 2 j: 1\"\n[1] \"i: 2 j: 2\"\n[1] \"i: 3 j: 1\"\n[1] \"i: 3 j: 2\""
+  },
+  {
+    "objectID": "notes/ggthemes.html",
+    "href": "notes/ggthemes.html",
+    "title": "ggplot2 Themes",
+    "section": "",
+    "text": "In this document, we will explore various themes and styles available in ggplot2.\n\nlibrary(ggplot2)\nlibrary(ggthemes)\n\n# Basic plot\np &lt;- ggplot(mpg, aes(x=displ, y=hwy, color=class)) +\n  geom_point() +\n  labs(title=\"Default Theme\")\n\np\n\n\n\n\n\n\n\n\nBelow are examples of applying different themes to your plot:"
+  },
+  {
+    "objectID": "notes/ggthemes.html#introduction",
+    "href": "notes/ggthemes.html#introduction",
+    "title": "ggplot2 Themes",
+    "section": "",
+    "text": "In this document, we will explore various themes and styles available in ggplot2.\n\nlibrary(ggplot2)\nlibrary(ggthemes)\n\n# Basic plot\np &lt;- ggplot(mpg, aes(x=displ, y=hwy, color=class)) +\n  geom_point() +\n  labs(title=\"Default Theme\")\n\np\n\n\n\n\n\n\n\n\nBelow are examples of applying different themes to your plot:"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-minimal",
+    "href": "notes/ggthemes.html#theme-minimal",
+    "title": "ggplot2 Themes",
+    "section": "Theme Minimal",
+    "text": "Theme Minimal\n\np + theme_minimal() +\n  labs(title=\"Theme Minimal\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-classic",
+    "href": "notes/ggthemes.html#theme-classic",
+    "title": "ggplot2 Themes",
+    "section": "Theme Classic",
+    "text": "Theme Classic\n\np + theme_dark() +\n  labs(title=\"Theme Dark\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-economist",
+    "href": "notes/ggthemes.html#theme-economist",
+    "title": "ggplot2 Themes",
+    "section": "Theme Economist",
+    "text": "Theme Economist\n\np + theme_economist() +\n  labs(title=\"Theme Economist\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-economist---white",
+    "href": "notes/ggthemes.html#theme-economist---white",
+    "title": "ggplot2 Themes",
+    "section": "Theme Economist - White",
+    "text": "Theme Economist - White\n\np + theme_economist_white() +\n  labs(title=\"Theme Economist - White\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-excel",
+    "href": "notes/ggthemes.html#theme-excel",
+    "title": "ggplot2 Themes",
+    "section": "Theme Excel",
+    "text": "Theme Excel\n\np + theme_excel() +\n  labs(title=\"Theme Excel\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-excel---new",
+    "href": "notes/ggthemes.html#theme-excel---new",
+    "title": "ggplot2 Themes",
+    "section": "Theme Excel - New",
+    "text": "Theme Excel - New\n\np + theme_excel_new() +\n  labs(title=\"Theme Excel - New\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-highcharts",
+    "href": "notes/ggthemes.html#theme-highcharts",
+    "title": "ggplot2 Themes",
+    "section": "Theme Highcharts",
+    "text": "Theme Highcharts\n\np + theme_hc() +\n  labs(title=\"Theme Highcharts\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-google-docs",
+    "href": "notes/ggthemes.html#theme-google-docs",
+    "title": "ggplot2 Themes",
+    "section": "Theme Google Docs",
+    "text": "Theme Google Docs\n\np + theme_gdocs() +\n  labs(title=\"Theme Google Docs\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-538",
+    "href": "notes/ggthemes.html#theme-538",
+    "title": "ggplot2 Themes",
+    "section": "Theme 538",
+    "text": "Theme 538\n\np + theme_fivethirtyeight() +\n  labs(title=\"Theme 538\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-stata",
+    "href": "notes/ggthemes.html#theme-stata",
+    "title": "ggplot2 Themes",
+    "section": "Theme Stata",
+    "text": "Theme Stata\n\np + theme_stata() +\n  labs(title=\"Theme Stata\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-wall-street-journal-wsj",
+    "href": "notes/ggthemes.html#theme-wall-street-journal-wsj",
+    "title": "ggplot2 Themes",
+    "section": "Theme Wall Street Journal (WSJ)",
+    "text": "Theme Wall Street Journal (WSJ)\n\np + theme_wsj() +\n  labs(title=\"Theme Wall Street Journal\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-pander",
+    "href": "notes/ggthemes.html#theme-pander",
+    "title": "ggplot2 Themes",
+    "section": "Theme Pander",
+    "text": "Theme Pander\n\np + theme_pander() +\n  labs(title=\"Theme Pander\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#custom-theme",
+    "href": "notes/ggthemes.html#custom-theme",
+    "title": "ggplot2 Themes",
+    "section": "Custom Theme",
+    "text": "Custom Theme\n\ncustom_theme &lt;- theme(\n  plot.title = element_text(size=14, face=\"bold\", hjust=0.5),\n  axis.title = element_text(size=12, face=\"bold\"),\n  axis.text = element_text(size=10),\n  panel.background = element_rect(fill=\"white\"),\n  panel.grid.major = element_line(color=\"grey\", size=0.5),\n  panel.grid.minor = element_line(color=\"lightgrey\", size=0.25)\n)\n\nWarning: The `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.\nℹ Please use the `linewidth` argument instead.\n\np + custom_theme + labs(title=\"Custom Theme\")"
+  },
+  {
+    "objectID": "notes/investments/n2_portfolio.html",
+    "href": "notes/investments/n2_portfolio.html",
+    "title": "R Note 2 - Portfolio Formation using R",
+    "section": "",
+    "text": "We use R to create an equally weighted portfolio consisting of four stocks: ExxonMobil (XOM), Walmart (WMT), NVIDIA (NVDA), and Apple (AAPL).\n\nlibrary(tidyquant)\nlibrary(tidyverse)\nlibrary(highcharter)\nlibrary(DT)\n\n\n# Define stock tickers and date range\nstocks &lt;- c(\"XOM\", \"WMT\", \"NVDA\", \"AAPL\")\nstart_date &lt;- \"2023-01-01\"\nend_date &lt;- \"2023-04-30\"\n# Download stock prices\nprices &lt;- tq_get(stocks, from = start_date, to = end_date)\n# Print out interactive table\ndatatable(prices) |&gt; \n  formatRound(columns = c(\"open\",\"high\",\"low\",\"close\",\"adjusted\"), digits = 2)"
+  },
+  {
+    "objectID": "notes/investments/n2_portfolio.html#fetching-stock-data",
+    "href": "notes/investments/n2_portfolio.html#fetching-stock-data",
+    "title": "R Note 2 - Portfolio Formation using R",
+    "section": "",
+    "text": "We use R to create an equally weighted portfolio consisting of four stocks: ExxonMobil (XOM), Walmart (WMT), NVIDIA (NVDA), and Apple (AAPL).\n\nlibrary(tidyquant)\nlibrary(tidyverse)\nlibrary(highcharter)\nlibrary(DT)\n\n\n# Define stock tickers and date range\nstocks &lt;- c(\"XOM\", \"WMT\", \"NVDA\", \"AAPL\")\nstart_date &lt;- \"2023-01-01\"\nend_date &lt;- \"2023-04-30\"\n# Download stock prices\nprices &lt;- tq_get(stocks, from = start_date, to = end_date)\n# Print out interactive table\ndatatable(prices) |&gt; \n  formatRound(columns = c(\"open\",\"high\",\"low\",\"close\",\"adjusted\"), digits = 2)"
+  },
+  {
+    "objectID": "notes/investments/n2_portfolio.html#constructing-an-equally-weighted-portfolio",
+    "href": "notes/investments/n2_portfolio.html#constructing-an-equally-weighted-portfolio",
+    "title": "R Note 2 - Portfolio Formation using R",
+    "section": "2. Constructing an Equally Weighted Portfolio",
+    "text": "2. Constructing an Equally Weighted Portfolio\nAssuming a $1,000,000 budget divided equally among the four stocks, we calculate how many shares we can purchase on the first business day in January 2023.\n\n# Assigned budget\nbudget &lt;- 1000000\nnum_stocks &lt;- length(stocks)\nbudget_per_stock &lt;- budget / length(stocks)\n# Positions for each stock\ninitial_positions &lt;- prices |&gt; \n  filter(date == min(date)) |&gt; \n  mutate(shares = floor(budget_per_stock / adjusted)) |&gt; \n  select(symbol, shares)\n\ninitial_positions\n\n# A tibble: 4 × 2\n  symbol shares\n  &lt;chr&gt;   &lt;dbl&gt;\n1 XOM      2532\n2 WMT      5366\n3 NVDA    17476\n4 AAPL     2022"
+  },
+  {
+    "objectID": "notes/investments/n2_portfolio.html#portfolio-valuation-and-return-calculation",
+    "href": "notes/investments/n2_portfolio.html#portfolio-valuation-and-return-calculation",
+    "title": "R Note 2 - Portfolio Formation using R",
+    "section": "3. Portfolio Valuation and Return Calculation",
+    "text": "3. Portfolio Valuation and Return Calculation\n\nPortfolio Value\nCalculate the portfolio value for each trading day:\n\nportfolio &lt;- prices |&gt; \n  inner_join(initial_positions, by = \"symbol\") |&gt; \n  mutate(position_value = shares * adjusted) |&gt; \n  group_by(date) |&gt; \n  summarize(total_value = sum(position_value)) |&gt; \n  arrange(date)\n\nhead(portfolio)\n\n# A tibble: 6 × 2\n  date       total_value\n  &lt;date&gt;           &lt;dbl&gt;\n1 2023-01-03     999911.\n2 2023-01-04    1011075.\n3 2023-01-05    1004700.\n4 2023-01-06    1033475.\n5 2023-01-09    1039944.\n6 2023-01-10    1049655.\n\n\n\n\nPortfolio Returns\nCalculate discrete and continuous returns for the portfolio:\n\nportfolio &lt;- portfolio |&gt; \n  mutate(discrete_return = 100*(total_value / lag(total_value) - 1),\n         continuous_return = 100*log(total_value / lag(total_value)))\nhead(portfolio)\n\n# A tibble: 6 × 4\n  date       total_value discrete_return continuous_return\n  &lt;date&gt;           &lt;dbl&gt;           &lt;dbl&gt;             &lt;dbl&gt;\n1 2023-01-03     999911.          NA                NA    \n2 2023-01-04    1011075.           1.12              1.11 \n3 2023-01-05    1004700.          -0.631            -0.633\n4 2023-01-06    1033475.           2.86              2.82 \n5 2023-01-09    1039944.           0.626             0.624\n6 2023-01-10    1049655.           0.934             0.929"
+  },
+  {
+    "objectID": "notes/investments/n2_portfolio.html#visualizing-portfolio-value-with-highcharter",
+    "href": "notes/investments/n2_portfolio.html#visualizing-portfolio-value-with-highcharter",
+    "title": "R Note 2 - Portfolio Formation using R",
+    "section": "4. Visualizing Portfolio Value with highcharter",
+    "text": "4. Visualizing Portfolio Value with highcharter\n\n# Portfolio value\nhchart(portfolio, type = \"area\", hcaes(x = date, y = total_value)) |&gt; \n  hc_title(text = \"Portfolio Value Over Time\") |&gt; \n  hc_yAxis(title = list(text = \"Total Portfolio Value ($)\")) |&gt; \n  hc_xAxis(title = list(text = \"Date\")) |&gt; \n  hc_add_theme(hc_theme_smpl())\n\n\n\n\n# Portfolio returns (continous returns)\nhchart(portfolio, type = \"line\", hcaes(x = date, y = continuous_return)) |&gt; \n  hc_title(text = \"Portfolio Returns Over Time\") |&gt; \n  hc_yAxis(title = list(text = \"Portfolio Return (%)\")) |&gt; \n  hc_xAxis(title = list(text = \"Date\")) |&gt; \n  hc_add_theme(hc_theme_smpl())\n\n\n\n\n\nThis interactive visualization shows how the value of your equally weighted portfolio changes throughout sample period."
+  },
+  {
+    "objectID": "notes/investments/n2_portfolio.html#buy-and-hold-returns",
+    "href": "notes/investments/n2_portfolio.html#buy-and-hold-returns",
+    "title": "R Note 2 - Portfolio Formation using R",
+    "section": "5. Buy-and-Hold Returns",
+    "text": "5. Buy-and-Hold Returns\nBuy-and-hold returns represent the total return from buying a stock and holding it over a specified period, without any transactions in between.\n\nCalculation\nTo calculate buy-and-hold returns:\n\nbuy_hold_returns &lt;- portfolio |&gt; \n  mutate(buy_hold_return = 100*(total_value / first(total_value) - 1),\n         cumulative_return = cumsum(coalesce(discrete_return, 0)))\n\nhead(buy_hold_returns)\n\n# A tibble: 6 × 6\n  date       total_value discrete_return continuous_return buy_hold_return\n  &lt;date&gt;           &lt;dbl&gt;           &lt;dbl&gt;             &lt;dbl&gt;           &lt;dbl&gt;\n1 2023-01-03     999911.          NA                NA               0    \n2 2023-01-04    1011075.           1.12              1.11            1.12 \n3 2023-01-05    1004700.          -0.631            -0.633           0.479\n4 2023-01-06    1033475.           2.86              2.82            3.36 \n5 2023-01-09    1039944.           0.626             0.624           4.00 \n6 2023-01-10    1049655.           0.934             0.929           4.97 \n# ℹ 1 more variable: cumulative_return &lt;dbl&gt;"
+  },
+  {
+    "objectID": "notes/investments/n2_portfolio.html#portfolio-comparison-equally-weighted-portfolio-vs.-100-nvda-portfolio",
+    "href": "notes/investments/n2_portfolio.html#portfolio-comparison-equally-weighted-portfolio-vs.-100-nvda-portfolio",
+    "title": "R Note 2 - Portfolio Formation using R",
+    "section": "6. Portfolio Comparison: Equally Weighted Portfolio vs. 100% NVDA Portfolio",
+    "text": "6. Portfolio Comparison: Equally Weighted Portfolio vs. 100% NVDA Portfolio\nLet’s compare our equally weighted portfolio against a portfolio fully invested in NVDA.\n\n# NVDA only portfolio: see how many shares we can purchase at most\nnvda_only_position &lt;- prices |&gt; \n  filter(symbol == \"NVDA\", date == min(date)) |&gt; \n  mutate(shares = floor(budget / adjusted)) |&gt; \n  select(symbol, shares)\n# Hold such shares of Nvdia\nnvda_portfolio &lt;- prices |&gt; \n  filter(symbol == \"NVDA\") |&gt; \n  inner_join(nvda_only_position, by = \"symbol\") |&gt; \n  mutate(total_value = shares * adjusted) |&gt; \n  select(date, total_value)\n\n# Combine both portfolios for comparison\ncombined_portfolios &lt;- portfolio |&gt; \n  select(date, equally_weighted = total_value) |&gt; \n  inner_join(nvda_portfolio |&gt; rename(nvda_only = total_value), by = \"date\")\n\nhead(combined_portfolios)\n\n# A tibble: 6 × 3\n  date       equally_weighted nvda_only\n  &lt;date&gt;                &lt;dbl&gt;     &lt;dbl&gt;\n1 2023-01-03          999911.   999991.\n2 2023-01-04         1011075.  1030309.\n3 2023-01-05         1004700.   996499.\n4 2023-01-06         1033475.  1037993.\n5 2023-01-09         1039944.  1091713.\n6 2023-01-10         1049655.  1111342.\n\n\n\nVisualization of Both Portfolios\n\ncombined_portfolios_long &lt;- combined_portfolios |&gt; \n  pivot_longer(cols = c(equally_weighted, nvda_only), names_to = \"Portfolio\", values_to = \"Value\")\n\nhchart(combined_portfolios_long, \"line\", hcaes(x = date, y = Value, group = Portfolio)) |&gt; \n  hc_title(text = \"Equally Weighted vs. 100% NVDA Portfolio\") |&gt; \n  hc_yAxis(title = list(text = \"Portfolio Value ($)\")) |&gt; \n  hc_xAxis(title = list(text = \"Date\")) |&gt; \n  hc_add_theme(hc_theme_smpl())"
+  },
+  {
+    "objectID": "notes/investments/n2_portfolio.html#exercises",
+    "href": "notes/investments/n2_portfolio.html#exercises",
+    "title": "R Note 2 - Portfolio Formation using R",
+    "section": "Exercises",
+    "text": "Exercises\n\nSuppose we use the following portfolio weights: XOM (20%), WMT (30%), NVDA (30%), and AAPL (20%).\n\nRecalculate how many shares you would purchase initially.\nCompute and visualize the portfolio value and returns.\n\nChange the budget to $500,000 and use portfolio weights: XOM (25%), WMT (25%), NVDA (25%), and AAPL (25%).\n\nRecalculate the shares purchased, portfolio value, and returns.\nProvide an interactive visualization for this scenario.\n\n\n\nHappy coding! 🚀 This version will be continuously updated."
   }
 ]
