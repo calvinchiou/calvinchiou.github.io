@@ -291,7 +291,7 @@
     "href": "teaching.html",
     "title": "Teaching",
     "section": "",
-    "text": "Undergraduate level\n\nInvestments, National Chengchi University, Spring 2025.\nFinancial Management, National Chengchi University, 2024.\n\n\n\nPh.D. level\n\nSeminars in Corporate Finance (PhD), National Chengchi University, Spring 2025.\n\n\n\nOther\n\nTextual Analysis and Web Crawling using R (mini-workshop), National Central University, Fall 2017.\n\n\n\nGeneral Notes\n\nFinancial Management, Estimating Beta Coefficients, lecture note.\nggplot2 Themes and Styles, lecture note."
+    "text": "Undergraduate level\n\nInvestments, National Chengchi University, Spring 2025.\nFinancial Management, National Chengchi University, 2024.\n\n\n\nPh.D. level\n\nSeminars in Corporate Finance (PhD), National Chengchi University, Spring 2025.\n\n\n\nOther\n\nTextual Analysis and Web Crawling using R (mini-workshop), National Central University, Fall 2017.\n\n\n\nGeneral Notes\n\nFinancial Management, Estimating Beta Coefficients, lecture note.\nggplot2 Themes and Styles, lecture note.\nhighcharter Themes and Styles, lecture note."
   },
   {
     "objectID": "research.html#publications",
@@ -943,5 +943,327 @@
     "title": "R Note 2 - Portfolio Formation using R",
     "section": "Exercises",
     "text": "Exercises\n\nSuppose we use the following portfolio weights: XOM (20%), WMT (30%), NVDA (30%), and AAPL (20%).\n\nRecalculate how many shares you would purchase initially.\nCompute and visualize the portfolio value and returns.\n\nChange the budget to $500,000 and use portfolio weights: XOM (25%), WMT (25%), NVDA (25%), and AAPL (25%).\n\nRecalculate the shares purchased, portfolio value, and returns.\nProvide an interactive visualization for this scenario.\n\n\n\nHappy coding! 🚀 This version will be continuously updated."
+  },
+  {
+    "objectID": "notes/hcthemes.html",
+    "href": "notes/hcthemes.html",
+    "title": "highcharter Themes",
+    "section": "",
+    "text": "In this document, we will explore various themes and styles available in highcharter.\n\nlibrary(highcharter) \nlibrary(dplyr)\n\n# Sample dataset\ndata &lt;- mtcars %&gt;%\n  tibble::rownames_to_column(var = \"car\") %&gt;%\n  mutate(cyl = as.factor(cyl))\n# Basic plot\np &lt;- highchart() %&gt;% \n    hc_add_series(data, type = \"scatter\", hcaes(x = mpg, y = hp, group = cyl))\np %&gt;% hc_title(text = \"Default Theme\")\n\n\n\n\n\nBelow are examples of applying different themes to your plot:"
+  },
+  {
+    "objectID": "notes/hcthemes.html#highcharter-theme-gallery",
+    "href": "notes/hcthemes.html#highcharter-theme-gallery",
+    "title": "highcharter Themes",
+    "section": "Highcharter Theme Gallery",
+    "text": "Highcharter Theme Gallery\n\n# List of themes available in highcharter\nthemes &lt;- list(\n  \"Google\" = hc_theme_google,\n  \"FFX\" = hc_theme_ffx,\n  \"FiveThirtyEight\" = hc_theme_538,\n  \"Flat\" = hc_theme_flat,\n  \"Chalk\" = hc_theme_chalk,\n  \"Handdrawn\" = hc_theme_handdrawn,\n  \"Dark Unica\" = hc_theme_darkunica,\n  \"Null\" = hc_theme_null,\n  \"Economist\" = hc_theme_economist,\n  \"Simple\" = hc_theme_smpl,\n  \"Gridlight\" = hc_theme_gridlight,\n  \"Elementary\" = hc_theme_elementary,\n  \"Monokai\" = hc_theme_monokai,\n  \"Tufte\" = hc_theme_tufte,\n  \"Database\" = hc_theme_db,\n  \"Highcharts Default\" = hc_theme_hcrt,\n  \"Financial Times\" = hc_theme_ft,\n  \"ggplot2 Inspired\" = hc_theme_ggplot2\n)\n# Print each plot separately to ensure rendering in Quarto\nfor (i in seq_along(themes)) {\n  cat(\"\\n\\n##\", names(themes)[i], \"\\n\\n\")  # Section header for each theme\n  p2 &lt;- p %&gt;%\n    hc_title(text = paste(\"Theme\", names(themes)[i])) %&gt;%\n    hc_add_theme(themes[[i]]())\n  print(p2)\n}\n\n\n\n## Google \n\n\n\n## FFX \n\n\n\n## FiveThirtyEight \n\n\n\n## Flat \n\n\n\n## Chalk \n\n\n\n## Handdrawn \n\n\n\n## Dark Unica \n\n\n\n## Null \n\n\n\n## Economist \n\n\n\n## Simple \n\n\n\n## Gridlight \n\n\n\n## Elementary \n\n\n\n## Monokai \n\n\n\n## Tufte \n\n\n\n## Database \n\n\n\n## Highcharts Default \n\n\n\n## Financial Times \n\n\n\n## ggplot2 Inspired"
+  },
+  {
+    "objectID": "notes/hcthemes.html#google",
+    "href": "notes/hcthemes.html#google",
+    "title": "highcharter Themes",
+    "section": "Google",
+    "text": "Google"
+  },
+  {
+    "objectID": "notes/hcthemes.html#ffx",
+    "href": "notes/hcthemes.html#ffx",
+    "title": "highcharter Themes",
+    "section": "FFX",
+    "text": "FFX"
+  },
+  {
+    "objectID": "notes/hcthemes.html#fivethirtyeight",
+    "href": "notes/hcthemes.html#fivethirtyeight",
+    "title": "highcharter Themes",
+    "section": "FiveThirtyEight",
+    "text": "FiveThirtyEight"
+  },
+  {
+    "objectID": "notes/hcthemes.html#flat",
+    "href": "notes/hcthemes.html#flat",
+    "title": "highcharter Themes",
+    "section": "Flat",
+    "text": "Flat"
+  },
+  {
+    "objectID": "notes/hcthemes.html#chalk",
+    "href": "notes/hcthemes.html#chalk",
+    "title": "highcharter Themes",
+    "section": "Chalk",
+    "text": "Chalk"
+  },
+  {
+    "objectID": "notes/hcthemes.html#handdrawn",
+    "href": "notes/hcthemes.html#handdrawn",
+    "title": "highcharter Themes",
+    "section": "Handdrawn",
+    "text": "Handdrawn"
+  },
+  {
+    "objectID": "notes/hcthemes.html#dark-unica",
+    "href": "notes/hcthemes.html#dark-unica",
+    "title": "highcharter Themes",
+    "section": "Dark Unica",
+    "text": "Dark Unica"
+  },
+  {
+    "objectID": "notes/hcthemes.html#null",
+    "href": "notes/hcthemes.html#null",
+    "title": "highcharter Themes",
+    "section": "Null",
+    "text": "Null"
+  },
+  {
+    "objectID": "notes/hcthemes.html#economist",
+    "href": "notes/hcthemes.html#economist",
+    "title": "highcharter Themes",
+    "section": "Economist",
+    "text": "Economist"
+  },
+  {
+    "objectID": "notes/hcthemes.html#simple",
+    "href": "notes/hcthemes.html#simple",
+    "title": "highcharter Themes",
+    "section": "Simple",
+    "text": "Simple"
+  },
+  {
+    "objectID": "notes/hcthemes.html#gridlight",
+    "href": "notes/hcthemes.html#gridlight",
+    "title": "highcharter Themes",
+    "section": "Gridlight",
+    "text": "Gridlight"
+  },
+  {
+    "objectID": "notes/hcthemes.html#elementary",
+    "href": "notes/hcthemes.html#elementary",
+    "title": "highcharter Themes",
+    "section": "Elementary",
+    "text": "Elementary"
+  },
+  {
+    "objectID": "notes/hcthemes.html#monokai",
+    "href": "notes/hcthemes.html#monokai",
+    "title": "highcharter Themes",
+    "section": "Monokai",
+    "text": "Monokai"
+  },
+  {
+    "objectID": "notes/hcthemes.html#tufte",
+    "href": "notes/hcthemes.html#tufte",
+    "title": "highcharter Themes",
+    "section": "Tufte",
+    "text": "Tufte"
+  },
+  {
+    "objectID": "notes/hcthemes.html#database",
+    "href": "notes/hcthemes.html#database",
+    "title": "highcharter Themes",
+    "section": "Database",
+    "text": "Database"
+  },
+  {
+    "objectID": "notes/hcthemes.html#highcharts-default",
+    "href": "notes/hcthemes.html#highcharts-default",
+    "title": "highcharter Themes",
+    "section": "Highcharts Default",
+    "text": "Highcharts Default"
+  },
+  {
+    "objectID": "notes/hcthemes.html#financial-times",
+    "href": "notes/hcthemes.html#financial-times",
+    "title": "highcharter Themes",
+    "section": "Financial Times",
+    "text": "Financial Times"
+  },
+  {
+    "objectID": "notes/hcthemes.html#ggplot2-inspired",
+    "href": "notes/hcthemes.html#ggplot2-inspired",
+    "title": "highcharter Themes",
+    "section": "ggplot2 Inspired",
+    "text": "ggplot2 Inspired"
+  },
+  {
+    "objectID": "notes/hcthemes.html#theme-google",
+    "href": "notes/hcthemes.html#theme-google",
+    "title": "highcharter Themes",
+    "section": "Theme Google",
+    "text": "Theme Google\n\np %&gt;%\n  hc_title(text = \"Theme Google\") %&gt;%\n  hc_add_theme(hc_theme_google())"
+  },
+  {
+    "objectID": "notes/hcthemes.html#theme-financial-times",
+    "href": "notes/hcthemes.html#theme-financial-times",
+    "title": "highcharter Themes",
+    "section": "Theme Financial Times",
+    "text": "Theme Financial Times\n\np %&gt;%\n  hc_title(text = \"Theme Financial Times\") %&gt;%\n  hc_add_theme(hc_theme_ft())"
+  },
+  {
+    "objectID": "notes/hcthemes.html#theme-economist",
+    "href": "notes/hcthemes.html#theme-economist",
+    "title": "highcharter Themes",
+    "section": "Theme Economist",
+    "text": "Theme Economist\n\np %&gt;%\n  hc_title(text = \"Theme Economist\") %&gt;%\n  hc_add_theme(hc_theme_economist())"
+  },
+  {
+    "objectID": "notes/hcthemes.html#theme-elementary",
+    "href": "notes/hcthemes.html#theme-elementary",
+    "title": "highcharter Themes",
+    "section": "Theme Elementary",
+    "text": "Theme Elementary\n\np %&gt;%\n  hc_title(text = \"Theme Elementary\") %&gt;%\n  hc_add_theme(hc_theme_elementary())"
+  },
+  {
+    "objectID": "notes/hcthemes.html#theme-simple",
+    "href": "notes/hcthemes.html#theme-simple",
+    "title": "highcharter Themes",
+    "section": "Theme Simple",
+    "text": "Theme Simple\n\np %&gt;%\n  hc_title(text = \"Theme Simple\") %&gt;%\n  hc_add_theme(hc_theme_smpl())"
+  },
+  {
+    "objectID": "notes/hcthemes.html#theme-database",
+    "href": "notes/hcthemes.html#theme-database",
+    "title": "highcharter Themes",
+    "section": "Theme Database",
+    "text": "Theme Database\n\np %&gt;%\n  hc_title(text = \"Theme Database\") %&gt;%\n  hc_add_theme(hc_theme_db())"
+  },
+  {
+    "objectID": "notes/hcthemes.html#theme-ffx",
+    "href": "notes/hcthemes.html#theme-ffx",
+    "title": "highcharter Themes",
+    "section": "Theme FFX",
+    "text": "Theme FFX\n\np %&gt;%\n  hc_title(text = \"Theme FFX\") %&gt;%\n  hc_add_theme(hc_theme_ffx())"
+  },
+  {
+    "objectID": "notes/hcthemes.html#theme-fivethirtyeight",
+    "href": "notes/hcthemes.html#theme-fivethirtyeight",
+    "title": "highcharter Themes",
+    "section": "Theme FiveThirtyEight",
+    "text": "Theme FiveThirtyEight\n\np %&gt;%\n  hc_title(text = \"Theme FiveThirtyEight\") %&gt;%\n  hc_add_theme(hc_theme_538())"
+  },
+  {
+    "objectID": "notes/hcthemes.html#theme-flat",
+    "href": "notes/hcthemes.html#theme-flat",
+    "title": "highcharter Themes",
+    "section": "Theme Flat",
+    "text": "Theme Flat\n\np %&gt;%\n  hc_title(text = \"Theme Flat\") %&gt;%\n  hc_add_theme(hc_theme_flat())"
+  },
+  {
+    "objectID": "notes/hcthemes.html#theme-flat-dark",
+    "href": "notes/hcthemes.html#theme-flat-dark",
+    "title": "highcharter Themes",
+    "section": "Theme Flat Dark",
+    "text": "Theme Flat Dark\n\np %&gt;%\n  hc_title(text = \"Theme Flat Dark\") %&gt;%\n  hc_add_theme(hc_theme_flatdark())"
+  },
+  {
+    "objectID": "notes/hcthemes.html#theme-chalk",
+    "href": "notes/hcthemes.html#theme-chalk",
+    "title": "highcharter Themes",
+    "section": "Theme Chalk",
+    "text": "Theme Chalk\n\np %&gt;%\n  hc_title(text = \"Theme Chalk\") %&gt;%\n  hc_add_theme(hc_theme_chalk())"
+  },
+  {
+    "objectID": "notes/hcthemes.html#theme-handdrawn",
+    "href": "notes/hcthemes.html#theme-handdrawn",
+    "title": "highcharter Themes",
+    "section": "Theme Handdrawn",
+    "text": "Theme Handdrawn\n\np %&gt;%\n  hc_title(text = \"Theme Handdrawn\") %&gt;%\n  hc_add_theme(hc_theme_handdrawn())"
+  },
+  {
+    "objectID": "notes/hcthemes.html#theme-dark-unica",
+    "href": "notes/hcthemes.html#theme-dark-unica",
+    "title": "highcharter Themes",
+    "section": "Theme Dark Unica",
+    "text": "Theme Dark Unica\n\np %&gt;%\n  hc_title(text = \"Theme Dark Unica\") %&gt;%\n  hc_add_theme(hc_theme_darkunica())"
+  },
+  {
+    "objectID": "notes/hcthemes.html#theme-ggplot2",
+    "href": "notes/hcthemes.html#theme-ggplot2",
+    "title": "highcharter Themes",
+    "section": "Theme ggplot2",
+    "text": "Theme ggplot2\n\np %&gt;%\n  hc_title(text = \"Theme ggplot2\") %&gt;%\n  hc_add_theme(hc_theme_ggplot2())"
+  },
+  {
+    "objectID": "notes/hcthemes.html#theme-alone",
+    "href": "notes/hcthemes.html#theme-alone",
+    "title": "highcharter Themes",
+    "section": "Theme Alone",
+    "text": "Theme Alone\n\np %&gt;%\n  hc_title(text = \"Theme Alone\") %&gt;%\n  hc_add_theme(hc_theme_alone())"
+  },
+  {
+    "objectID": "notes/hcthemes.html#theme-bloom",
+    "href": "notes/hcthemes.html#theme-bloom",
+    "title": "highcharter Themes",
+    "section": "Theme Bloom",
+    "text": "Theme Bloom\n\np %&gt;%\n  hc_title(text = \"Theme Bloom\") %&gt;%\n  hc_add_theme(hc_theme_bloom())"
+  },
+  {
+    "objectID": "notes/hcthemes.html#theme-gridlight",
+    "href": "notes/hcthemes.html#theme-gridlight",
+    "title": "highcharter Themes",
+    "section": "Theme Gridlight",
+    "text": "Theme Gridlight\n\np %&gt;%\n  hc_title(text = \"Theme Grid Light\") %&gt;%\n  hc_add_theme(hc_theme_gridlight())"
+  },
+  {
+    "objectID": "notes/hcthemes.html#theme-highcharter",
+    "href": "notes/hcthemes.html#theme-highcharter",
+    "title": "highcharter Themes",
+    "section": "Theme Highcharter",
+    "text": "Theme Highcharter\n\np %&gt;%\n  hc_title(text = \"Theme Highcharter\") %&gt;%\n  hc_add_theme(hc_theme_hcrt())"
+  },
+  {
+    "objectID": "notes/hcthemes.html#theme-null",
+    "href": "notes/hcthemes.html#theme-null",
+    "title": "highcharter Themes",
+    "section": "Theme Null",
+    "text": "Theme Null\n\np %&gt;%\n  hc_title(text = \"Theme Null\") %&gt;%\n  hc_add_theme(hc_theme_null())"
+  },
+  {
+    "objectID": "notes/hcthemes.html#theme-monokai",
+    "href": "notes/hcthemes.html#theme-monokai",
+    "title": "highcharter Themes",
+    "section": "Theme Monokai",
+    "text": "Theme Monokai\n\np %&gt;%\n  hc_title(text = \"Theme Monokai\") %&gt;%\n  hc_add_theme(hc_theme_monokai())"
+  },
+  {
+    "objectID": "notes/hcthemes.html#theme-sansignika",
+    "href": "notes/hcthemes.html#theme-sansignika",
+    "title": "highcharter Themes",
+    "section": "Theme Sansignika",
+    "text": "Theme Sansignika\n\np %&gt;%\n  hc_title(text = \"Theme Sansignika\") %&gt;%\n  hc_add_theme(hc_theme_sandsignika())"
+  },
+  {
+    "objectID": "notes/hcthemes.html#theme-sparkline",
+    "href": "notes/hcthemes.html#theme-sparkline",
+    "title": "highcharter Themes",
+    "section": "Theme Sparkline",
+    "text": "Theme Sparkline\n\np %&gt;%\n  hc_title(text = \"Theme Sparkline\") %&gt;%\n  hc_add_theme(hc_theme_sparkline())\n\n\n\n\np %&gt;%\n  hc_title(text = \"Theme Sparkline VB\") %&gt;%\n  hc_add_theme(hc_theme_sparkline_vb())"
+  },
+  {
+    "objectID": "notes/hcthemes.html#theme-sparkline-vb",
+    "href": "notes/hcthemes.html#theme-sparkline-vb",
+    "title": "highcharter Themes",
+    "section": "Theme Sparkline VB",
+    "text": "Theme Sparkline VB\n\np %&gt;%\n  hc_title(text = \"Theme Sparkline VB\") %&gt;%\n  hc_add_theme(hc_theme_sparkline_vb())"
+  },
+  {
+    "objectID": "notes/hcthemes.html#theme-tufte",
+    "href": "notes/hcthemes.html#theme-tufte",
+    "title": "highcharter Themes",
+    "section": "Theme Tufte",
+    "text": "Theme Tufte\n\np %&gt;%\n  hc_title(text = \"Theme Tufte\") %&gt;%\n  hc_add_theme(hc_theme_tufte())\n\n\n\n\np %&gt;%\n  hc_title(text = \"Theme Tufte2\") %&gt;%\n  hc_add_theme(hc_theme_tufte2())"
+  },
+  {
+    "objectID": "notes/hcthemes.html#theme-superheroes",
+    "href": "notes/hcthemes.html#theme-superheroes",
+    "title": "highcharter Themes",
+    "section": "Theme Superheroes",
+    "text": "Theme Superheroes\n\np %&gt;%\n  hc_title(text = \"Theme Superheroes\") %&gt;%\n  hc_add_theme(hc_theme_superheroes())"
+  },
+  {
+    "objectID": "notes/hcthemes.html#introduction",
+    "href": "notes/hcthemes.html#introduction",
+    "title": "highcharter Themes",
+    "section": "",
+    "text": "In this document, we will explore various themes and styles available in highcharter.\n\nlibrary(highcharter) \nlibrary(dplyr)\n\n# Sample dataset\ndata &lt;- mtcars %&gt;%\n  tibble::rownames_to_column(var = \"car\") %&gt;%\n  mutate(cyl = as.factor(cyl))\n# Basic plot\np &lt;- highchart() %&gt;% \n    hc_add_series(data, type = \"scatter\", hcaes(x = mpg, y = hp, group = cyl))\np %&gt;% hc_title(text = \"Default Theme\")\n\n\n\n\n\nBelow are examples of applying different themes to your plot:"
   }
 ]
