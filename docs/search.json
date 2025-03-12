@@ -11,7 +11,7 @@
     "href": "resources.html",
     "title": "Resources",
     "section": "",
-    "text": "This page shares something that are excellent for academic beginners!\n\nBooks\n\nFinance\n\nThe Economist’s Craft: An Introduction to Research, Publishing, and Professional Development, Michael S. Weisbach, 2021, Princeton University Press.\n\n\n\nData Science\n\nTidy Finance\nData Science Live Book, Pablo Casas, 2019.\nCookbook for R, Winston Chang, 2013.\n\n\n\n\nWebsites\n\nProf. Robert Faff’s Pitching Research Template\nFinance Conference Calendar via AFA"
+    "text": "This page shares something that are excellent for academic beginners!\n\nBooks\n\nFinance\n\nThe Economist’s Craft: An Introduction to Research, Publishing, and Professional Development, Michael S. Weisbach, 2021, Princeton University Press.\n\n\n\nData Science\n\nTidy Finance\nData Science Live Book, Pablo Casas, 2019.\nCookbook for R, Winston Chang, 2013.\n\n\n\n\nWebsites\n\nProf. Robert Faff’s Pitching Research Template\nFinance Conference Calendar via AFA\n\n\n\n\n\n Back to top"
   },
   {
     "objectID": "papers/CSR_JAR.html",
@@ -116,7 +116,7 @@
     "href": "index.html",
     "title": "Calvin J. Chiou ",
     "section": "",
-    "text": "Calvin J. Chiou (邱健嘉) is an Assistant Professor in the Department of Finance at National Chengchi University (NCCU). His research interests include corporate innovation, institutional investors, corporate governance, corporate finance, and behavioral finance. Calvin received his PhD in finance from the Nanyang Technological University, Nanyang Business School in 2024. When not exploring on academic research, Calvin enjoys spending time on traveling, playing basketball, badminton, and the guitar.\n\nContact Info:\nEmail: jjchiou@nccu.edu.tw\nNo. 64, Sec. 2, Zhinan Rd., Wenshan Dist.\nTaipei City 11605, Taiwan\nPhone: +886-2-2939-3091 ext. 81233"
+    "text": "Calvin J. Chiou (邱健嘉) is an Assistant Professor in the Department of Finance at National Chengchi University (NCCU). His research interests include corporate innovation, institutional investors, corporate governance, corporate finance, and behavioral finance. Calvin received his PhD in finance from the Nanyang Technological University, Nanyang Business School in 2024. When not exploring on academic research, Calvin enjoys spending time on traveling, playing basketball, badminton, and the guitar.\n\n\n\nNanyang Technological University | Singapore\nPhD in Finance | Jul 2019 - Jan 2024\n\n\n\nNational Chengchi University, Taiwan | Assistant Professor | Feb 2024 - present\n\n\n\n✉️ jjchiou@nccu.edu.tw\n🗺️ No. 64, Sec. 2, Zhinan Rd., Wenshan Dist., Taipei City 11605, Taiwan\n☎️ +886-2-2939-3091 ext. 81233"
   },
   {
     "objectID": "posts_hidden/SRI.html",
@@ -291,7 +291,7 @@
     "href": "teaching.html",
     "title": "Teaching",
     "section": "",
-    "text": "Undergraduate level\n\nInvestments, National Chengchi University, Spring 2025.\nFinancial Management, National Chengchi University, 2024.\n\n\n\nPh.D. level\n\nSeminars in Corporate Finance (PhD), National Chengchi University, Spring 2025.\n\n\n\nOther\n\nTextual Analysis and Web Crawling using R (mini-workshop), National Central University, Fall 2017.\n\n\n\nGeneral Notes\n\nFinancial Management, Estimating Beta Coefficients, lecture note.\nggplot2 Themes and Styles, lecture note.\nhighcharter Themes and Styles, lecture note."
+    "text": "Undergraduate level\n\nInvestments, National Chengchi University, Spring 2025.\nFinancial Management, National Chengchi University, 2024.\n\n\n\nPh.D. level\n\nSeminars in Corporate Finance (PhD), National Chengchi University, Spring 2025.\n\n\n\nOther\n\nTextual Analysis and Web Crawling using R (mini-workshop), National Central University, Fall 2017.\n\n\n\nGeneral Notes\n\nFinancial Management, Estimating Beta Coefficients, lecture note.\nggplot2 Themes and Styles, lecture note.\nhighcharter Themes and Styles, lecture note.\n\n\n\n\n\n Back to top"
   },
   {
     "objectID": "research.html#publications",
@@ -641,7 +641,7 @@
     "href": "investments.html",
     "title": "Investments",
     "section": "",
-    "text": "R Lecture Notes\n\n\n\n\n\nTitle\n\n\nModified\n\n\n\n\n\n\nR Note 1 - Introduction to R and Financial Data Handling\n\n\n3/10/25, 6:44:20 PM\n\n\n\n\nR Note 2 - Portfolio Formation using R\n\n\n3/10/25, 7:51:40 PM\n\n\n\n\n\nNo matching items"
+    "text": "R Lecture Notes\n\n\n\n\n\nTitle\n\n\nModified\n\n\n\n\n\n\nR Note 1 - Introduction to R and Financial Data Handling\n\n\n3/12/25, 4:35:08 PM\n\n\n\n\nR Note 2 - Portfolio Formation using R\n\n\n3/10/25, 7:51:40 PM\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "notes/investments/n1_introduction.html",
@@ -704,7 +704,7 @@
     "href": "notes/investments/n1_introduction.html#interactive-visualization-with-highcharter",
     "title": "R Note 1 - Introduction to R and Financial Data Handling",
     "section": "9. Interactive Visualization with highcharter",
-    "text": "9. Interactive Visualization with highcharter\n\n# Create interactive stock price and volume plot\nhighchart(type = \"stock\") |&gt; \n  hc_add_series(apple_stock, type = \"line\", hcaes(x = date, y = adjusted), name = \"AAPL Price\") |&gt; \n  hc_add_series(apple_stock, type = \"column\", hcaes(x = date, y = volume), name = \"Trading Volume\", yAxis = 1) |&gt; \n  hc_yAxis_multiples(\n    list(title = list(text = \"Stock Price\")),\n    list(title = list(text = \"Trading Volume\"), opposite = TRUE)\n  ) |&gt; \n  hc_title(text = \"AAPL Stock Price and Trading Volume\") |&gt;\n  hc_add_theme(hc_theme_ft())\n\n\n\n\n# Candlestick Chart\nhighchart(type = \"stock\") |&gt; \n  hc_add_series(apple_stock, type = \"candlestick\", hcaes(x = date, open = open, high = high, low = low, close = adjusted), name = \"AAPL Price\") |&gt; \n  hc_title(text = \"AAPL Candlestick Chart\")"
+    "text": "9. Interactive Visualization with highcharter\nMore pre-built themes of hicharter can be found via highcharter Themes and Styles.\n\n# Create interactive stock price and volume plot\nhighchart(type = \"stock\") |&gt; \n  hc_add_series(apple_stock, type = \"line\", hcaes(x = date, y = adjusted), name = \"AAPL Price\") |&gt; \n  hc_add_series(apple_stock, type = \"column\", hcaes(x = date, y = volume), name = \"Trading Volume\", yAxis = 1) |&gt; \n  hc_yAxis_multiples(\n    list(title = list(text = \"Stock Price\")),\n    list(title = list(text = \"Trading Volume\"), opposite = TRUE)\n  ) |&gt; \n  hc_title(text = \"AAPL Stock Price and Trading Volume\") |&gt;\n  hc_add_theme(hc_theme_ft())\n\n\n\n\n# Candlestick Chart\nhighchart(type = \"stock\") |&gt; \n  hc_add_series(apple_stock, type = \"candlestick\", hcaes(x = date, open = open, high = high, low = low, close = adjusted), name = \"AAPL Price\") |&gt; \n  hc_title(text = \"AAPL Candlestick Chart\")"
   },
   {
     "objectID": "notes/investments/n1_introduction.html#exercises",
@@ -788,70 +788,70 @@
     "href": "notes/ggthemes.html",
     "title": "ggplot2 Themes",
     "section": "",
-    "text": "In this document, we will explore various themes and styles available in ggplot2.\n\nlibrary(ggplot2)\nlibrary(ggthemes)\n\n# Basic plot\np &lt;- ggplot(mpg, aes(x=displ, y=hwy, color=class)) +\n  geom_point() +\n  labs(title=\"Default Theme\")\n\np\n\n\n\n\n\n\n\n\nBelow are examples of applying different themes to your plot:"
+    "text": "In this document, we will explore various themes and styles available in ggplot2.\n\nlibrary(ggplot2)\nlibrary(ggthemes)\n\n# Basic plot\np &lt;- ggplot(mpg, aes(x=displ, y=hwy, color=class)) +\n  geom_point() +\n  labs(title=\"Default Theme\")\n\np\n\n\n\n\n\n\n\n\nBelow are examples of applying different basic themes to your plot:\n\n\n\np + theme_gray() +\n  labs(title=\"Theme Gray\")\n\n\n\n\n\n\n\n\n\n\n\n\np + theme_bw() +\n  labs(title=\"Theme BW\")\n\n\n\n\n\n\n\n\n\n\n\n\np + theme_linedraw() +\n  labs(title=\"Theme Linedraw\")\n\n\n\n\n\n\n\n\n\n\n\n\np + theme_light() +\n  labs(title=\"Theme Light\")\n\n\n\n\n\n\n\n\n\n\n\n\np + theme_dark() +\n  labs(title=\"Theme Dark\")\n\n\n\n\n\n\n\n\n\n\n\n\np + theme_minimal() +\n  labs(title=\"Theme Minimal\")\n\n\n\n\n\n\n\n\n\n\n\n\np + theme_classic() +\n  labs(title=\"Theme Classic\")\n\n\n\n\n\n\n\n\n\n\n\n\np + theme_void() +\n  labs(title=\"Theme Void\")\n\n\n\n\n\n\n\n\n\n\n\n\np + theme_test() +\n  labs(title=\"Theme Test\")"
   },
   {
     "objectID": "notes/ggthemes.html#introduction",
     "href": "notes/ggthemes.html#introduction",
     "title": "ggplot2 Themes",
     "section": "",
-    "text": "In this document, we will explore various themes and styles available in ggplot2.\n\nlibrary(ggplot2)\nlibrary(ggthemes)\n\n# Basic plot\np &lt;- ggplot(mpg, aes(x=displ, y=hwy, color=class)) +\n  geom_point() +\n  labs(title=\"Default Theme\")\n\np\n\n\n\n\n\n\n\n\nBelow are examples of applying different themes to your plot:"
+    "text": "In this document, we will explore various themes and styles available in ggplot2.\n\nlibrary(ggplot2)\nlibrary(ggthemes)\n\n# Basic plot\np &lt;- ggplot(mpg, aes(x=displ, y=hwy, color=class)) +\n  geom_point() +\n  labs(title=\"Default Theme\")\n\np\n\n\n\n\n\n\n\n\nBelow are examples of applying different basic themes to your plot:"
   },
   {
     "objectID": "notes/ggthemes.html#theme-minimal",
     "href": "notes/ggthemes.html#theme-minimal",
     "title": "ggplot2 Themes",
-    "section": "Theme Minimal",
-    "text": "Theme Minimal\n\np + theme_minimal() +\n  labs(title=\"Theme Minimal\")"
+    "section": "",
+    "text": "p + theme_minimal() +\n  labs(title=\"Theme Minimal\")"
   },
   {
     "objectID": "notes/ggthemes.html#theme-classic",
     "href": "notes/ggthemes.html#theme-classic",
     "title": "ggplot2 Themes",
-    "section": "Theme Classic",
-    "text": "Theme Classic\n\np + theme_dark() +\n  labs(title=\"Theme Dark\")"
+    "section": "",
+    "text": "p + theme_classic() +\n  labs(title=\"Theme Classic\")"
   },
   {
     "objectID": "notes/ggthemes.html#theme-economist",
     "href": "notes/ggthemes.html#theme-economist",
     "title": "ggplot2 Themes",
     "section": "Theme Economist",
-    "text": "Theme Economist\n\np + theme_economist() +\n  labs(title=\"Theme Economist\")"
+    "text": "Theme Economist\n\np + theme_economist() +\n  labs(title=\"Theme Economist\") +\n  scale_color_economist()"
   },
   {
     "objectID": "notes/ggthemes.html#theme-economist---white",
     "href": "notes/ggthemes.html#theme-economist---white",
     "title": "ggplot2 Themes",
     "section": "Theme Economist - White",
-    "text": "Theme Economist - White\n\np + theme_economist_white() +\n  labs(title=\"Theme Economist - White\")"
+    "text": "Theme Economist - White\n\np + theme_economist_white() +\n  labs(title=\"Theme Economist - White\") +\n  scale_color_economist()"
   },
   {
     "objectID": "notes/ggthemes.html#theme-excel",
     "href": "notes/ggthemes.html#theme-excel",
     "title": "ggplot2 Themes",
     "section": "Theme Excel",
-    "text": "Theme Excel\n\np + theme_excel() +\n  labs(title=\"Theme Excel\")"
+    "text": "Theme Excel\n\np + theme_excel() +\n  labs(title=\"Theme Excel\") +\n  scale_color_excel()"
   },
   {
     "objectID": "notes/ggthemes.html#theme-excel---new",
     "href": "notes/ggthemes.html#theme-excel---new",
     "title": "ggplot2 Themes",
     "section": "Theme Excel - New",
-    "text": "Theme Excel - New\n\np + theme_excel_new() +\n  labs(title=\"Theme Excel - New\")"
+    "text": "Theme Excel - New\n\np + theme_excel_new() +\n  labs(title=\"Theme Excel - New\") +\n  scale_color_excel_new()"
   },
   {
     "objectID": "notes/ggthemes.html#theme-highcharts",
     "href": "notes/ggthemes.html#theme-highcharts",
     "title": "ggplot2 Themes",
     "section": "Theme Highcharts",
-    "text": "Theme Highcharts\n\np + theme_hc() +\n  labs(title=\"Theme Highcharts\")"
+    "text": "Theme Highcharts\n\np + theme_hc() +\n  labs(title=\"Theme Highcharts\") + \n  scale_color_hc()"
   },
   {
     "objectID": "notes/ggthemes.html#theme-google-docs",
     "href": "notes/ggthemes.html#theme-google-docs",
     "title": "ggplot2 Themes",
     "section": "Theme Google Docs",
-    "text": "Theme Google Docs\n\np + theme_gdocs() +\n  labs(title=\"Theme Google Docs\")"
+    "text": "Theme Google Docs\n\np + theme_gdocs() +\n  labs(title=\"Theme Google Docs\") +\n  scale_color_gdocs()"
   },
   {
     "objectID": "notes/ggthemes.html#theme-538",
@@ -865,7 +865,7 @@
     "href": "notes/ggthemes.html#theme-stata",
     "title": "ggplot2 Themes",
     "section": "Theme Stata",
-    "text": "Theme Stata\n\np + theme_stata() +\n  labs(title=\"Theme Stata\")"
+    "text": "Theme Stata\n\np + theme_stata() +\n  labs(title=\"Theme Stata\") + \n  scale_color_stata() + \n  scale_shape_stata()"
   },
   {
     "objectID": "notes/ggthemes.html#theme-wall-street-journal-wsj",
@@ -879,7 +879,7 @@
     "href": "notes/ggthemes.html#theme-pander",
     "title": "ggplot2 Themes",
     "section": "Theme Pander",
-    "text": "Theme Pander\n\np + theme_pander() +\n  labs(title=\"Theme Pander\")"
+    "text": "Theme Pander\n\np + theme_pander() +\n  labs(title=\"Theme Pander\") +\n  scale_color_pander()"
   },
   {
     "objectID": "notes/ggthemes.html#custom-theme",
@@ -1265,5 +1265,131 @@
     "title": "highcharter Themes",
     "section": "",
     "text": "In this document, we will explore various themes and styles available in highcharter.\n\nlibrary(highcharter) \nlibrary(dplyr)\n\n# Sample dataset\ndata &lt;- mtcars %&gt;%\n  tibble::rownames_to_column(var = \"car\") %&gt;%\n  mutate(cyl = as.factor(cyl))\n# Basic plot\np &lt;- highchart() %&gt;% \n    hc_add_series(data, type = \"scatter\", hcaes(x = mpg, y = hp, group = cyl))\np %&gt;% hc_title(text = \"Default Theme\")\n\n\n\n\n\nBelow are examples of applying different themes to your plot:"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-gray",
+    "href": "notes/ggthemes.html#theme-gray",
+    "title": "ggplot2 Themes",
+    "section": "",
+    "text": "p + theme_gray() +\n  labs(title=\"Theme Gray\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-dark-on-light",
+    "href": "notes/ggthemes.html#theme-dark-on-light",
+    "title": "ggplot2 Themes",
+    "section": "",
+    "text": "p + theme_bw() +\n  labs(title=\"Theme BW\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-linedraw",
+    "href": "notes/ggthemes.html#theme-linedraw",
+    "title": "ggplot2 Themes",
+    "section": "",
+    "text": "p + theme_linedraw() +\n  labs(title=\"Theme Linedraw\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-light",
+    "href": "notes/ggthemes.html#theme-light",
+    "title": "ggplot2 Themes",
+    "section": "",
+    "text": "p + theme_light() +\n  labs(title=\"Theme Light\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-dark",
+    "href": "notes/ggthemes.html#theme-dark",
+    "title": "ggplot2 Themes",
+    "section": "",
+    "text": "p + theme_dark() +\n  labs(title=\"Theme Dark\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-void",
+    "href": "notes/ggthemes.html#theme-void",
+    "title": "ggplot2 Themes",
+    "section": "",
+    "text": "p + theme_void() +\n  labs(title=\"Theme Void\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-test",
+    "href": "notes/ggthemes.html#theme-test",
+    "title": "ggplot2 Themes",
+    "section": "",
+    "text": "p + theme_test() +\n  labs(title=\"Theme Test\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#themes-in-ggthemes",
+    "href": "notes/ggthemes.html#themes-in-ggthemes",
+    "title": "ggplot2 Themes",
+    "section": "Themes in ggthemes",
+    "text": "Themes in ggthemes\nBelow are examples of applying additional themes using package ggthemes to your plot:"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-libreoffice-calc",
+    "href": "notes/ggthemes.html#theme-libreoffice-calc",
+    "title": "ggplot2 Themes",
+    "section": "Theme LibreOffice Calc",
+    "text": "Theme LibreOffice Calc\n\np + theme_calc() +\n  labs(title=\"Theme Calc\") +\n  scale_color_calc() +\n  scale_shape_calc()"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-igray",
+    "href": "notes/ggthemes.html#theme-igray",
+    "title": "ggplot2 Themes",
+    "section": "Theme igray",
+    "text": "Theme igray\n\np + theme_igray() +\n  labs(title=\"Theme igray\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-few",
+    "href": "notes/ggthemes.html#theme-few",
+    "title": "ggplot2 Themes",
+    "section": "Theme few",
+    "text": "Theme few\n\np + theme_few() +\n  labs(title=\"Theme few\") +\n  scale_color_few()"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-solarized",
+    "href": "notes/ggthemes.html#theme-solarized",
+    "title": "ggplot2 Themes",
+    "section": "Theme Solarized",
+    "text": "Theme Solarized\n\n# light\np + theme_solarized() +\n  labs(title=\"Theme Solarized\") +\n  scale_color_solarized()\n\n\n\n\n\n\n\n# light2\np + theme_solarized_2() +\n  labs(title=\"Theme Solarized2\") +\n  scale_color_solarized()\n\n\n\n\n\n\n\n# dark\np + theme_solarized(light = FALSE) +\n  labs(title=\"Theme Solarized Dark\") +\n  scale_color_solarized()"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-tufte",
+    "href": "notes/ggthemes.html#theme-tufte",
+    "title": "ggplot2 Themes",
+    "section": "Theme tufte",
+    "text": "Theme tufte\n\np + theme_tufte() +\n  labs(title=\"Theme tufte\")"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-clean",
+    "href": "notes/ggthemes.html#theme-clean",
+    "title": "ggplot2 Themes",
+    "section": "Theme Clean",
+    "text": "Theme Clean\n\np + theme_clean() +\n  labs(title=\"Theme Clean\") +\n  scale_color_canva()"
+  },
+  {
+    "objectID": "notes/ggthemes.html#theme-tidyquant",
+    "href": "notes/ggthemes.html#theme-tidyquant",
+    "title": "ggplot2 Themes",
+    "section": "Theme Tidyquant",
+    "text": "Theme Tidyquant\n\nlibrary(tidyquant)\n# Tidyquant - basic\np + theme_tq() +\n  labs(title=\"Theme Tidyquant\") +\n  scale_color_tq()\n\n\n\n\n\n\n\n# dark\np + theme_tq_dark() +\n  labs(title=\"Theme Tidyquant Dark\") +\n  scale_color_tq()\n\n\n\n\n\n\n\n# green\np + theme_tq_green() +\n  labs(title=\"Theme Tidyquant Green\") +\n  scale_color_tq()"
+  },
+  {
+    "objectID": "index.html#education",
+    "href": "index.html#education",
+    "title": "Calvin J. Chiou ",
+    "section": "",
+    "text": "Nanyang Technological University | Singapore\nPhD in Finance | Jul 2019 - Jan 2024"
+  },
+  {
+    "objectID": "index.html#experience",
+    "href": "index.html#experience",
+    "title": "Calvin J. Chiou ",
+    "section": "",
+    "text": "National Chengchi University, Taiwan | Assistant Professor | Feb 2024 - present"
+  },
+  {
+    "objectID": "index.html#contact-info.",
+    "href": "index.html#contact-info.",
+    "title": "Calvin J. Chiou ",
+    "section": "",
+    "text": "✉️ jjchiou@nccu.edu.tw\n🗺️ No. 64, Sec. 2, Zhinan Rd., Wenshan Dist., Taipei City 11605, Taiwan\n☎️ +886-2-2939-3091 ext. 81233"
   }
 ]
