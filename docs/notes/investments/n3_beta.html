@@ -375,7 +375,7 @@ window.Quarto = {
 <td style="text-align: right;">5.78175</td>
 <td style="text-align: right;">5.92650</td>
 <td style="text-align: right;">262636000</td>
-<td style="text-align: right;">5.901214</td>
+<td style="text-align: right;">5.901215</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">NVDA</td>
@@ -385,7 +385,7 @@ window.Quarto = {
 <td style="text-align: right;">5.90975</td>
 <td style="text-align: right;">5.99825</td>
 <td style="text-align: right;">314856000</td>
-<td style="text-align: right;">5.972659</td>
+<td style="text-align: right;">5.972660</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">NVDA</td>
@@ -395,7 +395,7 @@ window.Quarto = {
 <td style="text-align: right;">5.95375</td>
 <td style="text-align: right;">6.00950</td>
 <td style="text-align: right;">277108000</td>
-<td style="text-align: right;">5.983861</td>
+<td style="text-align: right;">5.983862</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">NVDA</td>
@@ -405,7 +405,7 @@ window.Quarto = {
 <td style="text-align: right;">6.02150</td>
 <td style="text-align: right;">6.07550</td>
 <td style="text-align: right;">255112000</td>
-<td style="text-align: right;">6.049580</td>
+<td style="text-align: right;">6.049579</td>
 </tr>
 </tbody>
 </table>
@@ -454,12 +454,12 @@ window.Quarto = {
 </tr>
 <tr class="even">
 <td style="text-align: left;">2020-01-03</td>
-<td style="text-align: right;">-0.0160058</td>
+<td style="text-align: right;">-0.0160057</td>
 <td style="text-align: right;">-0.0070599</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2020-01-06</td>
-<td style="text-align: right;">0.0041933</td>
+<td style="text-align: right;">0.0041934</td>
 <td style="text-align: right;">0.0035334</td>
 </tr>
 <tr class="even">
@@ -469,12 +469,12 @@ window.Quarto = {
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2020-01-08</td>
-<td style="text-align: right;">0.0018756</td>
+<td style="text-align: right;">0.0018757</td>
 <td style="text-align: right;">0.0049025</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2020-01-09</td>
-<td style="text-align: right;">0.0109827</td>
+<td style="text-align: right;">0.0109823</td>
 <td style="text-align: right;">0.0066553</td>
 </tr>
 </tbody>
@@ -502,15 +502,14 @@ window.Quarto = {
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Scatterplot of ETF Return vs. Market Return</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(returns_data, <span class="fu">aes</span>(<span class="at">x =</span> market_return, <span class="at">y =</span> stock_return)) <span class="sc">+</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Linear Relation: NVIDIA vs. S&amp;P 500"</span>,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Market Return (^GSPC)"</span>,</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Stock Return (NVDA)"</span>) <span class="sc">+</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Scatterplot of Stock Return vs. Market Return</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(returns_data, <span class="fu">aes</span>(<span class="at">x =</span> market_return, <span class="at">y =</span> stock_return)) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Linear Relation: NVIDIA vs. S&amp;P 500"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Market Return (^GSPC)"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Stock Return (NVDA)"</span>) <span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -554,7 +553,7 @@ Residuals:
 Coefficients:
                Estimate Std. Error t value Pr(&gt;|t|)    
 (Intercept)   0.0012297  0.0008435   1.458    0.145    
-market_return 1.6562124  0.0526407  31.463   &lt;2e-16 ***
+market_return 1.6562129  0.0526407  31.463   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
