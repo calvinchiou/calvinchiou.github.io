@@ -11,7 +11,7 @@
     "href": "resources.html",
     "title": "Resources",
     "section": "",
-    "text": "This page shares something that are excellent for academic beginners!\n\nBooks\n\nFinance\n\nThe Economist’s Craft: An Introduction to Research, Publishing, and Professional Development, Michael S. Weisbach, 2021, Princeton University Press.\n\n\n\nData Science\n\nTidy Finance\nData Science Live Book, Pablo Casas, 2019.\nCookbook for R, Winston Chang, 2013.\n\n\n\n\nWebsites\n\nProf. Robert Faff’s Pitching Research Template\nFinance Conference Calendar via AFA\n\n\n\n\n\n Back to top"
+    "text": "This page shares something that are excellent for academic beginners!\n\nBooks\n\nFinance\n\nThe Economist’s Craft: An Introduction to Research, Publishing, and Professional Development, Michael S. Weisbach, 2021, Princeton University Press.\nTidy Finance\nCochrane, J. H. (2005). Asset Pricing. Princeton University Press.\n\n\n\nData Science\n\nData Science Live Book, Pablo Casas, 2019.\nCookbook for R, Winston Chang, 2013.\n\n\n\n\nWebsites\n\nProf. Robert Faff’s Pitching Research Template\nFinance Conference Calendar via AFA\nManning Publications for technical books.\n\n\n\n\n\n Back to top"
   },
   {
     "objectID": "papers/CSR_JAR.html",
@@ -291,7 +291,7 @@
     "href": "teaching.html",
     "title": "Teaching",
     "section": "",
-    "text": "Undergraduate level\n\nInvestments, National Chengchi University, Spring 2025.\nFinancial Management, National Chengchi University, 2024.\n\n\n\nPh.D. level\n\nSeminar on Corporate Finance (PhD), National Chengchi University, Spring 2025.\n\n\n\nOther\n\nTextual Analysis and Web Crawling using R (mini-workshop), National Central University, Fall 2017.\n\n\n\nGeneral Notes\n\nggplot2 Themes and Styles, lecture note.\nhighcharter Themes and Styles, lecture note.\n\n\n\n\n\n Back to top"
+    "text": "If students would like to request recommendation letters from me, please read Recommendation Letter Policy"
   },
   {
     "objectID": "research.html#publications",
@@ -641,7 +641,7 @@
     "href": "investments.html",
     "title": "Investments",
     "section": "",
-    "text": "R Lecture Notes\n\n\n\n\n\nTitle\n\n\nModified\n\n\n\n\n\n\nR Note 1 - Introduction to R and Financial Data Handling\n\n\n3/16/25, 9:55:06 AM\n\n\n\n\nR Note 2 - Portfolio Formation using R\n\n\n5/7/25, 10:07:48 PM\n\n\n\n\nR Note 3 - Estimating Beta Coefficients\n\n\n5/7/25, 10:26:06 PM\n\n\n\n\nR Note 4 - Trading Strategy\n\n\n5/7/25, 6:16:18 PM\n\n\n\n\n\nNo matching items\n\n\n\n\n\n\n\n Back to top"
+    "text": "R Lecture Notes\n\n\n\n\n\nTitle\n\n\nModified\n\n\n\n\n\n\nR Note 1 - Introduction to R and Financial Data Handling\n\n\n3/16/25, 9:55:06 AM\n\n\n\n\nR Note 2 - Portfolio Formation using R\n\n\n5/7/25, 10:07:48 PM\n\n\n\n\nR Note 3 - Estimating Beta Coefficients\n\n\n5/7/25, 10:26:06 PM\n\n\n\n\nR Note 4 - Trading Strategy\n\n\n5/12/25, 12:33:50 PM\n\n\n\n\n\nNo matching items\n\n\n\n\n\n\n\n Back to top"
   },
   {
     "objectID": "notes/investments/n1_introduction.html",
@@ -1516,14 +1516,14 @@
     "href": "notes/investments/n4_strategy.html",
     "title": "R Note 4 - Trading Strategy",
     "section": "",
-    "text": "This document demonstrates a simple quantitative strategy applied to the Taiwan 50 ETF (0050.TW), one of the most actively traded ETFs representing large-cap stocks in Taiwan. The aim is twofold:\n\nStrategy Simulation: To implement a basic moving average crossover strategy over the period from January 1, 2023 to April 30, 2024, simulating a full-investment trading strategy with daily price data.\nMarket Relationship Analysis: To examine the linear relationship between the returns of 0050.TW and the Taiwan market index (TAIEX, symbol: Y9999.TWO) by estimating a CAPM-style regression model.\n\nThrough this analysis, we seek to understand how systematic market movements explain the performance of 0050.TW and evaluate whether a naive technical strategy offers meaningful results in the context of Taiwan’s equity market."
+    "text": "This document demonstrates a simple quantitative strategy applied to the Taiwan 50 ETF (symbol: 0050.TW), one of the most actively traded ETFs representing large-cap stocks in Taiwan. The aim is twofold:\n\nStrategy Simulation: To implement a basic moving average crossover strategy over the period from January 1, 2023 to April 30, 2024, simulating a full-investment trading strategy with daily price data.\nBenchmarking: To examine the relative performance of the trading strategy, we measure buy-and-hold returns based on TWSE Capitalization Weighted Stock Index (symbol: ^TWII).1\n\nThrough this analysis, we seek to understand how systematic market movements explain the performance of 0050.TW and evaluate whether a naive technical strategy offers meaningful results in the context of Taiwan’s equity market."
   },
   {
     "objectID": "notes/investments/n4_strategy.html#introduction",
     "href": "notes/investments/n4_strategy.html#introduction",
     "title": "R Note 4 - Trading Strategy",
     "section": "",
-    "text": "This document demonstrates a simple quantitative strategy applied to the Taiwan 50 ETF (0050.TW), one of the most actively traded ETFs representing large-cap stocks in Taiwan. The aim is twofold:\n\nStrategy Simulation: To implement a basic moving average crossover strategy over the period from January 1, 2023 to April 30, 2024, simulating a full-investment trading strategy with daily price data.\nMarket Relationship Analysis: To examine the linear relationship between the returns of 0050.TW and the Taiwan market index (TAIEX, symbol: Y9999.TWO) by estimating a CAPM-style regression model.\n\nThrough this analysis, we seek to understand how systematic market movements explain the performance of 0050.TW and evaluate whether a naive technical strategy offers meaningful results in the context of Taiwan’s equity market."
+    "text": "This document demonstrates a simple quantitative strategy applied to the Taiwan 50 ETF (symbol: 0050.TW), one of the most actively traded ETFs representing large-cap stocks in Taiwan. The aim is twofold:\n\nStrategy Simulation: To implement a basic moving average crossover strategy over the period from January 1, 2023 to April 30, 2024, simulating a full-investment trading strategy with daily price data.\nBenchmarking: To examine the relative performance of the trading strategy, we measure buy-and-hold returns based on TWSE Capitalization Weighted Stock Index (symbol: ^TWII).1\n\nThrough this analysis, we seek to understand how systematic market movements explain the performance of 0050.TW and evaluate whether a naive technical strategy offers meaningful results in the context of Taiwan’s equity market."
   },
   {
     "objectID": "notes/investments/n4_strategy.html#retrieve-historical-price-data",
@@ -1537,7 +1537,7 @@
     "href": "notes/investments/n4_strategy.html#calculate-moving-averages",
     "title": "R Note 4 - Trading Strategy",
     "section": "2. Calculate Moving Averages",
-    "text": "2. Calculate Moving Averages\nWe compute two simple moving averages:\n\nMA20: Short-term (20-day) average\nMA50: Long-term (50-day) average\n\nThese are commonly used in technical trading strategies to identify trend changes.\n\netf_ma &lt;- etf_data |&gt; \n  mutate(\n    MA20 = SMA(adjusted, n = 20),\n    MA50 = SMA(adjusted, n = 50)\n  ) |&gt; \n  na.omit()\nhead(etf_ma)\n\n# A tibble: 6 × 10\n  symbol  date        open  high   low close   volume adjusted  MA20  MA50\n  &lt;chr&gt;   &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1 0050.TW 2023-03-27  122.  122.  121.  121. 10644595     115.  113.  112.\n2 0050.TW 2023-03-28  121.  121.  120.  120.  9741489     114.  113.  112.\n3 0050.TW 2023-03-29  121.  121.  120.  121.  3074427     114.  113.  112.\n4 0050.TW 2023-03-30  121.  122.  121.  121. 11380614     115.  113.  112.\n5 0050.TW 2023-03-31  122.  122.  121.  122. 14951640     115.  113.  112.\n6 0050.TW 2023-04-06  121.  121   120.  121   7501419     114.  113.  113."
+    "text": "2. Calculate Moving Averages\nWe compute two simple moving averages:\n\nMA20: Short-term (20-day) average\nMA50: Long-term (50-day) average\n\nThese are commonly used in technical trading strategies to identify trend changes.\n\n# Calculate Moving-Average Indicators\netf_ma &lt;- etf_data |&gt; \n  mutate(\n    MA20 = SMA(adjusted, n = 20),\n    MA50 = SMA(adjusted, n = 50)\n  ) |&gt; \n  na.omit()\nhead(etf_ma)\n\n# A tibble: 6 × 10\n  symbol  date        open  high   low close   volume adjusted  MA20  MA50\n  &lt;chr&gt;   &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1 0050.TW 2023-03-27  122.  122.  121.  121. 10644595     115.  113.  112.\n2 0050.TW 2023-03-28  121.  121.  120.  120.  9741489     114.  113.  112.\n3 0050.TW 2023-03-29  121.  121.  120.  121.  3074427     114.  113.  112.\n4 0050.TW 2023-03-30  121.  122.  121.  121. 11380614     115.  113.  112.\n5 0050.TW 2023-03-31  122.  122.  121.  122. 14951640     115.  113.  112.\n6 0050.TW 2023-04-06  121.  121   120.  121   7501419     114.  113.  113."
   },
   {
     "objectID": "notes/investments/n4_strategy.html#generate-trading-signals",
@@ -1558,7 +1558,7 @@
     "href": "notes/investments/n4_strategy.html#plot-portfolio-performance",
     "title": "R Note 4 - Trading Strategy",
     "section": "5. Plot Portfolio Performance",
-    "text": "5. Plot Portfolio Performance\nWe plot the evolution of total portfolio value to visualize how the trading strategy performed over time.\n\nportfolio |&gt; \n  ggplot(aes(x = date, y = total_value)) +\n  geom_line(color = \"steelblue\", linewidth = 1) +\n  labs(title = \"Portfolio Value Over Time\",\n       y = \"Total Value (NT$)\",\n       x = \"Date\") +\n  theme_minimal()"
+    "text": "5. Plot Portfolio Performance\nWe plot the evolution of total portfolio value to visualize how the trading strategy performed over time.\n\nhighchart() |&gt;\n  hc_title(text = \"Portfolio Value Over Time\") |&gt;\n  hc_xAxis(type = \"datetime\", title = list(text = \"Date\")) |&gt;\n  hc_yAxis(title = list(text = \"Total Value (NT$)\")) |&gt;\n  hc_add_series(data = portfolio,\n                type = \"line\",\n                hcaes(x = date, y = total_value),\n                name = \"Portfolio Value\") |&gt;\n  hc_tooltip(valuePrefix = \"NT$\", valueDecimals = 0) |&gt; \n  hc_add_theme(hc_theme_smpl()) |&gt; \n  hc_legend(enabled = FALSE)"
   },
   {
     "objectID": "notes/investments/n4_strategy.html#final-performance-summary",
@@ -1572,7 +1572,7 @@
     "href": "notes/investments/n4_strategy.html#retrieve-market-index-taiex",
     "title": "R Note 4 - Trading Strategy",
     "section": "7. Retrieve Market Index (TAIEX)",
-    "text": "7. Retrieve Market Index (TAIEX)\nTo examine systematic risk, we retrieve the Y9999.TWO index as a proxy for Taiwan’s stock market.\n\nmarket_data &lt;- tq_get(\"^TWII\", from = \"2023-01-01\", to = \"2024-04-30\") |&gt; \n  select(date, adjusted) |&gt; \n  rename(market_price = adjusted)\nhead(market_data)\n\n# A tibble: 6 × 2\n  date       market_price\n  &lt;date&gt;            &lt;dbl&gt;\n1 2023-01-03       14224.\n2 2023-01-04       14199.\n3 2023-01-05       14301.\n4 2023-01-06       14373.\n5 2023-01-09       14752.\n6 2023-01-10       14803."
+    "text": "7. Retrieve Market Index (TAIEX)\nTo examine systematic risk, we retrieve the TAIFEX (^TWII) index as a proxy for Taiwan’s stock market.\n\nmarket_data &lt;- tq_get(\"^TWII\", from = \"2023-03-27\", to = \"2024-04-30\") |&gt; \n  select(date, adjusted) |&gt; \n  rename(market_price = adjusted)\nhead(market_data)\n\n# A tibble: 6 × 2\n  date       market_price\n  &lt;date&gt;            &lt;dbl&gt;\n1 2023-03-27       15830.\n2 2023-03-28       15701.\n3 2023-03-29       15770.\n4 2023-03-30       15849.\n5 2023-03-31       15868.\n6 2023-04-06       15811."
   },
   {
     "objectID": "notes/investments/n4_strategy.html#simulate-buy-and-hold-benchmark",
@@ -1586,14 +1586,14 @@
     "href": "notes/investments/n4_strategy.html#merge-strategy-and-benchmark-for-comparison",
     "title": "R Note 4 - Trading Strategy",
     "section": "9. Merge Strategy and Benchmark for Comparison",
-    "text": "9. Merge Strategy and Benchmark for Comparison\nWe combine both performance series (from 0050.TW strategy and TAIEX benchmark) into one table for plotting.\n\nstrategy_vs_benchmark &lt;- portfolio |&gt; \n  select(date, strategy_value = total_value) |&gt; \n  inner_join(market_benchmark, by = \"date\")\nhead(strategy_vs_benchmark)\n\n        date strategy_value benchmark_value\n1 2023-03-27          1e+06         1108122\n2 2023-03-28          1e+06         1099104\n3 2023-03-29          1e+06         1103883\n4 2023-03-30          1e+06         1109460\n5 2023-03-31          1e+06         1110764\n6 2023-04-06          1e+06         1106754\n\n\nWe plot both the strategy portfolio value and the benchmark value over time to visually compare performance.\n\nggplot(strategy_vs_benchmark, aes(x = date)) +\n  geom_line(aes(y = strategy_value, color = \"0050 Strategy\"), linewidth = 1) +\n  geom_line(aes(y = benchmark_value, color = \"Market Benchmark (TAIEX)\"), linewidth = 1) +\n  labs(title = \"Strategy vs. Market Benchmark Performance\",\n       x = \"Date\",\n       y = \"Portfolio Value (NT$)\",\n       color = \"Portfolio\") +\n  theme_minimal() +\n  theme(legend.position = \"bottom\")"
+    "text": "9. Merge Strategy and Benchmark for Comparison\nWe combine both performance series (from 0050.TW strategy and TAIEX benchmark) into one table for plotting.\n\nstrategy_vs_benchmark &lt;- portfolio |&gt; \n  select(date, strategy_value = total_value) |&gt; \n  inner_join(market_benchmark, by = \"date\")\nhead(strategy_vs_benchmark)\n\n        date strategy_value benchmark_value\n1 2023-03-27          1e+06        997309.5\n2 2023-03-28          1e+06        989193.3\n3 2023-03-29          1e+06        993494.9\n4 2023-03-30          1e+06        998514.1\n5 2023-03-31          1e+06        999687.8\n6 2023-04-06          1e+06        996078.5\n\n\nWe plot both the strategy portfolio value and the benchmark value over time to visually compare performance.\n\nhighchart() |&gt;\n  hc_title(text = \"Strategy vs. Market Benchmark Performance\") |&gt;\n  hc_xAxis(type = \"datetime\", title = list(text = \"Date\")) |&gt;\n  hc_yAxis(title = list(text = \"Portfolio Value (NT$)\")) |&gt;\n  hc_add_series(data = strategy_vs_benchmark,\n                type = \"line\",\n                hcaes(x = date, y = strategy_value),\n                name = \"0050 Strategy\") |&gt;\n  hc_add_series(data = strategy_vs_benchmark,\n                type = \"line\",\n                hcaes(x = date, y = benchmark_value),\n                name = \"Market Benchmark (TAIEX)\") |&gt;\n  hc_tooltip(valuePrefix = \"NT$\", valueDecimals = 0) |&gt;\n  hc_legend(align = \"center\", verticalAlign = \"bottom\") |&gt;\n  hc_add_theme(hc_theme_smpl())"
   },
   {
     "objectID": "notes/investments/n4_strategy.html#buy-and-hold-strategy",
     "href": "notes/investments/n4_strategy.html#buy-and-hold-strategy",
     "title": "R Note 4 - Trading Strategy",
     "section": "10. Buy-and-Hold Strategy",
-    "text": "10. Buy-and-Hold Strategy\nA buy-and-hold strategy is one of the most basic forms of passive investing. The investor purchases an asset and holds it over a specified period, regardless of market fluctuations, with the belief that long-term returns will outweigh short-term volatility.\nIn this section, we simulate a buy-and-hold approach for 0050.TW, starting from March 27, 2023. This date is chosen arbitrarily within our sample period, and we invest the full capital of NT$1,000,000 on that day. We then compare this strategy to:\n\nThe moving average crossover strategy\nThe market benchmark using the TAIEX index\n\n\n# Filter data from 2023-03-27 onward\nbh_etf_data &lt;- etf_data |&gt; \n  filter(date &gt;= as.Date(\"2023-03-27\"))\n\n# Buy at the first available price on that day\ninitial_bh_price &lt;- bh_etf_data$adjusted[1]\nunits_bh &lt;- floor(1000000 / initial_bh_price)\n\n# Simulate holding till end\nbh_etf_hold &lt;- bh_etf_data |&gt; \n  mutate(\n    units = units_bh,\n    bh_etf_value = units * adjusted\n  ) |&gt; \n  select(date, bh_etf_value)\n\n# Merge with previous strategy and benchmark\nstrategy_comparison &lt;- strategy_vs_benchmark |&gt; \n  left_join(bh_etf_hold, by = \"date\")\n\nWe plot and compare all strategies (Including Buy-and-Hold 0050 from 2023-03-27).\n\nggplot(strategy_comparison, aes(x = date)) +\n  geom_line(aes(y = strategy_value, color = \"MA Strategy\"), linewidth = 1) +\n  geom_line(aes(y = benchmark_value, color = \"Market Benchmark (TAIEX)\"), linewidth = 1) +\n  geom_line(aes(y = bh_etf_value, color = \"0050 Buy-and-Hold (from 2023-03-27)\"), linewidth = 1) +\n  labs(title = \"Performance Comparison of Investment Strategies\",\n       x = \"Date\",\n       y = \"Portfolio Value (NT$)\",\n       color = \"Strategy\") +\n  theme_minimal() +\n  theme(legend.position = \"bottom\")"
+    "text": "10. Buy-and-Hold Strategy\nA buy-and-hold strategy is one of the most basic forms of passive investing. The investor purchases an asset and holds it over a specified period, regardless of market fluctuations, with the belief that long-term returns will outweigh short-term volatility.\nIn this section, we simulate a buy-and-hold approach for 0050.TW, starting from March 27, 2023. This date is chosen arbitrarily within our sample period, and we invest the full capital of NT$1,000,000 on that day. We then compare this strategy to:\n\nThe moving average crossover strategy\nThe market benchmark using the TAIEX index\n\n\n# Filter data from 2023-03-27 onward\nbh_etf_data &lt;- etf_data |&gt; \n  filter(date &gt;= as.Date(\"2023-03-27\"))\n\n# Buy at the first available price on that day\ninitial_bh_price &lt;- bh_etf_data$adjusted[1]\nunits_bh &lt;- floor(1000000 / initial_bh_price)\n\n# Simulate holding till end\nbh_etf_hold &lt;- bh_etf_data |&gt; \n  mutate(\n    units = units_bh,\n    bh_etf_value = units * adjusted\n  ) |&gt; \n  select(date, bh_etf_value)\n\n# Merge with previous strategy and benchmark\nstrategy_comparison &lt;- strategy_vs_benchmark |&gt; \n  left_join(bh_etf_hold, by = \"date\")\n\nWe plot and compare all strategies (Including Buy-and-Hold 0050 from 2023-03-27).\n\nhighchart() |&gt;\n  hc_title(text = \"Performance Comparison of Investment Strategies\") |&gt;\n  hc_xAxis(type = \"datetime\", title = list(text = \"Date\")) |&gt;\n  hc_yAxis(title = list(text = \"Portfolio Value (NT$)\")) |&gt;\n  hc_add_series(data = strategy_comparison,\n                type = \"line\",\n                hcaes(x = date, y = strategy_value),\n                name = \"MA Strategy\") |&gt;\n  hc_add_series(data = strategy_comparison,\n                type = \"line\",\n                hcaes(x = date, y = benchmark_value),\n                name = \"Market Benchmark (TAIEX)\") |&gt;\n  hc_add_series(data = strategy_comparison,\n                type = \"line\",\n                hcaes(x = date, y = bh_etf_value),\n                name = \"0050 Buy-and-Hold (from 2023-03-27)\") |&gt;\n  hc_tooltip(valuePrefix = \"NT$\", valueDecimals = 0) |&gt;\n  hc_legend(align = \"center\", verticalAlign = \"bottom\") |&gt;\n  hc_add_theme(hc_theme_smpl())"
   },
   {
     "objectID": "notes/investments/n4_strategy.html#alternative-strategy-designs-and-student-exercise",
@@ -1601,5 +1601,110 @@
     "title": "R Note 4 - Trading Strategy",
     "section": "Alternative Strategy Designs and Student Exercise",
     "text": "Alternative Strategy Designs and Student Exercise\nWhile the moving average crossover and buy-and-hold strategies are intuitive and widely used, they come with limitations. The crossover strategy may lag during fast trend reversals, and buy-and-hold ignores downside risk. Therefore, exploring alternative designs can improve robustness and risk-adjusted performance.\n\n💡 Suggested Alternative Strategies\n\nDual Moving Average with Stop-Loss: Add a 10% stop-loss rule to the existing crossover logic to limit downside exposure.\nMomentum-Based Allocation: Rebalance between 0050.TW and a risk-free proxy (e.g., Taiwan 10-year bond ETF) based on recent return momentum.\nVolatility-Adjusted Strategy: Increase or decrease position sizes depending on realized volatility to manage risk exposure dynamically.\nMean Reversion Strategy: Use Bollinger Bands or RSI (Relative Strength Index) to capture short-term reversal patterns instead of trend following.\nCalendar-Based Rotation: Invest only during historically strong months (e.g., November–April) and stay in cash otherwise (based on seasonality studies).\n\n\n\n🧠 Student Exercise\nDesign your own simple trading strategy for 0050.TW using R. Your task:\n\nDefine a Trading Rule: Based on moving averages, technical indicators, or calendar effects.\nImplement It: Modify the simulation logic provided above using tidyquant, TTR, or your own rules.\nBenchmark It: Compare your strategy’s performance to the original moving average strategy and the buy-and-hold benchmarks.\nVisualize and Interpret: Plot your strategy vs. the benchmark and explain why it performs better or worse."
+  },
+  {
+    "objectID": "notes/investments/n4_strategy.html#footnotes",
+    "href": "notes/investments/n4_strategy.html#footnotes",
+    "title": "R Note 4 - Trading Strategy",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nTWSE stands for Taiwan Stock Exchange. Quote of the index can refer to Yahoo.Finance.↩︎"
+  },
+  {
+    "objectID": "notes/investments/n4_strategy.html#retrieve-taiwan-market-index",
+    "href": "notes/investments/n4_strategy.html#retrieve-taiwan-market-index",
+    "title": "R Note 4 - Trading Strategy",
+    "section": "7. Retrieve Taiwan Market Index",
+    "text": "7. Retrieve Taiwan Market Index\nTo examine systematic risk, we retrieve the TWSE Capitalization Weighted Stock Index (^TWII) as a proxy for Taiwan’s stock market.\n\nmarket_data &lt;- tq_get(\"^TWII\", from = \"2023-03-27\", to = \"2024-04-30\") |&gt; \n  select(date, adjusted) |&gt; \n  rename(market_price = adjusted)\nhead(market_data)\n\n# A tibble: 6 × 2\n  date       market_price\n  &lt;date&gt;            &lt;dbl&gt;\n1 2023-03-27       15830.\n2 2023-03-28       15701.\n3 2023-03-29       15770.\n4 2023-03-30       15849.\n5 2023-03-31       15868.\n6 2023-04-06       15811."
+  },
+  {
+    "objectID": "recommendation.html",
+    "href": "recommendation.html",
+    "title": "Recommendation Letter Policy",
+    "section": "",
+    "text": "If you are considering asking for a recommendation letter, please read this policy carefully. The best way to approach a professor is to ask, “Would you be able to write me a strong recommendation letter?” This gives the professor (not necessarily me) the opportunity to reflect on your performance and provide an honest answer. Always waive your right to view the letter to ensure its credibility unless the professor explicitly advises otherwise. Whenever possible, please schedule an in-person meeting before making a formal request."
+  },
+  {
+    "objectID": "recommendation.html#who-is-eligible",
+    "href": "recommendation.html#who-is-eligible",
+    "title": "Recommendation Letter Policy",
+    "section": "Who is Eligible?",
+    "text": "Who is Eligible?\n\nStudents who have received A+ or exceptional performance in at least one of my courses.\nMaster’s or PhD students under my supervision.\nNSTC Undergraduate Research Project under my supervision.\nMy research assistants."
+  },
+  {
+    "objectID": "recommendation.html#annual-limit",
+    "href": "recommendation.html#annual-limit",
+    "title": "Recommendation Letter Policy",
+    "section": "Annual Limit",
+    "text": "Annual Limit\n\nI will write no more than 4 recommendation letters per academic year.\nAt least 1 slot is reserved for PhD or research-focused master’s program applications.\nThis limit is set to preserve the strength and credibility of my letters."
+  },
+  {
+    "objectID": "recommendation.html#request-deadline",
+    "href": "recommendation.html#request-deadline",
+    "title": "Recommendation Letter Policy",
+    "section": "Request Deadline",
+    "text": "Request Deadline\n\nPlease contact me at least TWO months before your application deadline."
+  },
+  {
+    "objectID": "recommendation.html#information-required",
+    "href": "recommendation.html#information-required",
+    "title": "Recommendation Letter Policy",
+    "section": "Information Required",
+    "text": "Information Required\n\nYour CV\nYour transcript\nA list of target programs\nYour statement of purpose (SOP) for your top choice program\nAny additional materials you wish me to reference in the letter"
+  },
+  {
+    "objectID": "recommendation.html#suggestions-for-students",
+    "href": "recommendation.html#suggestions-for-students",
+    "title": "Recommendation Letter Policy",
+    "section": "Suggestions for Students",
+    "text": "Suggestions for Students\n\nAsk: “Could you write me a strong recommendation letter?”\nAlways waive your right to view the letter to ensure credibility.\nSchedulinga physical appointment before making the request is highly recommended."
+  },
+  {
+    "objectID": "teaching.html#general",
+    "href": "teaching.html#general",
+    "title": "Teaching",
+    "section": "",
+    "text": "If students would like to request recommendation letters from me, please read Recommendation Letter Policy"
+  },
+  {
+    "objectID": "teaching.html#undergraduate-level",
+    "href": "teaching.html#undergraduate-level",
+    "title": "Teaching",
+    "section": "Undergraduate level",
+    "text": "Undergraduate level\n\nInvestments, National Chengchi University, Spring 2025\nFinancial Management, National Chengchi University, 2024"
+  },
+  {
+    "objectID": "teaching.html#ph.d.-level",
+    "href": "teaching.html#ph.d.-level",
+    "title": "Teaching",
+    "section": "Ph.D. level",
+    "text": "Ph.D. level\n\nSeminar on Corporate Finance (PhD), National Chengchi University, Spring 2025"
+  },
+  {
+    "objectID": "teaching.html#other",
+    "href": "teaching.html#other",
+    "title": "Teaching",
+    "section": "Other",
+    "text": "Other\n\nTextual Analysis and Web Crawling using R (mini-workshop), National Central University, Fall 2017."
+  },
+  {
+    "objectID": "teaching.html#teaching-awards",
+    "href": "teaching.html#teaching-awards",
+    "title": "Teaching",
+    "section": "Teaching Awards",
+    "text": "Teaching Awards\n\nExcellent Undergraduate English-taught Course Award, NCCU, 2024"
+  },
+  {
+    "objectID": "teaching.html#general-notes",
+    "href": "teaching.html#general-notes",
+    "title": "Teaching",
+    "section": "General Notes",
+    "text": "General Notes\n\nggplot2 Themes and Styles, lecture note\nhighcharter Themes and Styles, lecture note"
+  },
+  {
+    "objectID": "teaching.html#r-notes",
+    "href": "teaching.html#r-notes",
+    "title": "Teaching",
+    "section": "R Notes",
+    "text": "R Notes\n\nggplot2 Themes and Styles, lecture note\nhighcharter Themes and Styles, lecture note"
   }
 ]
