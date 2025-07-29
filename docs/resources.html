@@ -808,6 +808,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>
   </div>
 </footer>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const links = document.querySelectorAll("a[href]");
+    links.forEach(function (link) {
+      const href = link.getAttribute("href");
+      if (
+        href &&
+        !href.startsWith("/") &&
+        !href.startsWith("#") &&
+        !href.startsWith(window.location.origin) &&
+        !href.includes(window.location.hostname)
+      ) {
+        link.setAttribute("target", "_blank");
+        link.setAttribute("rel", "noopener noreferrer");
+      }
+    });
+  });
+</script>
 
 
 

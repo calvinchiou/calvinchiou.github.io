@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -71,12 +71,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b53751a350365c71b6c909e95f209ed1.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-184aeb1014bf5e7a2f2e72ba05c73eb0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-d1c4a7bd3feff555548a7a28d9984621.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../../site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -106,6 +106,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8KXQZ8LK16"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-8KXQZ8LK16', { 'anonymize_ip': true});
+</script>
 <script type="application/json" class="js-hypothesis-config">
 {
   "theme": "clean"
@@ -196,7 +205,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../about.html"> 
-<span class="menu-text">Resume</span></a>
+<span class="menu-text">Profile</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../research.html"> 
@@ -659,7 +668,7 @@ Levels: high low medium</code></pre>
 </section>
 <section id="using-themes-with-ggthemes" class="level3">
 <h3 class="anchored" data-anchor-id="using-themes-with-ggthemes">Using Themes with <code>ggthemes</code></h3>
-<p>The <code>ggthemes</code> package provides multiple predefined themes to enhance the aesthetics of plots. More styles of ggthemes can be found via <a href="../../notes/ggthemes.html"><em>ggplot2 Themes and Styles</em></a><em>.</em></p>
+<p>The <code>ggthemes</code> package provides multiple predefined themes to enhance the aesthetics of plots. More styles of ggthemes can be found via <a href="../../notes/ggthemes.qmd"><em>ggplot2 Themes and Styles</em></a><em>.</em></p>
 <p>Now, let’s plot the stock price trend for <strong>AAPL</strong> and use the wall street journal (WSJ) theme:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot price trend</span></span>
@@ -679,7 +688,7 @@ Levels: high low medium</code></pre>
 </section>
 <section id="interactive-visualization-with-highcharter" class="level2">
 <h2 class="anchored" data-anchor-id="interactive-visualization-with-highcharter">9. Interactive Visualization with <code>highcharter</code></h2>
-<p>More pre-built themes of hicharter can be found via <a href="../../notes/hcthemes.html"><em>highcharter Themes and Styles</em></a><em>.</em></p>
+<p>More pre-built themes of hicharter can be found via <a href="../../notes/hcthemes.qmd"><em>highcharter Themes and Styles</em></a><em>.</em></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create interactive stock price and volume plot</span></span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">highchart</span>(<span class="at">type =</span> <span class="st">"stock"</span>) <span class="sc">|&gt;</span> </span>
@@ -959,8 +968,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -1071,7 +1078,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
@@ -1311,6 +1317,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>
   </div>
 </footer>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const links = document.querySelectorAll("a[href]");
+    links.forEach(function (link) {
+      const href = link.getAttribute("href");
+      if (
+        href &&
+        !href.startsWith("/") &&
+        !href.startsWith("#") &&
+        !href.startsWith(window.location.origin) &&
+        !href.includes(window.location.hostname)
+      ) {
+        link.setAttribute("target", "_blank");
+        link.setAttribute("rel", "noopener noreferrer");
+      }
+    });
+  });
+</script>
 
 
 

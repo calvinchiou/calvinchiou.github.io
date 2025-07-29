@@ -1,0 +1,282 @@
+---
+title: "R Note 4 - Trading Strategy"
+author: 
+  - name: "Asst. Prof. Calvin J. Chiou"
+    email: jjchiou@nccu.edu.tw
+    affiliations: 
+    - name: "National Chengchi University (NCCU)"
+
+format: html
+editor: visual
+---
+
+```{r, include=FALSE}
+library(tidyquant)
+library(dplyr)
+library(lubridate)
+library(highcharter)
+```
+
+## Introduction
+
+This document demonstrates a simple quantitative strategy applied to the Taiwan 50 ETF (symbol: `0050.TW`), one of the most actively traded ETFs representing large-cap stocks in Taiwan. The aim is twofold:
+
+1.  **Strategy Simulation**: To implement a basic moving average crossover strategy over the period from **January 1, 2023 to April 30, 2024**, simulating a full-investment trading strategy with daily price data.
+2.  **Benchmarking**: To examine the relative performance of the trading strategy, we measure buy-and-hold returns based on TWSE Capitalization Weighted Stock Index (symbol: `^TWII`).[^1]
+
+[^1]: TWSE stands for Taiwan Stock Exchange. Quote of the index can refer to [Yahoo.Finance](https://finance.yahoo.com/quote/%5ETWII/).
+
+Through this analysis, we seek to understand how systematic market movements explain the performance of 0050.TW and evaluate whether a naive technical strategy offers meaningful results in the context of Taiwan's equity market.
+
+## **1. Retrieve Historical Price Data**
+
+We begin by retrieving daily adjusted price data for the ETF 0050.TW. This serves as the basis for both the trading simulation and return calculations.
+
+```{r}
+etf_data <- tq_get("0050.TW",
+                   from = "2023-01-01",
+                   to = "2024-04-30")
+
+head(etf_data)
+```
+
+## **2. Calculate Moving Averages**
+
+We compute two simple moving averages:
+
+-   **MA20**: Short-term (20-day) average
+
+-   **MA50**: Long-term (50-day) average
+
+These are commonly used in technical trading strategies to identify trend changes.
+
+```{r}
+# Calculate Moving-Average Indicators
+etf_ma <- etf_data |> 
+  mutate(
+    MA20 = SMA(adjusted, n = 20),
+    MA50 = SMA(adjusted, n = 50)
+  ) |> 
+  na.omit()
+head(etf_ma)
+```
+
+## 3. Generate Trading Signals
+
+We generate buy and sell signals:
+
+-   **Buy** when MA20 crosses **above** MA50
+
+-   **Sell** when MA20 crosses **below** MA50
+
+```{r}
+etf_signals <- etf_ma |> 
+  mutate(
+    signal = case_when(
+      lag(MA20) < lag(MA50) & MA20 >= MA50 ~ "buy",
+      lag(MA20) > lag(MA50) & MA20 <= MA50 ~ "sell",
+      TRUE ~ NA_character_
+    )
+  )
+
+etf_signals |> filter(!is.na(signal))
+```
+
+## **4. Simulate Trading Strategy**
+
+We simulate an all-in/all-out strategy using an initial capital of NT\$1,000,000. The strategy takes full positions based on the generated signals and tracks the portfolio value over time.
+
+```{r}
+capital <- 1000000
+position <- 0
+cash <- capital
+portfolio <- data.frame()
+
+for (i in 1:nrow(etf_signals)) {
+  date_i <- etf_signals$date[i]
+  price_i <- etf_signals$adjusted[i]
+  signal <- etf_signals$signal[i]
+
+  if (!is.na(signal)) {
+    if (signal == "buy") {
+      position <- floor(cash / price_i)
+      cash <- cash - position * price_i
+    } else if (signal == "sell") {
+      cash <- cash + position * price_i
+      position <- 0
+    } 
+  }
+  total_value <- cash + position * price_i
+  portfolio <- bind_rows(portfolio, 
+                         data.frame(date = date_i, 
+                                    price = price_i, 
+                                    position, 
+                                    cash, 
+                                    total_value))
+}
+```
+
+## **5. Plot Portfolio Performance**
+
+We plot the evolution of total portfolio value to visualize how the trading strategy performed over time.
+
+```{r}
+highchart() |>
+  hc_title(text = "Portfolio Value Over Time") |>
+  hc_xAxis(type = "datetime", title = list(text = "Date")) |>
+  hc_yAxis(title = list(text = "Total Value (NT$)")) |>
+  hc_add_series(data = portfolio,
+                type = "line",
+                hcaes(x = date, y = total_value),
+                name = "Portfolio Value") |>
+  hc_tooltip(valuePrefix = "NT$", valueDecimals = 0) |> 
+  hc_add_theme(hc_theme_smpl()) |> 
+  hc_legend(enabled = FALSE)
+```
+
+## **6. Final Performance Summary**
+
+We summarize the total return of the strategy from start to end.
+
+```{r}
+final_value <- tail(portfolio$total_value, 1)
+return_pct <- (final_value - capital) / capital * 100
+
+cat("Final Value: NT$", round(final_value, 2), "\n")
+cat("Total Return: ", round(return_pct, 2), "%")
+```
+
+## **7. Retrieve Taiwan Market Index**
+
+To examine systematic risk, we retrieve the TWSE Capitalization Weighted Stock Index (`^TWII`) as a proxy for Taiwan’s stock market.
+
+```{r}
+market_data <- tq_get("^TWII", from = "2023-03-27", to = "2024-04-30") |> 
+  select(date, adjusted) |> 
+  rename(market_price = adjusted)
+head(market_data)
+```
+
+## **8. Simulate Buy-and-Hold Benchmark**
+
+We simulate how the NT\$1,000,000 investment in the TAIEX index grows by holding all shares purchased on the first day to the end.
+
+```{r}
+initial_market_price <- market_data$market_price[1]
+units_held <- floor(1000000 / initial_market_price)
+
+market_benchmark <- market_data |> 
+  mutate(
+    units = units_held,
+    benchmark_value = units * market_price
+  ) |> 
+  select(date, benchmark_value)
+```
+
+## 9. Merge Strategy and Benchmark for Comparison
+
+We combine both performance series (from 0050.TW strategy and TAIEX benchmark) into one table for plotting.
+
+```{r}
+strategy_vs_benchmark <- portfolio |> 
+  select(date, strategy_value = total_value) |> 
+  inner_join(market_benchmark, by = "date")
+head(strategy_vs_benchmark)
+```
+
+We plot both the **strategy portfolio value** and the **benchmark value** over time to visually compare performance.
+
+```{r, message=FALSE}
+highchart() |>
+  hc_title(text = "Strategy vs. Market Benchmark Performance") |>
+  hc_xAxis(type = "datetime", title = list(text = "Date")) |>
+  hc_yAxis(title = list(text = "Portfolio Value (NT$)")) |>
+  hc_add_series(data = strategy_vs_benchmark,
+                type = "line",
+                hcaes(x = date, y = strategy_value),
+                name = "0050 Strategy") |>
+  hc_add_series(data = strategy_vs_benchmark,
+                type = "line",
+                hcaes(x = date, y = benchmark_value),
+                name = "Market Benchmark (TAIEX)") |>
+  hc_tooltip(valuePrefix = "NT$", valueDecimals = 0) |>
+  hc_legend(align = "center", verticalAlign = "bottom") |>
+  hc_add_theme(hc_theme_smpl())
+```
+
+## 10. Buy-and-Hold Strategy
+
+A **buy-and-hold strategy** is one of the most basic forms of passive investing. The investor purchases an asset and holds it over a specified period, regardless of market fluctuations, with the belief that long-term returns will outweigh short-term volatility.
+
+In this section, we simulate a buy-and-hold approach for `0050.TW`, starting from **March 27, 2023**. This date is chosen arbitrarily within our sample period, and we invest the full capital of **NT\$1,000,000** on that day. We then compare this strategy to:
+
+-   The *moving average crossover strategy*
+
+-   The *market benchmark* using the TAIEX index
+
+```{r}
+# Filter data from 2023-03-27 onward
+bh_etf_data <- etf_data |> 
+  filter(date >= as.Date("2023-03-27"))
+
+# Buy at the first available price on that day
+initial_bh_price <- bh_etf_data$adjusted[1]
+units_bh <- floor(1000000 / initial_bh_price)
+
+# Simulate holding till end
+bh_etf_hold <- bh_etf_data |> 
+  mutate(
+    units = units_bh,
+    bh_etf_value = units * adjusted
+  ) |> 
+  select(date, bh_etf_value)
+
+# Merge with previous strategy and benchmark
+strategy_comparison <- strategy_vs_benchmark |> 
+  left_join(bh_etf_hold, by = "date")
+```
+
+We plot and compare all strategies (Including Buy-and-Hold 0050 from 2023-03-27).
+
+```{r, message=FALSE}
+highchart() |>
+  hc_title(text = "Performance Comparison of Investment Strategies") |>
+  hc_xAxis(type = "datetime", title = list(text = "Date")) |>
+  hc_yAxis(title = list(text = "Portfolio Value (NT$)")) |>
+  hc_add_series(data = strategy_comparison,
+                type = "line",
+                hcaes(x = date, y = strategy_value),
+                name = "MA Strategy") |>
+  hc_add_series(data = strategy_comparison,
+                type = "line",
+                hcaes(x = date, y = benchmark_value),
+                name = "Market Benchmark (TAIEX)") |>
+  hc_add_series(data = strategy_comparison,
+                type = "line",
+                hcaes(x = date, y = bh_etf_value),
+                name = "0050 Buy-and-Hold (from 2023-03-27)") |>
+  hc_tooltip(valuePrefix = "NT$", valueDecimals = 0) |>
+  hc_legend(align = "center", verticalAlign = "bottom") |>
+  hc_add_theme(hc_theme_smpl())
+```
+
+## Alternative Strategy Designs and Student Exercise
+
+While the moving average crossover and buy-and-hold strategies are intuitive and widely used, they come with limitations. The crossover strategy may lag during fast trend reversals, and buy-and-hold ignores downside risk. Therefore, exploring alternative designs can improve robustness and risk-adjusted performance.
+
+### 💡 Suggested Alternative Strategies
+
+1.  **Dual Moving Average with Stop-Loss**: Add a 10% stop-loss rule to the existing crossover logic to limit downside exposure.
+2.  **Momentum-Based Allocation**: Rebalance between 0050.TW and a risk-free proxy (e.g., Taiwan 10-year bond ETF) based on recent return momentum.
+3.  **Volatility-Adjusted Strategy**: Increase or decrease position sizes depending on realized volatility to manage risk exposure dynamically.
+4.  **Mean Reversion Strategy**: Use Bollinger Bands or RSI (Relative Strength Index) to capture short-term reversal patterns instead of trend following.
+5.  **Calendar-Based Rotation**: Invest only during historically strong months (e.g., November–April) and stay in cash otherwise (based on seasonality studies).
+
+### 🧠 Student Exercise
+
+Design your own simple trading strategy for 0050.TW using R. Your task:
+
+1.  **Define a Trading Rule**: Based on moving averages, technical indicators, or calendar effects.
+2.  **Implement It**: Modify the simulation logic provided above using `tidyquant`, `TTR`, or your own rules.
+3.  **Benchmark It**: Compare your strategy's performance to the original moving average strategy and the buy-and-hold benchmarks.
+4.  **Visualize and Interpret**: Plot your strategy vs. the benchmark and explain why it performs better or worse.

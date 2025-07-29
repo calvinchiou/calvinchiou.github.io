@@ -277,7 +277,7 @@
     "href": "about.html#awards-and-honors",
     "title": "About me",
     "section": "Awards and Honors",
-    "text": "Awards and Honors\nOUTA EMI Training Program, UT Austin & NTNU, Texas, US | 2025\nFubon Best Paper Award | 2024\nExcellent Undergraduate English-taught Course Award, NCCU | 2024\nTaiwanese Government Scholarship to Study Abroad | 2022 - 2023\nNTU Research Scholarship | 2019 - 2023\nBest Paper Award, TSC Thesis Symposium | 2017\nShanghai Commercial & Savings Bank Scholarship | 2017"
+    "text": "Awards and Honors\nOff-Site to UT Austin EMI Professional Development Program | 2025  \nFubon Best Paper Award | 2024\nExcellent Undergraduate English-taught Course Award, NCCU | 2024\nTaiwanese Government Scholarship to Study Abroad | 2022 - 2023\nNTU Research Scholarship | 2019 - 2023\nBest Paper Award, TSC Thesis Symposium | 2017\nShanghai Commercial & Savings Bank Scholarship | 2017"
   },
   {
     "objectID": "about.html#conference-presentations",
@@ -641,7 +641,7 @@
     "href": "investments.html",
     "title": "Investments",
     "section": "",
-    "text": "R Lecture Notes\n\n\n\n\n\nTitle\n\n\nModified\n\n\n\n\n\n\nR Note 1 - Introduction to R and Financial Data Handling\n\n\n3/16/25, 9:55:06 AM\n\n\n\n\nR Note 2 - Portfolio Formation using R\n\n\n5/7/25, 10:07:48 PM\n\n\n\n\nR Note 3 - Estimating Beta Coefficients\n\n\n5/7/25, 10:26:06 PM\n\n\n\n\nR Note 4 - Trading Strategy\n\n\n5/12/25, 12:33:50 PM\n\n\n\n\n\nNo matching items\n\n\n\n\n\n\n\n Back to top"
+    "text": "R Lecture Notes\n\n\n\n\n\nTitle\n\n\nModified\n\n\n\n\n\n\nggplot2 Themes\n\n\n7/29/25, 2:25:08 PM\n\n\n\n\nhighcharter Themes\n\n\n7/29/25, 2:25:06 PM\n\n\n\n\nR Note 1 - Introduction to R and Financial Data Handling\n\n\n3/16/25, 9:55:06 AM\n\n\n\n\nR Note 2 - Portfolio Formation using R\n\n\n5/7/25, 10:07:48 PM\n\n\n\n\nR Note 3 - Estimating Beta Coefficients\n\n\n5/7/25, 10:26:06 PM\n\n\n\n\nR Note 4 - Trading Strategy\n\n\n5/12/25, 12:33:50 PM\n\n\n\n\n\nNo matching items\n\n\n\n\n\n\n\n Back to top"
   },
   {
     "objectID": "notes/investments/n1_introduction.html",
@@ -1712,7 +1712,7 @@
     "href": "teaching.html#teaching-awards-grants",
     "title": "Teaching",
     "section": "Teaching Awards & Grants",
-    "text": "Teaching Awards & Grants\n\nOUTA EMI Training Program, UT Austin & NTNU, Texas, US, 2025\nExcellent Undergraduate English-taught Course Award, NCCU, 2024\nProfessorship Mentor Program, NCCU, 2024"
+    "text": "Teaching Awards & Grants\n\nOff-Site to UT Austin EMI Professional Development Program | 2025  \nExcellent Undergraduate English-taught Course Award, NCCU | 2024\nProfessorship Mentor Program, NCCU | 2024"
   },
   {
     "objectID": "workinprogress/conference_call.html",
@@ -1790,5 +1790,376 @@
     "title": "Sustainable Fund Ownership to Corporate Financial Performance",
     "section": "Keywords",
     "text": "Keywords\nSocially Responsible Investment (SRI), sustainable fund holdings, sustainability performance, financial performance"
+  },
+  {
+    "objectID": "notes/investments/ggthemes.html",
+    "href": "notes/investments/ggthemes.html",
+    "title": "ggplot2 Themes",
+    "section": "",
+    "text": "In this document, we will explore various themes and styles available in ggplot2.\n\nlibrary(ggplot2)\nlibrary(ggthemes)\n\n# Basic plot\np &lt;- ggplot(mpg, aes(x=displ, y=hwy, color=class)) +\n  geom_point() +\n  labs(title=\"Default Theme\")\n\np\n\n\n\n\n\n\n\n\nBelow are examples of applying different basic themes to your plot:\n\n\n\np + theme_gray() +\n  labs(title=\"Theme Gray\")\n\n\n\n\n\n\n\n\n\n\n\n\np + theme_bw() +\n  labs(title=\"Theme BW\")\n\n\n\n\n\n\n\n\n\n\n\n\np + theme_linedraw() +\n  labs(title=\"Theme Linedraw\")\n\n\n\n\n\n\n\n\n\n\n\n\np + theme_light() +\n  labs(title=\"Theme Light\")\n\n\n\n\n\n\n\n\n\n\n\n\np + theme_dark() +\n  labs(title=\"Theme Dark\")\n\n\n\n\n\n\n\n\n\n\n\n\np + theme_minimal() +\n  labs(title=\"Theme Minimal\")\n\n\n\n\n\n\n\n\n\n\n\n\np + theme_classic() +\n  labs(title=\"Theme Classic\")\n\n\n\n\n\n\n\n\n\n\n\n\np + theme_void() +\n  labs(title=\"Theme Void\")\n\n\n\n\n\n\n\n\n\n\n\n\np + theme_test() +\n  labs(title=\"Theme Test\")"
+  },
+  {
+    "objectID": "notes/investments/ggthemes.html#theme-gray",
+    "href": "notes/investments/ggthemes.html#theme-gray",
+    "title": "ggplot2 Themes",
+    "section": "",
+    "text": "p + theme_gray() +\n  labs(title=\"Theme Gray\")"
+  },
+  {
+    "objectID": "notes/investments/ggthemes.html#theme-dark-on-light",
+    "href": "notes/investments/ggthemes.html#theme-dark-on-light",
+    "title": "ggplot2 Themes",
+    "section": "",
+    "text": "p + theme_bw() +\n  labs(title=\"Theme BW\")"
+  },
+  {
+    "objectID": "notes/investments/ggthemes.html#theme-linedraw",
+    "href": "notes/investments/ggthemes.html#theme-linedraw",
+    "title": "ggplot2 Themes",
+    "section": "",
+    "text": "p + theme_linedraw() +\n  labs(title=\"Theme Linedraw\")"
+  },
+  {
+    "objectID": "notes/investments/ggthemes.html#theme-light",
+    "href": "notes/investments/ggthemes.html#theme-light",
+    "title": "ggplot2 Themes",
+    "section": "",
+    "text": "p + theme_light() +\n  labs(title=\"Theme Light\")"
+  },
+  {
+    "objectID": "notes/investments/ggthemes.html#theme-dark",
+    "href": "notes/investments/ggthemes.html#theme-dark",
+    "title": "ggplot2 Themes",
+    "section": "",
+    "text": "p + theme_dark() +\n  labs(title=\"Theme Dark\")"
+  },
+  {
+    "objectID": "notes/investments/ggthemes.html#theme-minimal",
+    "href": "notes/investments/ggthemes.html#theme-minimal",
+    "title": "ggplot2 Themes",
+    "section": "",
+    "text": "p + theme_minimal() +\n  labs(title=\"Theme Minimal\")"
+  },
+  {
+    "objectID": "notes/investments/ggthemes.html#theme-classic",
+    "href": "notes/investments/ggthemes.html#theme-classic",
+    "title": "ggplot2 Themes",
+    "section": "",
+    "text": "p + theme_classic() +\n  labs(title=\"Theme Classic\")"
+  },
+  {
+    "objectID": "notes/investments/ggthemes.html#theme-void",
+    "href": "notes/investments/ggthemes.html#theme-void",
+    "title": "ggplot2 Themes",
+    "section": "",
+    "text": "p + theme_void() +\n  labs(title=\"Theme Void\")"
+  },
+  {
+    "objectID": "notes/investments/ggthemes.html#theme-test",
+    "href": "notes/investments/ggthemes.html#theme-test",
+    "title": "ggplot2 Themes",
+    "section": "",
+    "text": "p + theme_test() +\n  labs(title=\"Theme Test\")"
+  },
+  {
+    "objectID": "notes/investments/ggthemes.html#theme-economist",
+    "href": "notes/investments/ggthemes.html#theme-economist",
+    "title": "ggplot2 Themes",
+    "section": "Theme Economist",
+    "text": "Theme Economist\n\np + theme_economist() +\n  labs(title=\"Theme Economist\") +\n  scale_color_economist()"
+  },
+  {
+    "objectID": "notes/investments/ggthemes.html#theme-economist---white",
+    "href": "notes/investments/ggthemes.html#theme-economist---white",
+    "title": "ggplot2 Themes",
+    "section": "Theme Economist - White",
+    "text": "Theme Economist - White\n\np + theme_economist_white() +\n  labs(title=\"Theme Economist - White\") +\n  scale_color_economist()"
+  },
+  {
+    "objectID": "notes/investments/ggthemes.html#theme-excel",
+    "href": "notes/investments/ggthemes.html#theme-excel",
+    "title": "ggplot2 Themes",
+    "section": "Theme Excel",
+    "text": "Theme Excel\n\np + theme_excel() +\n  labs(title=\"Theme Excel\") +\n  scale_color_excel()"
+  },
+  {
+    "objectID": "notes/investments/ggthemes.html#theme-excel---new",
+    "href": "notes/investments/ggthemes.html#theme-excel---new",
+    "title": "ggplot2 Themes",
+    "section": "Theme Excel - New",
+    "text": "Theme Excel - New\n\np + theme_excel_new() +\n  labs(title=\"Theme Excel - New\") +\n  scale_color_excel_new()"
+  },
+  {
+    "objectID": "notes/investments/ggthemes.html#theme-libreoffice-calc",
+    "href": "notes/investments/ggthemes.html#theme-libreoffice-calc",
+    "title": "ggplot2 Themes",
+    "section": "Theme LibreOffice Calc",
+    "text": "Theme LibreOffice Calc\n\np + theme_calc() +\n  labs(title=\"Theme Calc\") +\n  scale_color_calc() +\n  scale_shape_calc()"
+  },
+  {
+    "objectID": "notes/investments/ggthemes.html#theme-highcharts",
+    "href": "notes/investments/ggthemes.html#theme-highcharts",
+    "title": "ggplot2 Themes",
+    "section": "Theme Highcharts",
+    "text": "Theme Highcharts\n\np + theme_hc() +\n  labs(title=\"Theme Highcharts\") + \n  scale_color_hc()"
+  },
+  {
+    "objectID": "notes/investments/ggthemes.html#theme-google-docs",
+    "href": "notes/investments/ggthemes.html#theme-google-docs",
+    "title": "ggplot2 Themes",
+    "section": "Theme Google Docs",
+    "text": "Theme Google Docs\n\np + theme_gdocs() +\n  labs(title=\"Theme Google Docs\") +\n  scale_color_gdocs()"
+  },
+  {
+    "objectID": "notes/investments/ggthemes.html#theme-clean",
+    "href": "notes/investments/ggthemes.html#theme-clean",
+    "title": "ggplot2 Themes",
+    "section": "Theme Clean",
+    "text": "Theme Clean\n\np + theme_clean() +\n  labs(title=\"Theme Clean\") +\n  scale_color_canva()"
+  },
+  {
+    "objectID": "notes/investments/ggthemes.html#theme-538",
+    "href": "notes/investments/ggthemes.html#theme-538",
+    "title": "ggplot2 Themes",
+    "section": "Theme 538",
+    "text": "Theme 538\n\np + theme_fivethirtyeight() +\n  labs(title=\"Theme 538\")"
+  },
+  {
+    "objectID": "notes/investments/ggthemes.html#theme-igray",
+    "href": "notes/investments/ggthemes.html#theme-igray",
+    "title": "ggplot2 Themes",
+    "section": "Theme igray",
+    "text": "Theme igray\n\np + theme_igray() +\n  labs(title=\"Theme igray\")"
+  },
+  {
+    "objectID": "notes/investments/ggthemes.html#theme-few",
+    "href": "notes/investments/ggthemes.html#theme-few",
+    "title": "ggplot2 Themes",
+    "section": "Theme few",
+    "text": "Theme few\n\np + theme_few() +\n  labs(title=\"Theme few\") +\n  scale_color_few()"
+  },
+  {
+    "objectID": "notes/investments/ggthemes.html#theme-solarized",
+    "href": "notes/investments/ggthemes.html#theme-solarized",
+    "title": "ggplot2 Themes",
+    "section": "Theme Solarized",
+    "text": "Theme Solarized\n\n# light\np + theme_solarized() +\n  labs(title=\"Theme Solarized\") +\n  scale_color_solarized()\n\n\n\n\n\n\n\n# light2\np + theme_solarized_2() +\n  labs(title=\"Theme Solarized2\") +\n  scale_color_solarized()\n\n\n\n\n\n\n\n# dark\np + theme_solarized(light = FALSE) +\n  labs(title=\"Theme Solarized Dark\") +\n  scale_color_solarized()"
+  },
+  {
+    "objectID": "notes/investments/ggthemes.html#theme-tufte",
+    "href": "notes/investments/ggthemes.html#theme-tufte",
+    "title": "ggplot2 Themes",
+    "section": "Theme tufte",
+    "text": "Theme tufte\n\np + theme_tufte() +\n  labs(title=\"Theme tufte\")"
+  },
+  {
+    "objectID": "notes/investments/ggthemes.html#theme-stata",
+    "href": "notes/investments/ggthemes.html#theme-stata",
+    "title": "ggplot2 Themes",
+    "section": "Theme Stata",
+    "text": "Theme Stata\n\np + theme_stata() +\n  labs(title=\"Theme Stata\") + \n  scale_color_stata() + \n  scale_shape_stata()"
+  },
+  {
+    "objectID": "notes/investments/ggthemes.html#theme-wall-street-journal-wsj",
+    "href": "notes/investments/ggthemes.html#theme-wall-street-journal-wsj",
+    "title": "ggplot2 Themes",
+    "section": "Theme Wall Street Journal (WSJ)",
+    "text": "Theme Wall Street Journal (WSJ)\n\np + theme_wsj() +\n  labs(title=\"Theme Wall Street Journal\")"
+  },
+  {
+    "objectID": "notes/investments/ggthemes.html#theme-pander",
+    "href": "notes/investments/ggthemes.html#theme-pander",
+    "title": "ggplot2 Themes",
+    "section": "Theme Pander",
+    "text": "Theme Pander\n\np + theme_pander() +\n  labs(title=\"Theme Pander\") +\n  scale_color_pander()"
+  },
+  {
+    "objectID": "notes/investments/ggthemes.html#theme-tidyquant",
+    "href": "notes/investments/ggthemes.html#theme-tidyquant",
+    "title": "ggplot2 Themes",
+    "section": "Theme Tidyquant",
+    "text": "Theme Tidyquant\n\nlibrary(tidyquant)\n# Tidyquant - basic\np + theme_tq() +\n  labs(title=\"Theme Tidyquant\") +\n  scale_color_tq()\n\n\n\n\n\n\n\n# dark\np + theme_tq_dark() +\n  labs(title=\"Theme Tidyquant Dark\") +\n  scale_color_tq()\n\n\n\n\n\n\n\n# green\np + theme_tq_green() +\n  labs(title=\"Theme Tidyquant Green\") +\n  scale_color_tq()"
+  },
+  {
+    "objectID": "notes/investments/hcthemes.html",
+    "href": "notes/investments/hcthemes.html",
+    "title": "highcharter Themes",
+    "section": "",
+    "text": "In this document, we will explore various themes and styles available in highcharter.\n\nlibrary(highcharter) \nlibrary(dplyr)\n\n# Sample dataset\ndata &lt;- mtcars %&gt;%\n  tibble::rownames_to_column(var = \"car\") %&gt;%\n  mutate(cyl = as.factor(cyl))\n# Basic plot\np &lt;- highchart() %&gt;% \n    hc_add_series(data, type = \"scatter\", hcaes(x = mpg, y = hp, group = cyl))\np %&gt;% hc_title(text = \"Default Theme\")\n\n\n\n\n\nBelow are examples of applying different themes to your plot:"
+  },
+  {
+    "objectID": "notes/investments/hcthemes.html#introduction",
+    "href": "notes/investments/hcthemes.html#introduction",
+    "title": "highcharter Themes",
+    "section": "",
+    "text": "In this document, we will explore various themes and styles available in highcharter.\n\nlibrary(highcharter) \nlibrary(dplyr)\n\n# Sample dataset\ndata &lt;- mtcars %&gt;%\n  tibble::rownames_to_column(var = \"car\") %&gt;%\n  mutate(cyl = as.factor(cyl))\n# Basic plot\np &lt;- highchart() %&gt;% \n    hc_add_series(data, type = \"scatter\", hcaes(x = mpg, y = hp, group = cyl))\np %&gt;% hc_title(text = \"Default Theme\")\n\n\n\n\n\nBelow are examples of applying different themes to your plot:"
+  },
+  {
+    "objectID": "notes/investments/hcthemes.html#theme-google",
+    "href": "notes/investments/hcthemes.html#theme-google",
+    "title": "highcharter Themes",
+    "section": "Theme Google",
+    "text": "Theme Google\n\np %&gt;%\n  hc_title(text = \"Theme Google\") %&gt;%\n  hc_add_theme(hc_theme_google())"
+  },
+  {
+    "objectID": "notes/investments/hcthemes.html#theme-financial-times",
+    "href": "notes/investments/hcthemes.html#theme-financial-times",
+    "title": "highcharter Themes",
+    "section": "Theme Financial Times",
+    "text": "Theme Financial Times\n\np %&gt;%\n  hc_title(text = \"Theme Financial Times\") %&gt;%\n  hc_add_theme(hc_theme_ft())"
+  },
+  {
+    "objectID": "notes/investments/hcthemes.html#theme-economist",
+    "href": "notes/investments/hcthemes.html#theme-economist",
+    "title": "highcharter Themes",
+    "section": "Theme Economist",
+    "text": "Theme Economist\n\np %&gt;%\n  hc_title(text = \"Theme Economist\") %&gt;%\n  hc_add_theme(hc_theme_economist())"
+  },
+  {
+    "objectID": "notes/investments/hcthemes.html#theme-elementary",
+    "href": "notes/investments/hcthemes.html#theme-elementary",
+    "title": "highcharter Themes",
+    "section": "Theme Elementary",
+    "text": "Theme Elementary\n\np %&gt;%\n  hc_title(text = \"Theme Elementary\") %&gt;%\n  hc_add_theme(hc_theme_elementary())"
+  },
+  {
+    "objectID": "notes/investments/hcthemes.html#theme-simple",
+    "href": "notes/investments/hcthemes.html#theme-simple",
+    "title": "highcharter Themes",
+    "section": "Theme Simple",
+    "text": "Theme Simple\n\np %&gt;%\n  hc_title(text = \"Theme Simple\") %&gt;%\n  hc_add_theme(hc_theme_smpl())"
+  },
+  {
+    "objectID": "notes/investments/hcthemes.html#theme-database",
+    "href": "notes/investments/hcthemes.html#theme-database",
+    "title": "highcharter Themes",
+    "section": "Theme Database",
+    "text": "Theme Database\n\np %&gt;%\n  hc_title(text = \"Theme Database\") %&gt;%\n  hc_add_theme(hc_theme_db())"
+  },
+  {
+    "objectID": "notes/investments/hcthemes.html#theme-ffx",
+    "href": "notes/investments/hcthemes.html#theme-ffx",
+    "title": "highcharter Themes",
+    "section": "Theme FFX",
+    "text": "Theme FFX\n\np %&gt;%\n  hc_title(text = \"Theme FFX\") %&gt;%\n  hc_add_theme(hc_theme_ffx())"
+  },
+  {
+    "objectID": "notes/investments/hcthemes.html#theme-fivethirtyeight",
+    "href": "notes/investments/hcthemes.html#theme-fivethirtyeight",
+    "title": "highcharter Themes",
+    "section": "Theme FiveThirtyEight",
+    "text": "Theme FiveThirtyEight\n\np %&gt;%\n  hc_title(text = \"Theme FiveThirtyEight\") %&gt;%\n  hc_add_theme(hc_theme_538())"
+  },
+  {
+    "objectID": "notes/investments/hcthemes.html#theme-flat",
+    "href": "notes/investments/hcthemes.html#theme-flat",
+    "title": "highcharter Themes",
+    "section": "Theme Flat",
+    "text": "Theme Flat\n\np %&gt;%\n  hc_title(text = \"Theme Flat\") %&gt;%\n  hc_add_theme(hc_theme_flat())"
+  },
+  {
+    "objectID": "notes/investments/hcthemes.html#theme-flat-dark",
+    "href": "notes/investments/hcthemes.html#theme-flat-dark",
+    "title": "highcharter Themes",
+    "section": "Theme Flat Dark",
+    "text": "Theme Flat Dark\n\np %&gt;%\n  hc_title(text = \"Theme Flat Dark\") %&gt;%\n  hc_add_theme(hc_theme_flatdark())"
+  },
+  {
+    "objectID": "notes/investments/hcthemes.html#theme-chalk",
+    "href": "notes/investments/hcthemes.html#theme-chalk",
+    "title": "highcharter Themes",
+    "section": "Theme Chalk",
+    "text": "Theme Chalk\n\np %&gt;%\n  hc_title(text = \"Theme Chalk\") %&gt;%\n  hc_add_theme(hc_theme_chalk())"
+  },
+  {
+    "objectID": "notes/investments/hcthemes.html#theme-handdrawn",
+    "href": "notes/investments/hcthemes.html#theme-handdrawn",
+    "title": "highcharter Themes",
+    "section": "Theme Handdrawn",
+    "text": "Theme Handdrawn\n\np %&gt;%\n  hc_title(text = \"Theme Handdrawn\") %&gt;%\n  hc_add_theme(hc_theme_handdrawn())"
+  },
+  {
+    "objectID": "notes/investments/hcthemes.html#theme-dark-unica",
+    "href": "notes/investments/hcthemes.html#theme-dark-unica",
+    "title": "highcharter Themes",
+    "section": "Theme Dark Unica",
+    "text": "Theme Dark Unica\n\np %&gt;%\n  hc_title(text = \"Theme Dark Unica\") %&gt;%\n  hc_add_theme(hc_theme_darkunica())"
+  },
+  {
+    "objectID": "notes/investments/hcthemes.html#theme-ggplot2",
+    "href": "notes/investments/hcthemes.html#theme-ggplot2",
+    "title": "highcharter Themes",
+    "section": "Theme ggplot2",
+    "text": "Theme ggplot2\n\np %&gt;%\n  hc_title(text = \"Theme ggplot2\") %&gt;%\n  hc_add_theme(hc_theme_ggplot2())"
+  },
+  {
+    "objectID": "notes/investments/hcthemes.html#theme-alone",
+    "href": "notes/investments/hcthemes.html#theme-alone",
+    "title": "highcharter Themes",
+    "section": "Theme Alone",
+    "text": "Theme Alone\n\np %&gt;%\n  hc_title(text = \"Theme Alone\") %&gt;%\n  hc_add_theme(hc_theme_alone())"
+  },
+  {
+    "objectID": "notes/investments/hcthemes.html#theme-bloom",
+    "href": "notes/investments/hcthemes.html#theme-bloom",
+    "title": "highcharter Themes",
+    "section": "Theme Bloom",
+    "text": "Theme Bloom\n\np %&gt;%\n  hc_title(text = \"Theme Bloom\") %&gt;%\n  hc_add_theme(hc_theme_bloom())"
+  },
+  {
+    "objectID": "notes/investments/hcthemes.html#theme-gridlight",
+    "href": "notes/investments/hcthemes.html#theme-gridlight",
+    "title": "highcharter Themes",
+    "section": "Theme Gridlight",
+    "text": "Theme Gridlight\n\np %&gt;%\n  hc_title(text = \"Theme Grid Light\") %&gt;%\n  hc_add_theme(hc_theme_gridlight())"
+  },
+  {
+    "objectID": "notes/investments/hcthemes.html#theme-highcharter",
+    "href": "notes/investments/hcthemes.html#theme-highcharter",
+    "title": "highcharter Themes",
+    "section": "Theme Highcharter",
+    "text": "Theme Highcharter\n\np %&gt;%\n  hc_title(text = \"Theme Highcharter\") %&gt;%\n  hc_add_theme(hc_theme_hcrt())"
+  },
+  {
+    "objectID": "notes/investments/hcthemes.html#theme-null",
+    "href": "notes/investments/hcthemes.html#theme-null",
+    "title": "highcharter Themes",
+    "section": "Theme Null",
+    "text": "Theme Null\n\np %&gt;%\n  hc_title(text = \"Theme Null\") %&gt;%\n  hc_add_theme(hc_theme_null())"
+  },
+  {
+    "objectID": "notes/investments/hcthemes.html#theme-monokai",
+    "href": "notes/investments/hcthemes.html#theme-monokai",
+    "title": "highcharter Themes",
+    "section": "Theme Monokai",
+    "text": "Theme Monokai\n\np %&gt;%\n  hc_title(text = \"Theme Monokai\") %&gt;%\n  hc_add_theme(hc_theme_monokai())"
+  },
+  {
+    "objectID": "notes/investments/hcthemes.html#theme-sansignika",
+    "href": "notes/investments/hcthemes.html#theme-sansignika",
+    "title": "highcharter Themes",
+    "section": "Theme Sansignika",
+    "text": "Theme Sansignika\n\np %&gt;%\n  hc_title(text = \"Theme Sansignika\") %&gt;%\n  hc_add_theme(hc_theme_sandsignika())"
+  },
+  {
+    "objectID": "notes/investments/hcthemes.html#theme-sparkline",
+    "href": "notes/investments/hcthemes.html#theme-sparkline",
+    "title": "highcharter Themes",
+    "section": "Theme Sparkline",
+    "text": "Theme Sparkline\n\np %&gt;%\n  hc_title(text = \"Theme Sparkline\") %&gt;%\n  hc_add_theme(hc_theme_sparkline())\n\n\n\n\np %&gt;%\n  hc_title(text = \"Theme Sparkline VB\") %&gt;%\n  hc_add_theme(hc_theme_sparkline_vb())"
+  },
+  {
+    "objectID": "notes/investments/hcthemes.html#theme-superheroes",
+    "href": "notes/investments/hcthemes.html#theme-superheroes",
+    "title": "highcharter Themes",
+    "section": "Theme Superheroes",
+    "text": "Theme Superheroes\n\np %&gt;%\n  hc_title(text = \"Theme Superheroes\") %&gt;%\n  hc_add_theme(hc_theme_superheroes())"
+  },
+  {
+    "objectID": "notes/investments/hcthemes.html#theme-tufte",
+    "href": "notes/investments/hcthemes.html#theme-tufte",
+    "title": "highcharter Themes",
+    "section": "Theme Tufte",
+    "text": "Theme Tufte\n\np %&gt;%\n  hc_title(text = \"Theme Tufte\") %&gt;%\n  hc_add_theme(hc_theme_tufte())\n\n\n\n\np %&gt;%\n  hc_title(text = \"Theme Tufte2\") %&gt;%\n  hc_add_theme(hc_theme_tufte2())"
   }
 ]

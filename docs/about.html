@@ -240,7 +240,7 @@ window.Quarto = {
 </section>
 <section id="awards-and-honors" class="level2">
 <h2 data-anchor-id="awards-and-honors">Awards and Honors</h2>
-<p>OUTA EMI Training Program, UT Austin &amp; NTNU, Texas, US | 2025</p>
+<p>Off-Site to UT Austin EMI Professional Development Program | 2025 <img src="images/utaustin_logo.svg.png" width="87" height="27"> <img src="images/rcemi.png" class="img-fluid" width="39"></p>
 <p>Fubon Best Paper Award | 2024</p>
 <p>Excellent Undergraduate English-taught Course Award, NCCU | 2024</p>
 <p>Taiwanese Government Scholarship to Study Abroad | 2022 - 2023</p>
@@ -860,6 +860,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>
   </div>
 </footer>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const links = document.querySelectorAll("a[href]");
+    links.forEach(function (link) {
+      const href = link.getAttribute("href");
+      if (
+        href &&
+        !href.startsWith("/") &&
+        !href.startsWith("#") &&
+        !href.startsWith(window.location.origin) &&
+        !href.includes(window.location.hostname)
+      ) {
+        link.setAttribute("target", "_blank");
+        link.setAttribute("rel", "noopener noreferrer");
+      }
+    });
+  });
+</script>
 
 
 

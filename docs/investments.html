@@ -86,7 +86,7 @@ ul.task-list li input[type="checkbox"] {
     const options = {
       valueNames: ['listing-title','listing-file-modified',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
       
-      searchColumns: ["listing-title","listing-author"],
+      searchColumns: ["listing-date","listing-title","listing-author"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -180,7 +180,7 @@ window.Quarto = {
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./about.html"> 
-<span class="menu-text">Resume</span></a>
+<span class="menu-text">Profile</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./research.html"> 
@@ -286,7 +286,25 @@ Modified
 </tr>
 </thead>
 <tbody class="list">
-<tr data-index="0" data-listing-file-modified-sort="1742090106421" data-listing-reading-time-sort="5" data-listing-word-count-sort="846" data-listing-title-sort="R Note 1 - Introduction to R and Financial Data Handling" data-listing-filename-sort="n1_introduction.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="0" data-listing-date-sort="1714492800000" data-listing-file-modified-sort="1753770308520" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="438" data-listing-title-sort="ggplot2 Themes" data-listing-filename-sort="ggthemes.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+ if (href) { window.location=href ; return false; }">
+<td>
+<a href="./notes/investments/ggthemes.html" class="title listing-title">ggplot2 Themes</a>
+</td>
+<td>
+<span class="listing-file-modified">7/29/25, 2:25:08 PM</span>
+</td>
+</tr>
+<tr data-index="1" data-listing-date-sort="1714492800000" data-listing-file-modified-sort="1753770306935" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="355" data-listing-title-sort="highcharter Themes" data-listing-filename-sort="hcthemes.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+ if (href) { window.location=href ; return false; }">
+<td>
+<a href="./notes/investments/hcthemes.html" class="title listing-title">highcharter Themes</a>
+</td>
+<td>
+<span class="listing-file-modified">7/29/25, 2:25:06 PM</span>
+</td>
+</tr>
+<tr data-index="2" data-listing-file-modified-sort="1742090106421" data-listing-reading-time-sort="5" data-listing-word-count-sort="846" data-listing-title-sort="R Note 1 - Introduction to R and Financial Data Handling" data-listing-filename-sort="n1_introduction.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="./notes/investments/n1_introduction.html" class="title listing-title">R Note 1 - Introduction to R and Financial Data Handling</a>
@@ -295,7 +313,7 @@ Modified
 <span class="listing-file-modified">3/16/25, 9:55:06 AM</span>
 </td>
 </tr>
-<tr data-index="1" data-listing-file-modified-sort="1746626868764" data-listing-reading-time-sort="7" data-listing-word-count-sort="1221" data-listing-title-sort="R Note 2 - Portfolio Formation using R" data-listing-filename-sort="n2_portfolio.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="3" data-listing-file-modified-sort="1746626868764" data-listing-reading-time-sort="7" data-listing-word-count-sort="1221" data-listing-title-sort="R Note 2 - Portfolio Formation using R" data-listing-filename-sort="n2_portfolio.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="./notes/investments/n2_portfolio.html" class="title listing-title">R Note 2 - Portfolio Formation using R</a>
@@ -304,7 +322,7 @@ Modified
 <span class="listing-file-modified">5/7/25, 10:07:48 PM</span>
 </td>
 </tr>
-<tr data-index="2" data-listing-file-modified-sort="1746627966001" data-listing-reading-time-sort="8" data-listing-word-count-sort="1431" data-listing-title-sort="R Note 3 - Estimating Beta Coefficients" data-listing-filename-sort="n3_beta.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="4" data-listing-file-modified-sort="1746627966001" data-listing-reading-time-sort="8" data-listing-word-count-sort="1431" data-listing-title-sort="R Note 3 - Estimating Beta Coefficients" data-listing-filename-sort="n3_beta.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="./notes/investments/n3_beta.html" class="title listing-title">R Note 3 - Estimating Beta Coefficients</a>
@@ -313,7 +331,7 @@ Modified
 <span class="listing-file-modified">5/7/25, 10:26:06 PM</span>
 </td>
 </tr>
-<tr data-index="3" data-listing-file-modified-sort="1747024430070" data-listing-reading-time-sort="10" data-listing-word-count-sort="1811" data-listing-title-sort="R Note 4 - Trading Strategy" data-listing-filename-sort="n4_strategy.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="5" data-listing-file-modified-sort="1747024430070" data-listing-reading-time-sort="10" data-listing-word-count-sort="1811" data-listing-title-sort="R Note 4 - Trading Strategy" data-listing-filename-sort="n4_strategy.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="./notes/investments/n4_strategy.html" class="title listing-title">R Note 4 - Trading Strategy</a>
@@ -909,6 +927,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>
   </div>
 </footer>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const links = document.querySelectorAll("a[href]");
+    links.forEach(function (link) {
+      const href = link.getAttribute("href");
+      if (
+        href &&
+        !href.startsWith("/") &&
+        !href.startsWith("#") &&
+        !href.startsWith(window.location.origin) &&
+        !href.includes(window.location.hostname)
+      ) {
+        link.setAttribute("target", "_blank");
+        link.setAttribute("rel", "noopener noreferrer");
+      }
+    });
+  });
+</script>
 
 
 

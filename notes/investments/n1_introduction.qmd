@@ -1,19 +1,19 @@
 ---
 title: "R Note 1 - Introduction to R and Financial Data Handling"
 author: 
-  - name: Asst. Prof. Calvin J. Chiou
+  - name: "Asst. Prof. Calvin J. Chiou"
     email: jjchiou@nccu.edu.tw
     affiliations: 
-    - name: National Chengchi University (NCCU)
+    - name: "National Chengchi University (NCCU)"
 format: html
 editor: visual
 ---
 
-# Course Information
+## Course Information
 
-**Course:** Investments
+-   **Course Name:** Investments \| 000351051
 
-**Code:** 000351051
+-   **Semester:** Spring 2025
 
 # Introduction to R & RStudio
 
@@ -158,7 +158,51 @@ prices %>% mean
 prices |> mean()
 ```
 
-## 5. Importing Financial Data
+## 5. Using For Loops in R
+
+A `for` loop allows us to **iterate** over a sequence and perform operations repeatedly.
+
+### Basic For Loop Example
+
+```{r}
+# Print numbers from 1 to 5
+for (i in 1:5) {
+  print(i)
+}
+```
+
+### Looping Over a Vector
+
+```{r}
+prices <- c(100, 102, 105, 107, 110)
+
+for (price in prices) {
+  print(price * 1.1)  # Increase price by 10%
+}
+```
+
+### Storing Loop Output in a Vector
+
+```{r}
+adjusted_prices <- numeric(length(prices))
+
+for (i in seq_along(prices)) {
+  adjusted_prices[i] <- prices[i] * 1.1
+}
+print(adjusted_prices)
+```
+
+### Nesting Loops Example
+
+```{r}
+for (i in 1:3) {
+  for (j in 1:2) {
+    print(paste("i:", i, "j:", j))
+  }
+}
+```
+
+## 6. Importing Financial Data
 
 Using `tidyquant` to fetch stock prices:
 
@@ -170,7 +214,7 @@ datatable(apple_stock) |>
   formatRound(columns = c("open","high","low","close","adjusted"), digits = 2)
 ```
 
-## 6. Basic Data Manipulation with `dplyr`
+## 7. Basic Data Manipulation with `dplyr`
 
 ```{r}
 # Calculate daily returns
@@ -180,17 +224,33 @@ apple_stock <- apple_stock |>
 head(apple_stock)
 ```
 
-## 7. Visualizing Stock Prices with `ggplot2`
+## 8. Visualizing Stock Prices with `ggplot2`
+
+The `ggplot2` is a powerful tool for creating visualizations in R. It follows the **Grammar of Graphics** approach, allowing users to build complex charts by adding multiple layers.
+
+### Key Features of `ggplot2`:
+
+-   Layered approach to building plots.
+-   Highly customizable aesthetic mappings.
+-   Supports multiple themes for different styling.
+
+### Using Themes with `ggthemes`
+
+The `ggthemes` package provides multiple predefined themes to enhance the aesthetics of plots. More styles of ggthemes can be found via [*ggplot2 Themes and Styles*](/notes/ggthemes.qmd)*.*
+
+Now, let's plot the stock price trend for **AAPL** and use the wall street journal (WSJ) theme:
 
 ```{r}
 # Plot price trend
 ggplot(apple_stock, aes(x = date, y = adjusted)) +
-  geom_line(color = "red", linewidth = 1) +
+  geom_line(color = "blue", linewidth = 1) +
   labs(title = "AAPL Stock Price", x = "Date", y = "Adjusted Close") +
   theme_wsj()
 ```
 
-## 8. Interactive Visualization with `highcharter`
+## 9. Interactive Visualization with `highcharter`
+
+More pre-built themes of hicharter can be found via [*highcharter Themes and Styles*](/notes/hcthemes.qmd)*.*
 
 ```{r}
 # Create interactive stock price and volume plot
@@ -203,6 +263,11 @@ highchart(type = "stock") |>
   ) |> 
   hc_title(text = "AAPL Stock Price and Trading Volume") |>
   hc_add_theme(hc_theme_ft())
+
+# Candlestick Chart
+highchart(type = "stock") |> 
+  hc_add_series(apple_stock, type = "candlestick", hcaes(x = date, open = open, high = high, low = low, close = adjusted), name = "AAPL Price") |> 
+  hc_title(text = "AAPL Candlestick Chart")
 ```
 
 ## Exercises

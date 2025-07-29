@@ -176,7 +176,6 @@ gtag('config', 'G-8KXQZ8LK16', { 'anonymize_ip': true});
   <li><a href="#ph.d.-level" id="toc-ph.d.-level" class="nav-link" data-scroll-target="#ph.d.-level">Ph.D.&nbsp;level</a></li>
   <li><a href="#other" id="toc-other" class="nav-link" data-scroll-target="#other">Other</a></li>
   <li><a href="#teaching-awards-grants" id="toc-teaching-awards-grants" class="nav-link" data-scroll-target="#teaching-awards-grants">Teaching Awards &amp; Grants</a></li>
-  <li><a href="#r-notes" id="toc-r-notes" class="nav-link" data-scroll-target="#r-notes">R Notes</a></li>
   </ul>
 </nav>
     </div>
@@ -230,16 +229,9 @@ gtag('config', 'G-8KXQZ8LK16', { 'anonymize_ip': true});
 <section id="teaching-awards-grants" class="level2">
 <h2 class="anchored" data-anchor-id="teaching-awards-grants">Teaching Awards &amp; Grants</h2>
 <ul>
-<li>OUTA EMI Training Program, UT Austin &amp; NTNU, Texas, US, 2025</li>
-<li>Excellent Undergraduate English-taught Course Award, NCCU, 2024</li>
-<li>Professorship Mentor Program, NCCU, 2024</li>
-</ul>
-</section>
-<section id="r-notes" class="level2">
-<h2 class="anchored" data-anchor-id="r-notes">R Notes</h2>
-<ul>
-<li><p><em>ggplot2 Themes and Styles</em>, <a href="./notes/ggthemes.html">lecture note</a></p></li>
-<li><p><em>highcharter Themes and Styles</em>, <a href="./notes/hcthemes.html">lecture note</a></p></li>
+<li>Off-Site to UT Austin EMI Professional Development Program | 2025 <img src="images/utaustin_logo.svg.png" width="87" height="27"> <img src="images/rcemi.png" class="img-fluid" width="39"></li>
+<li>Excellent Undergraduate English-taught Course Award, NCCU | 2024</li>
+<li>Professorship Mentor Program, NCCU | 2024</li>
 </ul>
 
 
@@ -821,6 +813,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>
   </div>
 </footer>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const links = document.querySelectorAll("a[href]");
+    links.forEach(function (link) {
+      const href = link.getAttribute("href");
+      if (
+        href &&
+        !href.startsWith("/") &&
+        !href.startsWith("#") &&
+        !href.startsWith(window.location.origin) &&
+        !href.includes(window.location.hostname)
+      ) {
+        link.setAttribute("target", "_blank");
+        link.setAttribute("rel", "noopener noreferrer");
+      }
+    });
+  });
+</script>
 
 
 

@@ -8,7 +8,7 @@
 
 <meta name="author" content="Calvin J. Chiou (single-authored)">
 <meta name="dcterms.date" content="2025-01-12">
-<meta name="description" content="Working Paper">
+<meta name="description" content="Draft available upon request">
 
 <title>Common Ownership Network and Board Gender Diversity</title>
 <style>
@@ -122,7 +122,7 @@ gtag('config', 'G-8KXQZ8LK16', { 'anonymize_ip': true});
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../about.html"> 
-<span class="menu-text">Resume</span></a>
+<span class="menu-text">Profile</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../research.html"> 
@@ -195,7 +195,7 @@ gtag('config', 'G-8KXQZ8LK16', { 'anonymize_ip': true});
 
 <div>
   <div class="description">
-    <em>Working Paper</em>
+    Draft available upon request
   </div>
 </div>
 
@@ -836,6 +836,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>
   </div>
 </footer>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const links = document.querySelectorAll("a[href]");
+    links.forEach(function (link) {
+      const href = link.getAttribute("href");
+      if (
+        href &&
+        !href.startsWith("/") &&
+        !href.startsWith("#") &&
+        !href.startsWith(window.location.origin) &&
+        !href.includes(window.location.hostname)
+      ) {
+        link.setAttribute("target", "_blank");
+        link.setAttribute("rel", "noopener noreferrer");
+      }
+    });
+  });
+</script>
 
 
 

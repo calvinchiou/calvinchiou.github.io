@@ -1,92 +1,80 @@
 ---
-title: Estimating Beta Coefficients
+title: "R Note 3 - Estimating Beta Coefficients"
 author: 
-  - name: Calvin J. Chiou
+  - name: "Asst. Prof. Calvin J. Chiou"
     email: jjchiou@nccu.edu.tw
     affiliations: 
-    - name: National Chengchi University (NCCU)
-      department: Department of Finance
-date: "May 29, 2024"
-format: 
-  html:
-    toc: true
-    toc-depth: 1
+    - name: "National Chengchi University (NCCU)"
+
+format: html
 editor: visual
 ---
 
 # Course Information
 
-**Course:** Financial Management
+-   **Course Name:** Investments \| 000351051
 
-**Code:** 000347061/000347071
+-   **Semester:** Spring 2025
 
-# Introduction
+## Introduction
 
 In this document, we will estimate the beta coefficient of a stock. The beta coefficient measures the systematic risk of a stock relative to the overall market. We will download stock prices and market index prices using the `tidyquant` package, compute the returns, and then perform a regression analysis.
 
-## Setup
+## 1. Fetching Stock Data
 
-First, we need to install and load the required packages. Ensure you have `tidyquant`, `dplyr`, `broom`, and `knitr` installed.
+Following the previous note, we collect stock price data of NVIDIA using package `tidyquant`. First, we need to install and load the required packages. Ensure you have `tidyquant`, `dplyr` installed.
 
 ```{r, message=FALSE}
-# Install the necessary packages if not already installed 
-if (!require(tidyquant)) install.packages("tidyquant") 
-if (!require(dplyr)) install.packages("dplyr") 
-if (!require(broom)) install.packages("broom")
-if (!require(knitr)) install.packages("knitr")
-if (!require(ggplot2)) install.packages("ggplot2")
-# Load the packages
+# Load required packages
 library(tidyquant) 
-library(dplyr) 
+library(dplyr)
 library(broom)
-library(knitr)
+library(DT)
 library(ggplot2)
+library(highcharter)
 ```
 
-# Data Collection and Manipulation
-
-## **Data Download**
-
-We will download stock prices for a chosen stock (e.g., Apple Inc., ticker: AAPL) and a market index (e.g., S&P 500, ticker: \^GSPC) from Yahoo Finance during the estimation window 2020-2022.[^1] You can find any corresponding tickers that you would like to explore from its [website](https://finance.yahoo.com/).
+We will download stock prices for a chosen stock (e.g., NVIDIA Inc., ticker: NVDA) and a market index (e.g., S&P 500, ticker: \^GSPC) from Yahoo Finance during the estimation window 2020-2022.[^1] You can find any corresponding tickers that you would like to explore from its [website](https://finance.yahoo.com/).
 
 [^1]: There is no unique answer to how to set the estimation window. In this case, we choose to look at the previous three years of daily returns. You can choose any time horizon that suits your analysis. This is based on the implicit assumption that the estimated beta using historical data represents the stock's riskiness in recent periods.
 
 ```{r, message=FALSE}
 # Define the tickers for the stock and the market index
-stock_ticker <- "AAPL"
+stock_ticker <- "NVDA"
 market_ticker <- "^GSPC"
 
 # Set the time period for the data
 start_date <- "2020-01-01"
-end_date <- "2023-01-01"
+end_date <- "2022-12-31"
 
 # Download stock and market data
 stock_data <- tq_get(stock_ticker, from = start_date, to = end_date)
 market_data <- tq_get(market_ticker, from = start_date, to = end_date)
 ```
 
-## **Preview Data**
+### **Preview Data**
 
 Let's take a look at the first few rows of the stock data in a pretty format.
 
 ```{r}
 # Print the head of the stock data in a pretty format
-kable(head(stock_data), caption = "Stock Data: Apple Inc. (AAPL)")
+datatable(stock_data) |> 
+  formatRound(columns = c("open","high","low","close","adjusted"), digits = 2)
 ```
 
-## **Data Preparation**
+## **2. Data Preparation**
 
 Next, we will prepare the data by calculating daily returns for both the stock and the market index. `tq_transmute()` is used to manipulate stock data by creating a new variable, `stock_return`. Stock (or market) returns are calculated as the difference between the current and the past return divided by the past return. Because we are looking at daily data, the past return refers to the return that occurred on the previous trading day. `na.omit()` is used to drop observations with missing values.
 
 ```{r}
 # Calculate daily returns for the stock and the market
-stock_returns <- stock_data %>%
+stock_returns <- stock_data |> 
   tq_transmute(select = adjusted, 
                mutate_fun = periodReturn, 
                period = "daily", 
                col_rename = "stock_return")
 
-market_returns <- market_data %>%
+market_returns <- market_data |> 
   tq_transmute(select = adjusted, 
                mutate_fun = periodReturn, 
                period = "daily", 
@@ -94,31 +82,59 @@ market_returns <- market_data %>%
 
 # Combine the returns data into one data frame
 returns_data <- left_join(stock_returns, market_returns, 
-                          by = "date") %>%
+                          by = "date") |> 
   na.omit()
-# Print the head of the stock data in a pretty format
-kable(head(returns_data), caption = "Return Data")
+# Print the returns data
+datatable(returns_data) |> 
+  formatRound(columns = c("stock_return","market_return"), digits = 4)
 ```
 
-## **Visualize Stock Prices**
+### **Visualize Stock Prices**
 
 We will visualize the stock prices of Apple using **`ggplot2`** with a nice theme.
 
-```{r}
-# Plot the stock prices using ggplot2
-ggplot(stock_data, aes(x = date, y = adjusted)) +
-  geom_line(color = "blue") +
-  labs(title = "Apple Inc. (AAPL) Stock Prices",
-       x = "Date",
-       y = "Adjusted Closing Price") +
-  theme_minimal() +
-  theme(plot.title = element_text(hjust = 0.5, size = 14),
-        axis.title = element_text(size = 12),
-        axis.text = element_text(size = 10))
+```{r, message=FALSE}
+# Plot the stock prices using highcharter
+highchart() |> 
+  hc_title(text = "NVIDIA Inc. (NVDA) Stock Prices") |>
+  hc_xAxis(type = "datetime", title = list(text = "Date")) |>
+  hc_yAxis(title = list(text = "Adjusted Closing Price")) |>
+  hc_add_series(stock_data, type = "line",
+                hcaes(x = date, y = adjusted),
+                name = "Adjusted Price") |>
+  hc_tooltip(pointFormat = "Price: <b>${point.y:.2f}</b>") |>
+  hc_title(style = list(fontSize = "16px", align = "center")) |> 
+  hc_add_theme(hc_theme_smpl())
 
+# Step 1: Fit the linear model
+fit <- lm(stock_return ~ market_return, data = returns_data)
+
+# Step 2: Add fitted values to the data
+returns_data$fit <- predict(fit)
+
+# Step 3: Scatterplot of Stock Return vs. Market Return
+highchart() |>
+  hc_title(text = "Linear Relation: NVIDIA vs. S&P 500") |>
+  hc_xAxis(title = list(text = "Market Return (^GSPC)")) |>
+  hc_yAxis(title = list(text = "Stock Return (NVDA)")) |>
+  hc_add_series(
+    data = returns_data,
+    type = "scatter",
+    hcaes(x = market_return, y = stock_return),
+    name = "Daily Returns",
+  ) |>
+  hc_add_series(
+    data = returns_data[order(returns_data$market_return), ],  # sort to connect line smoothly
+    type = "line",
+    hcaes(x = market_return, y = fit),
+    name = "Linear Fit",
+  ) |>
+  hc_tooltip(pointFormat = "Market Return: {point.x:.4f}<br>Stock Return: {point.y:.4f}") |>
+  hc_legend(align = "center", verticalAlign = "bottom") |> 
+  hc_add_theme(hc_theme_smpl())
 ```
 
-# **Regression Analysis**
+## **4. Regression Analysis**
 
 The market model is a statistical model that describes the relationship between the returns of a stock and the returns of the overall market.[^2] It is a simple linear regression model that can be expressed as follows:
 
@@ -148,7 +164,6 @@ model <- lm(stock_return ~ market_return, data = returns_data)
 
 # Display the summary of the regression model
 summary(model)
-
 ```
 
 The **`lm()`** function in R is used to perform the linear regression, where **`stock_return`** is regressed on **`market_return`**. The summary of the regression model provides us with the estimated coefficients for alpha and beta, along with statistical measures that help evaluate the model's fit.
@@ -159,18 +174,17 @@ The beta coefficient is the slope of the regression line. We can extract it from
 
 ```{r}
 # Extract the beta coefficient
-beta_coefficient <- tidy(model) %>%
-  filter(term == "market_return") %>%
-  select(estimate) %>%
+beta_coefficient <- tidy(model) |> 
+  filter(term == "market_return") |> 
+  select(estimate) |> 
   pull()
 
 cat("The estimated beta coefficient for", 
     stock_ticker, "is", 
     round(beta_coefficient, 2))
-
 ```
 
-The estimated beta coefficient tells us how sensitive the stock's return is to the market's return. For instance, if the beta is 1.2, it means that if the market return increases by 1%, the stock's return is expected to increase by 1.2%, indicating higher volatility relative to the market.
+The estimated beta coefficient tells us how sensitive the stock's return is to the market's return. For instance, if the beta is 1.66, it means that if the market return increases by 1%, the stock's return is expected to increase by 1.66%, indicating higher volatility relative to the market.
 
 ## Idiosyncratic Risk
 
@@ -186,9 +200,8 @@ idiosyncratic_volatility <- sd(residuals)
 cat("The estimated idiosyncratic risk for", 
     stock_ticker, "is", 
     round(idiosyncratic_volatility, 2))
-
 ```
 
-# **Conclusion**
+## **5. Conclusion**
 
 In this document, we downloaded stock and market index prices, calculated their daily returns, and performed a regression analysis to estimate the beta coefficient. We also estimated the idiosyncratic volatility by calculating the standard deviation of the residuals from the market model. The beta coefficient helps us understand the stock's systematic risk in relation to the overall market, while idiosyncratic volatility measures the stock-specific risk not explained by market movements.
