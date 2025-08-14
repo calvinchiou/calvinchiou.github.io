@@ -1,0 +1,28 @@
+[
+  {
+    "listing": "/research.html",
+    "items": [
+      "/papers/Greenwashing_RSFM.html",
+      "/papers/EnvNTPU.html",
+      "/papers/ILP_FRL.html",
+      "/papers/CSR_JAR.html",
+      "/wps/SAF.html",
+      "/wps/ESGfunds_TW.html",
+      "/wps/CO_Diversity.html",
+      "/workinprogress/conference_call.html",
+      "/workinprogress/CO_interlocks.html",
+      "/workinprogress/NPI.html"
+    ]
+  },
+  {
+    "listing": "/investments.html",
+    "items": [
+      "/notes/investments/ggthemes.html",
+      "/notes/investments/hcthemes.html",
+      "/notes/investments/n1_introduction.html",
+      "/notes/investments/n2_portfolio.html",
+      "/notes/investments/n3_beta.html",
+      "/notes/investments/n4_strategy.html"
+    ]
+  }
+]

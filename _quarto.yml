@@ -1,10 +1,12 @@
 project:
   type: website
+  output-dir: doc
 
 website:
   title: "Calvin Chiou | NCCU College of Commerce"
   favicon: /img/nccu_logo.png
   navbar:
+    title: false
     logo: /img/nccu_logo.png
     left:
       - href: index.qmd
@@ -30,6 +32,7 @@ website:
   bread-crumbs: true
   page-footer: 
     right: "This website is built with [Quarto](https://quarto.org/)"
+    border: true
   google-analytics: 
     tracking-id: "G-8KXQZ8LK16"
     anonymize-ip: true

@@ -1,5 +1,5 @@
 ---
-title: "Calvin J. Chiou [{{< ai orcid >}}](https://orcid.org/0000-0002-4961-1545)"
+title: "Calvin J. Chiou"
 page-layout: article
 table-of-contents: false
 title-block-banner: false
@@ -9,6 +9,8 @@ about:
   image-width: 20em
   image-shape: rounded
   links:
+    - text: "{{< ai orcid >}} ORCID"
+      href: https://orcid.org/0000-0002-4961-1545
     - icon: linkedin
       text: LinkedIn
       href: https://www.linkedin.com/in/calvinchiou1992/
