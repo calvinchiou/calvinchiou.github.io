@@ -1,6 +1,6 @@
 project:
   type: website
-  output-dir: doc
+  output-dir: docs
 
 website:
   title: "Calvin Chiou | NCCU College of Commerce"
@@ -43,11 +43,11 @@ format:
     theme:
       light: [sandstone, theme-light.scss]
       dark: [sandstone, theme-dark.scss]
-    # mainfont: "Roboto"
+    mainfont: "Roboto"
     respect-user-color-scheme: true
     # fontsize: normal
     # mainfont: "Gill Sans, sans-serif"
-    css: styles.css
+    # css: styles.css
     toc: true
     grid:
       sidebar-width: 300px
