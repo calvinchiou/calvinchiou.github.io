@@ -1,0 +1,27 @@
+---
+title: "Something about Corporate Information Production"
+description: "*Work in Progress*"
+author: 
+  - name: "**Calvin J. Chiou**"
+    affiliations:
+      - name: "National Chengchi University"
+  - name: "Chris Lien"
+    affiliations:
+      - name: "National Taiwan University"
+  - name: "Po-Yu Liu"
+    affiliations:
+      - name: "National Taiwan University"
+date: "July, 2025"
+categories:
+  - Work in Progress
+---
+
+## Abstract
+
+TBA...
+
+## Keywords
+
+Information production, financial flexibility, racial diversity
+
+## 

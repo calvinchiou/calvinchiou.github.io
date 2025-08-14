@@ -1,25 +1,46 @@
 ---
 title: "Calvin J. Chiou [{{< ai orcid >}}](https://orcid.org/0000-0002-4961-1545)"
-page-layout: full
+page-layout: article
 table-of-contents: false
 title-block-banner: false
 about:
-  template: jolla
-  image: img/profile.jpg
-  image-width: 25em
-  image-shape: round
+  template: trestles
+  image: img/profile_vancouver.jpg
+  image-width: 20em
+  image-shape: rounded
+  links:
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/calvinchiou1992/
+    - icon: github
+      text: Github
+      href: https://github.com/calvinchiou
+    - text: "{{< ai google-scholar >}} Google Scholar"
+      href: https://scholar.google.com.tw/citations?user=WvORrXMAAAAJ&hl=en
 ---
 
-Calvin J. Chiou (邱健嘉) is an Assistant Professor in the Department of Finance at [National Chengchi University](https://www.nccu.edu.tw/) (NCCU). His research interests include corporate innovation, institutional investors, corporate governance, corporate finance, and behavioral finance. Calvin received his PhD in finance from the [Nanyang Technological University](https://www.ntu.edu.sg/index), Nanyang Business School in 2024. When not exploring on academic research, Calvin enjoys spending time on traveling, playing basketball, badminton, and the guitar.
+::: {#hero-heading}
+Calvin J. Chiou (邱健嘉) is an Assistant Professor of [Finance](https://finance.nccu.edu.tw/) at the [College of Commerce](https://commerce.nccu.edu.tw/?locale=en), [National Chengchi University](https://www.nccu.edu.tw/) (NCCU). His research interests include corporate innovation, institutional investors, corporate governance, corporate finance, and behavioral finance. Calvin received his PhD in finance from the [Nanyang Business School](https://www.ntu.edu.sg/business), [Nanyang Technological University](https://www.ntu.edu.sg/index) in 2024. When not exploring on academic research, Calvin enjoys spending time on traveling, playing basketball, badminton, and the guitar.
 
 ------------------------------------------------------------------------
 
-Contact Info:
+## Education
 
-Email: jjchiou\@nccu.edu.tw
+**Nanyang Technological University** \| PhD in Finance \| Jul 2019 - Jan 2024
 
-No. 64, Sec. 2, Zhinan Rd., Wenshan Dist.
+![](img/ntu_logo.png){width="220"}
 
-Taipei City 11605, Taiwan
+## Experience
 
-Phone: +886-2-2939-3091 ext. 81233
+**National Chengchi University**, Taiwan \| Assistant Professor \| Feb 2024 - present
+
+![](img/logo_en.png){width="241"}
+
+## Contact Info.
+
+✉️ jjchiou\@nccu.edu.tw
+
+🗺️ No. 64, Sec. 2, Zhinan Rd., Wenshan Dist., Taipei City 11605, Taiwan
+
+☎️ +886-2-2939-3091 ext. 81233
+:::

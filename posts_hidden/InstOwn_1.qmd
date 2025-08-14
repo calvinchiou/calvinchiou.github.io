@@ -1,0 +1,7 @@
+---
+title: "Rise of Institutional Investors"
+description: "In the US, the scale and influence of institutional investors are getting larger due to the sharp growth in asset management industry. How large is it? We may take a look by SEC Schedule 13F filings."
+date: "2023-09-11"
+categories:
+  - Institutional Investors
+---

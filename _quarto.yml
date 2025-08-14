@@ -9,7 +9,7 @@ website:
       - href: index.qmd
         text: Home
       - href: about.qmd
-        text: Resume
+        text: Profile
       - href: research.qmd
         text: Research
       - href: teaching.qmd
@@ -25,27 +25,54 @@ website:
         href: "mailto:jjchiou@nccu.edu.tw"
       - text: "{{< ai google-scholar >}}"
         href: https://scholar.google.com.tw/citations?user=WvORrXMAAAAJ&hl=en
-  
+  back-to-top-navigation: true
+  bread-crumbs: true
   page-footer: 
     right: "This website is built with [Quarto](https://quarto.org/)"
+  google-analytics: 
+    tracking-id: "G-8KXQZ8LK16"
+    anonymize-ip: true
     
-
+# theme can refer https://quarto.org/docs/output-formats/html-themes.html
 format:
   html:
     theme:
       light: [sandstone, theme-light.scss]
       dark: [sandstone, theme-dark.scss]
-      
-    css: styles.css
+    mainfont: "Roboto"
+    respect-user-color-scheme: true
+    # fontsize: normal
+    # mainfont: "Gill Sans, sans-serif"
+    # css: styles.css
     toc: true
     grid:
       sidebar-width: 300px
       body-width: 1250px
       margin-width: 450px
       gutter-width: 2.0rem
+    include-after-body:
+    - text: |
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            const links = document.querySelectorAll("a[href]");
+            links.forEach(function (link) {
+              const href = link.getAttribute("href");
+              if (
+                href &&
+                !href.startsWith("/") &&
+                !href.startsWith("#") &&
+                !href.startsWith(window.location.origin) &&
+                !href.includes(window.location.hostname)
+              ) {
+                link.setAttribute("target", "_blank");
+                link.setAttribute("rel", "noopener noreferrer");
+              }
+            });
+          });
+        </script>
 editor: visual
 
-comments:
-  hypothesis: 
-    theme: clean
+# comments:
+#   hypothesis: 
+#     theme: clean
 

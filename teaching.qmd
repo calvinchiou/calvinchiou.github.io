@@ -1,23 +1,33 @@
 ---
-title: "Teaching"
+title: "<lord-icon src='https://cdn.lordicon.com/vvyxyrur.json' trigger='loop' delay='1500' colors='primary:#121331,secondary:#3080e8' style='width:60px;height:60px'></lord-icon> Teaching"
+format:
+  html:
+    include-in-header:
+      text: |
+        <script src="https://cdn.lordicon.com/lordicon.js"></script>
 toc: true
 ---
 
-# Undergraduate level
+## General
 
--   [**Investments**](investments.qmd), National Chengchi University, Spring 2025.
--   **Financial Management**, National Chengchi University, 2024.
+-   If students would like to request recommendation letters from me, please read [Recommendation Letter Policy](recommendation.qmd)
 
-# Ph.D. level
+## Undergraduate level
 
--   **Seminars in Corporate Finance** (PhD), National Chengchi University, Spring 2025.
+-   [**Investments**](investments.qmd), National Chengchi University, Spring 2025
+-   **Financial Management**, National Chengchi University, 2024
 
-# Other
+## Ph.D. level
+
+-   **Seminar on Corporate Finance** (PhD), National Chengchi University, Spring 2025
+
+## Other
 
 -   **Textual Analysis and Web Crawling using R** (mini-workshop), National Central University, Fall 2017.
 
-# General Notes
+## Teaching Awards & Grants
 
--   Financial Management, *Estimating Beta Coefficients*, [lecture note](notes/Beta.qmd).
-
--   *`ggplot2` Themes and Styles*, [lecture note](notes/GG%20Themes.qmd).
+-   Off-Site to UT Austin EMI Professional Development Program \| 2025\
+    ![](img/utaustin_logo.svg.png){width="245" height="69"} ![](img/rcemi.png){width="98"}
+-   Excellent Undergraduate English-taught Course Award, NCCU \| 2024
+-   Professorship Mentor Program, NCCU \| 2024

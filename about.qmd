@@ -1,5 +1,10 @@
 ---
-title: "About me"
+title: "<lord-icon src='https://cdn.lordicon.com/shcfcebj.json' trigger='loop' state='hover-nodding' delay='1500' colors='primary:#121331,secondary:#3080e8' style='width:60px;height:60px'></lord-icon> About me"
+format:
+  html:
+    include-in-header:
+      text: |
+        <script src="https://cdn.lordicon.com/lordicon.js"></script>
 table-of-contents: true
 about:
   template: marquee
@@ -25,6 +30,8 @@ National Taipei University \| Taiwan \| B.A in Finance and Cooperative Managemen
 
 ## Awards and Honors
 
+Off-Site to UT Austin EMI Professional Development Program \| 2025 ![](img/utaustin_logo.svg.png){width="209"} ![](img/rcemi.png){width="85" height="60"}
+
 Fubon Best Paper Award \| 2024
 
 Excellent Undergraduate English-taught Course Award, NCCU \| 2024
@@ -43,7 +50,13 @@ Shanghai Commercial & Savings Bank Scholarship \| 2017
 
 ## Presentations
 
-2024: International Conference of Taiwan Finance Association (TFA), Frontier in Accounting and Finance International Conference, INFORMS Annual Meeting, Sydney Banking and Financial Stability Conference, Chang Gung University, National Central University, National Chengchi University
+2025: International Conference of TFA[^1], International Conference for FeAT[^2], AsianFA Annual Conference, AFAANZ Annual Conference, National Chengchi University
+
+[^1]: Taiwan Financie Association (TFA), <https://www.finance.org.tw/fnhome>
+
+[^2]: Financial Engineering Association of Taiwan (FeAT), <http://www.feat.org.tw/>
+
+2024: International Conference of TFA, Frontier in Accounting and Finance International Conference, INFORMS Annual Meeting, Sydney Banking and Financial Stability Conference (SBFC), Chang Gung University, National Central University, National Chengchi University
 
 2023: International Conference of TFA, National Kaohsiung University of Science and Technology, National Taipei University
 
@@ -51,7 +64,7 @@ Shanghai Commercial & Savings Bank Scholarship \| 2017
 
 2021: Cross Country Perspectives in Finance (CCPF), CCPF-JIFMIM Symposium, International Conference of TFA
 
-2018: AsianFA Annual Meeting$^*$
+2018: AsianFA Annual Conference$^*$
 
 2017: International Conference of TFA$^\dagger$, TFA Conference on Asset Pricing$^*$, Conference on the Theories and Practices of Securities and Financial Markets$^*$
 
@@ -65,9 +78,9 @@ Google Data Analytics Specialization, Google \| [Coursera](https://www.coursera.
 
 SQL Essential Training \| [LinkedIn](https://www.linkedin.com/learning/certificates/eedeb209c1edb03618b92f9db436e455ab4e7ac99e3e51339c15f633f16289aa)
 
-Applied Text Mining in Python, University of Michigan \| [Coursera](coursera.org/verify/PVT7B574ACNF)
+Applied Text Mining in Python, University of Michigan \| [Coursera](https://www.coursera.org/account/accomplishments/specialization/certificate/PVT7B574ACNF)
 
-Fundamentals of Machine Learning in Finance, New York University \| [Coursera](coursera.org/verify/N4LWW7YT4W37)
+Fundamentals of Machine Learning in Finance, New York University \| [Coursera](https://www.coursera.org/account/accomplishments/specialization/certificate/N4LWW7YT4W37)
 
 ## Programming
 

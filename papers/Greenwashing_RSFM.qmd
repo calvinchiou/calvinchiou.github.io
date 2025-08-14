@@ -1,0 +1,25 @@
+---
+title: "Greenwashing and Its Impact on Corporate Operating Performance"
+description: "*Review of Securities and Futures Markets (證券市場發展季刊)*, forthcoming (TSSCI)"
+author: 
+  - name: "Wen-Chyan Ke"
+    affiliations: "National Taipei University"
+  - name: "Pei-Ru Lo"
+    affiliations: "National Taipei University"
+  - name: "Chang Chan"
+    affiliations: "Dharma Drum Institute of Liberal Arts"
+  - name: "**Calvin J. Chiou**"
+    affiliations: "National Chengchi University"
+date: "April, 2025"
+doi: ""
+categories:
+  - Publications
+---
+
+## Abstract
+
+Some firms may engage in greenwashing to cultivate a sustainable image, creating a discrepancy between actual practices and disclosed information. Using a sample of publicly listed firms in Taiwan from 2019 to 2023, this study categorizes ESG-related actions into symbolic and substantive dimensions to construct a firm-level greenwashing measure, further decomposed into two dimensions: the exaggeration score, which captures the extent to which symbolic actions exceed substantive actions, and the silence score, which reflects underreporting of symbolic actions relative to substantive performance. Empirical findings present a significant negative association between greenwashing and operating performance. These results validate the applicability of the greenwashing measure proposed in this study, and suggesting that both substantive improvements in governance and a restrained, consistent approach to sustainability disclosure contribute meaningfully to better operating performance.
+
+## Keywords
+
+*Greenwashing, Corporate Governance, Operating Performance*

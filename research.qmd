@@ -1,32 +1,47 @@
 ---
-title: "{{< li gqdnbnwt >}} Research"
+title: "<lord-icon src='https://cdn.lordicon.com/hmpomorl.json' trigger='loop' delay='1500' colors='primary:#121331,secondary:#3080e8' style='width:60px;height:60px'></lord-icon> Research"
+format:
+  html:
+    include-in-header:
+      text: |
+        <script src="https://cdn.lordicon.com/lordicon.js"></script>
 listing:
   - id: publications
     contents: "papers/*.qmd"
     type: table
     field-display-names:
       description: "Journal"
+      date: "Year"
     fields: [date, title, author, description]
     sort-ui: false
     filter-ui: false
     sort: "date desc"
     table-hover: true
+    date-format: "YYYY"
   - id: working-papers
     contents: "wps/*.qmd"
     type: table
+    field-display-names:
+      description: "Remark"
+      date: "Year"
     fields: [date, title, author, description]
     sort-ui: false
     filter-ui: false
     sort: "date desc"
     table-hover: true
+    date-format: "YYYY"
   - id: work-in-progress
-    contents: "wip/*.qmd"
+    contents: "workinprogress/*.qmd"
     type: table
+    field-display-names:
+      description: "Remark"
+      date: "Year"
     fields: [date, title, author, description]
     sort-ui: false
     filter-ui: false
     sort: "date desc"
     table-hover: true
+    date-format: "YYYY"
 ---
 
 ## Publications

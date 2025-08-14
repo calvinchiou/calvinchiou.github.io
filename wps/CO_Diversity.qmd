@@ -1,0 +1,38 @@
+---
+title: "Common Ownership Network and Board Gender Diversity"
+description: "Draft available upon request"
+author: "**Calvin J. Chiou** (single-authored)"
+date: "Jan 12, 2025"
+categories:
+  - Working Papers
+---
+
+## Abstract
+
+This study examines the network hypothesis, proposing that interconnections among top executives facilitated by common institutional ownership contribute to greater board gender diversity. The effect is particularly pronounced in firms with higher female representation among industry peers. Using California Senate Bill No. 826 and peer female director appointments as quasi-experimental settings, empirical evidence shows that firms under common ownership are more likely to increase female board representation, appoint new female directors, and facilitate interlocking female directorates across portfolio firms. Furthermore, these firms exhibit a higher propensity for women to attain leadership positions on board committees, reinforcing the role of ownership networks in expanding opportunities for female directors beyond mere representation. The findings remain robust after accounting for the influence of the Big Three, highlighting the importance of common ownership as a structural mechanism that shapes governance practices, facilitates director mobility, and influences the broader labor market for female executives.
+
+## Keywords
+
+*Board gender diversity, common ownership, gender quota, institutional investors, corporate governance*
+
+## Stylized Fact
+
+![](/img/co_diversity_fig1.png){fig-align="center"}
+
+This figure displays female board representation for cross-owned and non-cross-owned firms over time. I use two measures: (1) average female ratio, (2) share of firms with newly appointed female director(s). Firms are classified as cross-owned or non-cross-owned firms. Cross-owned firm refers to a firm sharing at least one blockholder with another peer firm within the same industry (Fama-French 48 industry classification).
+
+## Award
+
+-   Fubon Best Paper Award, Jun 2024.
+
+## Conference
+
+-   Sydney Banking and Financial Stability Conference, Sydney, Australia, Dec 2024.
+
+-   2024 NTU Winter Workshop on Entrepreneurship, Taipei, Taiwan, Dec 2024.
+
+-   INFORMS Annual Meeting, Seattle, USA, Oct 2024.
+
+-   International Conference of Taiwan Finance Association (TFA), Kaohsiung, Taiwan, Jun 2024.
+
+-   Frontier in Accounting and Finance International Conference, Taipei, Taiwan, Apr 2024.

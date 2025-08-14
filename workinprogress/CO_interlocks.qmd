@@ -1,0 +1,30 @@
+---
+title: "Common Ownership and Board Interlocks: Industry Boundary Matters"
+description: "*Work in Progress*"
+author: 
+  - name: "**Calvin J. Chiou**"
+    affiliations:
+      - name: "National Chengchi University"
+  - name: "Chia-Wei Huang"
+    affiliations:
+      - name: "National Chengchi University"
+  - name: "Zheng Yang"
+    affiliations:
+      - name: "National Central University"
+date: "June 13, 2025"
+categories:
+  - Work in Progress
+---
+
+## Abstract
+
+We investigate whether common ownership influences the formation of interlocking directorates between portfolio firms. Using financial institution mergers as quasi-natural experiments, we find that an increase in common ownership reduces the likelihood of a firm sharing an interlocking director with another firm in a different industry. However, within-industry board interlocks become more prevalent under common ownership. These findings suggest that institutional investors actively shape corporate governance by discouraging board interlocks across unrelated industries while fostering governance ties within the same industry.
+
+## Keywords
+
+Common ownership, board interlocks, corporate governance
+
+## Conference
+
+-   International Conference of Taiwan Finance Association (TFA), Taipei, Taiwan, Jun 2025.
+-   International Conference for Financial Engineering Association of Taiwan (FeAT), Chiayi, Taiwan, Jun 2025.

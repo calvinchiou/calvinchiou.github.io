@@ -1,0 +1,29 @@
+---
+title: "Sustainable Fund Ownership to Corporate Financial Performance"
+description: "*R&R at Journal of Financial Studies*"
+author: 
+  - name: "Wen-Chyan Ke"
+    affiliations:
+      - name: "National Taipei University"
+  - name: "Yi-Tong Lin"
+    affiliations:
+      - name: "National Taipei University"
+  - name: "Chang Chan"
+    affiliations:
+      - name: "Dharma Drum Institute of Liberal Arts"
+  - name: "**Calvin J. Chiou**"
+    affiliations:
+      - name: "National Chengchi University"
+    corresponding: true
+date: "March, 2025"
+categories:
+  - Working Papers
+---
+
+## Abstract
+
+This study investigates the impact of sustainable fund holdings on portfolio firms’ sustainability performance and financial performance, and further examines the mediating role of sustainability performance in this relationship. The empirical results show that when sustainable funds increase their holdings in a company, not only does the firm’s sustainability performance improve significantly, but its financial performance also benefits. Further analysis reveals a positive correlation between a firm’s sustainability performance and financial performance, and that once sustainability performance is taken into account, the direct impact of sustainable fund holdings on financial performance weakens, supporting the mediating effect of sustainability performance. Overall, sustainable funds can exercise a monitoring function by encouraging portfolio firms to enhance their sustainability efforts, thereby improving long-term financial outcomes. Based on these findings, this study suggests that the regulatory agencies continue to focus on the establishment and operation of sustainable funds, reinforcing fund managers’ role in overseeing firms’ sustainability development, so as to further promote the growth and maturity of sustainable finance in Taiwan.
+
+## Keywords
+
+Socially Responsible Investment (SRI), sustainable fund holdings, sustainability performance, financial performance
