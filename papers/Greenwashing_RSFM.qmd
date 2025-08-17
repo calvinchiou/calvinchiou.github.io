@@ -1,6 +1,6 @@
 ---
 title: "Greenwashing and Its Impact on Corporate Operating Performance"
-description: "*Review of Securities and Futures Markets (證券市場發展季刊)*, forthcoming (TSSCI)"
+description: "*Review of Securities and Futures Markets (證券市場發展季刊)*, Vol. 37(3), 65-106 (TSSCI)"
 author: 
   - name: "Wen-Chyan Ke"
     affiliations: "National Taipei University"
@@ -22,4 +22,4 @@ Some firms may engage in greenwashing to cultivate a sustainable image, creating
 
 ## Keywords
 
-*Greenwashing, Corporate Governance, Operating Performance*
+*Greenwashing, Corporate governance, Operating performance*

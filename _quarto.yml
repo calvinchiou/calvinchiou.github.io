@@ -1,13 +1,20 @@
 project:
   type: website
   output-dir: docs
+  
+# Metadata stuff
+pagetitle: "{{< meta title >}} | Calvin J. Chiou"
+author-meta: "Calvin J. Chiou"
 
 website:
   title: "Calvin Chiou | NCCU College of Commerce"
+  # site-url: "https://calvinchiou.com"
   favicon: /img/nccu_logo.png
   navbar:
+    pinned: true
     title: false
     logo: /img/nccu_logo.png
+    
     left:
       - href: index.qmd
         text: Home
@@ -19,6 +26,7 @@ website:
         text: Teaching
       - href: resources.qmd
         text: Resources
+    
     right: 
       - icon: linkedin
         href: https://www.linkedin.com/in/calvinchiou1992/
@@ -26,16 +34,23 @@ website:
         href: https://github.com/calvinchiou
       - icon: envelope
         href: "mailto:jjchiou@nccu.edu.tw"
+        # https://jpswalsh.github.io/academicons/
       - text: "{{< ai google-scholar >}}"
         href: https://scholar.google.com.tw/citations?user=WvORrXMAAAAJ&hl=en
+  
+  page-footer: 
+    left: |
+      {{< fa brands creative-commons >}} {{< var years >}}  Calvin J. Chiou \
+      All content licensed under [{{< fa brands creative-commons >}} {{< fa brands creative-commons-by >}}CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+    
+    right: "This website is made with {{< fa brands r-project >}} and [Quarto](https://quarto.org/)"
+      
+    border: true
+  
   back-to-top-navigation: true
   bread-crumbs: true
-  page-footer: 
-    right: "This website is built with [Quarto](https://quarto.org/)"
-    border: true
-  google-analytics: 
-    tracking-id: "G-8KXQZ8LK16"
-    anonymize-ip: true
+  
+  google-analytics: "G-8KXQZ8LK16"
     
 # theme can refer https://quarto.org/docs/output-formats/html-themes.html
 format:
@@ -44,16 +59,23 @@ format:
       light: [sandstone, theme-light.scss]
       dark: [sandstone, theme-dark.scss]
     mainfont: "Roboto"
-    respect-user-color-scheme: true
+    highlight-style: monokai
+    respect-user-color-scheme: false
     # fontsize: normal
     # mainfont: "Gill Sans, sans-serif"
     # css: styles.css
     toc: true
+    footnotes-hover: true
     grid:
-      sidebar-width: 300px
-      body-width: 1250px
-      margin-width: 450px
-      gutter-width: 2.0rem
+      body-width: 1200px
+    fig-cap-location: margin
+    reference-location: margin
+    # grid:
+    #   sidebar-width: 300px
+    #   body-width: 1250px
+    #   margin-width: 450px
+    #   gutter-width: 2.0rem
+    
     include-after-body:
     - text: |
         <script>
@@ -76,7 +98,4 @@ format:
         </script>
 editor: visual
 
-# comments:
-#   hypothesis: 
-#     theme: clean
 

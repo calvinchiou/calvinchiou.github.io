@@ -1,5 +1,5 @@
 ---
-title: "The Impact of Environmental Performance on Financial Outcomes: Evidence from Listed Companies in Taiwan"
+title: "The Impact of Environmental Performance on Financial Outcomes: Evidence from Taiwan"
 description: "*Journal of Financial Studies (財務金融學刊)*, Vol. 33(1), 51-107 (TSSCI)"
 author: 
   - name: "**Calvin J. Chiou**"
@@ -26,7 +26,7 @@ This study uses Taiwan Sustainability Ratings (TSR) data and applies the Heckman
 
 ## Keywords
 
-*Sustainability Report, CSR, ESG, Taiwan Sustainability Ratings, Sample Selection Bias*
+*Sustainability report, CSR, ESG, Taiwan Sustainability Ratings, Sample selection bias*
 
 ## Conference
 
