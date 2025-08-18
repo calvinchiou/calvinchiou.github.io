@@ -48,7 +48,7 @@ website:
     border: true
   
   back-to-top-navigation: true
-  bread-crumbs: true
+  bread-crumbs: false
   
   google-analytics: "G-8KXQZ8LK16"
     
@@ -68,13 +68,17 @@ format:
     footnotes-hover: true
     grid:
       body-width: 1200px
-    fig-cap-location: margin
-    reference-location: margin
+    # fig-cap-location: margin
+    # reference-location: margin
     # grid:
     #   sidebar-width: 300px
     #   body-width: 1250px
     #   margin-width: 450px
     #   gutter-width: 2.0rem
+    
+    include-in-header:
+      text: |
+        <script src="https://cdn.lordicon.com/lordicon.js"></script>
     
     include-after-body:
     - text: |

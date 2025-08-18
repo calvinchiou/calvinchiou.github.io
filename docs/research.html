@@ -8,7 +8,7 @@
 
 <meta name="author" content="Calvin J. Chiou">
 
-<title>&lt;lord-icon src='https://cdn.lordicon.com/hmpomorl.json' trigger='loop' delay='1500' colors='primary:#121331,secondary:#3080e8' style='width:60px;height:60px'&gt;&lt;/lord-icon&gt; Research | Calvin J. Chiou – Calvin Chiou | NCCU College of Commerce</title>
+<title>Research | Calvin J. Chiou – Calvin Chiou | NCCU College of Commerce</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -44,6 +44,8 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-f8de45997506bc0e0e61754d90f49461.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/bootstrap/bootstrap-dark-9937941bad6c81aa17407735c5a586ce.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/quarto-contrib/fontawesome6-1.2.0/all.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/fontawesome6-1.2.0/latex-fontsize.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -287,7 +289,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><lord-icon src="https://cdn.lordicon.com/hmpomorl.json" trigger="loop" delay="1500" colors="primary:#121331,secondary:#3080e8" style="width:60px;height:60px"></lord-icon> Research</h1>
+<h1 class="title">Research</h1>
 </div>
 
 
@@ -304,6 +306,7 @@ window.Quarto = {
 </header>
 
 
+<p><lord-icon src="https://cdn.lordicon.com/hmpomorl.json" trigger="loop" delay="1500" colors="primary:#121331,secondary:#3080e8" style="width:60px;height:60px"></lord-icon></p>
 <section id="publications" class="level2">
 <h2 class="anchored" data-anchor-id="publications">Publications</h2>
 <div id="listing-publications" class="quarto-listing quarto-listing-container-table">
@@ -777,7 +780,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/calvinchiou\.com");
+      var filterRegex = new RegExp('/' + window.location.host + '/');
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
@@ -1108,13 +1111,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p><span class="faux-block">{{&lt; fa brands creative-commons &gt;}} 2024—2025 Calvin J. Chiou</span> <span class="faux-block">All content licensed under<br><a href="https://creativecommons.org/licenses/by/4.0/">{{&lt; fa brands creative-commons &gt;}} {{&lt; fa brands creative-commons-by &gt;}} Creative Commons CC BY 4.0</a></span></p>
+<p><i class="fa-brands fa-creative-commons" aria-label="creative-commons"></i> 2024–2025 Calvin J. Chiou<br>
+All content licensed under <a href="https://creativecommons.org/licenses/by/4.0/"><i class="fa-brands fa-creative-commons" aria-label="creative-commons"></i> <i class="fa-brands fa-creative-commons-by" aria-label="creative-commons-by"></i>CC BY 4.0</a></p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;
     </div>
     <div class="nav-footer-right">
-<p>This website is made with {{&lt; fa brands r-project &gt;}} <a href="https://quarto.org/">Quarto</a> <span class="faux-block">Made with {{&lt; fa brands r-project &gt;}} and <a href="https://quarto.org/">Quarto</a></span> <span class="faux-block"><a href="?var:github-url">View the source at {{&lt; fa brands github &gt;}} GitHub</a></span></p>
+<p>This website is made with <i class="fa-brands fa-r-project" aria-label="r-project"></i> and <a href="https://quarto.org/">Quarto</a></p>
 </div>
   </div>
 </footer>

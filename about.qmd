@@ -1,14 +1,11 @@
 ---
-title: "<lord-icon src='https://cdn.lordicon.com/shcfcebj.json' trigger='loop' state='hover-nodding' delay='1500' colors='primary:#121331,secondary:#3080e8' style='width:60px;height:60px'></lord-icon> About me"
-format:
-  html:
-    include-in-header:
-      text: |
-        <script src="https://cdn.lordicon.com/lordicon.js"></script>
+title: About me
 table-of-contents: true
 about:
   template: marquee
 ---
+
+<lord-icon src='https://cdn.lordicon.com/shcfcebj.json' trigger='loop' state='hover-nodding' delay='1500' colors='primary:#121331,secondary:#3080e8' style='width:60px;height:60px'></lord-icon>
 
 ## Employment
 

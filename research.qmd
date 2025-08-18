@@ -1,10 +1,6 @@
 ---
-title: "<lord-icon src='https://cdn.lordicon.com/hmpomorl.json' trigger='loop' delay='1500' colors='primary:#121331,secondary:#3080e8' style='width:60px;height:60px'></lord-icon> Research"
-format:
-  html:
-    include-in-header:
-      text: |
-        <script src="https://cdn.lordicon.com/lordicon.js"></script>
+title: "Research"
+
 listing:
   - id: publications
     contents: "papers/*.qmd"
@@ -43,6 +39,8 @@ listing:
     table-hover: true
     date-format: "YYYY"
 ---
+
+<lord-icon src='https://cdn.lordicon.com/hmpomorl.json' trigger='loop' delay='1500' colors='primary:#121331,secondary:#3080e8' style='width:60px;height:60px'></lord-icon>
 
 ## Publications
 
