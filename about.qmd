@@ -7,6 +7,8 @@ about:
 
 <lord-icon src='https://cdn.lordicon.com/shcfcebj.json' trigger='loop' state='hover-nodding' delay='1500' colors='primary:#121331,secondary:#3080e8' style='width:60px;height:60px'></lord-icon>
 
+[Download my CV (PDF in a new tab ↗)](files/CV_calvinchiou.pdf){target="_blank" rel="noopener"}
+
 ## Employment
 
 National Chengchi University \| Assistant Professor \| Feb 2024 - present
