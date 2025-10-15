@@ -1,6 +1,6 @@
 ---
 title: "Greenwashing and Its Impact on Corporate Operating Performance"
-description: "*Review of Securities and Futures Markets (證券市場發展季刊)*, Vol. 37(3), 65-106 (TSSCI)"
+description: "*Review of Securities and Futures Markets (證券市場發展季刊)*, Vol. 37(3), 63-103 (TSSCI)"
 author: 
   - name: "Wen-Chyan Ke"
     affiliations: "National Taipei University"
@@ -10,8 +10,8 @@ author:
     affiliations: "Dharma Drum Institute of Liberal Arts"
   - name: "**Calvin J. Chiou**"
     affiliations: "National Chengchi University"
-date: "April, 2025"
-doi: ""
+date: "September, 2025"
+doi: 10.6529/RSFM.202509_37(3).0003
 categories:
   - Publications
 ---
