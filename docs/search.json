@@ -16,16 +16,16 @@
   {
     "objectID": "papers/CSR_JAR.html",
     "href": "papers/CSR_JAR.html",
-    "title": "The impact of mandatory corporate social responsibility reporting on liquidity and risk",
+    "title": "The Impact of Mandatory Corporate Social Responsibility Reporting on Liquidity and Risk",
     "section": "",
-    "text": "This study investigates whether mandatory corporate social responsibility (CSR) reporting ameliorates liquidity and reduces risk for stocks. Moreover, we explore whether these impacts vary with regulated company category and stakeholder influence capacity. For a mandatory CSR reporting regulation in Taiwan, we assess the policy’s effects using difference-in-differences (DID) modeling. The results show that mandatory CSR reporting significantly increases liquidity and reduces idiosyncratic risks. However, the effect on systematic risk is asymmetric—a high (low) systematic risk is accompanied by a positive (negative) market return; namely, a large (small) price increase (decrease) caused by a positive (negative) market return. This aligns with the insurance-like benefits argument. These findings suggest investors hold on to CSR firms because of increased information transparency and good financial performance during a recession. The improved liquidity is more significant for firms in the electronics and chemical industries and for firms with a large equity share owned by domestic institutional investors. Idiosyncratic risk is reduced more for the latter two. The findings provide feedback on mandatory CSR reporting to policy makers and provide reference for firms and investors.\n\n\nCorporate social responsibility, Liquidity, Systematic risk, Non-systematic risk.\n\n\n\n\nInternational Conference for Financial Engineering Association of Taiwan (FeAT), Taoyuan, 2017.\nFrontier in Accounting and Finance International Conference, Taipei, Taiwan, 2019."
+    "text": "This study investigates whether mandatory corporate social responsibility (CSR) reporting ameliorates liquidity and reduces risk for stocks. Moreover, we explore whether these impacts vary with regulated company category and stakeholder influence capacity. For a mandatory CSR reporting regulation in Taiwan, we assess the policy’s effects using difference-in-differences (DID) modeling. The results show that mandatory CSR reporting significantly increases liquidity and reduces idiosyncratic risks. However, the effect on systematic risk is asymmetric—a high (low) systematic risk is accompanied by a positive (negative) market return; namely, a large (small) price increase (decrease) caused by a positive (negative) market return. This aligns with the insurance-like benefits argument. These findings suggest investors hold on to CSR firms because of increased information transparency and good financial performance during a recession. The improved liquidity is more significant for firms in the electronics and chemical industries and for firms with a large equity share owned by domestic institutional investors. Idiosyncratic risk is reduced more for the latter two. The findings provide feedback on mandatory CSR reporting to policy makers and provide reference for firms and investors."
   },
   {
     "objectID": "papers/ILP_FRL.html",
     "href": "papers/ILP_FRL.html",
     "title": "A Taxonomy of Individual Liquidity Provision: Evidence from the Taiwan Stock Exchange",
     "section": "",
-    "text": "Highlights\n\nIndividual investors tend to be uninformed de facto market makers.\nIndividual investors provide more liquidity during market declines.\nIndividual liquidity provision can help in improving market efficiency when sufficient.\nInformed liquidity demanders are present.\n\n\n\nAbstract\nUsing trade-level data from the Taiwan Stock Exchange, we document an asymmetric pattern of liquidity provision by individual investors who serve as de facto market makers. Specifically, on average, individual investors provide more liquidity during market declines. We further investigate the impact of asymmetric individual liquidity provision on market efficiency. Despite being uninformed, individual investors’ liquidity provision ameliorates market efficiency more during market declines. Our results suggest that individual investors provide liquidity to help those with private information correct prices toward efficient prices, in turn, enhancing market efficiency.\n\n\n\n\n Back to top"
+    "text": "Individual investors tend to be uninformed de facto market makers.\nIndividual investors provide more liquidity during market declines.\nIndividual liquidity provision can help in improving market efficiency when sufficient.\nInformed liquidity demanders are present."
   },
   {
     "objectID": "papers/CO_Diversity_WP.html",
@@ -37,23 +37,23 @@
   {
     "objectID": "about.html",
     "href": "about.html",
-    "title": " About me",
+    "title": "About me",
     "section": "",
-    "text": "National Chengchi University | Assistant Professor | Feb 2024 - present"
+    "text": "Download my CV (PDF in a new tab ↗)"
   },
   {
     "objectID": "about.html#research-interests",
     "href": "about.html#research-interests",
-    "title": " About me",
+    "title": "About me",
     "section": "Research Interests",
     "text": "Research Interests\nInnovation, Institutional Investors, Corporate Governance, Empirical Corporate Finance, Behavioral Finance"
   },
   {
     "objectID": "about.html#education",
     "href": "about.html#education",
-    "title": " About me",
+    "title": "About me",
     "section": "Education",
-    "text": "Education\nPhD in Finance | Nanyang Technological University | 2019-2024\n\nVisiting Researcher | National University of Singapore\n\nMS in Finance | National Central University | Taiwan | 2017\nBBA in Finance and Cooperative Management | National Taipei University | Taiwan | 2015"
+    "text": "Education\nPhD in Finance | Nanyang Technological University | 2019-2024\n\nVisiting Researcher | National University of Singapore | 2019\n\nMS in Finance | National Central University | Taiwan | 2017\nBBA in Finance and Cooperative Management | National Taipei University | Taiwan | 2015"
   },
   {
     "objectID": "about.html#experience",
@@ -72,28 +72,28 @@
   {
     "objectID": "about.html#professional-services",
     "href": "about.html#professional-services",
-    "title": " About me",
+    "title": "About me",
     "section": "Professional Services",
     "text": "Professional Services\nJournal Referee: Pacific-Basin Finance Journal(x3), British Accounting Review, Finance Research Letters(x2), Emerging Markets Finance and Trade(x2), Review of Securities and Futures Markets, Journal of Social Sciences and Philosophy\nConference Referee: AFAANZ"
   },
   {
     "objectID": "about.html#selected-certificates",
     "href": "about.html#selected-certificates",
-    "title": " About me",
+    "title": "About me",
     "section": "Selected Certificates",
     "text": "Selected Certificates\nData Analysis with R Specialization, Duke University | Coursera\nGoogle Data Analytics Specialization, Google | Coursera\nApplied Text Mining in Python, University of Michigan | Coursera\nFundamentals of Machine Learning in Finance, New York University | Coursera"
   },
   {
     "objectID": "about.html#programming",
     "href": "about.html#programming",
-    "title": " About me",
+    "title": "About me",
     "section": "Programming",
     "text": "Programming\nR, Python, Stata, SAS, \\(\\LaTeX\\)"
   },
   {
     "objectID": "about.html#language",
     "href": "about.html#language",
-    "title": " About me",
+    "title": "About me",
     "section": "Language",
     "text": "Language\nEnglish (fluent), Mandarin (native)"
   },
@@ -123,14 +123,14 @@
     "href": "posts_hidden/SRI.html",
     "title": "Socially Responsible Investing: A Financial Trend with a Conscience",
     "section": "",
-    "text": "In today’s global economy, investors are increasingly concerned not only with financial returns but also with the ethical implications of their investments. Socially Responsible Investing (SRI) has emerged as a prominent strategy that combines financial considerations with social and environmental values. This approach empowers investors to align their portfolios with their beliefs and has reshaped the investment landscape.\n\nWhat is Socially Responsible Investing (SRI)?\nSRI considers both financial returns and social/environmental impacts. It involves evaluating investments based on ethical, social, and environmental criteria, often referred to as Environmental, Social, and Governance (ESG) factors. By excluding or favoring certain sectors or companies, SRI seeks to promote responsible business practices and contribute to sustainable development. Larry Fink, CEO of BlackRock, emphasizes this dual focus: “We focus on sustainability not because we’re environmentalists, but because we are capitalists and fiduciaries to our clients.”\n\n\nThe Historical Context\nThe roots of SRI can be traced back to the religious movements of the 18th century, where certain investments were avoided on moral grounds. The modern SRI movement gained traction during the 1960s, focusing on issues like apartheid, labor rights, and environmental protection. Today, SRI has evolved into a comprehensive investment philosophy that incorporates various ethical considerations.\n\n\nMethods of SRI\n\nScreening: Investors may exclude or include companies based on specific ESG criteria. Negative screening avoids sectors such as tobacco and weapons, while positive screening favors companies with strong social and environmental performance.\nShareholder Advocacy: Through engagement and proxy voting, investors can influence corporate behavior and promote responsible governance.\nImpact Investing: Targeting investments that generate both financial returns and positive social or environmental impacts, impact investing seeks to create tangible societal benefits.\nCommunity Investing: By investing in community development projects, investors can support underserved areas and foster local economic growth.\n\n\n\nRelevance to Corporate Finance and Governance\nSRI has significant implications for corporate finance and governance. It highlights the interconnectedness of financial performance and societal well-being, challenging traditional investment models. Corporations are encouraged to improve their ESG performance to attract SRI capital, driving a broader shift towards transparency, accountability, and long-term sustainability.\n\n\nConclusion\nSocially Responsible Investing represents a transformative approach that aligns financial objectives with ethical values. By integrating social and environmental considerations into investment decisions, SRI offers a holistic perspective that resonates with a growing number of investors. It reflects a profound shift in the investment world, one that acknowledges that profitability and responsibility need not be mutually exclusive.\nWhether you are an individual investor or a financial institution, understanding and implementing SRI can offer a meaningful way to align your investment strategy with your values. As this field continues to evolve, it promises to play a critical role in shaping a more sustainable and conscientious financial future."
+    "text": "In today’s global economy, investors are increasingly concerned not only with financial returns but also with the ethical implications of their investments. Socially Responsible Investing (SRI) has emerged as a prominent strategy that combines financial considerations with social and environmental values. This approach empowers investors to align their portfolios with their beliefs and has reshaped the investment landscape.\n\nWhat is Socially Responsible Investing (SRI)?\nSRI considers both financial returns and social/environmental impacts. It involves evaluating investments based on ethical, social, and environmental criteria, often referred to as Environmental, Social, and Governance (ESG) factors. By excluding or favoring certain sectors or companies, SRI seeks to promote responsible business practices and contribute to sustainable development. Larry Fink, CEO of BlackRock, emphasizes this dual focus: “We focus on sustainability not because we’re environmentalists, but because we are capitalists and fiduciaries to our clients.”\n\n\nThe Historical Context\nThe roots of SRI can be traced back to the religious movements of the 18th century, where certain investments were avoided on moral grounds. The modern SRI movement gained traction during the 1960s, focusing on issues like apartheid, labor rights, and environmental protection. Today, SRI has evolved into a comprehensive investment philosophy that incorporates various ethical considerations.\n\n\nMethods of SRI\n\nScreening: Investors may exclude or include companies based on specific ESG criteria. Negative screening avoids sectors such as tobacco and weapons, while positive screening favors companies with strong social and environmental performance.\nShareholder Advocacy: Through engagement and proxy voting, investors can influence corporate behavior and promote responsible governance.\nImpact Investing: Targeting investments that generate both financial returns and positive social or environmental impacts, impact investing seeks to create tangible societal benefits.\nCommunity Investing: By investing in community development projects, investors can support underserved areas and foster local economic growth.\n\n\n\nRelevance to Corporate Finance and Governance\nSRI has significant implications for corporate finance and governance. It highlights the interconnectedness of financial performance and societal well-being, challenging traditional investment models. Corporations are encouraged to improve their ESG performance to attract SRI capital, driving a broader shift towards transparency, accountability, and long-term sustainability.\n\n\nConclusion\nSocially Responsible Investing represents a transformative approach that aligns financial objectives with ethical values. By integrating social and environmental considerations into investment decisions, SRI offers a holistic perspective that resonates with a growing number of investors. It reflects a profound shift in the investment world, one that acknowledges that profitability and responsibility need not be mutually exclusive.\nWhether you are an individual investor or a financial institution, understanding and implementing SRI can offer a meaningful way to align your investment strategy with your values. As this field continues to evolve, it promises to play a critical role in shaping a more sustainable and conscientious financial future.\n\n\n\n\n Back to top"
   },
   {
     "objectID": "posts_hidden/Welcome to my blog.html",
     "href": "posts_hidden/Welcome to my blog.html",
     "title": "Welcome to my blog",
     "section": "",
-    "text": "Welcome to my website!\nI am a Finance PhD at Nanyang Technological University (NTU). I am primarily intrigued in corporate finance, corporate governance, and behavioral finance. Sub-fields include innovation, ESG, institutional investors, and mutual funds.\nHere is our new building for Nanyang Business School, GAIA, just launching in use since June 2023."
+    "text": "Welcome to my website!\nI am a Finance PhD at Nanyang Technological University (NTU). I am primarily intrigued in corporate finance, corporate governance, and behavioral finance. Sub-fields include innovation, ESG, institutional investors, and mutual funds.\nHere is our new building for Nanyang Business School, GAIA, just launching in use since June 2023.\n\n\n\n\n\n\n\n\n Back to top"
   },
   {
     "objectID": "notes/GG Themes.html",
@@ -268,14 +268,14 @@
   {
     "objectID": "about.html#employment",
     "href": "about.html#employment",
-    "title": " About me",
-    "section": "",
-    "text": "National Chengchi University | Assistant Professor | Feb 2024 - present"
+    "title": "About me",
+    "section": "Employment",
+    "text": "Employment\nNational Chengchi University | Assistant Professor | Feb 2024 - present"
   },
   {
     "objectID": "about.html#awards-and-honors",
     "href": "about.html#awards-and-honors",
-    "title": " About me",
+    "title": "About me",
     "section": "Awards and Honors",
     "text": "Awards and Honors\nFubon Best Paper Award | 2024\nExcellent Undergraduate English-taught Course Award, NCCU | 2024\nTaiwanese Government Scholarship to Study Abroad | 2022 - 2023\nNTU Research Scholarship | 2019 - 2023\nBest Paper Award, TSC Thesis Symposium | 2017\nShanghai Commercial & Savings Bank Scholarship | 2017"
   },
@@ -296,16 +296,16 @@
   {
     "objectID": "research.html#publications",
     "href": "research.html#publications",
-    "title": " Research",
-    "section": "",
-    "text": "Year\n\n\n\nTitle\n\n\n\nAuthor\n\n\n\nJournal\n\n\n\n\n\n\n\n\n2025\n\n\nGreenwashing and Its Impact on Corporate Operating Performance\n\n\nWen-Chyan Ke, Pei-Ru Lo, Chang Chan, Calvin J. Chiou\n\n\nReview of Securities and Futures Markets (證券市場發展季刊), forthcoming (TSSCI)\n\n\n\n\n\n\n2025\n\n\nThe Impact of Environmental Performance on Financial Outcomes: Evidence from Listed Companies in Taiwan\n\n\nCalvin J. Chiou, Tsung-Hsuan Li, Chang Chan, Chun-Kuei Hsieh\n\n\nJournal of Financial Studies (財務金融學刊), Vol. 33(1), 51-107 (TSSCI)\n\n\n\n\n\n\n2022\n\n\nA Taxonomy of Individual Liquidity Provision: Evidence from the Taiwan Stock Exchange\n\n\nCalvin J. Chiou, Chang Chan, Xiaozhou Zhou\n\n\nFinance Research Letters, Vol. 50, 103246\n\n\n\n\n\n\n2021\n\n\nThe impact of mandatory corporate social responsibility reporting on liquidity and risk\n\n\nChang Chan, Chao-Hung Huang, Calvin J. Chiou, Wen-Chyan Ke\n\n\nJournal of Accounting Review (會計評論), Vol. 72, 35-82 (TSSCI)\n\n\n\n\n\n\nNo matching items"
+    "title": "Research",
+    "section": "Publications",
+    "text": "Publications\n\n\n\n\n\n\nYear\n\n\n\nTitle\n\n\n\nAuthor\n\n\n\nJournal\n\n\n\n\n\n\n\n\n2025\n\n\nGreenwashing and Its Impact on Corporate Operating Performance\n\n\nWen-Chyan Ke, Pei-Ru Lo, Chang Chan, Calvin J. Chiou\n\n\nReview of Securities and Futures Markets (證券市場發展季刊), Vol. 37(3), 63-103 (TSSCI)\n\n\n\n\n\n\n2025\n\n\nThe Impact of Environmental Performance on Financial Outcomes: Evidence from Taiwan\n\n\nCalvin J. Chiou, Tsung-Hsuan Li, Chang Chan, Chun-Kuei Hsieh\n\n\nJournal of Financial Studies (財務金融學刊), Vol. 33(1), 51-107 (TSSCI)\n\n\n\n\n\n\n2022\n\n\nA Taxonomy of Individual Liquidity Provision: Evidence from the Taiwan Stock Exchange\n\n\nCalvin J. Chiou, Chang Chan, Xiaozhou Zhou\n\n\nFinance Research Letters, Vol. 50, 103246\n\n\n\n\n\n\n2021\n\n\nThe Impact of Mandatory Corporate Social Responsibility Reporting on Liquidity and Risk\n\n\nChang Chan, Chao-Hung Huang, Calvin J. Chiou, Wen-Chyan Ke\n\n\nJournal of Accounting Review (會計評論), Vol. 72, 35-82 (TSSCI)\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "research.html#working-papers",
     "href": "research.html#working-papers",
-    "title": " Research",
+    "title": "Research",
     "section": "Working Papers",
-    "text": "Working Papers\n\n\n\n\n\n\nYear\n\n\n\nTitle\n\n\n\nAuthor\n\n\n\nRemark\n\n\n\n\n\n\n\n\n2026\n\n\nCommon Ownership and Board Interlocks: Industry Boundary Matters\n\n\nZheng Yang, Calvin J. Chiou, Chia-Wei Huang\n\n\nUnder Submission\n\n\n\n\n\n\n2026\n\n\nCorporate Social Performance, Retail Investor Trading, and Stock Price Crash Risk\n\n\nChang Chan, Calvin J. Chiou, Chin-En Wu\n\n\nR&R at Finance Research Letters\n\n\n\n\n\n\n2025\n\n\nWhen Black Swan Meets Green Swan: ESG Engagement and Financial Resilience in U.S. Airlines during COVID-19\n\n\nHui-Chieh Chen, Calvin J. Chiou, Yueh-Neng Lin\n\n\nR&R at Journal of Business Ethics\n\n\n\n\n\n\n2025\n\n\nSustainable Fund Ownership to Corporate Financial Performance\n\n\nWen-Chyan Ke, Yi-Tong Lin, Chang Chan, Calvin J. Chiou\n\n\nR&R at Journal of Financial Studies\n\n\n\n\n\n\n2025\n\n\nCommon Ownership Network and Board Gender Diversity\n\n\nCalvin J. Chiou (single-authored)\n\n\nDraft available upon request\n\n\n\n\n\n\nNo matching items"
+    "text": "Working Papers\n\n\n\n\n\n\nYear\n\n\n\nTitle\n\n\n\nAuthor\n\n\n\nRemark\n\n\n\n\n\n\n\n\n2026\n\n\nCommon Ownership and Board Interlocks: Industry Boundary Matters\n\n\nZheng Yang, Calvin J. Chiou, Chia-Wei Huang\n\n\nUnder Submission\n\n\n\n\n\n\n2025\n\n\nWhen Black Swan Meets Green Swan: ESG Engagement and Financial Resilience in U.S. Airlines during COVID-19\n\n\nHui-Chieh Chen, Calvin J. Chiou, Yueh-Neng Lin\n\n\nR&R at Journal of Business Ethics\n\n\n\n\n\n\n2025\n\n\nSustainable Fund Ownership to Corporate Financial Performance\n\n\nWen-Chyan Ke, Yi-Tong Lin, Chang Chan, Calvin J. Chiou\n\n\nR&R at Journal of Financial Studies\n\n\n\n\n\n\n2025\n\n\nCommon Ownership Network and Board Gender Diversity\n\n\nCalvin J. Chiou (single-authored)\n\n\nDraft available upon request\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "wps/CO_Diversity.html",
@@ -431,7 +431,7 @@
     "href": "notes/CAR.html#preview-data",
     "title": "Cumulative Abnormal Returns",
     "section": "Preview Data",
-    "text": "Preview Data\nLet’s take a look at the first few rows of the stock data in a pretty format.\n\n# Print the head of the stock data in a pretty format\nkable(head(stock_data), caption = \"Stock Data: Apple Inc. (AAPL)\")\n\n\nStock Data: Apple Inc. (AAPL)\n\n\n\n\n\n\n\n\n\n\n\n\nsymbol\ndate\nopen\nhigh\nlow\nclose\nvolume\nadjusted\n\n\n\n\nAAPL\n2020-01-02\n74.0600\n75.1500\n73.7975\n75.0875\n135480400\n72.96047\n\n\nAAPL\n2020-01-03\n74.2875\n75.1450\n74.1250\n74.3575\n146322800\n72.25114\n\n\nAAPL\n2020-01-06\n73.4475\n74.9900\n73.1875\n74.9500\n118387200\n72.82685\n\n\nAAPL\n2020-01-07\n74.9600\n75.2250\n74.3700\n74.5975\n108872000\n72.48436\n\n\nAAPL\n2020-01-08\n74.2900\n76.1100\n74.2900\n75.7975\n132079200\n73.65035\n\n\nAAPL\n2020-01-09\n76.8100\n77.6075\n76.5500\n77.4075\n170108400\n75.21473"
+    "text": "Preview Data\nLet’s take a look at the first few rows of the stock data in a pretty format.\n\n# Print the head of the stock data in a pretty format\nkable(head(stock_data), caption = \"Stock Data: Apple Inc. (AAPL)\")\n\n\nStock Data: Apple Inc. (AAPL)\n\n\n\n\n\n\n\n\n\n\n\n\nsymbol\ndate\nopen\nhigh\nlow\nclose\nvolume\nadjusted\n\n\n\n\nAAPL\n2020-01-02\n74.0600\n75.1500\n73.7975\n75.0875\n135480400\n72.40052\n\n\nAAPL\n2020-01-03\n74.2875\n75.1450\n74.1250\n74.3575\n146322800\n71.69664\n\n\nAAPL\n2020-01-06\n73.4475\n74.9900\n73.1875\n74.9500\n118387200\n72.26794\n\n\nAAPL\n2020-01-07\n74.9600\n75.2250\n74.3700\n74.5975\n108872000\n71.92805\n\n\nAAPL\n2020-01-08\n74.2900\n76.1100\n74.2900\n75.7975\n132079200\n73.08511\n\n\nAAPL\n2020-01-09\n76.8100\n77.6075\n76.5500\n77.4075\n170108400\n74.63750"
   },
   {
     "objectID": "notes/CAR.html#data-preparation",
@@ -445,7 +445,7 @@
     "href": "notes/CAR.html#calculating-abnormal-returns",
     "title": "Cumulative Abnormal Returns",
     "section": "Calculating Abnormal Returns",
-    "text": "Calculating Abnormal Returns\nAbnormal returns are the difference between the actual returns and the returns predicted by the market model.\n\n# Calculate the predicted returns\nreturns_data &lt;- returns_data %&gt;%\n  mutate(predicted_return = alpha_hat + beta_hat * market_return)\n\n# Calculate the abnormal returns\nreturns_data &lt;- returns_data %&gt;%\n  mutate(abnormal_return = stock_return - predicted_return)\n\n# Display the first few rows with abnormal returns\nkable(head(returns_data), caption = \"Returns Data with Abnormal Returns\")\n\n\nReturns Data with Abnormal Returns\n\n\n\n\n\n\n\n\n\ndate\nstock_return\nmarket_return\npredicted_return\nabnormal_return\n\n\n\n\n2020-01-02\n0.0000000\n0.0000000\n0.0006081\n-0.0006081\n\n\n2020-01-03\n-0.0097222\n-0.0070599\n-0.0078374\n-0.0018848\n\n\n2020-01-06\n0.0079682\n0.0035334\n0.0048349\n0.0031333\n\n\n2020-01-07\n-0.0047028\n-0.0028032\n-0.0027453\n-0.0019575\n\n\n2020-01-08\n0.0160861\n0.0049025\n0.0064727\n0.0096134\n\n\n2020-01-09\n0.0212406\n0.0066553\n0.0085695\n0.0126711"
+    "text": "Calculating Abnormal Returns\nAbnormal returns are the difference between the actual returns and the returns predicted by the market model.\n\n# Calculate the predicted returns\nreturns_data &lt;- returns_data %&gt;%\n  mutate(predicted_return = alpha_hat + beta_hat * market_return)\n\n# Calculate the abnormal returns\nreturns_data &lt;- returns_data %&gt;%\n  mutate(abnormal_return = stock_return - predicted_return)\n\n# Display the first few rows with abnormal returns\nkable(head(returns_data), caption = \"Returns Data with Abnormal Returns\")\n\n\nReturns Data with Abnormal Returns\n\n\n\n\n\n\n\n\n\ndate\nstock_return\nmarket_return\npredicted_return\nabnormal_return\n\n\n\n\n2020-01-02\n0.0000000\n0.0000000\n0.0006081\n-0.0006081\n\n\n2020-01-03\n-0.0097220\n-0.0070599\n-0.0078374\n-0.0018847\n\n\n2020-01-06\n0.0079682\n0.0035334\n0.0048349\n0.0031333\n\n\n2020-01-07\n-0.0047032\n-0.0028032\n-0.0027453\n-0.0019579\n\n\n2020-01-08\n0.0160863\n0.0049025\n0.0064727\n0.0096136\n\n\n2020-01-09\n0.0212410\n0.0066553\n0.0085695\n0.0126714"
   },
   {
     "objectID": "notes/CAR.html#measuring-cumulative-abnormal-returns-car",
@@ -457,14 +457,14 @@
   {
     "objectID": "about.html#presentations",
     "href": "about.html#presentations",
-    "title": " About me",
+    "title": "About me",
     "section": "Presentations",
-    "text": "Presentations\n2025: TFA1, FeAT2, AsianFA, AFAANZ, National Chengchi University\n2024: INFORMS, Sydney Banking and Financial Stability Conference (SBFC), TFA, Frontier in Accounting and Finance International Conference, Chang Gung University, National Central University, National Chengchi University\n2023: TFA, National Kaohsiung University of Science and Technology, National Taipei University\n2022: National Chengchi University, National Central University, National Taipei University\n2021: Cross Country Perspectives in Finance (CCPF), CCPF-JIFMIM Symposium, International Conference of TFA\n2018: AsianFA\\(^*\\)\n2017: TFA\\(^\\dagger\\), TFA Conference on Asset Pricing\\(^*\\), Conference on the Theories and Practices of Securities and Financial Markets\\(^*\\)\n(\\(^*\\) Presented by Coauthor, \\(^\\dagger\\) Discussant)"
+    "text": "Presentations\n2025: International Conference of TFA1, International Conference for FeAT2, AsianFA Annual Conference, AFAANZ Annual Conference, Annual Conference for Taiwan Econometric Society (scheduled), National Chengchi University\n2024: International Conference of TFA, Frontier in Accounting and Finance International Conference, INFORMS Annual Meeting, Sydney Banking and Financial Stability Conference (SBFC), Chang Gung University, National Central University, National Chengchi University\n2023: International Conference of TFA, National Kaohsiung University of Science and Technology, National Taipei University\n2022: National Chengchi University, National Central University, National Taipei University\n2021: Cross Country Perspectives in Finance (CCPF), CCPF-JIFMIM Symposium, International Conference of TFA\n2018: AsianFA Annual Conference\\(^*\\)\n2017: International Conference of TFA\\(^\\dagger\\), TFA Conference on Asset Pricing\\(^*\\), Conference on the Theories and Practices of Securities and Financial Markets\\(^*\\)\n(\\(^*\\) Presented by Coauthor, \\(^\\dagger\\) Discussant)"
   },
   {
     "objectID": "research.html#work-in-progress",
     "href": "research.html#work-in-progress",
-    "title": " Research",
+    "title": "Research",
     "section": "Work in Progress",
     "text": "Work in Progress\n\n\n\n\n\n\nYear\n\n\n\nTitle\n\n\n\nAuthor\n\n\n\nRemark\n\n\n\n\n\n\n\n\n2026\n\n\nSpillover Effects of Common Ownership in M&As\n\n\nCalvin J. Chiou\n\n\nWork in Progress\n\n\n\n\n\n\n2025\n\n\nSomething about Corporate Information Production\n\n\nCalvin J. Chiou, Chris Lien, Po-Yu Liu\n\n\nWork in Progress\n\n\n\n\n\n\n2025\n\n\nProduct Disclosure following Seasoned Equity Offerings\n\n\nCalvin J. Chiou, Claire Liu, Angie Low\n\n\nWork in Progress\n\n\n\n\n\n\nNo matching items"
   },
@@ -499,28 +499,28 @@
   {
     "objectID": "papers/EnvNTPU.html",
     "href": "papers/EnvNTPU.html",
-    "title": "The Impact of Environmental Performance on Financial Outcomes: Evidence from Listed Companies in Taiwan",
+    "title": "The Impact of Environmental Performance on Financial Outcomes: Evidence from Taiwan",
     "section": "",
     "text": "This study uses Taiwan Sustainability Ratings (TSR) data and applies the Heckman two-stage model to explore cross-industry differences in the impact of corporate environmental performance while controlling for corporate social, economic, and disclosure performance. The impact of environmental performance on financial performance and stock returns is not only related to the government regulations and public attention to environmental issues in the company’s industry, but also to the degree to which the industry is integrated into global supply chains. For the manufacturing industry, corporate environmental performance has a significant positive impact on both financial performance and stock returns of the company."
   },
   {
     "objectID": "papers/EnvNTPU.html#abstract",
     "href": "papers/EnvNTPU.html#abstract",
-    "title": "The Impact of Environmental Performance on Financial Outcomes: Evidence from Listed Companies in Taiwan",
+    "title": "The Impact of Environmental Performance on Financial Outcomes: Evidence from Taiwan",
     "section": "",
     "text": "This study uses Taiwan Sustainability Ratings (TSR) data and applies the Heckman two-stage model to explore cross-industry differences in the impact of corporate environmental performance while controlling for corporate social, economic, and disclosure performance. The impact of environmental performance on financial performance and stock returns is not only related to the government regulations and public attention to environmental issues in the company’s industry, but also to the degree to which the industry is integrated into global supply chains. For the manufacturing industry, corporate environmental performance has a significant positive impact on both financial performance and stock returns of the company."
   },
   {
     "objectID": "papers/EnvNTPU.html#keywords",
     "href": "papers/EnvNTPU.html#keywords",
-    "title": "The Impact of Environmental Performance on Financial Outcomes: Evidence from Listed Companies in Taiwan",
+    "title": "The Impact of Environmental Performance on Financial Outcomes: Evidence from Taiwan",
     "section": "Keywords",
-    "text": "Keywords\nSustainability Report, CSR, ESG, Taiwan Sustainability Ratings, Sample Selection Bias"
+    "text": "Keywords\nSustainability report, CSR, ESG, Taiwan Sustainability Ratings, Sample selection bias"
   },
   {
     "objectID": "papers/EnvNTPU.html#conference",
     "href": "papers/EnvNTPU.html#conference",
-    "title": "The Impact of Environmental Performance on Financial Outcomes: Evidence from Listed Companies in Taiwan",
+    "title": "The Impact of Environmental Performance on Financial Outcomes: Evidence from Taiwan",
     "section": "Conference",
     "text": "Conference\n\nInternational Conference of Taiwan Finance Association (TFA), Taichung, Taiwan, Jun 2023."
   },
@@ -690,7 +690,7 @@
     "href": "notes/investments/n1_introduction.html#basic-data-manipulation-with-dplyr",
     "title": "R Note 1 - Introduction to R and Financial Data Handling",
     "section": "7. Basic Data Manipulation with dplyr",
-    "text": "7. Basic Data Manipulation with dplyr\n\n# Calculate daily returns\napple_stock &lt;- apple_stock |&gt; \n  arrange(date) |&gt; \n  mutate(daily_return = adjusted / lag(adjusted) - 1)\nhead(apple_stock)\n\n# A tibble: 6 × 9\n  symbol date        open  high   low close    volume adjusted daily_return\n  &lt;chr&gt;  &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;\n1 AAPL   2023-01-03  130.  131.  124.  125. 112117500     124.     NA      \n2 AAPL   2023-01-04  127.  129.  125.  126.  89113600     125.      0.0103 \n3 AAPL   2023-01-05  127.  128.  125.  125.  80962700     124.     -0.0106 \n4 AAPL   2023-01-06  126.  130.  125.  130.  87754700     128.      0.0368 \n5 AAPL   2023-01-09  130.  133.  130.  130.  70790800     129.      0.00409\n6 AAPL   2023-01-10  130.  131.  128.  131.  63896200     129.      0.00446"
+    "text": "7. Basic Data Manipulation with dplyr\n\n# Calculate daily returns\napple_stock &lt;- apple_stock |&gt; \n  arrange(date) |&gt; \n  mutate(daily_return = adjusted / lag(adjusted) - 1)\nhead(apple_stock)\n\n# A tibble: 6 × 9\n  symbol date        open  high   low close    volume adjusted daily_return\n  &lt;chr&gt;  &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;\n1 AAPL   2023-01-03  130.  131.  124.  125. 112117500     123.     NA      \n2 AAPL   2023-01-04  127.  129.  125.  126.  89113600     124.      0.0103 \n3 AAPL   2023-01-05  127.  128.  125.  125.  80962700     123.     -0.0106 \n4 AAPL   2023-01-06  126.  130.  125.  130.  87754700     128.      0.0368 \n5 AAPL   2023-01-09  130.  133.  130.  130.  70790800     128.      0.00409\n6 AAPL   2023-01-10  130.  131.  128.  131.  63896200     129.      0.00446"
   },
   {
     "objectID": "notes/investments/n1_introduction.html#visualizing-stock-prices-with-ggplot2",
@@ -928,14 +928,14 @@
     "href": "notes/investments/n2_portfolio.html#buy-and-hold-returns",
     "title": "R Note 2 - Portfolio Formation using R",
     "section": "5. Buy-and-Hold Returns",
-    "text": "5. Buy-and-Hold Returns\nBuy-and-hold returns represent the total return from buying a stock and holding it over a specified period, without any transactions in between.\n\nCalculation\nTo calculate buy-and-hold returns:\n\nbuy_hold_returns &lt;- portfolio |&gt; \n  mutate(buy_hold_return = 100*(total_value / first(total_value) - 1),\n         cumulative_return = cumsum(coalesce(discrete_return, 0)))\n\nhead(buy_hold_returns)\n\n# A tibble: 6 × 6\n  date       total_value discrete_return continuous_return buy_hold_return\n  &lt;date&gt;           &lt;dbl&gt;           &lt;dbl&gt;             &lt;dbl&gt;           &lt;dbl&gt;\n1 2023-01-03     999883.          NA                NA               0    \n2 2023-01-04    1011046.           1.12              1.11            1.12 \n3 2023-01-05    1004671.          -0.631            -0.633           0.479\n4 2023-01-06    1033446.           2.86              2.82            3.36 \n5 2023-01-09    1039916.           0.626             0.624           4.00 \n6 2023-01-10    1049627.           0.934             0.930           4.98 \n# ℹ 1 more variable: cumulative_return &lt;dbl&gt;"
+    "text": "5. Buy-and-Hold Returns\nBuy-and-hold returns represent the total return from buying a stock and holding it over a specified period, without any transactions in between.\n\nCalculation\nTo calculate buy-and-hold returns:\n\nbuy_hold_returns &lt;- portfolio |&gt; \n  mutate(buy_hold_return = 100*(total_value / first(total_value) - 1),\n         cumulative_return = cumsum(coalesce(discrete_return, 0)))\n\nhead(buy_hold_returns)\n\n# A tibble: 6 × 6\n  date       total_value discrete_return continuous_return buy_hold_return\n  &lt;date&gt;           &lt;dbl&gt;           &lt;dbl&gt;             &lt;dbl&gt;           &lt;dbl&gt;\n1 2023-01-03     999798.          NA                NA               0    \n2 2023-01-04    1010960.           1.12              1.11            1.12 \n3 2023-01-05    1004586.          -0.631            -0.632           0.479\n4 2023-01-06    1033358.           2.86              2.82            3.36 \n5 2023-01-09    1039826.           0.626             0.624           4.00 \n6 2023-01-10    1049538.           0.934             0.930           4.97 \n# ℹ 1 more variable: cumulative_return &lt;dbl&gt;"
   },
   {
     "objectID": "notes/investments/n2_portfolio.html#portfolio-comparison-equally-weighted-portfolio-vs.-100-nvda-portfolio",
     "href": "notes/investments/n2_portfolio.html#portfolio-comparison-equally-weighted-portfolio-vs.-100-nvda-portfolio",
     "title": "R Note 2 - Portfolio Formation using R",
     "section": "6. Portfolio Comparison: Equally Weighted Portfolio vs. 100% NVDA Portfolio",
-    "text": "6. Portfolio Comparison: Equally Weighted Portfolio vs. 100% NVDA Portfolio\nLet’s compare our equally weighted portfolio against a portfolio fully invested in NVDA.\n\n# NVDA only portfolio: see how many shares we can purchase at most\nnvda_only_position &lt;- prices |&gt; \n  filter(symbol == \"NVDA\", date == min(date)) |&gt; \n  mutate(shares = floor(budget / adjusted)) |&gt; \n  select(symbol, shares)\n# Hold such shares of Nvdia\nnvda_portfolio &lt;- prices |&gt; \n  filter(symbol == \"NVDA\") |&gt; \n  inner_join(nvda_only_position, by = \"symbol\") |&gt; \n  mutate(total_value = shares * adjusted) |&gt; \n  select(date, nvda_only = total_value)\n\n# Combine both portfolios for comparison\ncombined_portfolios &lt;- portfolio |&gt; \n  select(date, equally_weighted = total_value) |&gt; \n  inner_join(nvda_portfolio, by = \"date\")\n\nhead(combined_portfolios)\n\n# A tibble: 6 × 3\n  date       equally_weighted nvda_only\n  &lt;date&gt;                &lt;dbl&gt;     &lt;dbl&gt;\n1 2023-01-03          999883.   999999.\n2 2023-01-04         1011046.  1030317.\n3 2023-01-05         1004671.   996507.\n4 2023-01-06         1033446.  1038002.\n5 2023-01-09         1039916.  1091721.\n6 2023-01-10         1049627.  1111351.\n\n\n\nVisualization of Both Portfolios\n\ncombined_portfolios_long &lt;- combined_portfolios |&gt; \n  pivot_longer(cols = c(equally_weighted, nvda_only), names_to = \"Portfolio\", values_to = \"Value\")\n\nhchart(combined_portfolios_long, \"line\", hcaes(x = date, y = Value, group = Portfolio)) |&gt; \n  hc_title(text = \"Equally Weighted vs. 100% NVDA Portfolio\") |&gt; \n  hc_yAxis(title = list(text = \"Portfolio Value ($)\")) |&gt; \n  hc_xAxis(title = list(text = \"Date\")) |&gt; \n  hc_tooltip(pointFormat = \"{series.name}: ${point.y:,.0f}\") |&gt; \n  hc_add_theme(hc_theme_smpl())"
+    "text": "6. Portfolio Comparison: Equally Weighted Portfolio vs. 100% NVDA Portfolio\nLet’s compare our equally weighted portfolio against a portfolio fully invested in NVDA.\n\n# NVDA only portfolio: see how many shares we can purchase at most\nnvda_only_position &lt;- prices |&gt; \n  filter(symbol == \"NVDA\", date == min(date)) |&gt; \n  mutate(shares = floor(budget / adjusted)) |&gt; \n  select(symbol, shares)\n# Hold such shares of Nvdia\nnvda_portfolio &lt;- prices |&gt; \n  filter(symbol == \"NVDA\") |&gt; \n  inner_join(nvda_only_position, by = \"symbol\") |&gt; \n  mutate(total_value = shares * adjusted) |&gt; \n  select(date, nvda_only = total_value)\n\n# Combine both portfolios for comparison\ncombined_portfolios &lt;- portfolio |&gt; \n  select(date, equally_weighted = total_value) |&gt; \n  inner_join(nvda_portfolio, by = \"date\")\n\nhead(combined_portfolios)\n\n# A tibble: 6 × 3\n  date       equally_weighted nvda_only\n  &lt;date&gt;                &lt;dbl&gt;     &lt;dbl&gt;\n1 2023-01-03          999798.   999990.\n2 2023-01-04         1010960.  1030307.\n3 2023-01-05         1004586.   996497.\n4 2023-01-06         1033358.  1037991.\n5 2023-01-09         1039826.  1091711.\n6 2023-01-10         1049538.  1111340.\n\n\n\nVisualization of Both Portfolios\n\ncombined_portfolios_long &lt;- combined_portfolios |&gt; \n  pivot_longer(cols = c(equally_weighted, nvda_only), names_to = \"Portfolio\", values_to = \"Value\")\n\nhchart(combined_portfolios_long, \"line\", hcaes(x = date, y = Value, group = Portfolio)) |&gt; \n  hc_title(text = \"Equally Weighted vs. 100% NVDA Portfolio\") |&gt; \n  hc_yAxis(title = list(text = \"Portfolio Value ($)\")) |&gt; \n  hc_xAxis(title = list(text = \"Date\")) |&gt; \n  hc_tooltip(pointFormat = \"{series.name}: ${point.y:,.0f}\") |&gt; \n  hc_add_theme(hc_theme_smpl())"
   },
   {
     "objectID": "notes/investments/n2_portfolio.html#exercises",
@@ -1425,7 +1425,7 @@
     "href": "papers/Greenwashing_RSFM.html#keywords",
     "title": "Greenwashing and Its Impact on Corporate Operating Performance",
     "section": "Keywords",
-    "text": "Keywords\nGreenwashing, Corporate Governance, Operating Performance"
+    "text": "Keywords\nGreenwashing, Corporate governance, Operating performance"
   },
   {
     "objectID": "workinprogress/CO_interlocks.html#conference",
@@ -1437,23 +1437,23 @@
   {
     "objectID": "papers/CSR_JAR.html#keywords",
     "href": "papers/CSR_JAR.html#keywords",
-    "title": "The impact of mandatory corporate social responsibility reporting on liquidity and risk",
-    "section": "",
-    "text": "Corporate social responsibility, Liquidity, Systematic risk, Non-systematic risk."
+    "title": "The Impact of Mandatory Corporate Social Responsibility Reporting on Liquidity and Risk",
+    "section": "Keywords",
+    "text": "Keywords\nCorporate social responsibility, Liquidity, Systematic risk, Non-systematic risk."
   },
   {
     "objectID": "papers/CSR_JAR.html#conference",
     "href": "papers/CSR_JAR.html#conference",
-    "title": "The impact of mandatory corporate social responsibility reporting on liquidity and risk",
-    "section": "",
-    "text": "International Conference for Financial Engineering Association of Taiwan (FeAT), Taoyuan, 2017.\nFrontier in Accounting and Finance International Conference, Taipei, Taiwan, 2019."
+    "title": "The Impact of Mandatory Corporate Social Responsibility Reporting on Liquidity and Risk",
+    "section": "Conference",
+    "text": "Conference\n\nInternational Conference for Financial Engineering Association of Taiwan (FeAT), Taoyuan, 2017.\nFrontier in Accounting and Finance International Conference, Taipei, Taiwan, 2019."
   },
   {
     "objectID": "notes/investments/n3_beta.html",
     "href": "notes/investments/n3_beta.html",
     "title": "R Note 3 - Estimating Beta Coefficients",
     "section": "",
-    "text": "Course Name: Investments | 000351051\nSemester: Spring 2025\n\n\n\nIn this document, we will estimate the beta coefficient of a stock. The beta coefficient measures the systematic risk of a stock relative to the overall market. We will download stock prices and market index prices using the tidyquant package, compute the returns, and then perform a regression analysis.\n\n\n\nFollowing the previous note, we collect stock price data of NVIDIA using package tidyquant. First, we need to install and load the required packages. Ensure you have tidyquant, dplyr installed.\n\n# Load required packages\nlibrary(tidyquant) \nlibrary(dplyr)\nlibrary(broom)\nlibrary(DT)\nlibrary(ggplot2)\nlibrary(highcharter)\n\nWe will download stock prices for a chosen stock (e.g., NVIDIA Inc., ticker: NVDA) and a market index (e.g., S&P 500, ticker: ^GSPC) from Yahoo Finance during the estimation window 2020-2022.1 You can find any corresponding tickers that you would like to explore from its website.\n\n# Define the tickers for the stock and the market index\nstock_ticker &lt;- \"NVDA\"\nmarket_ticker &lt;- \"^GSPC\"\n\n# Set the time period for the data\nstart_date &lt;- \"2020-01-01\"\nend_date &lt;- \"2022-12-31\"\n\n# Download stock and market data\nstock_data &lt;- tq_get(stock_ticker, from = start_date, to = end_date)\nmarket_data &lt;- tq_get(market_ticker, from = start_date, to = end_date)\n\n\n\nLet’s take a look at the first few rows of the stock data in a pretty format.\n\n# Print the head of the stock data in a pretty format\ndatatable(stock_data) |&gt; \n  formatRound(columns = c(\"open\",\"high\",\"low\",\"close\",\"adjusted\"), digits = 2)\n\n\n\n\n\n\n\n\n\nNext, we will prepare the data by calculating daily returns for both the stock and the market index. tq_transmute() is used to manipulate stock data by creating a new variable, stock_return. Stock (or market) returns are calculated as the difference between the current and the past return divided by the past return. Because we are looking at daily data, the past return refers to the return that occurred on the previous trading day. na.omit() is used to drop observations with missing values.\n\n# Calculate daily returns for the stock and the market\nstock_returns &lt;- stock_data |&gt; \n  tq_transmute(select = adjusted, \n               mutate_fun = periodReturn, \n               period = \"daily\", \n               col_rename = \"stock_return\")\n\nmarket_returns &lt;- market_data |&gt; \n  tq_transmute(select = adjusted, \n               mutate_fun = periodReturn, \n               period = \"daily\", \n               col_rename = \"market_return\")\n\n# Combine the returns data into one data frame\nreturns_data &lt;- left_join(stock_returns, market_returns, \n                          by = \"date\") |&gt; \n  na.omit()\n# Print the returns data\ndatatable(returns_data) |&gt; \n  formatRound(columns = c(\"stock_return\",\"market_return\"), digits = 4)\n\n\n\n\n\n\n\nWe will visualize the stock prices of Apple using ggplot2 with a nice theme.\n\n# Plot the stock prices using highcharter\nhighchart() |&gt; \n  hc_title(text = \"NVIDIA Inc. (NVDA) Stock Prices\") |&gt;\n  hc_xAxis(type = \"datetime\", title = list(text = \"Date\")) |&gt;\n  hc_yAxis(title = list(text = \"Adjusted Closing Price\")) |&gt;\n  hc_add_series(stock_data, type = \"line\",\n                hcaes(x = date, y = adjusted),\n                name = \"Adjusted Price\") |&gt;\n  hc_tooltip(pointFormat = \"Price: &lt;b&gt;${point.y:.2f}&lt;/b&gt;\") |&gt;\n  hc_title(style = list(fontSize = \"16px\", align = \"center\")) |&gt; \n  hc_add_theme(hc_theme_smpl())\n\n\n\n\n# Step 1: Fit the linear model\nfit &lt;- lm(stock_return ~ market_return, data = returns_data)\n\n# Step 2: Add fitted values to the data\nreturns_data$fit &lt;- predict(fit)\n\n# Step 3: Scatterplot of Stock Return vs. Market Return\nhighchart() |&gt;\n  hc_title(text = \"Linear Relation: NVIDIA vs. S&P 500\") |&gt;\n  hc_xAxis(title = list(text = \"Market Return (^GSPC)\")) |&gt;\n  hc_yAxis(title = list(text = \"Stock Return (NVDA)\")) |&gt;\n  hc_add_series(\n    data = returns_data,\n    type = \"scatter\",\n    hcaes(x = market_return, y = stock_return),\n    name = \"Daily Returns\",\n  ) |&gt;\n  hc_add_series(\n    data = returns_data[order(returns_data$market_return), ],  # sort to connect line smoothly\n    type = \"line\",\n    hcaes(x = market_return, y = fit),\n    name = \"Linear Fit\",\n  ) |&gt;\n  hc_tooltip(pointFormat = \"Market Return: {point.x:.4f}&lt;br&gt;Stock Return: {point.y:.4f}\") |&gt;\n  hc_legend(align = \"center\", verticalAlign = \"bottom\") |&gt; \n  hc_add_theme(hc_theme_smpl())\n\n\n\n\n\n\n\n\n\nThe market model is a statistical model that describes the relationship between the returns of a stock and the returns of the overall market.2 It is a simple linear regression model that can be expressed as follows:\n\\[\nR_i=\\alpha+ \\beta \\times R_m + \\epsilon\n\\]\nwhere:\n\n\\(R_i\\) is the return of the individual stock.\n\\(\\alpha\\) (alpha) is the intercept, representing the stock’s return independent of the market’s return.\n\\(\\beta\\) (beta) is the slope coefficient, representing the sensitivity of the stock’s return to the market’s return (this is the beta coefficient we are estimating).\n\\(R_m\\) is the return of the market.\n\\(\\epsilon\\) (epsilon) is the error term, representing the part of the stock’s return not explained by the market return.\n\nIn this section, we will perform a linear regression of the stock returns on the market returns to estimate the beta coefficient. The beta coefficient indicates how much the stock’s return is expected to change in response to a 1% change in the market’s return. A beta greater than 1 indicates that the stock is more volatile than the market, while a beta less than 1 indicates that the stock is less volatile. Theoretically, beta coefficient is considered as a measure of systematic risk of a stock.\n\n# Perform the linear regression\nmodel &lt;- lm(stock_return ~ market_return, data = returns_data)\n\n# Display the summary of the regression model\nsummary(model)\n\n\nCall:\nlm(formula = stock_return ~ market_return, data = returns_data)\n\nResiduals:\n      Min        1Q    Median        3Q       Max \n-0.084558 -0.014089 -0.001877  0.013956  0.112266 \n\nCoefficients:\n               Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)   0.0012297  0.0008435   1.458    0.145    \nmarket_return 1.6562134  0.0526407  31.463   &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 0.02319 on 754 degrees of freedom\nMultiple R-squared:  0.5676,    Adjusted R-squared:  0.5671 \nF-statistic: 989.9 on 1 and 754 DF,  p-value: &lt; 2.2e-16\n\n\nThe lm() function in R is used to perform the linear regression, where stock_return is regressed on market_return. The summary of the regression model provides us with the estimated coefficients for alpha and beta, along with statistical measures that help evaluate the model’s fit.\n\n\n\nThe beta coefficient is the slope of the regression line. We can extract it from the regression model.\n\n# Extract the beta coefficient\nbeta_coefficient &lt;- tidy(model) |&gt; \n  filter(term == \"market_return\") |&gt; \n  select(estimate) |&gt; \n  pull()\n\ncat(\"The estimated beta coefficient for\", \n    stock_ticker, \"is\", \n    round(beta_coefficient, 2))\n\nThe estimated beta coefficient for NVDA is 1.66\n\n\nThe estimated beta coefficient tells us how sensitive the stock’s return is to the market’s return. For instance, if the beta is 1.66, it means that if the market return increases by 1%, the stock’s return is expected to increase by 1.66%, indicating higher volatility relative to the market.\n\n\n\nIdiosyncratic (unsystematic) volatility represents the portion of the stock’s volatility that is not explained by market movements. It can be estimated by taking the standard deviation of the residuals from the market model. The residuals (\\(\\epsilon\\)) represent the differences between the observed stock returns and the returns predicted by the market model.\n\n# Calculate the residuals from the market model\nresiduals &lt;- resid(model)\n\n# Calculate the standard deviation of the residuals\nidiosyncratic_volatility &lt;- sd(residuals)\n\ncat(\"The estimated idiosyncratic risk for\", \n    stock_ticker, \"is\", \n    round(idiosyncratic_volatility, 2))\n\nThe estimated idiosyncratic risk for NVDA is 0.02\n\n\n\n\n\nIn this document, we downloaded stock and market index prices, calculated their daily returns, and performed a regression analysis to estimate the beta coefficient. We also estimated the idiosyncratic volatility by calculating the standard deviation of the residuals from the market model. The beta coefficient helps us understand the stock’s systematic risk in relation to the overall market, while idiosyncratic volatility measures the stock-specific risk not explained by market movements."
+    "text": "Course Name: Investments | 000351051\nSemester: Spring 2025\n\n\n\nIn this document, we will estimate the beta coefficient of a stock. The beta coefficient measures the systematic risk of a stock relative to the overall market. We will download stock prices and market index prices using the tidyquant package, compute the returns, and then perform a regression analysis.\n\n\n\nFollowing the previous note, we collect stock price data of NVIDIA using package tidyquant. First, we need to install and load the required packages. Ensure you have tidyquant, dplyr installed.\n\n# Load required packages\nlibrary(tidyquant) \nlibrary(dplyr)\nlibrary(broom)\nlibrary(DT)\nlibrary(ggplot2)\nlibrary(highcharter)\n\nWe will download stock prices for a chosen stock (e.g., NVIDIA Inc., ticker: NVDA) and a market index (e.g., S&P 500, ticker: ^GSPC) from Yahoo Finance during the estimation window 2020-2022.1 You can find any corresponding tickers that you would like to explore from its website.\n\n# Define the tickers for the stock and the market index\nstock_ticker &lt;- \"NVDA\"\nmarket_ticker &lt;- \"^GSPC\"\n\n# Set the time period for the data\nstart_date &lt;- \"2020-01-01\"\nend_date &lt;- \"2022-12-31\"\n\n# Download stock and market data\nstock_data &lt;- tq_get(stock_ticker, from = start_date, to = end_date)\nmarket_data &lt;- tq_get(market_ticker, from = start_date, to = end_date)\n\n\n\nLet’s take a look at the first few rows of the stock data in a pretty format.\n\n# Print the head of the stock data in a pretty format\ndatatable(stock_data) |&gt; \n  formatRound(columns = c(\"open\",\"high\",\"low\",\"close\",\"adjusted\"), digits = 2)\n\n\n\n\n\n\n\n\n\nNext, we will prepare the data by calculating daily returns for both the stock and the market index. tq_transmute() is used to manipulate stock data by creating a new variable, stock_return. Stock (or market) returns are calculated as the difference between the current and the past return divided by the past return. Because we are looking at daily data, the past return refers to the return that occurred on the previous trading day. na.omit() is used to drop observations with missing values.\n\n# Calculate daily returns for the stock and the market\nstock_returns &lt;- stock_data |&gt; \n  tq_transmute(select = adjusted, \n               mutate_fun = periodReturn, \n               period = \"daily\", \n               col_rename = \"stock_return\")\n\nmarket_returns &lt;- market_data |&gt; \n  tq_transmute(select = adjusted, \n               mutate_fun = periodReturn, \n               period = \"daily\", \n               col_rename = \"market_return\")\n\n# Combine the returns data into one data frame\nreturns_data &lt;- left_join(stock_returns, market_returns, \n                          by = \"date\") |&gt; \n  na.omit()\n# Print the returns data\ndatatable(returns_data) |&gt; \n  formatRound(columns = c(\"stock_return\",\"market_return\"), digits = 4)\n\n\n\n\n\n\n\nWe will visualize the stock prices of Apple using ggplot2 with a nice theme.\n\n# Plot the stock prices using highcharter\nhighchart() |&gt; \n  hc_title(text = \"NVIDIA Inc. (NVDA) Stock Prices\") |&gt;\n  hc_xAxis(type = \"datetime\", title = list(text = \"Date\")) |&gt;\n  hc_yAxis(title = list(text = \"Adjusted Closing Price\")) |&gt;\n  hc_add_series(stock_data, type = \"line\",\n                hcaes(x = date, y = adjusted),\n                name = \"Adjusted Price\") |&gt;\n  hc_tooltip(pointFormat = \"Price: &lt;b&gt;${point.y:.2f}&lt;/b&gt;\") |&gt;\n  hc_title(style = list(fontSize = \"16px\", align = \"center\")) |&gt; \n  hc_add_theme(hc_theme_smpl())\n\n\n\n\n# Step 1: Fit the linear model\nfit &lt;- lm(stock_return ~ market_return, data = returns_data)\n\n# Step 2: Add fitted values to the data\nreturns_data$fit &lt;- predict(fit)\n\n# Step 3: Scatterplot of Stock Return vs. Market Return\nhighchart() |&gt;\n  hc_title(text = \"Linear Relation: NVIDIA vs. S&P 500\") |&gt;\n  hc_xAxis(title = list(text = \"Market Return (^GSPC)\")) |&gt;\n  hc_yAxis(title = list(text = \"Stock Return (NVDA)\")) |&gt;\n  hc_add_series(\n    data = returns_data,\n    type = \"scatter\",\n    hcaes(x = market_return, y = stock_return),\n    name = \"Daily Returns\",\n  ) |&gt;\n  hc_add_series(\n    data = returns_data[order(returns_data$market_return), ],  # sort to connect line smoothly\n    type = \"line\",\n    hcaes(x = market_return, y = fit),\n    name = \"Linear Fit\",\n  ) |&gt;\n  hc_tooltip(pointFormat = \"Market Return: {point.x:.4f}&lt;br&gt;Stock Return: {point.y:.4f}\") |&gt;\n  hc_legend(align = \"center\", verticalAlign = \"bottom\") |&gt; \n  hc_add_theme(hc_theme_smpl())\n\n\n\n\n\n\n\n\n\nThe market model is a statistical model that describes the relationship between the returns of a stock and the returns of the overall market.2 It is a simple linear regression model that can be expressed as follows:\n\\[\nR_i=\\alpha+ \\beta \\times R_m + \\epsilon\n\\]\nwhere:\n\n\\(R_i\\) is the return of the individual stock.\n\\(\\alpha\\) (alpha) is the intercept, representing the stock’s return independent of the market’s return.\n\\(\\beta\\) (beta) is the slope coefficient, representing the sensitivity of the stock’s return to the market’s return (this is the beta coefficient we are estimating).\n\\(R_m\\) is the return of the market.\n\\(\\epsilon\\) (epsilon) is the error term, representing the part of the stock’s return not explained by the market return.\n\nIn this section, we will perform a linear regression of the stock returns on the market returns to estimate the beta coefficient. The beta coefficient indicates how much the stock’s return is expected to change in response to a 1% change in the market’s return. A beta greater than 1 indicates that the stock is more volatile than the market, while a beta less than 1 indicates that the stock is less volatile. Theoretically, beta coefficient is considered as a measure of systematic risk of a stock.\n\n# Perform the linear regression\nmodel &lt;- lm(stock_return ~ market_return, data = returns_data)\n\n# Display the summary of the regression model\nsummary(model)\n\n\nCall:\nlm(formula = stock_return ~ market_return, data = returns_data)\n\nResiduals:\n      Min        1Q    Median        3Q       Max \n-0.084558 -0.014089 -0.001877  0.013956  0.112267 \n\nCoefficients:\n               Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)   0.0012297  0.0008435   1.458    0.145    \nmarket_return 1.6562130  0.0526407  31.463   &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 0.02319 on 754 degrees of freedom\nMultiple R-squared:  0.5676,    Adjusted R-squared:  0.5671 \nF-statistic: 989.9 on 1 and 754 DF,  p-value: &lt; 2.2e-16\n\n\nThe lm() function in R is used to perform the linear regression, where stock_return is regressed on market_return. The summary of the regression model provides us with the estimated coefficients for alpha and beta, along with statistical measures that help evaluate the model’s fit.\n\n\n\nThe beta coefficient is the slope of the regression line. We can extract it from the regression model.\n\n# Extract the beta coefficient\nbeta_coefficient &lt;- tidy(model) |&gt; \n  filter(term == \"market_return\") |&gt; \n  select(estimate) |&gt; \n  pull()\n\ncat(\"The estimated beta coefficient for\", \n    stock_ticker, \"is\", \n    round(beta_coefficient, 2))\n\nThe estimated beta coefficient for NVDA is 1.66\n\n\nThe estimated beta coefficient tells us how sensitive the stock’s return is to the market’s return. For instance, if the beta is 1.66, it means that if the market return increases by 1%, the stock’s return is expected to increase by 1.66%, indicating higher volatility relative to the market.\n\n\n\nIdiosyncratic (unsystematic) volatility represents the portion of the stock’s volatility that is not explained by market movements. It can be estimated by taking the standard deviation of the residuals from the market model. The residuals (\\(\\epsilon\\)) represent the differences between the observed stock returns and the returns predicted by the market model.\n\n# Calculate the residuals from the market model\nresiduals &lt;- resid(model)\n\n# Calculate the standard deviation of the residuals\nidiosyncratic_volatility &lt;- sd(residuals)\n\ncat(\"The estimated idiosyncratic risk for\", \n    stock_ticker, \"is\", \n    round(idiosyncratic_volatility, 2))\n\nThe estimated idiosyncratic risk for NVDA is 0.02\n\n\n\n\n\nIn this document, we downloaded stock and market index prices, calculated their daily returns, and performed a regression analysis to estimate the beta coefficient. We also estimated the idiosyncratic volatility by calculating the standard deviation of the residuals from the market model. The beta coefficient helps us understand the stock’s systematic risk in relation to the overall market, while idiosyncratic volatility measures the stock-specific risk not explained by market movements."
   },
   {
     "objectID": "notes/investments/n3_beta.html#introduction",
@@ -1481,7 +1481,7 @@
     "href": "notes/investments/n3_beta.html#regression-analysis",
     "title": "R Note 3 - Estimating Beta Coefficients",
     "section": "",
-    "text": "The market model is a statistical model that describes the relationship between the returns of a stock and the returns of the overall market.2 It is a simple linear regression model that can be expressed as follows:\n\\[\nR_i=\\alpha+ \\beta \\times R_m + \\epsilon\n\\]\nwhere:\n\n\\(R_i\\) is the return of the individual stock.\n\\(\\alpha\\) (alpha) is the intercept, representing the stock’s return independent of the market’s return.\n\\(\\beta\\) (beta) is the slope coefficient, representing the sensitivity of the stock’s return to the market’s return (this is the beta coefficient we are estimating).\n\\(R_m\\) is the return of the market.\n\\(\\epsilon\\) (epsilon) is the error term, representing the part of the stock’s return not explained by the market return.\n\nIn this section, we will perform a linear regression of the stock returns on the market returns to estimate the beta coefficient. The beta coefficient indicates how much the stock’s return is expected to change in response to a 1% change in the market’s return. A beta greater than 1 indicates that the stock is more volatile than the market, while a beta less than 1 indicates that the stock is less volatile. Theoretically, beta coefficient is considered as a measure of systematic risk of a stock.\n\n# Perform the linear regression\nmodel &lt;- lm(stock_return ~ market_return, data = returns_data)\n\n# Display the summary of the regression model\nsummary(model)\n\n\nCall:\nlm(formula = stock_return ~ market_return, data = returns_data)\n\nResiduals:\n      Min        1Q    Median        3Q       Max \n-0.084558 -0.014089 -0.001877  0.013956  0.112266 \n\nCoefficients:\n               Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)   0.0012297  0.0008435   1.458    0.145    \nmarket_return 1.6562134  0.0526407  31.463   &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 0.02319 on 754 degrees of freedom\nMultiple R-squared:  0.5676,    Adjusted R-squared:  0.5671 \nF-statistic: 989.9 on 1 and 754 DF,  p-value: &lt; 2.2e-16\n\n\nThe lm() function in R is used to perform the linear regression, where stock_return is regressed on market_return. The summary of the regression model provides us with the estimated coefficients for alpha and beta, along with statistical measures that help evaluate the model’s fit."
+    "text": "The market model is a statistical model that describes the relationship between the returns of a stock and the returns of the overall market.2 It is a simple linear regression model that can be expressed as follows:\n\\[\nR_i=\\alpha+ \\beta \\times R_m + \\epsilon\n\\]\nwhere:\n\n\\(R_i\\) is the return of the individual stock.\n\\(\\alpha\\) (alpha) is the intercept, representing the stock’s return independent of the market’s return.\n\\(\\beta\\) (beta) is the slope coefficient, representing the sensitivity of the stock’s return to the market’s return (this is the beta coefficient we are estimating).\n\\(R_m\\) is the return of the market.\n\\(\\epsilon\\) (epsilon) is the error term, representing the part of the stock’s return not explained by the market return.\n\nIn this section, we will perform a linear regression of the stock returns on the market returns to estimate the beta coefficient. The beta coefficient indicates how much the stock’s return is expected to change in response to a 1% change in the market’s return. A beta greater than 1 indicates that the stock is more volatile than the market, while a beta less than 1 indicates that the stock is less volatile. Theoretically, beta coefficient is considered as a measure of systematic risk of a stock.\n\n# Perform the linear regression\nmodel &lt;- lm(stock_return ~ market_return, data = returns_data)\n\n# Display the summary of the regression model\nsummary(model)\n\n\nCall:\nlm(formula = stock_return ~ market_return, data = returns_data)\n\nResiduals:\n      Min        1Q    Median        3Q       Max \n-0.084558 -0.014089 -0.001877  0.013956  0.112267 \n\nCoefficients:\n               Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)   0.0012297  0.0008435   1.458    0.145    \nmarket_return 1.6562130  0.0526407  31.463   &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 0.02319 on 754 degrees of freedom\nMultiple R-squared:  0.5676,    Adjusted R-squared:  0.5671 \nF-statistic: 989.9 on 1 and 754 DF,  p-value: &lt; 2.2e-16\n\n\nThe lm() function in R is used to perform the linear regression, where stock_return is regressed on market_return. The summary of the regression model provides us with the estimated coefficients for alpha and beta, along with statistical measures that help evaluate the model’s fit."
   },
   {
     "objectID": "notes/investments/n3_beta.html#systematic-risk",
@@ -1530,21 +1530,21 @@
     "href": "notes/investments/n4_strategy.html#retrieve-historical-price-data",
     "title": "R Note 4 - Trading Strategy",
     "section": "1. Retrieve Historical Price Data",
-    "text": "1. Retrieve Historical Price Data\nWe begin by retrieving daily adjusted price data for the ETF 0050.TW. This serves as the basis for both the trading simulation and return calculations.\n\netf_data &lt;- tq_get(\"0050.TW\",\n                   from = \"2023-01-01\",\n                   to = \"2024-04-30\")\n\nhead(etf_data)\n\n# A tibble: 6 × 8\n  symbol  date        open  high   low close   volume adjusted\n  &lt;chr&gt;   &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;\n1 0050.TW 2023-01-03  110.  111.  108.  111. 14810634     102.\n2 0050.TW 2023-01-04  110.  111.  110.  110. 13754853     102.\n3 0050.TW 2023-01-05  111.  112.  111.  111. 12070904     103.\n4 0050.TW 2023-01-06  111.  112.  111.  112. 11586780     103.\n5 0050.TW 2023-01-09  114   116.  114.  116. 14998076     107.\n6 0050.TW 2023-01-10  116.  116.  116.  116. 11974270     107."
+    "text": "1. Retrieve Historical Price Data\nWe begin by retrieving daily adjusted price data for the ETF 0050.TW. This serves as the basis for both the trading simulation and return calculations.\n\netf_data &lt;- tq_get(\"0050.TW\",\n                   from = \"2023-01-01\",\n                   to = \"2024-04-30\")\n\nhead(etf_data)\n\n# A tibble: 6 × 8\n  symbol  date        open  high   low close   volume adjusted\n  &lt;chr&gt;   &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;\n1 0050.TW 2023-01-03  27.4  27.7  27.1  27.7 59242536     25.1\n2 0050.TW 2023-01-04  27.6  27.7  27.5  27.6 55019412     25.0\n3 0050.TW 2023-01-05  27.8  27.9  27.7  27.8 48283616     25.2\n4 0050.TW 2023-01-06  27.8  28.0  27.8  28.0 46347120     25.3\n5 0050.TW 2023-01-09  28.5  29.0  28.5  29.0 59992304     26.2\n6 0050.TW 2023-01-10  29.0  29.1  28.9  29.1 47897080     26.3"
   },
   {
     "objectID": "notes/investments/n4_strategy.html#calculate-moving-averages",
     "href": "notes/investments/n4_strategy.html#calculate-moving-averages",
     "title": "R Note 4 - Trading Strategy",
     "section": "2. Calculate Moving Averages",
-    "text": "2. Calculate Moving Averages\nWe compute two simple moving averages:\n\nMA20: Short-term (20-day) average\nMA50: Long-term (50-day) average\n\nThese are commonly used in technical trading strategies to identify trend changes.\n\n# Calculate Moving-Average Indicators\netf_ma &lt;- etf_data |&gt; \n  mutate(\n    MA20 = SMA(adjusted, n = 20),\n    MA50 = SMA(adjusted, n = 50)\n  ) |&gt; \n  na.omit()\nhead(etf_ma)\n\n# A tibble: 6 × 10\n  symbol  date        open  high   low close   volume adjusted  MA20  MA50\n  &lt;chr&gt;   &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1 0050.TW 2023-03-27  122.  122.  121.  121. 10644595     115.  113.  112.\n2 0050.TW 2023-03-28  121.  121.  120.  120.  9741489     114.  113.  112.\n3 0050.TW 2023-03-29  121.  121.  120.  121.  3074427     114.  113.  112.\n4 0050.TW 2023-03-30  121.  122.  121.  121. 11380614     115.  113.  112.\n5 0050.TW 2023-03-31  122.  122.  121.  122. 14951640     115.  113.  112.\n6 0050.TW 2023-04-06  121.  121   120.  121   7501419     114.  113.  113."
+    "text": "2. Calculate Moving Averages\nWe compute two simple moving averages:\n\nMA20: Short-term (20-day) average\nMA50: Long-term (50-day) average\n\nThese are commonly used in technical trading strategies to identify trend changes.\n\n# Calculate Moving-Average Indicators\netf_ma &lt;- etf_data |&gt; \n  mutate(\n    MA20 = SMA(adjusted, n = 20),\n    MA50 = SMA(adjusted, n = 50)\n  ) |&gt; \n  na.omit()\nhead(etf_ma)\n\n# A tibble: 6 × 10\n  symbol  date        open  high   low close   volume adjusted  MA20  MA50\n  &lt;chr&gt;   &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1 0050.TW 2023-03-27  30.4  30.5  30.3  30.4 42578380     28.1  27.7  27.3\n2 0050.TW 2023-03-28  30.2  30.3  30.0  30.1 38965956     27.9  27.7  27.4\n3 0050.TW 2023-03-29  30.2  30.3  30.0  30.1 12297708     27.9  27.7  27.4\n4 0050.TW 2023-03-30  30.4  30.4  30.2  30.3 45522456     28.0  27.7  27.5\n5 0050.TW 2023-03-31  30.4  30.6  30.4  30.4 59806560     28.1  27.7  27.5\n6 0050.TW 2023-04-06  30.2  30.2  30.0  30.2 30005676     28.0  27.7  27.6"
   },
   {
     "objectID": "notes/investments/n4_strategy.html#generate-trading-signals",
     "href": "notes/investments/n4_strategy.html#generate-trading-signals",
     "title": "R Note 4 - Trading Strategy",
     "section": "3. Generate Trading Signals",
-    "text": "3. Generate Trading Signals\nWe generate buy and sell signals:\n\nBuy when MA20 crosses above MA50\nSell when MA20 crosses below MA50\n\n\netf_signals &lt;- etf_ma |&gt; \n  mutate(\n    signal = case_when(\n      lag(MA20) &lt; lag(MA50) & MA20 &gt;= MA50 ~ \"buy\",\n      lag(MA20) &gt; lag(MA50) & MA20 &lt;= MA50 ~ \"sell\",\n      TRUE ~ NA_character_\n    )\n  )\n\netf_signals |&gt; filter(!is.na(signal))\n\n# A tibble: 4 × 11\n  symbol  date        open  high   low close  volume adjusted  MA20  MA50 signal\n  &lt;chr&gt;   &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; \n1 0050.TW 2023-04-28  117.  118.  117.  117.  5.64e6     111.  113.  113. sell  \n2 0050.TW 2023-05-26  125   126.  125   126.  2.38e7     119.  113.  113. buy   \n3 0050.TW 2023-08-16  124.  124.  124.  124.  1.81e7     119.  122.  122. sell  \n4 0050.TW 2023-11-14  129.  130.  129.  129   2.01e7     124.  120.  120. buy"
+    "text": "3. Generate Trading Signals\nWe generate buy and sell signals:\n\nBuy when MA20 crosses above MA50\nSell when MA20 crosses below MA50\n\n\netf_signals &lt;- etf_ma |&gt; \n  mutate(\n    signal = case_when(\n      lag(MA20) &lt; lag(MA50) & MA20 &gt;= MA50 ~ \"buy\",\n      lag(MA20) &gt; lag(MA50) & MA20 &lt;= MA50 ~ \"sell\",\n      TRUE ~ NA_character_\n    )\n  )\n\netf_signals |&gt; filter(!is.na(signal))\n\n# A tibble: 4 × 11\n  symbol  date        open  high   low close  volume adjusted  MA20  MA50 signal\n  &lt;chr&gt;   &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; \n1 0050.TW 2023-04-28  29.2  29.4  29.2  29.4  2.26e7     27.2  27.6  27.7 sell  \n2 0050.TW 2023-05-26  31.2  31.5  31.2  31.5  9.51e7     29.1  27.7  27.7 buy   \n3 0050.TW 2023-08-16  31.0  31.1  30.9  31.0  7.23e7     29.1  29.9  30.0 sell  \n4 0050.TW 2023-11-14  32.3  32.4  32.2  32.2  8.04e7     30.3  29.3  29.3 buy"
   },
   {
     "objectID": "notes/investments/n4_strategy.html#simulate-trading-strategy",
@@ -1565,7 +1565,7 @@
     "href": "notes/investments/n4_strategy.html#final-performance-summary",
     "title": "R Note 4 - Trading Strategy",
     "section": "6. Final Performance Summary",
-    "text": "6. Final Performance Summary\nWe summarize the total return of the strategy from start to end.\n\nfinal_value &lt;- tail(portfolio$total_value, 1)\nreturn_pct &lt;- (final_value - capital) / capital * 100\n\ncat(\"Final Value: NT$\", round(final_value, 2), \"\\n\")\n\nFinal Value: NT$ 1258805 \n\ncat(\"Total Return: \", round(return_pct, 2), \"%\")\n\nTotal Return:  25.88 %"
+    "text": "6. Final Performance Summary\nWe summarize the total return of the strategy from start to end.\n\nfinal_value &lt;- tail(portfolio$total_value, 1)\nreturn_pct &lt;- (final_value - capital) / capital * 100\n\ncat(\"Final Value: NT$\", round(final_value, 2), \"\\n\")\n\nFinal Value: NT$ 1258830 \n\ncat(\"Total Return: \", round(return_pct, 2), \"%\")\n\nTotal Return:  25.88 %"
   },
   {
     "objectID": "notes/investments/n4_strategy.html#retrieve-market-index-taiex",
@@ -1661,28 +1661,28 @@
   {
     "objectID": "teaching.html#general",
     "href": "teaching.html#general",
-    "title": " Teaching",
-    "section": "",
-    "text": "If students would like to request recommendation letters from me, please read Recommendation Letter Policy"
+    "title": "Teaching",
+    "section": "General",
+    "text": "General\n\nIf students would like to request recommendation letters from me, please read Recommendation Letter Policy"
   },
   {
     "objectID": "teaching.html#undergraduate-level",
     "href": "teaching.html#undergraduate-level",
-    "title": " Teaching",
+    "title": "Teaching",
     "section": "Undergraduate level",
     "text": "Undergraduate level\n\nInvestments, National Chengchi University, Spring 2025\nFinancial Management, National Chengchi University, 2024"
   },
   {
     "objectID": "teaching.html#ph.d.-level",
     "href": "teaching.html#ph.d.-level",
-    "title": " Teaching",
+    "title": "Teaching",
     "section": "Ph.D. level",
     "text": "Ph.D. level\n\nSeminar on Corporate Finance (PhD), National Chengchi University, Spring 2025"
   },
   {
     "objectID": "teaching.html#other",
     "href": "teaching.html#other",
-    "title": " Teaching",
+    "title": "Teaching",
     "section": "Other",
     "text": "Other\n\nTextual Analysis and Web Crawling using R (mini-workshop), National Central University, Fall 2017."
   },
@@ -1710,7 +1710,7 @@
   {
     "objectID": "teaching.html#teaching-awards-grants",
     "href": "teaching.html#teaching-awards-grants",
-    "title": " Teaching",
+    "title": "Teaching",
     "section": "Teaching Awards & Grants",
     "text": "Teaching Awards & Grants\n\nOff-Site to UT Austin EMI Professional Development Program | 2025\n \nExcellent Undergraduate English-taught Course Award, NCCU | 2024\nProfessorship Mentor Program, NCCU | 2024"
   },
@@ -1738,7 +1738,7 @@
   {
     "objectID": "about.html#footnotes",
     "href": "about.html#footnotes",
-    "title": " About me",
+    "title": "About me",
     "section": "Footnotes",
     "text": "Footnotes\n\n\nTaiwan Financie Association (TFA), https://www.finance.org.tw/fnhome↩︎\nFinancial Engineering Association of Taiwan (FeAT), http://www.feat.org.tw/↩︎"
   },
@@ -2186,7 +2186,7 @@
   {
     "objectID": "about.html#grants",
     "href": "about.html#grants",
-    "title": " About me",
+    "title": "About me",
     "section": "Grants",
     "text": "Grants\nOff-Site to UT Austin EMI Professional Development Program, National Taiwan Normal University & UT Austin | 2025\nGrants for New Faculty Members to Apply to NSTC Academic Research, NCCU | 2024\nCo-Principal Investigator (with Hao-Chang Sung). “The Impact of External Oversight on the Effectiveness of Executive Compensation Clawback Enforcement: Theoretical and Empirical Evidence.” National Science and Technology Council (NSTC), 2025-2027, $NTD 1,758,000\nPrincipal Investigator. “Interwoven Influence: Essays on Board Interlocks in Corporate Governance.” National Science and Technology Council (NSTC), 2024-2026, $NTD 1,378,000"
   },
@@ -2238,5 +2238,47 @@
     "title": "Spillover Effects of Common Ownership in M&As",
     "section": "Keywords",
     "text": "Keywords\nCommon ownership, mergers and acquisitions, spillover effects"
+  },
+  {
+    "objectID": "papers/CSR_JAR.html#abstract",
+    "href": "papers/CSR_JAR.html#abstract",
+    "title": "The Impact of Mandatory Corporate Social Responsibility Reporting on Liquidity and Risk",
+    "section": "",
+    "text": "This study investigates whether mandatory corporate social responsibility (CSR) reporting ameliorates liquidity and reduces risk for stocks. Moreover, we explore whether these impacts vary with regulated company category and stakeholder influence capacity. For a mandatory CSR reporting regulation in Taiwan, we assess the policy’s effects using difference-in-differences (DID) modeling. The results show that mandatory CSR reporting significantly increases liquidity and reduces idiosyncratic risks. However, the effect on systematic risk is asymmetric—a high (low) systematic risk is accompanied by a positive (negative) market return; namely, a large (small) price increase (decrease) caused by a positive (negative) market return. This aligns with the insurance-like benefits argument. These findings suggest investors hold on to CSR firms because of increased information transparency and good financial performance during a recession. The improved liquidity is more significant for firms in the electronics and chemical industries and for firms with a large equity share owned by domestic institutional investors. Idiosyncratic risk is reduced more for the latter two. The findings provide feedback on mandatory CSR reporting to policy makers and provide reference for firms and investors."
+  },
+  {
+    "objectID": "papers/ILP_FRL.html#highlights",
+    "href": "papers/ILP_FRL.html#highlights",
+    "title": "A Taxonomy of Individual Liquidity Provision: Evidence from the Taiwan Stock Exchange",
+    "section": "",
+    "text": "Individual investors tend to be uninformed de facto market makers.\nIndividual investors provide more liquidity during market declines.\nIndividual liquidity provision can help in improving market efficiency when sufficient.\nInformed liquidity demanders are present."
+  },
+  {
+    "objectID": "papers/ILP_FRL.html#abstract",
+    "href": "papers/ILP_FRL.html#abstract",
+    "title": "A Taxonomy of Individual Liquidity Provision: Evidence from the Taiwan Stock Exchange",
+    "section": "Abstract",
+    "text": "Abstract\nUsing trade-level data from the Taiwan Stock Exchange, we document an asymmetric pattern of liquidity provision by individual investors who serve as de facto market makers. Specifically, on average, individual investors provide more liquidity during market declines. We further investigate the impact of asymmetric individual liquidity provision on market efficiency. Despite being uninformed, individual investors’ liquidity provision ameliorates market efficiency more during market declines. Our results suggest that individual investors provide liquidity to help those with private information correct prices toward efficient prices, in turn, enhancing market efficiency."
+  },
+  {
+    "objectID": "papers/ILP_FRL.html#keywords",
+    "href": "papers/ILP_FRL.html#keywords",
+    "title": "A Taxonomy of Individual Liquidity Provision: Evidence from the Taiwan Stock Exchange",
+    "section": "Keywords",
+    "text": "Keywords\nLiquidity provision, Individual investors, Market efficiency, De facto market makers\n\n\n\nFigure 1: Individual order submission schedule\n\n\nThis figure presents order submission schedule of individual investors across normalized daily returns. Order submission schedule is computed as the fraction of individual trading volume executed by either buy or sell orders to total trading volume."
+  },
+  {
+    "objectID": "papers/ILP_FRL.html#conference",
+    "href": "papers/ILP_FRL.html#conference",
+    "title": "A Taxonomy of Individual Liquidity Provision: Evidence from the Taiwan Stock Exchange",
+    "section": "Conference",
+    "text": "Conference\n\nInternational Conference of Taiwan Finance Association (TFA), Taoyuan, Taiwan, Jun 2021 (Online).\nThe Sixth Cross Country Perspective in Finance (CCPF) Symposium."
+  },
+  {
+    "objectID": "posts_hidden/InstOwn_1.html",
+    "href": "posts_hidden/InstOwn_1.html",
+    "title": "Rise of Institutional Investors",
+    "section": "",
+    "text": "Back to top"
   }
 ]

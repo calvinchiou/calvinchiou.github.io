@@ -1,0 +1,20 @@
+---
+title: "Spillover Effects of Common Ownership in M&As"
+description: "*Work in Progress*"
+author:
+  - name: "**Calvin J. Chiou**"
+    affiliations:
+      - name: "National Chengchi University"
+
+date: "Februry 26, 2026"
+categories:
+  - Work in Progress
+---
+
+## Abstract
+
+This project investigates whether common institutional ownership generates spillover effects on firms not directly involved in merger and acquisition (M&A) transactions. Existing studies primarily focus on outcomes for acquiring and target firms, leaving the broader market implications of M&A activity underexplored. This project shifts attention to peer firms connected through shared institutional owners and examines how changes in common ownership affect their strategic behavior and governance responses around M&A events. To address endogeneity concerns, the project exploits financial institution mergers as plausibly exogenous shocks to common ownership. This project contributes to the literature on common ownership and corporate strategy by documenting an indirect channel through which institutional investors may shape firm behavior and market competition.
+
+## Keywords
+
+Common ownership, mergers and acquisitions, spillover effects

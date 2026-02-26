@@ -1,0 +1,31 @@
+---
+title: "Common Ownership and Board Interlocks: Industry Boundary Matters"
+description: "*Under Submission*"
+author:
+  - name: "Zheng Yang"
+    affiliations:
+      - name: "Ningbo University of Finance and Economics, China"
+  - name: "**Calvin J. Chiou**"
+    affiliations:
+      - name: "National Chengchi University"
+  - name: "Chia-Wei Huang"
+    affiliations:
+      - name: "National Chengchi University"
+
+date: "Februry 26, 2026"
+categories:
+  - Working Papers
+---
+
+## Abstract
+
+We examine how common institutional ownership shapes the formation of board interlocks. Competing views suggest that common owners may expand or selectively restructure governance networks to enhance monitoring. Using U.S. firm data from 2003 to 2022 and a difference-in-differences design based on financial institution mergers, we find that increases in common ownership reduce overall board interlocks, driven by declines in cross-industry interlocks, while within-industry interlocks remain largely unaffected. The effect is stronger in firms with weaker governance and greater CEO influence, and reductions in interlocks are accompanied by declines in director busyness. In contrast, interlocks among manufacturing firms are less likely to be discouraged, consistent with their potential advisory value. Overall, the evidence supports a focused monitoring view in which institutional investors selectively reshape board networks rather than broadly expanding them.
+
+## Keywords
+
+Common ownership, board interlocks, corporate governance
+
+## Conference
+
+-   International Conference of Taiwan Finance Association (TFA), Taipei, Taiwan, Jun 2025.
+-   International Conference for Financial Engineering Association of Taiwan (FeAT), Chiayi, Taiwan, Jun 2025.

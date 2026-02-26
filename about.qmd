@@ -19,17 +19,25 @@ Innovation, Institutional Investors, Corporate Governance, Empirical Corporate F
 
 ## Education
 
-Nanyang Technological University \| Singapore \| PhD in Finance \| 2024
+PhD in Finance \| Nanyang Technological University \| 2019-2024
 
-National University of Singapore \| Singapore \| Visiting PhD Student \| 2019
+-   Visiting Researcher \| National University of Singapore \| 2019
 
-National Central University \| Taiwan \| M.S in Finance \| 2017
+MS in Finance \| National Central University \| Taiwan \| 2017
 
-National Taipei University \| Taiwan \| B.A in Finance and Cooperative Management \| 2015
+BBA in Finance and Cooperative Management \| National Taipei University \| Taiwan \| 2015
+
+## Grants
+
+Off-Site to UT Austin EMI Professional Development Program, *National Taiwan Normal University & UT Austin* \| 2025
+
+Grants for New Faculty Members to Apply to NSTC Academic Research, *NCCU* \| 2024
+
+Co-Principal Investigator (with [Hao-Chang Sung](https://busadm.ccu.edu.tw/p/405-1248-31599,c3236.php?Lang=zh-tw)). "The Impact of External Oversight on the Effectiveness of Executive Compensation Clawback Enforcement: Theoretical and Empirical Evidence." *National Science and Technology Council (NSTC)*, 2025-2027, \$NTD 1,758,000
+
+Principal Investigator. "Interwoven Influence: Essays on Board Interlocks in Corporate Governance." *National Science and Technology Council (NSTC)*, 2024-2026, \$NTD 1,378,000
 
 ## Awards and Honors
-
-Off-Site to UT Austin EMI Professional Development Program \| 2025 ![](img/utaustin_logo.svg.png){width="209"} ![](img/rcemi.png){width="85" height="60"}
 
 Fubon Best Paper Award \| 2024
 
@@ -45,7 +53,9 @@ Shanghai Commercial & Savings Bank Scholarship \| 2017
 
 ## Professional Services
 
-**Journal Referee**: Pacific-Basin Finance Journal, British Accounting Review, Finance Research Letters, Emerging Markets Finance and Trade, Journal of Social Sciences and Philosophy, Review of Securities and Futures Markets
+**Journal Referee**: *Pacific-Basin Finance Journal(x3), British Accounting Review, Finance Research Letters(x2), Emerging Markets Finance and Trade(x2), Review of Securities and Futures Markets, Journal of Social Sciences and Philosophy*
+
+**Conference Referee**: *AFAANZ*
 
 ## Presentations
 
@@ -74,8 +84,6 @@ Shanghai Commercial & Savings Bank Scholarship \| 2017
 Data Analysis with R Specialization, Duke University \| [Coursera](https://www.coursera.org/account/accomplishments/specialization/certificate/HZ6WHJQG3TSW)
 
 Google Data Analytics Specialization, Google \| [Coursera](https://www.coursera.org/account/accomplishments/specialization/certificate/9T2PRT75NGR3)
-
-SQL Essential Training \| [LinkedIn](https://www.linkedin.com/learning/certificates/eedeb209c1edb03618b92f9db436e455ab4e7ac99e3e51339c15f633f16289aa)
 
 Applied Text Mining in Python, University of Michigan \| [Coursera](https://www.coursera.org/account/accomplishments/specialization/certificate/PVT7B574ACNF)
 

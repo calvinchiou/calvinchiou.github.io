@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Calvin J. Chiou">
 
-<title> Research</title>
+<title>Research | Calvin J. Chiou – Calvin Chiou | NCCU College of Commerce</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,7 +25,6 @@ ul.task-list li input[type="checkbox"] {
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="site_libs/quarto-search/fuse.min.js"></script>
@@ -40,14 +40,16 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-4c7b890cc350be7067044af900615741.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-4c7b890cc350be7067044af900615741.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-4c7b890cc350be7067044af900615741.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-771167f7d476fda1973de99cc1acbac9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-3dfcc4be5c4d56c76cfe4f9f91595d56.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-771167f7d476fda1973de99cc1acbac9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-2d6b7075b4cdc3bf1cfd5e2966e91b10.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-89c25b38aeb035c10987a3579124e84f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-2d6b7075b4cdc3bf1cfd5e2966e91b10.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/quarto-contrib/fontawesome6-1.2.0/all.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/fontawesome6-1.2.0/latex-fontsize.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -348,8 +350,7 @@ window.Quarto = {
       }
     };
     const authorPrefersDark = false;
-    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-    const darkModeDefault = queryPrefersDark.matches;
+    const darkModeDefault = authorPrefersDark;
       document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
       document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
     let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
@@ -362,14 +363,6 @@ window.Quarto = {
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
     };
-    queryPrefersDark.addEventListener("change", e => {
-      if(window.localStorage.getItem("quarto-color-scheme") !== null)
-        return;
-      const alternate = e.matches
-      toggleColorMode(alternate);
-      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
-      toggleGiscusIfUsed(alternate, darkModeDefault);
-    });
     // Switch to dark mode if need be
     if (hasAlternateSentinel()) {
       toggleColorMode(true);
@@ -400,7 +393,7 @@ window.Quarto = {
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./about.html"> 
-<span class="menu-text">About</span></a>
+<span class="menu-text">Profile</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./research.html" aria-current="page"> 
@@ -464,7 +457,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><lord-icon src="https://cdn.lordicon.com/hmpomorl.json" trigger="loop" delay="1500" colors="primary:#121331,secondary:#3080e8" style="width:60px;height:60px"></lord-icon> Research</h1>
+<h1 class="title">Research</h1>
 </div>
 
 
@@ -481,6 +474,7 @@ window.Quarto = {
 </header>
 
 
+<p><lord-icon src="https://cdn.lordicon.com/hmpomorl.json" trigger="loop" delay="1500" colors="primary:#121331,secondary:#3080e8" style="width:60px;height:60px"></lord-icon></p>
 <section id="publications" class="level2">
 <h2 class="anchored" data-anchor-id="publications">Publications</h2>
 <div id="listing-publications" class="quarto-listing quarto-listing-container-table">
@@ -508,7 +502,7 @@ Journal
 </thead>
 <tbody class="list">
 
-<tr data-index="0" data-categories="UHVibGljYXRpb25z" data-listing-date-sort="1743436800000" data-listing-file-modified-sort="1755004033438" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="134" data-listing-title-sort="Greenwashing and Its Impact on Corporate Operating Performance" data-listing-filename-sort="Greenwashing_RSFM.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="0" data-categories="UHVibGljYXRpb25z" data-listing-date-sort="1756656000000" data-listing-file-modified-sort="1772076668243" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="134" data-listing-title-sort="Greenwashing and Its Impact on Corporate Operating Performance" data-listing-filename-sort="Greenwashing_RSFM.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <span class="listing-date">2025</span>
@@ -520,18 +514,18 @@ Journal
 <span class="listing-author">Wen-Chyan Ke, Pei-Ru Lo, Chang Chan, <strong>Calvin J. Chiou</strong></span>
 </td>
 <td>
-<span class="listing-description"><em>Review of Securities and Futures Markets (證券市場發展季刊)</em>, forthcoming (TSSCI)</span>
+<span class="listing-description"><em>Review of Securities and Futures Markets (證券市場發展季刊)</em>, Vol. 37(3), 63-103 (TSSCI)</span>
 </td>
 
 </tr>
 
-<tr data-index="1" data-categories="UHVibGljYXRpb25z" data-listing-date-sort="1740758400000" data-listing-file-modified-sort="1751549548628" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="124" data-listing-title-sort="The Impact of Environmental Performance on Financial Outcomes: Evidence from Listed Companies in Taiwan" data-listing-filename-sort="EnvNTPU.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="1" data-categories="UHVibGljYXRpb25z" data-listing-date-sort="1740758400000" data-listing-file-modified-sort="1772076668242" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="124" data-listing-title-sort="The Impact of Environmental Performance on Financial Outcomes: Evidence from Taiwan" data-listing-filename-sort="EnvNTPU.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <span class="listing-date">2025</span>
 </td>
 <td>
-<a href="./papers/EnvNTPU.html" class="title listing-title">The Impact of Environmental Performance on Financial Outcomes: Evidence from Listed Companies in Taiwan</a>
+<a href="./papers/EnvNTPU.html" class="title listing-title">The Impact of Environmental Performance on Financial Outcomes: Evidence from Taiwan</a>
 </td>
 <td>
 <span class="listing-author"><strong>Calvin J. Chiou</strong>, Tsung-Hsuan Li, Chang Chan, Chun-Kuei Hsieh</span>
@@ -542,7 +536,7 @@ Journal
 
 </tr>
 
-<tr data-index="2" data-categories="UHVibGljYXRpb25z" data-listing-date-sort="1669824000000" data-listing-file-modified-sort="1751548045388" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="151" data-listing-title-sort="A Taxonomy of Individual Liquidity Provision: Evidence from the Taiwan Stock Exchange" data-listing-filename-sort="ILP_FRL.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="2" data-categories="UHVibGljYXRpb25z" data-listing-date-sort="1669824000000" data-listing-file-modified-sort="1772076668243" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="227" data-listing-title-sort="A Taxonomy of Individual Liquidity Provision: Evidence from the Taiwan Stock Exchange" data-listing-filename-sort="ILP_FRL.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <span class="listing-date">2022</span>
@@ -559,13 +553,13 @@ Journal
 
 </tr>
 
-<tr data-index="3" data-categories="UHVibGljYXRpb25z" data-listing-date-sort="1609430400000" data-listing-file-modified-sort="1755073932229" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="213" data-listing-title-sort="The impact of mandatory corporate social responsibility reporting on liquidity and risk" data-listing-filename-sort="CSR_JAR.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="3" data-categories="UHVibGljYXRpb25z" data-listing-date-sort="1609430400000" data-listing-file-modified-sort="1772076668242" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="213" data-listing-title-sort="The Impact of Mandatory Corporate Social Responsibility Reporting on Liquidity and Risk" data-listing-filename-sort="CSR_JAR.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <span class="listing-date">2021</span>
 </td>
 <td>
-<a href="./papers/CSR_JAR.html" class="title listing-title">The impact of mandatory corporate social responsibility reporting on liquidity and risk</a>
+<a href="./papers/CSR_JAR.html" class="title listing-title">The Impact of Mandatory Corporate Social Responsibility Reporting on Liquidity and Risk</a>
 </td>
 <td>
 <span class="listing-author">Chang Chan, Chao-Hung Huang, <strong>Calvin J. Chiou</strong>, Wen-Chyan Ke</span>
@@ -625,24 +619,7 @@ Remark
 
 </tr>
 
-<tr data-index="1" data-categories="V29ya2luZyVDMiVBMFBhcGVycw==" data-listing-date-sort="1769875200000" data-listing-file-modified-sort="1770998658420" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="118" data-listing-title-sort="Corporate Social Performance, Retail Investor Trading, and Stock Price Crash Risk" data-listing-filename-sort="Social_TW.qmd" onclick="href = this.querySelector('a').getAttribute('href');
- if (href) { window.location=href ; return false; }">
-<td>
-<span class="listing-date">2026</span>
-</td>
-<td>
-<a href="./wps/Social_TW.html" class="title listing-title">Corporate Social Performance, Retail Investor Trading, and Stock Price Crash Risk</a>
-</td>
-<td>
-<span class="listing-author">Chang Chan, <strong>Calvin J. Chiou</strong>, Chin-En Wu</span>
-</td>
-<td>
-<span class="listing-description"><em>R&amp;R at Finance Research Letters</em></span>
-</td>
-
-</tr>
-
-<tr data-index="2" data-categories="V29ya2luZyVDMiVBMFBhcGVycw==" data-listing-date-sort="1746028800000" data-listing-file-modified-sort="1755068145444" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="117" data-listing-title-sort="When Black Swan Meets Green Swan: ESG Engagement and Financial Resilience in U.S. Airlines during COVID-19" data-listing-filename-sort="SAF.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="1" data-categories="V29ya2luZyVDMiVBMFBhcGVycw==" data-listing-date-sort="1746028800000" data-listing-file-modified-sort="1772076668246" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="117" data-listing-title-sort="When Black Swan Meets Green Swan: ESG Engagement and Financial Resilience in U.S. Airlines during COVID-19" data-listing-filename-sort="SAF.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <span class="listing-date">2025</span>
@@ -659,7 +636,7 @@ Remark
 
 </tr>
 
-<tr data-index="3" data-categories="V29ya2luZyVDMiVBMFBhcGVycw==" data-listing-date-sort="1740758400000" data-listing-file-modified-sort="1751547762841" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="177" data-listing-title-sort="Sustainable Fund Ownership to Corporate Financial Performance" data-listing-filename-sort="ESGfunds_TW.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="2" data-categories="V29ya2luZyVDMiVBMFBhcGVycw==" data-listing-date-sort="1740758400000" data-listing-file-modified-sort="1772076668246" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="177" data-listing-title-sort="Sustainable Fund Ownership to Corporate Financial Performance" data-listing-filename-sort="ESGfunds_TW.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <span class="listing-date">2025</span>
@@ -676,7 +653,7 @@ Remark
 
 </tr>
 
-<tr data-index="4" data-categories="V29ya2luZyVDMiVBMFBhcGVycw==" data-listing-date-sort="1736611200000" data-listing-file-modified-sort="1752067852641" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="291" data-listing-title-sort="Common Ownership Network and Board Gender Diversity" data-listing-filename-sort="CO_Diversity.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="3" data-categories="V29ya2luZyVDMiVBMFBhcGVycw==" data-listing-date-sort="1736611200000" data-listing-file-modified-sort="1772076668246" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="291" data-listing-title-sort="Common Ownership Network and Board Gender Diversity" data-listing-filename-sort="CO_Diversity.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <span class="listing-date">2025</span>
@@ -742,7 +719,7 @@ Remark
 
 </tr>
 
-<tr data-index="1" data-categories="V29yayVDMiVBMGluJUMyJUEwUHJvZ3Jlc3M=" data-listing-date-sort="1751299200000" data-listing-file-modified-sort="1751547270137" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="8" data-listing-title-sort="Something about Corporate Information Production" data-listing-filename-sort="conference_call.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="1" data-categories="V29yayVDMiVBMGluJUMyJUEwUHJvZ3Jlc3M=" data-listing-date-sort="1751299200000" data-listing-file-modified-sort="1772076668245" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="8" data-listing-title-sort="Something about Corporate Information Production" data-listing-filename-sort="conference_call.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <span class="listing-date">2025</span>
@@ -759,7 +736,7 @@ Remark
 
 </tr>
 
-<tr data-index="2" data-categories="V29yayVDMiVBMGluJUMyJUEwUHJvZ3Jlc3M=" data-listing-date-sort="1736611200000" data-listing-file-modified-sort="1751549946808" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="109" data-listing-title-sort="Product Disclosure following Seasoned Equity Offerings" data-listing-filename-sort="NPI.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="2" data-categories="V29yayVDMiVBMGluJUMyJUEwUHJvZ3Jlc3M=" data-listing-date-sort="1736611200000" data-listing-file-modified-sort="1772076668245" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="109" data-listing-title-sort="Product Disclosure following Seasoned Equity Offerings" data-listing-filename-sort="NPI.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <span class="listing-date">2025</span>
@@ -1203,13 +1180,14 @@ Remark
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-      &nbsp;
-    </div>   
+<p><i class="fa-brands fa-creative-commons" aria-label="creative-commons"></i> 2024–2025 Calvin J. Chiou<br>
+All content licensed under <a href="https://creativecommons.org/licenses/by/4.0/"><i class="fa-brands fa-creative-commons" aria-label="creative-commons"></i> <i class="fa-brands fa-creative-commons-by" aria-label="creative-commons-by"></i>CC BY 4.0</a></p>
+</div>   
     <div class="nav-footer-center">
       &nbsp;
     </div>
     <div class="nav-footer-right">
-<p>This website is built with <a href="https://quarto.org/">Quarto</a></p>
+<p>This website is made with <i class="fa-brands fa-r-project" aria-label="r-project"></i> and <a href="https://quarto.org/">Quarto</a></p>
 </div>
   </div>
 </footer>
