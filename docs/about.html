@@ -2,13 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Calvin J. Chiou">
 
-<title>About me | Calvin J. Chiou – Calvin Chiou | NCCU College of Commerce</title>
+<title> About me</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -25,27 +24,26 @@ ul.task-list li input[type="checkbox"] {
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href=".//img/nccu_logo.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-9f30c2c2d2429ed22c1cf9f617479b3b.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-9f30c2c2d2429ed22c1cf9f617479b3b.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-9f30c2c2d2429ed22c1cf9f617479b3b.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-01a14deb4c24dc0eb82bf18264ac00e6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-36f4e749f9ebb013c2d53d510175af6e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-01a14deb4c24dc0eb82bf18264ac00e6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/quarto-contrib/fontawesome6-1.2.0/all.min.css" rel="stylesheet">
-<link href="site_libs/quarto-contrib/fontawesome6-1.2.0/latex-fontsize.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-771167f7d476fda1973de99cc1acbac9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-3dfcc4be5c4d56c76cfe4f9f91595d56.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-771167f7d476fda1973de99cc1acbac9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -100,7 +98,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -261,7 +259,8 @@ window.Quarto = {
       }
     };
     const authorPrefersDark = false;
-    const darkModeDefault = authorPrefersDark;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
       document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
       document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
     let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
@@ -274,6 +273,14 @@ window.Quarto = {
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
     };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
     // Switch to dark mode if need be
     if (hasAlternateSentinel()) {
       toggleColorMode(true);
@@ -288,7 +295,8 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    <img src="./img/nccu_logo.png" alt="" class="navbar-logo">
+    <img src="./img/nccu_logo.png" alt="" class="navbar-logo light-content">
+    <img src="./img/nccu_logo.png" alt="" class="navbar-logo dark-content">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -303,7 +311,7 @@ window.Quarto = {
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./about.html" aria-current="page"> 
-<span class="menu-text">Profile</span></a>
+<span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./research.html"> 
@@ -357,6 +365,7 @@ window.Quarto = {
   <li><a href="#employment" id="toc-employment" class="nav-link active" data-scroll-target="#employment">Employment</a></li>
   <li><a href="#research-interests" id="toc-research-interests" class="nav-link" data-scroll-target="#research-interests">Research Interests</a></li>
   <li><a href="#education" id="toc-education" class="nav-link" data-scroll-target="#education">Education</a></li>
+  <li><a href="#grants" id="toc-grants" class="nav-link" data-scroll-target="#grants">Grants</a></li>
   <li><a href="#awards-and-honors" id="toc-awards-and-honors" class="nav-link" data-scroll-target="#awards-and-honors">Awards and Honors</a></li>
   <li><a href="#professional-services" id="toc-professional-services" class="nav-link" data-scroll-target="#professional-services">Professional Services</a></li>
   <li><a href="#presentations" id="toc-presentations" class="nav-link" data-scroll-target="#presentations">Presentations</a></li>
@@ -373,15 +382,13 @@ window.Quarto = {
   <div class="about-contents">
     <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">About me</h1>
+<h1 class="title"><lord-icon src="https://cdn.lordicon.com/shcfcebj.json" trigger="loop" state="hover-nodding" delay="1500" colors="primary:#121331,secondary:#3080e8" style="width:60px;height:60px"></lord-icon> About me</h1>
 </div>
 <div class="quarto-title-meta">
   </div>
 </header> <main class="content" id="quarto-document-content">
 
 
-<p><lord-icon src="https://cdn.lordicon.com/shcfcebj.json" trigger="loop" state="hover-nodding" delay="1500" colors="primary:#121331,secondary:#3080e8" style="width:60px;height:60px"></lord-icon></p>
-<p><a href="files/CV_calvinchiou.pdf" target="_blank" rel="noopener">Download my CV (PDF in a new tab ↗)</a></p>
 <section id="employment" class="level2">
 <h2 data-anchor-id="employment">Employment</h2>
 <p>National Chengchi University | Assistant Professor | Feb 2024 - present</p>
@@ -392,14 +399,22 @@ window.Quarto = {
 </section>
 <section id="education" class="level2">
 <h2 data-anchor-id="education">Education</h2>
-<p>Nanyang Technological University | Singapore | PhD in Finance | 2024</p>
-<p>National University of Singapore | Singapore | Visiting PhD Student | 2019</p>
-<p>National Central University | Taiwan | M.S in Finance | 2017</p>
-<p>National Taipei University | Taiwan | B.A in Finance and Cooperative Management | 2015</p>
+<p>PhD in Finance | Nanyang Technological University | 2019-2024</p>
+<ul>
+<li>Visiting Researcher | National University of Singapore</li>
+</ul>
+<p>MS in Finance | National Central University | Taiwan | 2017</p>
+<p>BBA in Finance and Cooperative Management | National Taipei University | Taiwan | 2015</p>
+</section>
+<section id="grants" class="level2">
+<h2 data-anchor-id="grants">Grants</h2>
+<p>Off-Site to UT Austin EMI Professional Development Program, <em>National Taiwan Normal University &amp; UT Austin</em> | 2025</p>
+<p>Grants for New Faculty Members to Apply to NSTC Academic Research, <em>NCCU</em> | 2024</p>
+<p>Co-Principal Investigator (with <a href="https://busadm.ccu.edu.tw/p/405-1248-31599,c3236.php?Lang=zh-tw">Hao-Chang Sung</a>). “The Impact of External Oversight on the Effectiveness of Executive Compensation Clawback Enforcement: Theoretical and Empirical Evidence.” <em>National Science and Technology Council (NSTC)</em>, 2025-2027, $NTD 1,758,000</p>
+<p>Principal Investigator. “Interwoven Influence: Essays on Board Interlocks in Corporate Governance.” <em>National Science and Technology Council (NSTC)</em>, 2024-2026, $NTD 1,378,000</p>
 </section>
 <section id="awards-and-honors" class="level2">
 <h2 data-anchor-id="awards-and-honors">Awards and Honors</h2>
-<p>Off-Site to UT Austin EMI Professional Development Program | 2025 <img src="img/utaustin_logo.svg.png" class="img-fluid" width="209"> <img src="img/rcemi.png" width="85" height="60"></p>
 <p>Fubon Best Paper Award | 2024</p>
 <p>Excellent Undergraduate English-taught Course Award, NCCU | 2024</p>
 <p>Taiwanese Government Scholarship to Study Abroad | 2022 - 2023</p>
@@ -409,24 +424,24 @@ window.Quarto = {
 </section>
 <section id="professional-services" class="level2">
 <h2 data-anchor-id="professional-services">Professional Services</h2>
-<p><strong>Journal Referee</strong>: Pacific-Basin Finance Journal, British Accounting Review, Finance Research Letters, Emerging Markets Finance and Trade, Journal of Social Sciences and Philosophy, Review of Securities and Futures Markets</p>
+<p><strong>Journal Referee</strong>: <em>Pacific-Basin Finance Journal(x3), British Accounting Review, Finance Research Letters(x2), Emerging Markets Finance and Trade(x2), Review of Securities and Futures Markets, Journal of Social Sciences and Philosophy</em></p>
+<p>Conference Referee: <em>AFAANZ</em></p>
 </section>
 <section id="presentations" class="level2">
 <h2 data-anchor-id="presentations">Presentations</h2>
-<p>2025: International Conference of TFA<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, International Conference for FeAT<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, AsianFA Annual Conference, AFAANZ Annual Conference, Annual Conference for Taiwan Econometric Society (scheduled), National Chengchi University</p>
-<p>2024: International Conference of TFA, Frontier in Accounting and Finance International Conference, INFORMS Annual Meeting, Sydney Banking and Financial Stability Conference (SBFC), Chang Gung University, National Central University, National Chengchi University</p>
-<p>2023: International Conference of TFA, National Kaohsiung University of Science and Technology, National Taipei University</p>
+<p>2025: TFA<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, FeAT<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, AsianFA, AFAANZ, National Chengchi University</p>
+<p>2024: INFORMS, Sydney Banking and Financial Stability Conference (SBFC), TFA, Frontier in Accounting and Finance International Conference, Chang Gung University, National Central University, National Chengchi University</p>
+<p>2023: TFA, National Kaohsiung University of Science and Technology, National Taipei University</p>
 <p>2022: National Chengchi University, National Central University, National Taipei University</p>
 <p>2021: Cross Country Perspectives in Finance (CCPF), CCPF-JIFMIM Symposium, International Conference of TFA</p>
-<p>2018: AsianFA Annual Conference<span class="math inline">\(^*\)</span></p>
-<p>2017: International Conference of TFA<span class="math inline">\(^\dagger\)</span>, TFA Conference on Asset Pricing<span class="math inline">\(^*\)</span>, Conference on the Theories and Practices of Securities and Financial Markets<span class="math inline">\(^*\)</span></p>
+<p>2018: AsianFA<span class="math inline">\(^*\)</span></p>
+<p>2017: TFA<span class="math inline">\(^\dagger\)</span>, TFA Conference on Asset Pricing<span class="math inline">\(^*\)</span>, Conference on the Theories and Practices of Securities and Financial Markets<span class="math inline">\(^*\)</span></p>
 <p>(<span class="math inline">\(^*\)</span> Presented by Coauthor, <span class="math inline">\(^\dagger\)</span> Discussant)</p>
 </section>
 <section id="selected-certificates" class="level2">
 <h2 data-anchor-id="selected-certificates">Selected Certificates</h2>
 <p>Data Analysis with R Specialization, Duke University | <a href="https://www.coursera.org/account/accomplishments/specialization/certificate/HZ6WHJQG3TSW">Coursera</a></p>
 <p>Google Data Analytics Specialization, Google | <a href="https://www.coursera.org/account/accomplishments/specialization/certificate/9T2PRT75NGR3">Coursera</a></p>
-<p>SQL Essential Training | <a href="https://www.linkedin.com/learning/certificates/eedeb209c1edb03618b92f9db436e455ab4e7ac99e3e51339c15f633f16289aa">LinkedIn</a></p>
 <p>Applied Text Mining in Python, University of Michigan | <a href="https://www.coursera.org/account/accomplishments/specialization/certificate/PVT7B574ACNF">Coursera</a></p>
 <p>Fundamentals of Machine Learning in Finance, New York University | <a href="https://www.coursera.org/account/accomplishments/specialization/certificate/N4LWW7YT4W37">Coursera</a></p>
 </section>
@@ -508,13 +523,14 @@ window.Quarto = {
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -860,14 +876,13 @@ window.Quarto = {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p><i class="fa-brands fa-creative-commons" aria-label="creative-commons"></i> 2024–2025 Calvin J. Chiou<br>
-All content licensed under <a href="https://creativecommons.org/licenses/by/4.0/"><i class="fa-brands fa-creative-commons" aria-label="creative-commons"></i> <i class="fa-brands fa-creative-commons-by" aria-label="creative-commons-by"></i>CC BY 4.0</a></p>
-</div>   
+      &nbsp;
+    </div>   
     <div class="nav-footer-center">
       &nbsp;
     </div>
     <div class="nav-footer-right">
-<p>This website is made with <i class="fa-brands fa-r-project" aria-label="r-project"></i> and <a href="https://quarto.org/">Quarto</a></p>
+<p>This website is built with <a href="https://quarto.org/">Quarto</a></p>
 </div>
   </div>
 </footer>

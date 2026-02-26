@@ -1,5 +1,28 @@
 [
   {
+    "listing": "/research.html",
+    "items": [
+      "/papers/Greenwashing_RSFM.html",
+      "/papers/EnvNTPU.html",
+      "/papers/ILP_FRL.html",
+      "/papers/CSR_JAR.html",
+      "/wps/CO_interlocks.html",
+      "/wps/Social_TW.html",
+      "/wps/SAF.html",
+      "/wps/ESGfunds_TW.html",
+      "/wps/CO_Diversity.html",
+      "/workinprogress/CO_MA.html",
+      "/workinprogress/conference_call.html",
+      "/workinprogress/NPI.html"
+    ]
+  },
+  {
+    "listing": "/investment.html",
+    "items": [
+      "/notes/investment/n1_introduction.html"
+    ]
+  },
+  {
     "listing": "/investments.html",
     "items": [
       "/notes/investments/ggthemes.html",
@@ -8,21 +31,6 @@
       "/notes/investments/n2_portfolio.html",
       "/notes/investments/n3_beta.html",
       "/notes/investments/n4_strategy.html"
-    ]
-  },
-  {
-    "listing": "/research.html",
-    "items": [
-      "/papers/Greenwashing_RSFM.html",
-      "/papers/EnvNTPU.html",
-      "/papers/ILP_FRL.html",
-      "/papers/CSR_JAR.html",
-      "/wps/SAF.html",
-      "/wps/ESGfunds_TW.html",
-      "/wps/CO_Diversity.html",
-      "/workinprogress/conference_call.html",
-      "/workinprogress/CO_interlocks.html",
-      "/workinprogress/NPI.html"
     ]
   }
 ]
