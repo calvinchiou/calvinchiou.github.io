@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Calvin J. Chiou">
 
-<title>Calvin J. Chiou </title>
+<title>Calvin J. Chiou | Calvin J. Chiou – Calvin Chiou | NCCU College of Commerce</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,7 +25,6 @@ ul.task-list li input[type="checkbox"] {
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="site_libs/quarto-search/fuse.min.js"></script>
@@ -37,14 +37,16 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-4c7b890cc350be7067044af900615741.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-4c7b890cc350be7067044af900615741.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-4c7b890cc350be7067044af900615741.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-771167f7d476fda1973de99cc1acbac9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-3dfcc4be5c4d56c76cfe4f9f91595d56.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-771167f7d476fda1973de99cc1acbac9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-2d6b7075b4cdc3bf1cfd5e2966e91b10.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-89c25b38aeb035c10987a3579124e84f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-2d6b7075b4cdc3bf1cfd5e2966e91b10.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/quarto-contrib/fontawesome6-1.2.0/all.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/fontawesome6-1.2.0/latex-fontsize.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -83,6 +85,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-8KXQZ8LK16', { 'anonymize_ip': true});
 </script>
+<script src="https://cdn.lordicon.com/lordicon.js"></script>
 
 
 </head>
@@ -230,8 +233,7 @@ gtag('config', 'G-8KXQZ8LK16', { 'anonymize_ip': true});
       }
     };
     const authorPrefersDark = false;
-    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-    const darkModeDefault = queryPrefersDark.matches;
+    const darkModeDefault = authorPrefersDark;
       document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
       document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
     let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
@@ -244,14 +246,6 @@ gtag('config', 'G-8KXQZ8LK16', { 'anonymize_ip': true});
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
     };
-    queryPrefersDark.addEventListener("change", e => {
-      if(window.localStorage.getItem("quarto-color-scheme") !== null)
-        return;
-      const alternate = e.matches
-      toggleColorMode(alternate);
-      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
-      toggleGiscusIfUsed(alternate, darkModeDefault);
-    });
     // Switch to dark mode if need be
     if (hasAlternateSentinel()) {
       toggleColorMode(true);
@@ -337,12 +331,15 @@ gtag('config', 'G-8KXQZ8LK16', { 'anonymize_ip': true});
   rounded " style="width: 20em;">
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Calvin J. Chiou <a href="https://orcid.org/0000-0002-4961-1545"><i class="ai  ai-orcid"></i></a></h1>
+<h1 class="title">Calvin J. Chiou</h1>
 </div>
 <div class="quarto-title-meta">
   </div>
 </header>
     <div class="about-links">
+  <a href="https://orcid.org/0000-0002-4961-1545" class="about-link" rel="" target="">
+     <span class="about-link-text"><i class="ai  ai-orcid"></i> ORCID</span>
+  </a>
   <a href="https://www.linkedin.com/in/calvinchiou1992/" class="about-link" rel="" target="">
     <i class="bi bi-linkedin"></i>
      <span class="about-link-text">LinkedIn</span>
@@ -359,18 +356,16 @@ gtag('config', 'G-8KXQZ8LK16', { 'anonymize_ip': true});
   <div class="about-contents"><main class="content" id="quarto-document-content">
 
 <div id="hero-heading">
-<p>I am an Assistant Professor of Finance at the <a href="#0">College of Commerce</a>, <a href="#0">National Chengchi University</a> (NCCU). My research explores how institutional investors and corporate governance shape corporate innovation and financial decision-making, with broader interests in corporate finance and behavioral finance. I received my PhD in Finance from <a href="#0">Nanyang Business School</a> at <a href="#0">Nanyang Technological University</a> in 2024.</p>
-<p>I am naturally curious about how real-world financial markets operate and enjoy turning big questions into careful empirical research. In the classroom, I value practical thinking, interactive discussion, and helping students connect theory with real-world applications.</p>
-<p>Outside of academia, I love traveling to new places, playing basketball and badminton, and relaxing with my guitar.</p>
+<p>Calvin J. Chiou (邱健嘉) is an Assistant Professor of <a href="https://finance.nccu.edu.tw/">Finance</a> at the <a href="https://commerce.nccu.edu.tw/?locale=en">College of Commerce</a>, <a href="https://www.nccu.edu.tw/">National Chengchi University</a> (NCCU). His research interests include corporate innovation, institutional investors, corporate governance, corporate finance, and behavioral finance. Calvin received his PhD in finance from the <a href="https://www.ntu.edu.sg/business">Nanyang Business School</a>, <a href="https://www.ntu.edu.sg/index">Nanyang Technological University</a> in 2024. When not exploring on academic research, Calvin enjoys spending time on traveling, playing basketball, badminton, and the guitar.</p>
 <hr>
 <section id="education" class="level2">
 <h2 data-anchor-id="education">Education</h2>
-<p><strong>Nanyang Technological University</strong> | PhD in Finance | 2019 - 2024</p>
+<p><strong>Nanyang Technological University</strong> | PhD in Finance | Jul 2019 - Jan 2024</p>
 <p><img src="img/ntu_logo.png" class="img-fluid" width="220"></p>
 </section>
 <section id="experience" class="level2">
 <h2 data-anchor-id="experience">Experience</h2>
-<p><strong>National Chengchi University</strong>, Taiwan | Assistant Professor | Feb 2024 - present</p>
+<p><strong>National Chengchi University</strong> | Assistant Professor | Feb 2024 - present</p>
 <p><img src="img/logo_en.png" class="img-fluid" width="241"></p>
 </section>
 <section id="contact-info." class="level2">
@@ -795,13 +790,14 @@ gtag('config', 'G-8KXQZ8LK16', { 'anonymize_ip': true});
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-      &nbsp;
-    </div>   
+<p><i class="fa-brands fa-creative-commons" aria-label="creative-commons"></i> 2024–2025 Calvin J. Chiou<br>
+All content licensed under <a href="https://creativecommons.org/licenses/by/4.0/"><i class="fa-brands fa-creative-commons" aria-label="creative-commons"></i> <i class="fa-brands fa-creative-commons-by" aria-label="creative-commons-by"></i>CC BY 4.0</a></p>
+</div>   
     <div class="nav-footer-center">
       &nbsp;
     </div>
     <div class="nav-footer-right">
-<p>This website is built with <a href="https://quarto.org/">Quarto</a></p>
+<p>This website is made with <i class="fa-brands fa-r-project" aria-label="r-project"></i> and <a href="https://quarto.org/">Quarto</a></p>
 </div>
   </div>
 </footer>

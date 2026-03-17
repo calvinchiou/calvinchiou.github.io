@@ -1,6 +1,6 @@
 ---
 title: "When Black Swan Meets Green Swan: ESG Engagement and Financial Resilience in U.S. Airlines during COVID-19"
-description: "*R&R at Journal of Business Ethics*"
+description: "*Under Submission*"
 author: 
   - name: "Hui-Chieh Chen"
     affiliations:

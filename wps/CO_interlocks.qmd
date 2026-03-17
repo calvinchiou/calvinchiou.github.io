@@ -1,5 +1,5 @@
 ---
-title: "Common Ownership and Board Interlocks: Industry Boundary Matters"
+title: "Selective Ties: Common Ownership and the Restructuring of Board Interlocks"
 description: "*Under Submission*"
 author:
   - name: "Zheng Yang"
@@ -19,7 +19,7 @@ categories:
 
 ## Abstract
 
-We examine how common institutional ownership shapes the formation of board interlocks. Competing views suggest that common owners may expand or selectively restructure governance networks to enhance monitoring. Using U.S. firm data from 2003 to 2022 and a difference-in-differences design based on financial institution mergers, we find that increases in common ownership reduce overall board interlocks, driven by declines in cross-industry interlocks, while within-industry interlocks remain largely unaffected. The effect is stronger in firms with weaker governance and greater CEO influence, and reductions in interlocks are accompanied by declines in director busyness. In contrast, interlocks among manufacturing firms are less likely to be discouraged, consistent with their potential advisory value. Overall, the evidence supports a focused monitoring view in which institutional investors selectively reshape board networks rather than broadly expanding them.
+We examine how common institutional ownership influences the formation of board interlocks. Competing views suggest that common owners may expand or selectively restructure governance networks to enhance monitoring. Using the staggered financial institution mergers during 2001–2010 as our identification strategy, we find that an increase in common ownership reduces overall board interlocks, largely driven by a decline in cross-industry interlocks; however, within-industry interlocks remain largely unaffected by the level of common ownership. The aforementioned effect is stronger in firms with weaker governance and greater managerial ability. Overall, our findings support a focused monitoring perspective, indicating that institutional investors selectively reshape board networks rather than broadly expand them.
 
 ## Keywords
 
