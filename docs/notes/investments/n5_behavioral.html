@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Calvin J. Chiou">
+
+<title>R Note 5 - Behavioral Finance and Lottery-Like Stock Strategies | Calvin J. Chiou – Calvin Chiou | NCCU College of Commerce</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../..//img/nccu_logo.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-4c7b890cc350be7067044af900615741.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-4c7b890cc350be7067044af900615741.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-4c7b890cc350be7067044af900615741.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-2d6b7075b4cdc3bf1cfd5e2966e91b10.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-89c25b38aeb035c10987a3579124e84f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-2d6b7075b4cdc3bf1cfd5e2966e91b10.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/quarto-contrib/fontawesome6-1.2.0/all.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/fontawesome6-1.2.0/latex-fontsize.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8KXQZ8LK16"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-8KXQZ8LK16', { 'anonymize_ip': true});
+</script>
+<link href="../../site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="../../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="../../site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="../../site_libs/datatables-binding-0.34.0/datatables.js"></script>
+<script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="../../site_libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="../../site_libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="../../site_libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="../../site_libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet">
+<script src="../../site_libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
+<script src="../../site_libs/proj4js-2.3.15/proj4.js"></script>
+<link href="../../site_libs/highcharts-9.3.1/css/motion.css" rel="stylesheet">
+<script src="../../site_libs/highcharts-9.3.1/highcharts.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/highcharts-3d.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/highcharts-more.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/stock.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/map.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/data.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/exporting.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/offline-exporting.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/drilldown.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/item-series.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/overlapping-datalabels.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/annotations.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/export-data.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/funnel.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/heatmap.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/treemap.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/sankey.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/dependency-wheel.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/organization.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/solid-gauge.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/streamgraph.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/sunburst.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/vector.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/wordcloud.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/xrange.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/tilemap.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/venn.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/gantt.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/timeline.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/parallel-coordinates.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/bullet.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/coloraxis.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/dumbbell.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/lollipop.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/series-label.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/plugins/motion.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/custom/reset.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/boost.js"></script>
+<script src="../../site_libs/highchart-binding-0.9.4/highchart.js"></script>
+<script src="https://cdn.lordicon.com/lordicon.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../img/nccu_logo.png" alt="" class="navbar-logo light-content">
+    <img src="../../img/nccu_logo.png" alt="" class="navbar-logo dark-content">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../research.html"> 
+<span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../teaching.html"> 
+<span class="menu-text">Teaching</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../resources.html"> 
+<span class="menu-text">Resources</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/calvinchiou1992/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/calvinchiou"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:jjchiou@nccu.edu.tw"> <i class="bi bi-envelope" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://scholar.google.com.tw/citations?user=WvORrXMAAAAJ&amp;hl=en"> 
+<span class="menu-text"><i class="ai  ai-google-scholar"></i></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#theoretical-background" id="toc-theoretical-background" class="nav-link" data-scroll-target="#theoretical-background">1. Theoretical Background</a>
+  <ul class="collapse">
+  <li><a href="#why-should-lottery-like-stocks-underperform" id="toc-why-should-lottery-like-stocks-underperform" class="nav-link" data-scroll-target="#why-should-lottery-like-stocks-underperform">1.1 Why Should Lottery-Like Stocks Underperform?</a></li>
+  <li><a href="#the-role-of-individual-investors" id="toc-the-role-of-individual-investors" class="nav-link" data-scroll-target="#the-role-of-individual-investors">1.2 The Role of Individual Investors</a></li>
+  <li><a href="#skewness-sentiment-as-a-common-mispricing-driver" id="toc-skewness-sentiment-as-a-common-mispricing-driver" class="nav-link" data-scroll-target="#skewness-sentiment-as-a-common-mispricing-driver">1.3 Skewness Sentiment as a Common Mispricing Driver</a></li>
+  <li><a href="#the-idiosyncratic-volatility-puzzle" id="toc-the-idiosyncratic-volatility-puzzle" class="nav-link" data-scroll-target="#the-idiosyncratic-volatility-puzzle">1.4 The Idiosyncratic Volatility Puzzle</a></li>
+  </ul></li>
+  <li><a href="#building-a-cross-sectional-stock-universe" id="toc-building-a-cross-sectional-stock-universe" class="nav-link" data-scroll-target="#building-a-cross-sectional-stock-universe">2. Building a Cross-Sectional Stock Universe</a></li>
+  <li><a href="#strategy-a-the-max-effect-bali2011maxing" id="toc-strategy-a-the-max-effect-bali2011maxing" class="nav-link" data-scroll-target="#strategy-a-the-max-effect-bali2011maxing">3. Strategy A: The MAX Effect <span class="citation" data-cites="bali2011maxing">(Bali, Cakici, and Whitelaw 2011)</span></a>
+  <ul class="collapse">
+  <li><a href="#constructing-the-max-variable" id="toc-constructing-the-max-variable" class="nav-link" data-scroll-target="#constructing-the-max-variable">3.1 Constructing the MAX Variable</a></li>
+  <li><a href="#forming-tercile-portfolios-on-max" id="toc-forming-tercile-portfolios-on-max" class="nav-link" data-scroll-target="#forming-tercile-portfolios-on-max">3.2 Forming Tercile Portfolios on MAX</a></li>
+  </ul></li>
+  <li><a href="#strategy-b-the-lottery-index-kumar2016gambling-kumar2024skewness" id="toc-strategy-b-the-lottery-index-kumar2016gambling-kumar2024skewness" class="nav-link" data-scroll-target="#strategy-b-the-lottery-index-kumar2016gambling-kumar2024skewness">4. Strategy B: The Lottery Index <span class="citation" data-cites="kumar2016gambling kumar2024skewness">(Kumar, Page, and Spalt 2016; Kumar, Motahari, and Taffler 2024)</span></a>
+  <ul class="collapse">
+  <li><a href="#why-a-composite-lottery-index" id="toc-why-a-composite-lottery-index" class="nav-link" data-scroll-target="#why-a-composite-lottery-index">4.1 Why a Composite Lottery Index?</a></li>
+  <li><a href="#estimating-idiosyncratic-volatility-note-3-style" id="toc-estimating-idiosyncratic-volatility-note-3-style" class="nav-link" data-scroll-target="#estimating-idiosyncratic-volatility-note-3-style">4.2 Estimating Idiosyncratic Volatility (Note 3 Style)</a></li>
+  <li><a href="#constructing-lidx" id="toc-constructing-lidx" class="nav-link" data-scroll-target="#constructing-lidx">4.3 Constructing LIDX</a></li>
+  <li><a href="#lidx-long-short-strategy" id="toc-lidx-long-short-strategy" class="nav-link" data-scroll-target="#lidx-long-short-strategy">4.4 LIDX Long-Short Strategy</a></li>
+  </ul></li>
+  <li><a href="#strategy-c-the-ivol-anomaly-ang2006cross" id="toc-strategy-c-the-ivol-anomaly-ang2006cross" class="nav-link" data-scroll-target="#strategy-c-the-ivol-anomaly-ang2006cross">5. Strategy C: The IVOL Anomaly <span class="citation" data-cites="ang2006cross">(Ang et al. 2006)</span></a></li>
+  <li><a href="#comparing-all-strategies" id="toc-comparing-all-strategies" class="nav-link" data-scroll-target="#comparing-all-strategies">6. Comparing All Strategies</a></li>
+  <li><a href="#summary-statistics-across-strategies" id="toc-summary-statistics-across-strategies" class="nav-link" data-scroll-target="#summary-statistics-across-strategies">7. Summary Statistics Across Strategies</a></li>
+  <li><a href="#caveats-and-connections-to-the-literature" id="toc-caveats-and-connections-to-the-literature" class="nav-link" data-scroll-target="#caveats-and-connections-to-the-literature">8. Caveats and Connections to the Literature</a></li>
+  <li><a href="#suggested-extensions" id="toc-suggested-extensions" class="nav-link" data-scroll-target="#suggested-extensions">9. Suggested Extensions</a></li>
+  <li><a href="#student-exercise" id="toc-student-exercise" class="nav-link" data-scroll-target="#student-exercise">10. Student Exercise</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">R Note 5 - Behavioral Finance and Lottery-Like Stock Strategies</h1>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Asst. Prof.&nbsp;Calvin J. Chiou <a href="mailto:jjchiou@nccu.edu.tw" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            National Chengchi University (NCCU)
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>In Note 4, we explored a moving-average crossover strategy and benchmarked it against a buy-and-hold position on <code>0050.TW</code>. Those strategies rest on <strong>technical analysis</strong> — the idea that past price patterns convey information about future prices. In this note, we step beyond pure technicals and explore <strong>behavioral finance</strong>-motivated strategies that exploit systematic biases in investor preferences.</p>
+<p>The behavioral finance literature documents that many investors — particularly retail investors — exhibit a preference for stocks with <strong>lottery-like payoffs</strong>: assets offering a small probability of a large positive return, even at the cost of a low or negative expected return. This preference distorts prices in predictable ways and gives rise to cross-sectional return anomalies that academic researchers and quantitative traders have studied extensively.</p>
+<p>Three lines of empirical work guide this note:</p>
+<ol type="1">
+<li><p><span class="citation" data-cites="bali2011maxing">Bali, Cakici, and Whitelaw (<a href="#ref-bali2011maxing" role="doc-biblioref">2011</a>)</span> propose the maximum daily return over the previous month (<strong>MAX</strong>) as a proxy for lottery-like features and document that high-MAX stocks subsequently <em>underperform</em> by more than 1% per month in U.S. data.</p></li>
+<li><p><span class="citation" data-cites="lin2018skewness">Lin and Liu (<a href="#ref-lin2018skewness" role="doc-biblioref">2018</a>)</span> show that this MAX–return relation is <em>concentrated</em> among stocks preferred by individual investors, with the spread effectively zero among institutionally-held large-caps.</p></li>
+<li><p><span class="citation" data-cites="kumar2024skewness">Kumar, Motahari, and Taffler (<a href="#ref-kumar2024skewness" role="doc-biblioref">2024</a>)</span> broaden this evidence by combining several skewness proxies — MAXRET, lottery index (LIDX), jackpot probability (JACKPOT), and expected idiosyncratic skewness (ESKEW) — and showing that <strong>skewness sentiment</strong> amplifies a wide range of cross-sectional anomalies, primarily through the underperformance of overpriced (short-leg) stocks.</p></li>
+</ol>
+<p>The pedagogical aim of this note is fourfold:</p>
+<ol type="1">
+<li>Introduce a cross-sectional portfolio sorting framework using a basket of Taiwan 50 (<code>0050.TW</code>) constituents.</li>
+<li>Implement a <strong>MAX-based long-short strategy</strong> following <span class="citation" data-cites="bali2011maxing">Bali, Cakici, and Whitelaw (<a href="#ref-bali2011maxing" role="doc-biblioref">2011</a>)</span>.</li>
+<li>Implement a <strong>lottery index (LIDX) strategy</strong> combining price, volatility, and skewness, following <span class="citation" data-cites="kumar2016gambling">Kumar, Page, and Spalt (<a href="#ref-kumar2016gambling" role="doc-biblioref">2016</a>)</span> and <span class="citation" data-cites="kumar2024skewness">Kumar, Motahari, and Taffler (<a href="#ref-kumar2024skewness" role="doc-biblioref">2024</a>)</span>.</li>
+<li>Implement an <strong>idiosyncratic-volatility (IVOL) strategy</strong>, drawing on the seminal puzzle of <span class="citation" data-cites="ang2006cross">Ang et al. (<a href="#ref-ang2006cross" role="doc-biblioref">2006</a>)</span> — but using Note 3’s simpler market-model residuals to keep the implementation tractable.</li>
+</ol>
+<blockquote class="blockquote">
+<p><strong>Note on scope</strong>: The original studies use thousands of U.S. stocks across decades. With a small Taiwanese basket and a short window, our portfolio sorts are illustrative rather than statistically definitive. The goal is to learn the <em>methodology</em>, not to make causal claims about Taiwanese market efficiency.</p>
+</blockquote>
+</section>
+<section id="theoretical-background" class="level2">
+<h2 class="anchored" data-anchor-id="theoretical-background">1. Theoretical Background</h2>
+<section id="why-should-lottery-like-stocks-underperform" class="level3">
+<h3 class="anchored" data-anchor-id="why-should-lottery-like-stocks-underperform">1.1 Why Should Lottery-Like Stocks Underperform?</h3>
+<p>Classical asset pricing (CAPM) predicts that only systematic risk (covariance with the market) is priced. Idiosyncratic skewness and extreme tail outcomes should not matter, because rational investors hold well-diversified portfolios and diversify these features away.</p>
+<p>Behavioral models depart from this view in two complementary ways:</p>
+<ul>
+<li><p><strong>Cumulative Prospect Theory</strong> <span class="citation" data-cites="barberis2008stocks">(<a href="#ref-barberis2008stocks" role="doc-biblioref">Barberis and Huang 2008</a>)</span>: Investors overweight small probabilities of large gains, leading them to overpay for positively-skewed (lottery-like) assets. In equilibrium, these assets earn <em>lower</em> expected returns.</p></li>
+<li><p><strong>Optimal Beliefs / Skewness Preference</strong> <span class="citation" data-cites="brunnermeier2007optimal mitton2007equilibrium">(<a href="#ref-brunnermeier2007optimal" role="doc-biblioref">Brunnermeier, Gollier, and Parker 2007</a>; <a href="#ref-mitton2007equilibrium" role="doc-biblioref">Mitton and Vorkink 2007</a>)</span>: When investors are under-diversified, idiosyncratic skewness enters their utility directly. They willingly hold positively-skewed stocks at a discount to expected return.</p></li>
+</ul>
+<p>Both frameworks predict the empirical pattern documented by <span class="citation" data-cites="bali2011maxing">Bali, Cakici, and Whitelaw (<a href="#ref-bali2011maxing" role="doc-biblioref">2011</a>)</span>: stocks with extreme positive recent returns earn <em>lower</em> subsequent returns.</p>
+</section>
+<section id="the-role-of-individual-investors" class="level3">
+<h3 class="anchored" data-anchor-id="the-role-of-individual-investors">1.2 The Role of Individual Investors</h3>
+<p><span class="citation" data-cites="lin2018skewness">Lin and Liu (<a href="#ref-lin2018skewness" role="doc-biblioref">2018</a>)</span> argue that this anomaly should concentrate among stocks where individual investors are most active, because retail investors are the natural carriers of the behavioral biases above. Institutional investors are typically well-diversified and treat lottery-like holdings as informed bets rather than skewness preference <span class="citation" data-cites="kumar2014deviations">(<a href="#ref-kumar2014deviations" role="doc-biblioref">Kumar and Page 2014</a>)</span>.</p>
+</section>
+<section id="skewness-sentiment-as-a-common-mispricing-driver" class="level3">
+<h3 class="anchored" data-anchor-id="skewness-sentiment-as-a-common-mispricing-driver">1.3 Skewness Sentiment as a Common Mispricing Driver</h3>
+<p><span class="citation" data-cites="kumar2024skewness">Kumar, Motahari, and Taffler (<a href="#ref-kumar2024skewness" role="doc-biblioref">2024</a>)</span> extend this view by showing that skewness preference is not just a single-anomaly phenomenon — it is a <em>common</em> driver of cross-sectional mispricing across at least 11 distinct anomaly strategies. Their evidence works through two channels:</p>
+<ol type="1">
+<li><p><strong>Multiple skewness proxies tell the same story.</strong> They compare four skewness measures — MAXRET, LIDX, JACKPOT (the out-of-sample probability of a stock generating a log return <span class="math inline">\(&gt; 100\%\)</span> in the next 12 months), and ESKEW (expected idiosyncratic skewness from a predictive regression according to <span class="citation" data-cites="boyer2010expected">Boyer, Mitton, and Vorkink (<a href="#ref-boyer2010expected" role="doc-biblioref">2010</a>)</span>) — and find that all four interact significantly with mispricing. A one-standard-deviation increase in skewness adds 30%–60% to the predictive power of the combined mispricing measure.</p></li>
+<li><p><strong>The amplification is short-leg-driven.</strong> Skewness has essentially no effect on the long leg (underpriced stocks). The interaction comes entirely from skewness-loving investors bidding up the short leg.</p></li>
+</ol>
+<p>We will not implement JACKPOT or ESKEW directly — both require either a fitted logit panel or a cross-sectional predictive regression that is beyond the scope of a single note. But we <em>will</em> implement LIDX, which is conceptually closely related and computationally tractable, and we will discuss JACKPOT and ESKEW as natural extensions.</p>
+</section>
+<section id="the-idiosyncratic-volatility-puzzle" class="level3">
+<h3 class="anchored" data-anchor-id="the-idiosyncratic-volatility-puzzle">1.4 The Idiosyncratic Volatility Puzzle</h3>
+<p><span class="citation" data-cites="ang2006cross">Ang et al. (<a href="#ref-ang2006cross" role="doc-biblioref">2006</a>)</span> document a separate but related puzzle: stocks with high idiosyncratic volatility, measured as the residual standard deviation from a Fama-French three-factor model fit to <em>daily</em> returns within the previous month, earn <em>lower</em> future returns. This contradicts standard intuition that volatility should be compensated, and it has spawned a large literature.</p>
+<p>The connection to MAX/skewness is empirically tight. <span class="citation" data-cites="bali2011maxing">Bali, Cakici, and Whitelaw (<a href="#ref-bali2011maxing" role="doc-biblioref">2011</a>)</span> show that controlling for MAX <em>reverses</em> the IVOL puzzle, and <span class="citation" data-cites="kumar2024skewness">Kumar, Motahari, and Taffler (<a href="#ref-kumar2024skewness" role="doc-biblioref">2024</a>)</span> conclude that IVOL and skewness exacerbate anomalies for <em>different</em> reasons (IVOL deters arbitrageurs; skewness attracts speculators), but that both effects are present.</p>
+<blockquote class="blockquote">
+<p><strong>A practical simplification.</strong> The Ang et al.&nbsp;(2006) IVOL measure uses the daily Fama-French three-factor regression, which requires importing the FF factors and estimating a regression separately for every stock-month. To keep the implementation light, we use the <strong>simpler market-model residual standard deviation</strong> introduced in Note 3 (regressing the stock on a single market index). This is not identical to Ang et al.’s measure, but it captures the same economic intuition — the part of return volatility unrelated to systematic market movement — and is sufficient for pedagogical purposes. Students interested in the original measure should consult <span class="citation" data-cites="ang2006cross">Ang et al. (<a href="#ref-ang2006cross" role="doc-biblioref">2006</a>)</span> directly.</p>
+</blockquote>
+</section>
+</section>
+<section id="building-a-cross-sectional-stock-universe" class="level2">
+<h2 class="anchored" data-anchor-id="building-a-cross-sectional-stock-universe">2. Building a Cross-Sectional Stock Universe</h2>
+<p>Because MAX, LIDX, and IVOL anomalies are inherently <strong>cross-sectional</strong> — they require sorting stocks into portfolios — we cannot apply them to a single asset. Instead, we construct a basket of liquid Taiwanese large-caps drawn from the Taiwan 50 constituents.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a sample of Taiwan 50 ETF constituents (illustrative subset)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>tickers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"2330.TW"</span>,  <span class="co"># TSMC</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>             <span class="st">"2317.TW"</span>,  <span class="co"># Hon Hai (Foxconn)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>             <span class="st">"2454.TW"</span>,  <span class="co"># MediaTek</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>             <span class="st">"2308.TW"</span>,  <span class="co"># Delta Electronics</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>             <span class="st">"2412.TW"</span>,  <span class="co"># Chunghwa Telecom</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>             <span class="st">"2882.TW"</span>,  <span class="co"># Cathay Financial</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>             <span class="st">"2881.TW"</span>,  <span class="co"># Fubon Financial</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>             <span class="st">"1303.TW"</span>,  <span class="co"># Nan Ya Plastics</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>             <span class="st">"1301.TW"</span>,  <span class="co"># Formosa Plastics</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>             <span class="st">"2002.TW"</span>,  <span class="co"># China Steel</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>             <span class="st">"2891.TW"</span>,  <span class="co"># CTBC Financial</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>             <span class="st">"3711.TW"</span>,  <span class="co"># ASE Technology</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>             <span class="st">"2303.TW"</span>,  <span class="co"># UMC</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>             <span class="st">"2207.TW"</span>,  <span class="co"># Hotai Motor</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>             <span class="st">"1216.TW"</span>,  <span class="co"># Uni-President</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>             <span class="st">"2884.TW"</span>,  <span class="co"># E.SUN Financial</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>             <span class="st">"2886.TW"</span>,  <span class="co"># Mega Financial</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>             <span class="st">"2885.TW"</span>,  <span class="co"># Yuanta Financial</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>             <span class="st">"3008.TW"</span>,  <span class="co"># LARGAN Precision</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>             <span class="st">"2357.TW"</span>)  <span class="co"># Asustek</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pull daily prices for the basket</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>start_date <span class="ot">&lt;-</span> <span class="st">"2022-01-01"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>end_date   <span class="ot">&lt;-</span> <span class="st">"2024-04-30"</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>stocks_data <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(tickers, <span class="at">from =</span> start_date, <span class="at">to =</span> end_date) <span class="sc">|&gt;</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(symbol, date, adjusted, volume) <span class="sc">|&gt;</span> </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(symbol, date)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute daily returns by stock</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>stocks_ret <span class="ot">&lt;-</span> stocks_data <span class="sc">|&gt;</span> </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(symbol) <span class="sc">|&gt;</span> </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ret =</span> adjusted <span class="sc">/</span> <span class="fu">lag</span>(adjusted) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(ret)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Pull TAIEX as the market proxy for IVOL estimation</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>market_data <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">"^TWII"</span>, <span class="at">from =</span> start_date, <span class="at">to =</span> end_date) <span class="sc">|&gt;</span> </span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, <span class="at">mkt_close =</span> adjusted) <span class="sc">|&gt;</span> </span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date) <span class="sc">|&gt;</span> </span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mkt_ret =</span> mkt_close <span class="sc">/</span> <span class="fu">lag</span>(mkt_close) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(mkt_ret)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge stock returns with market returns</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>stocks_ret <span class="ot">&lt;-</span> stocks_ret <span class="sc">|&gt;</span> </span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(market_data <span class="sc">|&gt;</span> <span class="fu">select</span>(date, mkt_ret), <span class="at">by =</span> <span class="st">"date"</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(<span class="fu">head</span>(stocks_ret, <span class="dv">12</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatRound</span>(<span class="fu">c</span>(<span class="st">"adjusted"</span>, <span class="st">"ret"</span>, <span class="st">"mkt_ret"</span>), <span class="at">digits =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-c99d0b1b0ff7a021b40d" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-c99d0b1b0ff7a021b40d">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12"],["1216.TW","1216.TW","1216.TW","1216.TW","1216.TW","1216.TW","1216.TW","1216.TW","1216.TW","1216.TW","1216.TW","1216.TW"],["2022-01-04","2022-01-05","2022-01-06","2022-01-07","2022-01-10","2022-01-11","2022-01-12","2022-01-13","2022-01-14","2022-01-17","2022-01-18","2022-01-19"],[58.87466430664062,58.96023559570312,58.5323600769043,58.19007110595703,58.78907775878906,58.78907775878906,59.30252456665039,59.73039245605469,59.30252456665039,58.87466430664062,58.44679641723633,58.44679641723633],[2719357,3773631,3978678,3986984,3242790,3614754,5685932,4846905,3540402,4159690,3092311,3640536],[0.005848119387063644,0.001453448441197214,-0.007257018471445997,-0.005847858697266561,0.01029396667588389,0,0.00873371087683994,0.007215002945168303,-0.007163319573349369,-0.007214874293064777,-0.00726743658657325,0],[0.01400288481448664,-0.001424385938482264,-0.007137367266400463,-0.01078838306639196,0.003831701390004882,0.002677178490952059,0.004767522281045933,0.003348460200431447,-0.001822408066012193,0.006635178224898786,-0.007924175213033124,-0.008225836207622184]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>symbol<\/th>\n      <th>date<\/th>\n      <th>adjusted<\/th>\n      <th>volume<\/th>\n      <th>ret<\/th>\n      <th>mkt_ret<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":3,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 4, 3, \",\", \".\", null);\n  }"},{"targets":5,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 4, 3, \",\", \".\", null);\n  }"},{"targets":6,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 4, 3, \",\", \".\", null);\n  }"},{"className":"dt-right","targets":[3,4,5,6]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"symbol","targets":1},{"name":"date","targets":2},{"name":"adjusted","targets":3},{"name":"volume","targets":4},{"name":"ret","targets":5},{"name":"mkt_ret","targets":6}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render","options.columnDefs.2.render"],"jsHooks":[]}</script>
+</div>
+</div>
+<p>We will need monthly holding-period returns repeatedly, so we compute them once:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>stocks_monthly_ret <span class="ot">&lt;-</span> stocks_ret <span class="sc">|&gt;</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year_month =</span> <span class="fu">floor_date</span>(date, <span class="st">"month"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(symbol, year_month) <span class="sc">|&gt;</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">monthly_ret =</span> <span class="fu">prod</span>(<span class="dv">1</span> <span class="sc">+</span> ret) <span class="sc">-</span> <span class="dv">1</span>, <span class="at">.groups =</span> <span class="st">"drop"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="strategy-a-the-max-effect-bali2011maxing" class="level2">
+<h2 class="anchored" data-anchor-id="strategy-a-the-max-effect-bali2011maxing">3. Strategy A: The MAX Effect <span class="citation" data-cites="bali2011maxing">(<a href="#ref-bali2011maxing" role="doc-biblioref">Bali, Cakici, and Whitelaw 2011</a>)</span></h2>
+<section id="constructing-the-max-variable" class="level3">
+<h3 class="anchored" data-anchor-id="constructing-the-max-variable">3.1 Constructing the MAX Variable</h3>
+<p>Following <span class="citation" data-cites="bali2011maxing">Bali, Cakici, and Whitelaw (<a href="#ref-bali2011maxing" role="doc-biblioref">2011</a>)</span>, we define for each stock <span class="math inline">\(i\)</span> at the end of month <span class="math inline">\(t\)</span>:</p>
+<p><span class="math display">\[
+\text{MAX}_{i,t} = \max\{R_{i,d}\}, \quad d \in \text{month } t
+\]</span></p>
+<p>That is, MAX is the single largest daily return observed during the formation month. High-MAX stocks are those that recently experienced an extreme up-day — the kind of payoff that, behaviorally, attracts lottery-seeking investors.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>stocks_max <span class="ot">&lt;-</span> stocks_ret <span class="sc">|&gt;</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year_month =</span> <span class="fu">floor_date</span>(date, <span class="st">"month"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(symbol, year_month) <span class="sc">|&gt;</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">MAX =</span> <span class="fu">max</span>(ret, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">n_days =</span> <span class="fu">n</span>(),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n_days <span class="sc">&gt;=</span> <span class="dv">15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="forming-tercile-portfolios-on-max" class="level3">
+<h3 class="anchored" data-anchor-id="forming-tercile-portfolios-on-max">3.2 Forming Tercile Portfolios on MAX</h3>
+<p>Each month we sort stocks into terciles (3 groups, since our universe is small — Bali et al.&nbsp;use deciles with thousands of stocks). The strategy goes long the <strong>low-MAX</strong> group and short the <strong>high-MAX</strong> group, rebalanced monthly.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>max_signal <span class="ot">&lt;-</span> stocks_max <span class="sc">|&gt;</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(symbol) <span class="sc">|&gt;</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year_month) <span class="sc">|&gt;</span> </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">MAX_lag =</span> <span class="fu">lag</span>(MAX)) <span class="sc">|&gt;</span> </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(MAX_lag)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>panel_max <span class="ot">&lt;-</span> max_signal <span class="sc">|&gt;</span> </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(stocks_monthly_ret, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"symbol"</span>, <span class="st">"year_month"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year_month) <span class="sc">|&gt;</span> </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">MAX_tercile =</span> <span class="fu">ntile</span>(MAX_lag, <span class="dv">3</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>port_max <span class="ot">&lt;-</span> panel_max <span class="sc">|&gt;</span> </span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year_month, MAX_tercile) <span class="sc">|&gt;</span> </span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">port_ret =</span> <span class="fu">mean</span>(monthly_ret, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>ls_max <span class="ot">&lt;-</span> port_max <span class="sc">|&gt;</span> </span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> MAX_tercile, <span class="at">values_from =</span> port_ret,</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_prefix =</span> <span class="st">"T"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year_month) <span class="sc">|&gt;</span> </span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">LS_ret  =</span> T1 <span class="sc">-</span> T3,</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>         <span class="at">cum_low =</span> <span class="fu">cumprod</span>(<span class="dv">1</span> <span class="sc">+</span> T1),</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>         <span class="at">cum_LS  =</span> <span class="fu">cumprod</span>(<span class="dv">1</span> <span class="sc">+</span> LS_ret))</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"MAX L-S monthly mean: %.2f%% | Sharpe (ann.): %.3f</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>            <span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(ls_max<span class="sc">$</span>LS_ret, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>            <span class="fu">mean</span>(ls_max<span class="sc">$</span>LS_ret, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>              <span class="fu">sd</span>(ls_max<span class="sc">$</span>LS_ret, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">12</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>MAX L-S monthly mean: -1.02% | Sharpe (ann.): -0.697</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="strategy-b-the-lottery-index-kumar2016gambling-kumar2024skewness" class="level2">
+<h2 class="anchored" data-anchor-id="strategy-b-the-lottery-index-kumar2016gambling-kumar2024skewness">4. Strategy B: The Lottery Index <span class="citation" data-cites="kumar2016gambling kumar2024skewness">(<a href="#ref-kumar2016gambling" role="doc-biblioref">Kumar, Page, and Spalt 2016</a>; <a href="#ref-kumar2024skewness" role="doc-biblioref">Kumar, Motahari, and Taffler 2024</a>)</span></h2>
+<section id="why-a-composite-lottery-index" class="level3">
+<h3 class="anchored" data-anchor-id="why-a-composite-lottery-index">4.1 Why a Composite Lottery Index?</h3>
+<p>Any single skewness measure — MAX, total skewness, or anything else — is noisy. <span class="citation" data-cites="kumar2016gambling">Kumar, Page, and Spalt (<a href="#ref-kumar2016gambling" role="doc-biblioref">2016</a>)</span> and <span class="citation" data-cites="kumar2024skewness">Kumar, Motahari, and Taffler (<a href="#ref-kumar2024skewness" role="doc-biblioref">2024</a>)</span> argue that <em>bundling</em> characteristics gives a more reliable identifier of “lottery stocks.” Their <strong>lottery index (LIDX)</strong> combines three features that retail investors collectively associate with gambling-style payoffs:</p>
+<ul>
+<li><strong>Low price</strong> — lottery stocks are typically cheap in absolute terms, since retail investors are often capital-constrained and prefer to buy whole shares cheaply.</li>
+<li><strong>High idiosyncratic volatility</strong> — they offer dispersion in outcomes.</li>
+<li><strong>High idiosyncratic skewness</strong> — they offer the right-tail “jackpot” possibility.</li>
+</ul>
+<p>A stock that scores high on all three is the canonical lottery stock. The construction is similar in spirit to the individual-investor preference index in <span class="citation" data-cites="lin2018skewness">Lin and Liu (<a href="#ref-lin2018skewness" role="doc-biblioref">2018</a>)</span> — average percentile ranks across multiple characteristics to wash out idiosyncratic noise in any single proxy.</p>
+</section>
+<section id="estimating-idiosyncratic-volatility-note-3-style" class="level3">
+<h3 class="anchored" data-anchor-id="estimating-idiosyncratic-volatility-note-3-style">4.2 Estimating Idiosyncratic Volatility (Note 3 Style)</h3>
+<p>We follow Note 3’s approach: regress each stock’s daily returns on the TAIEX market return over a rolling one-month window, and take the residual standard deviation as IVOL. This is <em>not</em> the <span class="citation" data-cites="ang2006cross">Ang et al. (<a href="#ref-ang2006cross" role="doc-biblioref">2006</a>)</span> measure (which uses daily Fama-French three factors), but it captures the same economic idea with much less infrastructure.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate IVOL and idiosyncratic skewness for each stock-month from a daily </span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># market-model regression (LIDX needs both quantities)</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>estimate_ivol_iskew <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">nrow</span>(df) <span class="sc">&lt;</span> <span class="dv">15</span> <span class="sc">||</span> <span class="fu">sd</span>(df<span class="sc">$</span>ret) <span class="sc">==</span> <span class="dv">0</span>) <span class="fu">return</span>(<span class="fu">tibble</span>(<span class="at">IVOL =</span> <span class="cn">NA_real_</span>, <span class="at">ISKEW =</span> <span class="cn">NA_real_</span>))</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(ret <span class="sc">~</span> mkt_ret, <span class="at">data =</span> df)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">IVOL =</span> <span class="fu">sd</span>(<span class="fu">residuals</span>(fit)), <span class="at">ISKEW =</span> <span class="fu">skewness</span>(<span class="fu">residuals</span>(fit)))</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>stock_ivol_iskew <span class="ot">&lt;-</span> stocks_ret <span class="sc">|&gt;</span> </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year_month =</span> <span class="fu">floor_date</span>(date, <span class="st">"month"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(symbol, year_month) <span class="sc">|&gt;</span> </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_modify</span>(<span class="sc">~</span> <span class="fu">estimate_ivol_iskew</span>(.x)) <span class="sc">|&gt;</span> </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(IVOL, ISKEW)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(<span class="fu">head</span>(stock_ivol_iskew, <span class="dv">12</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatRound</span>(<span class="fu">c</span>(<span class="st">"IVOL"</span>, <span class="st">"ISKEW"</span>), <span class="at">digits =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-be3d2b00f4e48843c5cc" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-be3d2b00f4e48843c5cc">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12"],["1216.TW","1216.TW","1216.TW","1216.TW","1216.TW","1216.TW","1216.TW","1216.TW","1216.TW","1216.TW","1216.TW","1216.TW"],["2022-01-01","2022-02-01","2022-03-01","2022-04-01","2022-05-01","2022-06-01","2022-07-01","2022-08-01","2022-09-01","2022-10-01","2022-11-01","2022-12-01"],[0.004650940696855388,0.007334700286849101,0.005095219806173255,0.006933134278262601,0.007126038534512071,0.01126881667018769,0.01055143986788615,0.006600618315699196,0.007610673488839608,0.00831477987650491,0.007882859794657615,0.006349458381037654],[-0.4584649042865046,-0.3307282619539829,-0.1725400768959881,0.6935058500616073,0.2986852399544042,0.8742080609865157,-0.1187302824427587,-0.9606613508754798,-0.3883760775908894,0.7591025784926985,-0.288475423573591,-0.1846170862394789]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>symbol<\/th>\n      <th>year_month<\/th>\n      <th>IVOL<\/th>\n      <th>ISKEW<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":3,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 4, 3, \",\", \".\", null);\n  }"},{"targets":4,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 4, 3, \",\", \".\", null);\n  }"},{"className":"dt-right","targets":[3,4]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"symbol","targets":1},{"name":"year_month","targets":2},{"name":"IVOL","targets":3},{"name":"ISKEW","targets":4}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="constructing-lidx" class="level3">
+<h3 class="anchored" data-anchor-id="constructing-lidx">4.3 Constructing LIDX</h3>
+<p>The standard recipe is: each month, rank every stock on each lottery feature (low price, high IVOL, high ISKEW) within the cross-section, then average the percentile ranks. Stocks scoring highest on the average rank are the most lottery-like.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get month-end price for each stock</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>stock_price <span class="ot">&lt;-</span> stocks_ret <span class="sc">|&gt;</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year_month =</span> <span class="fu">floor_date</span>(date, <span class="st">"month"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(symbol, year_month) <span class="sc">|&gt;</span> </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">price =</span> <span class="fu">last</span>(adjusted), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine the three lottery features</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>lidx_raw <span class="ot">&lt;-</span> stock_price <span class="sc">|&gt;</span> </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(stock_ivol_iskew, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"symbol"</span>, <span class="st">"year_month"</span>))</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Cross-sectional percentile ranks within each month</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Lottery preference: LOW price (negate to flip), HIGH IVOL, HIGH ISKEW</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>lidx <span class="ot">&lt;-</span> lidx_raw <span class="sc">|&gt;</span> </span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year_month) <span class="sc">|&gt;</span> </span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">rank_price =</span> <span class="fu">percent_rank</span>(<span class="sc">-</span>price),  <span class="co"># negate so low price gets high rank</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">rank_ivol  =</span> <span class="fu">percent_rank</span>(IVOL),</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">rank_iskew =</span> <span class="fu">percent_rank</span>(ISKEW),</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">LIDX =</span> (rank_price <span class="sc">+</span> rank_ivol <span class="sc">+</span> rank_iskew) <span class="sc">/</span> <span class="dv">3</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(symbol, year_month, price, IVOL, ISKEW, LIDX)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(<span class="fu">head</span>(lidx, <span class="dv">12</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatRound</span>(<span class="fu">c</span>(<span class="st">"price"</span>,<span class="st">"IVOL"</span>,<span class="st">"ISKEW"</span>,<span class="st">"LIDX"</span>), <span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-306ed5452a5fb8e27648" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-306ed5452a5fb8e27648">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12"],["1216.TW","1216.TW","1216.TW","1216.TW","1216.TW","1216.TW","1216.TW","1216.TW","1216.TW","1216.TW","1216.TW","1216.TW"],["2022-01-01","2022-02-01","2022-03-01","2022-04-01","2022-05-01","2022-06-01","2022-07-01","2022-08-01","2022-09-01","2022-10-01","2022-11-01","2022-12-01"],[57.84777069091797,57.41990661621094,56.13629913330078,58.5323600769043,57.67662811279297,57.33433532714844,60.24383544921875,58.79610824584961,59.95421600341797,58.35068511962891,58.88519287109375,59.33061599731445],[0.004650940696855388,0.007334700286849101,0.005095219806173255,0.006933134278262601,0.007126038534512071,0.01126881667018769,0.01055143986788615,0.006600618315699196,0.007610673488839608,0.00831477987650491,0.007882859794657615,0.006349458381037654],[-0.4584649042865046,-0.3307282619539829,-0.1725400768959881,0.6935058500616073,0.2986852399544042,0.8742080609865157,-0.1187302824427587,-0.9606613508754798,-0.3883760775908894,0.7591025784926985,-0.288475423573591,-0.1846170862394789],[0.2807017543859649,0.3157894736842105,0.2631578947368421,0.5789473684210527,0.4736842105263158,0.6666666666666666,0.4210526315789473,0.2631578947368421,0.3508771929824562,0.4385964912280702,0.2982456140350877,0.3684210526315789]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>symbol<\/th>\n      <th>year_month<\/th>\n      <th>price<\/th>\n      <th>IVOL<\/th>\n      <th>ISKEW<\/th>\n      <th>LIDX<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":3,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"targets":4,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"targets":5,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"targets":6,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"className":"dt-right","targets":[3,4,5,6]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"symbol","targets":1},{"name":"year_month","targets":2},{"name":"price","targets":3},{"name":"IVOL","targets":4},{"name":"ISKEW","targets":5},{"name":"LIDX","targets":6}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render","options.columnDefs.2.render","options.columnDefs.3.render"],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="lidx-long-short-strategy" class="level3">
+<h3 class="anchored" data-anchor-id="lidx-long-short-strategy">4.4 LIDX Long-Short Strategy</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>lidx_signal <span class="ot">&lt;-</span> lidx <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(symbol) <span class="sc">|&gt;</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year_month) <span class="sc">|&gt;</span> </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">LIDX_lag =</span> <span class="fu">lag</span>(LIDX)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(LIDX_lag)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>panel_lidx <span class="ot">&lt;-</span> lidx_signal <span class="sc">|&gt;</span> </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(stocks_monthly_ret, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"symbol"</span>, <span class="st">"year_month"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year_month) <span class="sc">|&gt;</span> </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">LIDX_tercile =</span> <span class="fu">ntile</span>(LIDX_lag, <span class="dv">3</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>port_lidx <span class="ot">&lt;-</span> panel_lidx <span class="sc">|&gt;</span> </span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year_month, LIDX_tercile) <span class="sc">|&gt;</span> </span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">port_ret =</span> <span class="fu">mean</span>(monthly_ret, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>ls_lidx <span class="ot">&lt;-</span> port_lidx <span class="sc">|&gt;</span> </span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> LIDX_tercile, <span class="at">values_from =</span> port_ret,</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_prefix =</span> <span class="st">"T"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year_month) <span class="sc">|&gt;</span> </span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">LS_ret =</span> T1 <span class="sc">-</span> T3,</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>         <span class="at">cum_low_lidx =</span> <span class="fu">cumprod</span>(<span class="dv">1</span> <span class="sc">+</span> T1),</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>         <span class="at">cum_LS_lidx  =</span> <span class="fu">cumprod</span>(<span class="dv">1</span> <span class="sc">+</span> LS_ret))</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"LIDX L-S monthly mean: %.2f%% | Sharpe (ann.): %.3f</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>            <span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(ls_lidx<span class="sc">$</span>LS_ret, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>            <span class="fu">mean</span>(ls_lidx<span class="sc">$</span>LS_ret, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>              <span class="fu">sd</span>(ls_lidx<span class="sc">$</span>LS_ret, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">12</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>LIDX L-S monthly mean: -0.66% | Sharpe (ann.): -0.460</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="strategy-c-the-ivol-anomaly-ang2006cross" class="level2">
+<h2 class="anchored" data-anchor-id="strategy-c-the-ivol-anomaly-ang2006cross">5. Strategy C: The IVOL Anomaly <span class="citation" data-cites="ang2006cross">(<a href="#ref-ang2006cross" role="doc-biblioref">Ang et al. 2006</a>)</span></h2>
+<p><span class="citation" data-cites="ang2006cross">Ang et al. (<a href="#ref-ang2006cross" role="doc-biblioref">2006</a>)</span> document that high-IVOL stocks earn lower subsequent returns — a result that runs counter to standard risk-return intuition and remains an active research puzzle. We test it here using our market-model IVOL from Section 4.2.</p>
+<blockquote class="blockquote">
+<p><strong>Pedagogical caveat.</strong> <span class="citation" data-cites="ang2006cross">Ang et al. (<a href="#ref-ang2006cross" role="doc-biblioref">2006</a>)</span> use the residual standard deviation from a <em>daily Fama-French three-factor</em> regression. We use the residual standard deviation from a <em>daily one-factor</em> market-model regression (the same form as in Note 3). The two measures are highly correlated in practice, but a careful replication should use the original specification.</p>
+</blockquote>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ivol_signal <span class="ot">&lt;-</span> stock_ivol_iskew <span class="sc">|&gt;</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(symbol) <span class="sc">|&gt;</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year_month) <span class="sc">|&gt;</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">IVOL_lag =</span> <span class="fu">lag</span>(IVOL)) <span class="sc">|&gt;</span> </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(IVOL_lag)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>panel_ivol <span class="ot">&lt;-</span> ivol_signal <span class="sc">|&gt;</span> </span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(stocks_monthly_ret, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"symbol"</span>, <span class="st">"year_month"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year_month) <span class="sc">|&gt;</span> </span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">IVOL_tercile =</span> <span class="fu">ntile</span>(IVOL_lag, <span class="dv">3</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>port_ivol <span class="ot">&lt;-</span> panel_ivol <span class="sc">|&gt;</span> </span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year_month, IVOL_tercile) <span class="sc">|&gt;</span> </span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">port_ret =</span> <span class="fu">mean</span>(monthly_ret, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>ls_ivol <span class="ot">&lt;-</span> port_ivol <span class="sc">|&gt;</span> </span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> IVOL_tercile, <span class="at">values_from =</span> port_ret,</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_prefix =</span> <span class="st">"T"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year_month) <span class="sc">|&gt;</span> </span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">LS_ret =</span> T1 <span class="sc">-</span> T3,</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>         <span class="at">cum_low_ivol =</span> <span class="fu">cumprod</span>(<span class="dv">1</span> <span class="sc">+</span> T1),</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>         <span class="at">cum_LS_ivol  =</span> <span class="fu">cumprod</span>(<span class="dv">1</span> <span class="sc">+</span> LS_ret))</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"IVOL L-S monthly mean: %.2f%% | Sharpe (ann.): %.3f</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>            <span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(ls_ivol<span class="sc">$</span>LS_ret, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>            <span class="fu">mean</span>(ls_ivol<span class="sc">$</span>LS_ret, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>              <span class="fu">sd</span>(ls_ivol<span class="sc">$</span>LS_ret, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">12</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>IVOL L-S monthly mean: -0.41% | Sharpe (ann.): -0.271</code></pre>
+</div>
+</div>
+</section>
+<section id="comparing-all-strategies" class="level2">
+<h2 class="anchored" data-anchor-id="comparing-all-strategies">6. Comparing All Strategies</h2>
+<p>We now bring all three behavioral strategies together with three passive benchmarks: an equal-weighted basket of our 20 stocks, the <strong>0050.TW ETF</strong> (the Taiwan 50 ETF used in Note 4), and the broader <strong>TAIEX index</strong>. Including 0050 keeps continuity with Note 4 and gives students a directly investable passive alternative — unlike the TAIEX index, which is not itself tradeable. To make returns comparable, we focus on the <strong>long leg</strong> of each strategy with a NT$1,000,000 initial investment.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Equal-weighted basket (buy-and-hold all 20 stocks)</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>bh_basket <span class="ot">&lt;-</span> stocks_monthly_ret <span class="sc">|&gt;</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year_month) <span class="sc">|&gt;</span> </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">bh_ret =</span> <span class="fu">mean</span>(monthly_ret, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year_month) <span class="sc">|&gt;</span> </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cum_bh =</span> <span class="fu">cumprod</span>(<span class="dv">1</span> <span class="sc">+</span> bh_ret))</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 0050.TW ETF buy-and-hold (Note 4's primary asset)</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>etf_0050 <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">"0050.TW"</span>, <span class="at">from =</span> start_date, <span class="at">to =</span> end_date) <span class="sc">|&gt;</span> </span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, <span class="at">etf_close =</span> adjusted) <span class="sc">|&gt;</span> </span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year_month =</span> <span class="fu">floor_date</span>(date, <span class="st">"month"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year_month) <span class="sc">|&gt;</span> </span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">etf_close =</span> <span class="fu">last</span>(etf_close), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year_month) <span class="sc">|&gt;</span> </span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">etf_ret =</span> etf_close <span class="sc">/</span> <span class="fu">lag</span>(etf_close) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(etf_ret) <span class="sc">|&gt;</span> </span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cum_etf =</span> <span class="fu">cumprod</span>(<span class="dv">1</span> <span class="sc">+</span> etf_ret))</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co"># TAIEX benchmark</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>taiex <span class="ot">&lt;-</span> market_data <span class="sc">|&gt;</span> </span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year_month =</span> <span class="fu">floor_date</span>(date, <span class="st">"month"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year_month) <span class="sc">|&gt;</span> </span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">taiex_close =</span> <span class="fu">last</span>(mkt_close), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year_month) <span class="sc">|&gt;</span> </span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">taiex_ret =</span> taiex_close <span class="sc">/</span> <span class="fu">lag</span>(taiex_close) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(taiex_ret) <span class="sc">|&gt;</span> </span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cum_taiex =</span> <span class="fu">cumprod</span>(<span class="dv">1</span> <span class="sc">+</span> taiex_ret))</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Stitch all series together</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>comparison <span class="ot">&lt;-</span> ls_max <span class="sc">|&gt;</span> <span class="fu">select</span>(year_month, <span class="at">cum_LowMAX =</span> cum_low) <span class="sc">|&gt;</span> </span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(ls_lidx  <span class="sc">|&gt;</span> <span class="fu">select</span>(year_month, <span class="at">cum_LowLIDX =</span> cum_low_lidx), <span class="at">by =</span> <span class="st">"year_month"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(ls_ivol  <span class="sc">|&gt;</span> <span class="fu">select</span>(year_month, <span class="at">cum_LowIVOL =</span> cum_low_ivol), <span class="at">by =</span> <span class="st">"year_month"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(bh_basket <span class="sc">|&gt;</span> <span class="fu">select</span>(year_month, cum_bh),    <span class="at">by =</span> <span class="st">"year_month"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(etf_0050  <span class="sc">|&gt;</span> <span class="fu">select</span>(year_month, cum_etf),   <span class="at">by =</span> <span class="st">"year_month"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(taiex     <span class="sc">|&gt;</span> <span class="fu">select</span>(year_month, cum_taiex), <span class="at">by =</span> <span class="st">"year_month"</span>)</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Scale to NT$1,000,000 starting capital</span></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>capital <span class="ot">&lt;-</span> <span class="dv">1000000</span></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>comparison <span class="ot">&lt;-</span> comparison <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">starts_with</span>(<span class="st">"cum_"</span>), <span class="sc">~</span> . <span class="sc">*</span> capital))</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(<span class="fu">tail</span>(comparison, <span class="dv">8</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatRound</span>(<span class="at">columns =</span> <span class="fu">c</span>(<span class="st">"cum_LowMAX"</span>,<span class="st">"cum_LowLIDX"</span>,<span class="st">"cum_LowIVOL"</span>,</span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>                          <span class="st">"cum_bh"</span>,<span class="st">"cum_etf"</span>,<span class="st">"cum_taiex"</span>),</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>              <span class="at">digits =</span> <span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-a6d2d505c9914b9c3edc" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-a6d2d505c9914b9c3edc">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8"],["2023-08-01","2023-09-01","2023-10-01","2023-11-01","2023-12-01","2024-01-01","2024-03-01","2024-04-01"],[929852.0788259538,940752.4884095371,915429.7638424948,973246.6356063625,989193.8716708184,965550.507188412,1000760.353596617,1000028.528638719],[925046.8798168567,931972.4830360566,907879.8839606909,970107.8611050142,986260.1460327568,946120.9463188514,1060114.83662577,1034598.876921094],[988830.7854659498,976973.8985452474,955766.6447300022,1025878.547475667,1041264.287055171,1018401.954077779,1083401.155046181,1092148.445500924],[1038127.285651258,1026957.828799996,1004662.298239315,1097598.435204912,1141748.966974668,1090696.916109896,1195787.451833961,1185452.769061433],[937694.3547445206,914942.0270029714,903752.3576218815,979842.1700224862,1010427.205721604,1025592.413959339,1204603.486471148,1212237.214445085],[941164.0224269453,925278.3615250383,905335.9196127253,986389.8759825764,1014507.431685547,1012173.547701461,1148239.757514758,1159616.115866731]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>year_month<\/th>\n      <th>cum_LowMAX<\/th>\n      <th>cum_LowLIDX<\/th>\n      <th>cum_LowIVOL<\/th>\n      <th>cum_bh<\/th>\n      <th>cum_etf<\/th>\n      <th>cum_taiex<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 0, 3, \",\", \".\", null);\n  }"},{"targets":3,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 0, 3, \",\", \".\", null);\n  }"},{"targets":4,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 0, 3, \",\", \".\", null);\n  }"},{"targets":5,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 0, 3, \",\", \".\", null);\n  }"},{"targets":6,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 0, 3, \",\", \".\", null);\n  }"},{"targets":7,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 0, 3, \",\", \".\", null);\n  }"},{"className":"dt-right","targets":[2,3,4,5,6,7]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"year_month","targets":1},{"name":"cum_LowMAX","targets":2},{"name":"cum_LowLIDX","targets":3},{"name":"cum_LowIVOL","targets":4},{"name":"cum_bh","targets":5},{"name":"cum_etf","targets":6},{"name":"cum_taiex","targets":7}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render","options.columnDefs.2.render","options.columnDefs.3.render","options.columnDefs.4.render","options.columnDefs.5.render"],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">highchart</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hc_title</span>(<span class="at">text =</span> <span class="st">"Strategy Comparison: Behavioral vs. Passive (NT$1,000,000 Initial)"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hc_xAxis</span>(<span class="at">type =</span> <span class="st">"datetime"</span>, <span class="at">title =</span> <span class="fu">list</span>(<span class="at">text =</span> <span class="st">"Month"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hc_yAxis</span>(<span class="at">title =</span> <span class="fu">list</span>(<span class="at">text =</span> <span class="st">"Portfolio Value (NT$)"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hc_add_series</span>(<span class="at">data =</span> comparison, <span class="at">type =</span> <span class="st">"line"</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>                <span class="fu">hcaes</span>(<span class="at">x =</span> year_month, <span class="at">y =</span> cum_LowMAX),</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">name =</span> <span class="st">"Low-MAX (Bali et al. 2011)"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hc_add_series</span>(<span class="at">data =</span> comparison, <span class="at">type =</span> <span class="st">"line"</span>,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>                <span class="fu">hcaes</span>(<span class="at">x =</span> year_month, <span class="at">y =</span> cum_LowLIDX),</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">name =</span> <span class="st">"Low-LIDX (Kumar et al. 2024)"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hc_add_series</span>(<span class="at">data =</span> comparison, <span class="at">type =</span> <span class="st">"line"</span>,</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>                <span class="fu">hcaes</span>(<span class="at">x =</span> year_month, <span class="at">y =</span> cum_LowIVOL),</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>                <span class="at">name =</span> <span class="st">"Low-IVOL (Ang et al. 2006)"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hc_add_series</span>(<span class="at">data =</span> comparison, <span class="at">type =</span> <span class="st">"line"</span>,</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>                <span class="fu">hcaes</span>(<span class="at">x =</span> year_month, <span class="at">y =</span> cum_bh),</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>                <span class="at">name =</span> <span class="st">"Equal-Weighted Buy-and-Hold"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hc_add_series</span>(<span class="at">data =</span> comparison, <span class="at">type =</span> <span class="st">"line"</span>,</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>                <span class="fu">hcaes</span>(<span class="at">x =</span> year_month, <span class="at">y =</span> cum_etf),</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>                <span class="at">name =</span> <span class="st">"0050.TW ETF Buy-and-Hold"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hc_add_series</span>(<span class="at">data =</span> comparison, <span class="at">type =</span> <span class="st">"line"</span>,</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>                <span class="fu">hcaes</span>(<span class="at">x =</span> year_month, <span class="at">y =</span> cum_taiex),</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>                <span class="at">name =</span> <span class="st">"TAIEX Benchmark"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hc_tooltip</span>(<span class="at">valuePrefix =</span> <span class="st">"NT$"</span>, <span class="at">valueDecimals =</span> <span class="dv">0</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hc_legend</span>(<span class="at">align =</span> <span class="st">"center"</span>, <span class="at">verticalAlign =</span> <span class="st">"bottom"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hc_add_theme</span>(<span class="fu">hc_theme_smpl</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="highchart html-widget html-fill-item" id="htmlwidget-51baa5e560e32f2a5f0e" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-51baa5e560e32f2a5f0e">{"x":{"hc_opts":{"chart":{"reflow":true},"title":{"text":"Strategy Comparison: Behavioral vs. Passive (NT$1,000,000 Initial)"},"yAxis":{"title":{"text":"Portfolio Value (NT$)"}},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0},"treemap":{"layoutAlgorithm":"squarified"}},"xAxis":{"type":"datetime","title":{"text":"Month"}},"series":[{"group":"group","data":[{"year_month":"2022-02-01","cum_LowMAX":1020970.203857083,"cum_LowLIDX":1013125.018387972,"cum_LowIVOL":1007137.933016818,"cum_bh":981461.1082801098,"cum_etf":978452.8860795046,"cum_taiex":998742.7747117924,"x":1643673600000,"y":1020970.203857083},{"year_month":"2022-03-01","cum_LowMAX":1051576.401046118,"cum_LowLIDX":996784.52509883,"cum_LowIVOL":1029517.605030662,"cum_bh":1008441.161141318,"cum_etf":975626.9824130909,"cum_taiex":1001078.979319158,"x":1646092800000,"y":1051576.401046118},{"year_month":"2022-04-01","cum_LowMAX":1024964.757934175,"cum_LowLIDX":961882.7969367442,"cum_LowIVOL":1010597.442872398,"cum_bh":967374.5180789279,"cum_etf":909572.5979046068,"cum_taiex":938769.0286964958,"x":1648771200000,"y":1024964.757934175},{"year_month":"2022-05-01","cum_LowMAX":982785.2112029038,"cum_LowLIDX":981845.4778907616,"cum_LowIVOL":1035976.509076767,"cum_bh":955332.4885126891,"cum_etf":916990.496539003,"cum_taiex":950966.887689458,"x":1651363200000,"y":982785.2112029038},{"year_month":"2022-06-01","cum_LowMAX":925632.2764265877,"cum_LowLIDX":886140.778209055,"cum_LowIVOL":952019.3700101142,"cum_bh":877167.0383020563,"cum_etf":818085.5652719502,"cum_taiex":838825.0883245795,"x":1654041600000,"y":925632.2764265877},{"year_month":"2022-07-01","cum_LowMAX":931837.8594602137,"cum_LowLIDX":888928.1847002797,"cum_LowIVOL":936719.6336172485,"cum_bh":907707.1717091401,"cum_etf":846824.9904070799,"cum_taiex":848689.0633334559,"x":1656633600000,"y":931837.8594602137},{"year_month":"2022-08-01","cum_LowMAX":922420.4318508921,"cum_LowLIDX":873261.4747747027,"cum_LowIVOL":924726.6396813983,"cum_bh":911451.7423870291,"cum_etf":845607.4729196606,"cum_taiex":854085.0097350145,"x":1659312000000,"y":922420.4318508921},{"year_month":"2022-09-01","cum_LowMAX":871524.1338423868,"cum_LowLIDX":788675.5540684409,"cum_LowIVOL":866267.8953928553,"cum_bh":833281.7540346941,"cum_etf":743861.3644693268,"cum_taiex":759549.3924221483,"x":1661990400000,"y":871524.1338423868},{"year_month":"2022-10-01","cum_LowMAX":854360.9416978983,"cum_LowLIDX":788710.2280624278,"cum_LowIVOL":852993.1553493376,"cum_bh":835223.7787068865,"cum_etf":712223.0015891124,"cum_taiex":732683.9787373444,"x":1664582400000,"y":854360.9416978983},{"year_month":"2022-11-01","cum_LowMAX":919167.9710743646,"cum_LowLIDX":896778.588162226,"cum_LowIVOL":960327.0002571972,"cum_bh":943798.7188351767,"cum_etf":836619.3718984381,"cum_taiex":841870.1328380016,"x":1667260800000,"y":919167.9710743646},{"year_month":"2022-12-01","cum_LowMAX":884479.1857516171,"cum_LowLIDX":860297.0790784378,"cum_LowIVOL":938824.8379877885,"cum_bh":895792.0102851032,"cum_etf":792397.5706138019,"cum_taiex":799896.467049967,"x":1669852800000,"y":884479.1857516171},{"year_month":"2023-02-01","cum_LowMAX":897554.9380231338,"cum_LowLIDX":866661.4134198753,"cum_LowIVOL":942304.2650929083,"cum_bh":958564.3428449853,"cum_etf":873465.7615936142,"cum_taiex":877189.0246011482,"x":1675209600000,"y":897554.9380231338},{"year_month":"2023-03-01","cum_LowMAX":909402.8936568482,"cum_LowLIDX":896153.659535887,"cum_LowIVOL":972595.7602197654,"cum_bh":974645.7736831831,"cum_etf":894052.4622272893,"cum_taiex":897799.0324769017,"x":1677628800000,"y":909402.8936568482},{"year_month":"2023-04-01","cum_LowMAX":938443.0150778928,"cum_LowLIDX":892822.3573761978,"cum_LowIVOL":984945.2697298838,"cum_bh":964609.1164716026,"cum_etf":863172.2597537917,"cum_taiex":881454.4959479154,"x":1680307200000,"y":938443.0150778928},{"year_month":"2023-05-01","cum_LowMAX":964857.6375391646,"cum_LowLIDX":977538.2778820223,"cum_LowIVOL":1017445.080598622,"cum_bh":1022530.744500205,"cum_etf":927505.8280285638,"cum_taiex":938021.124965232,"x":1682899200000,"y":964857.6375391646},{"year_month":"2023-06-01","cum_LowMAX":954620.3809243425,"cum_LowLIDX":975200.4268547908,"cum_LowIVOL":1027568.520342846,"cum_bh":1037667.312748819,"cum_etf":949195.4341639597,"cum_taiex":957064.3806096233,"x":1685577600000,"y":954620.3809243425},{"year_month":"2023-07-01","cum_LowMAX":958868.0638326601,"cum_LowLIDX":964273.2388858713,"cum_LowIVOL":1026236.09024846,"cum_bh":1063333.406415298,"cum_etf":960819.6714654397,"cum_taiex":970071.3635860834,"x":1688169600000,"y":958868.0638326601},{"year_month":"2023-08-01","cum_LowMAX":929852.0788259538,"cum_LowLIDX":925046.8798168567,"cum_LowIVOL":988830.7854659498,"cum_bh":1038127.285651258,"cum_etf":937694.3547445206,"cum_taiex":941164.0224269453,"x":1690848000000,"y":929852.0788259538},{"year_month":"2023-09-01","cum_LowMAX":940752.4884095371,"cum_LowLIDX":931972.4830360566,"cum_LowIVOL":976973.8985452474,"cum_bh":1026957.828799996,"cum_etf":914942.0270029714,"cum_taiex":925278.3615250383,"x":1693526400000,"y":940752.4884095371},{"year_month":"2023-10-01","cum_LowMAX":915429.7638424948,"cum_LowLIDX":907879.8839606909,"cum_LowIVOL":955766.6447300022,"cum_bh":1004662.298239315,"cum_etf":903752.3576218815,"cum_taiex":905335.9196127253,"x":1696118400000,"y":915429.7638424948},{"year_month":"2023-11-01","cum_LowMAX":973246.6356063625,"cum_LowLIDX":970107.8611050142,"cum_LowIVOL":1025878.547475667,"cum_bh":1097598.435204912,"cum_etf":979842.1700224862,"cum_taiex":986389.8759825764,"x":1698796800000,"y":973246.6356063625},{"year_month":"2023-12-01","cum_LowMAX":989193.8716708184,"cum_LowLIDX":986260.1460327568,"cum_LowIVOL":1041264.287055171,"cum_bh":1141748.966974668,"cum_etf":1010427.205721604,"cum_taiex":1014507.431685547,"x":1701388800000,"y":989193.8716708184},{"year_month":"2024-01-01","cum_LowMAX":965550.507188412,"cum_LowLIDX":946120.9463188514,"cum_LowIVOL":1018401.954077779,"cum_bh":1090696.916109896,"cum_etf":1025592.413959339,"cum_taiex":1012173.547701461,"x":1704067200000,"y":965550.507188412},{"year_month":"2024-03-01","cum_LowMAX":1000760.353596617,"cum_LowLIDX":1060114.83662577,"cum_LowIVOL":1083401.155046181,"cum_bh":1195787.451833961,"cum_etf":1204603.486471148,"cum_taiex":1148239.757514758,"x":1709251200000,"y":1000760.353596617},{"year_month":"2024-04-01","cum_LowMAX":1000028.528638719,"cum_LowLIDX":1034598.876921094,"cum_LowIVOL":1092148.445500924,"cum_bh":1185452.769061433,"cum_etf":1212237.214445085,"cum_taiex":1159616.115866731,"x":1711929600000,"y":1000028.528638719}],"type":"line","name":"Low-MAX (Bali et al. 2011)"},{"group":"group","data":[{"year_month":"2022-02-01","cum_LowMAX":1020970.203857083,"cum_LowLIDX":1013125.018387972,"cum_LowIVOL":1007137.933016818,"cum_bh":981461.1082801098,"cum_etf":978452.8860795046,"cum_taiex":998742.7747117924,"x":1643673600000,"y":1013125.018387972},{"year_month":"2022-03-01","cum_LowMAX":1051576.401046118,"cum_LowLIDX":996784.52509883,"cum_LowIVOL":1029517.605030662,"cum_bh":1008441.161141318,"cum_etf":975626.9824130909,"cum_taiex":1001078.979319158,"x":1646092800000,"y":996784.52509883},{"year_month":"2022-04-01","cum_LowMAX":1024964.757934175,"cum_LowLIDX":961882.7969367442,"cum_LowIVOL":1010597.442872398,"cum_bh":967374.5180789279,"cum_etf":909572.5979046068,"cum_taiex":938769.0286964958,"x":1648771200000,"y":961882.7969367442},{"year_month":"2022-05-01","cum_LowMAX":982785.2112029038,"cum_LowLIDX":981845.4778907616,"cum_LowIVOL":1035976.509076767,"cum_bh":955332.4885126891,"cum_etf":916990.496539003,"cum_taiex":950966.887689458,"x":1651363200000,"y":981845.4778907616},{"year_month":"2022-06-01","cum_LowMAX":925632.2764265877,"cum_LowLIDX":886140.778209055,"cum_LowIVOL":952019.3700101142,"cum_bh":877167.0383020563,"cum_etf":818085.5652719502,"cum_taiex":838825.0883245795,"x":1654041600000,"y":886140.778209055},{"year_month":"2022-07-01","cum_LowMAX":931837.8594602137,"cum_LowLIDX":888928.1847002797,"cum_LowIVOL":936719.6336172485,"cum_bh":907707.1717091401,"cum_etf":846824.9904070799,"cum_taiex":848689.0633334559,"x":1656633600000,"y":888928.1847002797},{"year_month":"2022-08-01","cum_LowMAX":922420.4318508921,"cum_LowLIDX":873261.4747747027,"cum_LowIVOL":924726.6396813983,"cum_bh":911451.7423870291,"cum_etf":845607.4729196606,"cum_taiex":854085.0097350145,"x":1659312000000,"y":873261.4747747027},{"year_month":"2022-09-01","cum_LowMAX":871524.1338423868,"cum_LowLIDX":788675.5540684409,"cum_LowIVOL":866267.8953928553,"cum_bh":833281.7540346941,"cum_etf":743861.3644693268,"cum_taiex":759549.3924221483,"x":1661990400000,"y":788675.5540684409},{"year_month":"2022-10-01","cum_LowMAX":854360.9416978983,"cum_LowLIDX":788710.2280624278,"cum_LowIVOL":852993.1553493376,"cum_bh":835223.7787068865,"cum_etf":712223.0015891124,"cum_taiex":732683.9787373444,"x":1664582400000,"y":788710.2280624278},{"year_month":"2022-11-01","cum_LowMAX":919167.9710743646,"cum_LowLIDX":896778.588162226,"cum_LowIVOL":960327.0002571972,"cum_bh":943798.7188351767,"cum_etf":836619.3718984381,"cum_taiex":841870.1328380016,"x":1667260800000,"y":896778.588162226},{"year_month":"2022-12-01","cum_LowMAX":884479.1857516171,"cum_LowLIDX":860297.0790784378,"cum_LowIVOL":938824.8379877885,"cum_bh":895792.0102851032,"cum_etf":792397.5706138019,"cum_taiex":799896.467049967,"x":1669852800000,"y":860297.0790784378},{"year_month":"2023-02-01","cum_LowMAX":897554.9380231338,"cum_LowLIDX":866661.4134198753,"cum_LowIVOL":942304.2650929083,"cum_bh":958564.3428449853,"cum_etf":873465.7615936142,"cum_taiex":877189.0246011482,"x":1675209600000,"y":866661.4134198753},{"year_month":"2023-03-01","cum_LowMAX":909402.8936568482,"cum_LowLIDX":896153.659535887,"cum_LowIVOL":972595.7602197654,"cum_bh":974645.7736831831,"cum_etf":894052.4622272893,"cum_taiex":897799.0324769017,"x":1677628800000,"y":896153.659535887},{"year_month":"2023-04-01","cum_LowMAX":938443.0150778928,"cum_LowLIDX":892822.3573761978,"cum_LowIVOL":984945.2697298838,"cum_bh":964609.1164716026,"cum_etf":863172.2597537917,"cum_taiex":881454.4959479154,"x":1680307200000,"y":892822.3573761978},{"year_month":"2023-05-01","cum_LowMAX":964857.6375391646,"cum_LowLIDX":977538.2778820223,"cum_LowIVOL":1017445.080598622,"cum_bh":1022530.744500205,"cum_etf":927505.8280285638,"cum_taiex":938021.124965232,"x":1682899200000,"y":977538.2778820223},{"year_month":"2023-06-01","cum_LowMAX":954620.3809243425,"cum_LowLIDX":975200.4268547908,"cum_LowIVOL":1027568.520342846,"cum_bh":1037667.312748819,"cum_etf":949195.4341639597,"cum_taiex":957064.3806096233,"x":1685577600000,"y":975200.4268547908},{"year_month":"2023-07-01","cum_LowMAX":958868.0638326601,"cum_LowLIDX":964273.2388858713,"cum_LowIVOL":1026236.09024846,"cum_bh":1063333.406415298,"cum_etf":960819.6714654397,"cum_taiex":970071.3635860834,"x":1688169600000,"y":964273.2388858713},{"year_month":"2023-08-01","cum_LowMAX":929852.0788259538,"cum_LowLIDX":925046.8798168567,"cum_LowIVOL":988830.7854659498,"cum_bh":1038127.285651258,"cum_etf":937694.3547445206,"cum_taiex":941164.0224269453,"x":1690848000000,"y":925046.8798168567},{"year_month":"2023-09-01","cum_LowMAX":940752.4884095371,"cum_LowLIDX":931972.4830360566,"cum_LowIVOL":976973.8985452474,"cum_bh":1026957.828799996,"cum_etf":914942.0270029714,"cum_taiex":925278.3615250383,"x":1693526400000,"y":931972.4830360566},{"year_month":"2023-10-01","cum_LowMAX":915429.7638424948,"cum_LowLIDX":907879.8839606909,"cum_LowIVOL":955766.6447300022,"cum_bh":1004662.298239315,"cum_etf":903752.3576218815,"cum_taiex":905335.9196127253,"x":1696118400000,"y":907879.8839606909},{"year_month":"2023-11-01","cum_LowMAX":973246.6356063625,"cum_LowLIDX":970107.8611050142,"cum_LowIVOL":1025878.547475667,"cum_bh":1097598.435204912,"cum_etf":979842.1700224862,"cum_taiex":986389.8759825764,"x":1698796800000,"y":970107.8611050142},{"year_month":"2023-12-01","cum_LowMAX":989193.8716708184,"cum_LowLIDX":986260.1460327568,"cum_LowIVOL":1041264.287055171,"cum_bh":1141748.966974668,"cum_etf":1010427.205721604,"cum_taiex":1014507.431685547,"x":1701388800000,"y":986260.1460327568},{"year_month":"2024-01-01","cum_LowMAX":965550.507188412,"cum_LowLIDX":946120.9463188514,"cum_LowIVOL":1018401.954077779,"cum_bh":1090696.916109896,"cum_etf":1025592.413959339,"cum_taiex":1012173.547701461,"x":1704067200000,"y":946120.9463188514},{"year_month":"2024-03-01","cum_LowMAX":1000760.353596617,"cum_LowLIDX":1060114.83662577,"cum_LowIVOL":1083401.155046181,"cum_bh":1195787.451833961,"cum_etf":1204603.486471148,"cum_taiex":1148239.757514758,"x":1709251200000,"y":1060114.83662577},{"year_month":"2024-04-01","cum_LowMAX":1000028.528638719,"cum_LowLIDX":1034598.876921094,"cum_LowIVOL":1092148.445500924,"cum_bh":1185452.769061433,"cum_etf":1212237.214445085,"cum_taiex":1159616.115866731,"x":1711929600000,"y":1034598.876921094}],"type":"line","name":"Low-LIDX (Kumar et al. 2024)"},{"group":"group","data":[{"year_month":"2022-02-01","cum_LowMAX":1020970.203857083,"cum_LowLIDX":1013125.018387972,"cum_LowIVOL":1007137.933016818,"cum_bh":981461.1082801098,"cum_etf":978452.8860795046,"cum_taiex":998742.7747117924,"x":1643673600000,"y":1007137.933016818},{"year_month":"2022-03-01","cum_LowMAX":1051576.401046118,"cum_LowLIDX":996784.52509883,"cum_LowIVOL":1029517.605030662,"cum_bh":1008441.161141318,"cum_etf":975626.9824130909,"cum_taiex":1001078.979319158,"x":1646092800000,"y":1029517.605030662},{"year_month":"2022-04-01","cum_LowMAX":1024964.757934175,"cum_LowLIDX":961882.7969367442,"cum_LowIVOL":1010597.442872398,"cum_bh":967374.5180789279,"cum_etf":909572.5979046068,"cum_taiex":938769.0286964958,"x":1648771200000,"y":1010597.442872398},{"year_month":"2022-05-01","cum_LowMAX":982785.2112029038,"cum_LowLIDX":981845.4778907616,"cum_LowIVOL":1035976.509076767,"cum_bh":955332.4885126891,"cum_etf":916990.496539003,"cum_taiex":950966.887689458,"x":1651363200000,"y":1035976.509076767},{"year_month":"2022-06-01","cum_LowMAX":925632.2764265877,"cum_LowLIDX":886140.778209055,"cum_LowIVOL":952019.3700101142,"cum_bh":877167.0383020563,"cum_etf":818085.5652719502,"cum_taiex":838825.0883245795,"x":1654041600000,"y":952019.3700101142},{"year_month":"2022-07-01","cum_LowMAX":931837.8594602137,"cum_LowLIDX":888928.1847002797,"cum_LowIVOL":936719.6336172485,"cum_bh":907707.1717091401,"cum_etf":846824.9904070799,"cum_taiex":848689.0633334559,"x":1656633600000,"y":936719.6336172485},{"year_month":"2022-08-01","cum_LowMAX":922420.4318508921,"cum_LowLIDX":873261.4747747027,"cum_LowIVOL":924726.6396813983,"cum_bh":911451.7423870291,"cum_etf":845607.4729196606,"cum_taiex":854085.0097350145,"x":1659312000000,"y":924726.6396813983},{"year_month":"2022-09-01","cum_LowMAX":871524.1338423868,"cum_LowLIDX":788675.5540684409,"cum_LowIVOL":866267.8953928553,"cum_bh":833281.7540346941,"cum_etf":743861.3644693268,"cum_taiex":759549.3924221483,"x":1661990400000,"y":866267.8953928553},{"year_month":"2022-10-01","cum_LowMAX":854360.9416978983,"cum_LowLIDX":788710.2280624278,"cum_LowIVOL":852993.1553493376,"cum_bh":835223.7787068865,"cum_etf":712223.0015891124,"cum_taiex":732683.9787373444,"x":1664582400000,"y":852993.1553493376},{"year_month":"2022-11-01","cum_LowMAX":919167.9710743646,"cum_LowLIDX":896778.588162226,"cum_LowIVOL":960327.0002571972,"cum_bh":943798.7188351767,"cum_etf":836619.3718984381,"cum_taiex":841870.1328380016,"x":1667260800000,"y":960327.0002571972},{"year_month":"2022-12-01","cum_LowMAX":884479.1857516171,"cum_LowLIDX":860297.0790784378,"cum_LowIVOL":938824.8379877885,"cum_bh":895792.0102851032,"cum_etf":792397.5706138019,"cum_taiex":799896.467049967,"x":1669852800000,"y":938824.8379877885},{"year_month":"2023-02-01","cum_LowMAX":897554.9380231338,"cum_LowLIDX":866661.4134198753,"cum_LowIVOL":942304.2650929083,"cum_bh":958564.3428449853,"cum_etf":873465.7615936142,"cum_taiex":877189.0246011482,"x":1675209600000,"y":942304.2650929083},{"year_month":"2023-03-01","cum_LowMAX":909402.8936568482,"cum_LowLIDX":896153.659535887,"cum_LowIVOL":972595.7602197654,"cum_bh":974645.7736831831,"cum_etf":894052.4622272893,"cum_taiex":897799.0324769017,"x":1677628800000,"y":972595.7602197654},{"year_month":"2023-04-01","cum_LowMAX":938443.0150778928,"cum_LowLIDX":892822.3573761978,"cum_LowIVOL":984945.2697298838,"cum_bh":964609.1164716026,"cum_etf":863172.2597537917,"cum_taiex":881454.4959479154,"x":1680307200000,"y":984945.2697298838},{"year_month":"2023-05-01","cum_LowMAX":964857.6375391646,"cum_LowLIDX":977538.2778820223,"cum_LowIVOL":1017445.080598622,"cum_bh":1022530.744500205,"cum_etf":927505.8280285638,"cum_taiex":938021.124965232,"x":1682899200000,"y":1017445.080598622},{"year_month":"2023-06-01","cum_LowMAX":954620.3809243425,"cum_LowLIDX":975200.4268547908,"cum_LowIVOL":1027568.520342846,"cum_bh":1037667.312748819,"cum_etf":949195.4341639597,"cum_taiex":957064.3806096233,"x":1685577600000,"y":1027568.520342846},{"year_month":"2023-07-01","cum_LowMAX":958868.0638326601,"cum_LowLIDX":964273.2388858713,"cum_LowIVOL":1026236.09024846,"cum_bh":1063333.406415298,"cum_etf":960819.6714654397,"cum_taiex":970071.3635860834,"x":1688169600000,"y":1026236.09024846},{"year_month":"2023-08-01","cum_LowMAX":929852.0788259538,"cum_LowLIDX":925046.8798168567,"cum_LowIVOL":988830.7854659498,"cum_bh":1038127.285651258,"cum_etf":937694.3547445206,"cum_taiex":941164.0224269453,"x":1690848000000,"y":988830.7854659498},{"year_month":"2023-09-01","cum_LowMAX":940752.4884095371,"cum_LowLIDX":931972.4830360566,"cum_LowIVOL":976973.8985452474,"cum_bh":1026957.828799996,"cum_etf":914942.0270029714,"cum_taiex":925278.3615250383,"x":1693526400000,"y":976973.8985452474},{"year_month":"2023-10-01","cum_LowMAX":915429.7638424948,"cum_LowLIDX":907879.8839606909,"cum_LowIVOL":955766.6447300022,"cum_bh":1004662.298239315,"cum_etf":903752.3576218815,"cum_taiex":905335.9196127253,"x":1696118400000,"y":955766.6447300022},{"year_month":"2023-11-01","cum_LowMAX":973246.6356063625,"cum_LowLIDX":970107.8611050142,"cum_LowIVOL":1025878.547475667,"cum_bh":1097598.435204912,"cum_etf":979842.1700224862,"cum_taiex":986389.8759825764,"x":1698796800000,"y":1025878.547475667},{"year_month":"2023-12-01","cum_LowMAX":989193.8716708184,"cum_LowLIDX":986260.1460327568,"cum_LowIVOL":1041264.287055171,"cum_bh":1141748.966974668,"cum_etf":1010427.205721604,"cum_taiex":1014507.431685547,"x":1701388800000,"y":1041264.287055171},{"year_month":"2024-01-01","cum_LowMAX":965550.507188412,"cum_LowLIDX":946120.9463188514,"cum_LowIVOL":1018401.954077779,"cum_bh":1090696.916109896,"cum_etf":1025592.413959339,"cum_taiex":1012173.547701461,"x":1704067200000,"y":1018401.954077779},{"year_month":"2024-03-01","cum_LowMAX":1000760.353596617,"cum_LowLIDX":1060114.83662577,"cum_LowIVOL":1083401.155046181,"cum_bh":1195787.451833961,"cum_etf":1204603.486471148,"cum_taiex":1148239.757514758,"x":1709251200000,"y":1083401.155046181},{"year_month":"2024-04-01","cum_LowMAX":1000028.528638719,"cum_LowLIDX":1034598.876921094,"cum_LowIVOL":1092148.445500924,"cum_bh":1185452.769061433,"cum_etf":1212237.214445085,"cum_taiex":1159616.115866731,"x":1711929600000,"y":1092148.445500924}],"type":"line","name":"Low-IVOL (Ang et al. 2006)"},{"group":"group","data":[{"year_month":"2022-02-01","cum_LowMAX":1020970.203857083,"cum_LowLIDX":1013125.018387972,"cum_LowIVOL":1007137.933016818,"cum_bh":981461.1082801098,"cum_etf":978452.8860795046,"cum_taiex":998742.7747117924,"x":1643673600000,"y":981461.1082801098},{"year_month":"2022-03-01","cum_LowMAX":1051576.401046118,"cum_LowLIDX":996784.52509883,"cum_LowIVOL":1029517.605030662,"cum_bh":1008441.161141318,"cum_etf":975626.9824130909,"cum_taiex":1001078.979319158,"x":1646092800000,"y":1008441.161141318},{"year_month":"2022-04-01","cum_LowMAX":1024964.757934175,"cum_LowLIDX":961882.7969367442,"cum_LowIVOL":1010597.442872398,"cum_bh":967374.5180789279,"cum_etf":909572.5979046068,"cum_taiex":938769.0286964958,"x":1648771200000,"y":967374.5180789279},{"year_month":"2022-05-01","cum_LowMAX":982785.2112029038,"cum_LowLIDX":981845.4778907616,"cum_LowIVOL":1035976.509076767,"cum_bh":955332.4885126891,"cum_etf":916990.496539003,"cum_taiex":950966.887689458,"x":1651363200000,"y":955332.4885126891},{"year_month":"2022-06-01","cum_LowMAX":925632.2764265877,"cum_LowLIDX":886140.778209055,"cum_LowIVOL":952019.3700101142,"cum_bh":877167.0383020563,"cum_etf":818085.5652719502,"cum_taiex":838825.0883245795,"x":1654041600000,"y":877167.0383020563},{"year_month":"2022-07-01","cum_LowMAX":931837.8594602137,"cum_LowLIDX":888928.1847002797,"cum_LowIVOL":936719.6336172485,"cum_bh":907707.1717091401,"cum_etf":846824.9904070799,"cum_taiex":848689.0633334559,"x":1656633600000,"y":907707.1717091401},{"year_month":"2022-08-01","cum_LowMAX":922420.4318508921,"cum_LowLIDX":873261.4747747027,"cum_LowIVOL":924726.6396813983,"cum_bh":911451.7423870291,"cum_etf":845607.4729196606,"cum_taiex":854085.0097350145,"x":1659312000000,"y":911451.7423870291},{"year_month":"2022-09-01","cum_LowMAX":871524.1338423868,"cum_LowLIDX":788675.5540684409,"cum_LowIVOL":866267.8953928553,"cum_bh":833281.7540346941,"cum_etf":743861.3644693268,"cum_taiex":759549.3924221483,"x":1661990400000,"y":833281.7540346941},{"year_month":"2022-10-01","cum_LowMAX":854360.9416978983,"cum_LowLIDX":788710.2280624278,"cum_LowIVOL":852993.1553493376,"cum_bh":835223.7787068865,"cum_etf":712223.0015891124,"cum_taiex":732683.9787373444,"x":1664582400000,"y":835223.7787068865},{"year_month":"2022-11-01","cum_LowMAX":919167.9710743646,"cum_LowLIDX":896778.588162226,"cum_LowIVOL":960327.0002571972,"cum_bh":943798.7188351767,"cum_etf":836619.3718984381,"cum_taiex":841870.1328380016,"x":1667260800000,"y":943798.7188351767},{"year_month":"2022-12-01","cum_LowMAX":884479.1857516171,"cum_LowLIDX":860297.0790784378,"cum_LowIVOL":938824.8379877885,"cum_bh":895792.0102851032,"cum_etf":792397.5706138019,"cum_taiex":799896.467049967,"x":1669852800000,"y":895792.0102851032},{"year_month":"2023-02-01","cum_LowMAX":897554.9380231338,"cum_LowLIDX":866661.4134198753,"cum_LowIVOL":942304.2650929083,"cum_bh":958564.3428449853,"cum_etf":873465.7615936142,"cum_taiex":877189.0246011482,"x":1675209600000,"y":958564.3428449853},{"year_month":"2023-03-01","cum_LowMAX":909402.8936568482,"cum_LowLIDX":896153.659535887,"cum_LowIVOL":972595.7602197654,"cum_bh":974645.7736831831,"cum_etf":894052.4622272893,"cum_taiex":897799.0324769017,"x":1677628800000,"y":974645.7736831831},{"year_month":"2023-04-01","cum_LowMAX":938443.0150778928,"cum_LowLIDX":892822.3573761978,"cum_LowIVOL":984945.2697298838,"cum_bh":964609.1164716026,"cum_etf":863172.2597537917,"cum_taiex":881454.4959479154,"x":1680307200000,"y":964609.1164716026},{"year_month":"2023-05-01","cum_LowMAX":964857.6375391646,"cum_LowLIDX":977538.2778820223,"cum_LowIVOL":1017445.080598622,"cum_bh":1022530.744500205,"cum_etf":927505.8280285638,"cum_taiex":938021.124965232,"x":1682899200000,"y":1022530.744500205},{"year_month":"2023-06-01","cum_LowMAX":954620.3809243425,"cum_LowLIDX":975200.4268547908,"cum_LowIVOL":1027568.520342846,"cum_bh":1037667.312748819,"cum_etf":949195.4341639597,"cum_taiex":957064.3806096233,"x":1685577600000,"y":1037667.312748819},{"year_month":"2023-07-01","cum_LowMAX":958868.0638326601,"cum_LowLIDX":964273.2388858713,"cum_LowIVOL":1026236.09024846,"cum_bh":1063333.406415298,"cum_etf":960819.6714654397,"cum_taiex":970071.3635860834,"x":1688169600000,"y":1063333.406415298},{"year_month":"2023-08-01","cum_LowMAX":929852.0788259538,"cum_LowLIDX":925046.8798168567,"cum_LowIVOL":988830.7854659498,"cum_bh":1038127.285651258,"cum_etf":937694.3547445206,"cum_taiex":941164.0224269453,"x":1690848000000,"y":1038127.285651258},{"year_month":"2023-09-01","cum_LowMAX":940752.4884095371,"cum_LowLIDX":931972.4830360566,"cum_LowIVOL":976973.8985452474,"cum_bh":1026957.828799996,"cum_etf":914942.0270029714,"cum_taiex":925278.3615250383,"x":1693526400000,"y":1026957.828799996},{"year_month":"2023-10-01","cum_LowMAX":915429.7638424948,"cum_LowLIDX":907879.8839606909,"cum_LowIVOL":955766.6447300022,"cum_bh":1004662.298239315,"cum_etf":903752.3576218815,"cum_taiex":905335.9196127253,"x":1696118400000,"y":1004662.298239315},{"year_month":"2023-11-01","cum_LowMAX":973246.6356063625,"cum_LowLIDX":970107.8611050142,"cum_LowIVOL":1025878.547475667,"cum_bh":1097598.435204912,"cum_etf":979842.1700224862,"cum_taiex":986389.8759825764,"x":1698796800000,"y":1097598.435204912},{"year_month":"2023-12-01","cum_LowMAX":989193.8716708184,"cum_LowLIDX":986260.1460327568,"cum_LowIVOL":1041264.287055171,"cum_bh":1141748.966974668,"cum_etf":1010427.205721604,"cum_taiex":1014507.431685547,"x":1701388800000,"y":1141748.966974668},{"year_month":"2024-01-01","cum_LowMAX":965550.507188412,"cum_LowLIDX":946120.9463188514,"cum_LowIVOL":1018401.954077779,"cum_bh":1090696.916109896,"cum_etf":1025592.413959339,"cum_taiex":1012173.547701461,"x":1704067200000,"y":1090696.916109896},{"year_month":"2024-03-01","cum_LowMAX":1000760.353596617,"cum_LowLIDX":1060114.83662577,"cum_LowIVOL":1083401.155046181,"cum_bh":1195787.451833961,"cum_etf":1204603.486471148,"cum_taiex":1148239.757514758,"x":1709251200000,"y":1195787.451833961},{"year_month":"2024-04-01","cum_LowMAX":1000028.528638719,"cum_LowLIDX":1034598.876921094,"cum_LowIVOL":1092148.445500924,"cum_bh":1185452.769061433,"cum_etf":1212237.214445085,"cum_taiex":1159616.115866731,"x":1711929600000,"y":1185452.769061433}],"type":"line","name":"Equal-Weighted Buy-and-Hold"},{"group":"group","data":[{"year_month":"2022-02-01","cum_LowMAX":1020970.203857083,"cum_LowLIDX":1013125.018387972,"cum_LowIVOL":1007137.933016818,"cum_bh":981461.1082801098,"cum_etf":978452.8860795046,"cum_taiex":998742.7747117924,"x":1643673600000,"y":978452.8860795046},{"year_month":"2022-03-01","cum_LowMAX":1051576.401046118,"cum_LowLIDX":996784.52509883,"cum_LowIVOL":1029517.605030662,"cum_bh":1008441.161141318,"cum_etf":975626.9824130909,"cum_taiex":1001078.979319158,"x":1646092800000,"y":975626.9824130909},{"year_month":"2022-04-01","cum_LowMAX":1024964.757934175,"cum_LowLIDX":961882.7969367442,"cum_LowIVOL":1010597.442872398,"cum_bh":967374.5180789279,"cum_etf":909572.5979046068,"cum_taiex":938769.0286964958,"x":1648771200000,"y":909572.5979046068},{"year_month":"2022-05-01","cum_LowMAX":982785.2112029038,"cum_LowLIDX":981845.4778907616,"cum_LowIVOL":1035976.509076767,"cum_bh":955332.4885126891,"cum_etf":916990.496539003,"cum_taiex":950966.887689458,"x":1651363200000,"y":916990.496539003},{"year_month":"2022-06-01","cum_LowMAX":925632.2764265877,"cum_LowLIDX":886140.778209055,"cum_LowIVOL":952019.3700101142,"cum_bh":877167.0383020563,"cum_etf":818085.5652719502,"cum_taiex":838825.0883245795,"x":1654041600000,"y":818085.5652719502},{"year_month":"2022-07-01","cum_LowMAX":931837.8594602137,"cum_LowLIDX":888928.1847002797,"cum_LowIVOL":936719.6336172485,"cum_bh":907707.1717091401,"cum_etf":846824.9904070799,"cum_taiex":848689.0633334559,"x":1656633600000,"y":846824.9904070799},{"year_month":"2022-08-01","cum_LowMAX":922420.4318508921,"cum_LowLIDX":873261.4747747027,"cum_LowIVOL":924726.6396813983,"cum_bh":911451.7423870291,"cum_etf":845607.4729196606,"cum_taiex":854085.0097350145,"x":1659312000000,"y":845607.4729196606},{"year_month":"2022-09-01","cum_LowMAX":871524.1338423868,"cum_LowLIDX":788675.5540684409,"cum_LowIVOL":866267.8953928553,"cum_bh":833281.7540346941,"cum_etf":743861.3644693268,"cum_taiex":759549.3924221483,"x":1661990400000,"y":743861.3644693268},{"year_month":"2022-10-01","cum_LowMAX":854360.9416978983,"cum_LowLIDX":788710.2280624278,"cum_LowIVOL":852993.1553493376,"cum_bh":835223.7787068865,"cum_etf":712223.0015891124,"cum_taiex":732683.9787373444,"x":1664582400000,"y":712223.0015891124},{"year_month":"2022-11-01","cum_LowMAX":919167.9710743646,"cum_LowLIDX":896778.588162226,"cum_LowIVOL":960327.0002571972,"cum_bh":943798.7188351767,"cum_etf":836619.3718984381,"cum_taiex":841870.1328380016,"x":1667260800000,"y":836619.3718984381},{"year_month":"2022-12-01","cum_LowMAX":884479.1857516171,"cum_LowLIDX":860297.0790784378,"cum_LowIVOL":938824.8379877885,"cum_bh":895792.0102851032,"cum_etf":792397.5706138019,"cum_taiex":799896.467049967,"x":1669852800000,"y":792397.5706138019},{"year_month":"2023-02-01","cum_LowMAX":897554.9380231338,"cum_LowLIDX":866661.4134198753,"cum_LowIVOL":942304.2650929083,"cum_bh":958564.3428449853,"cum_etf":873465.7615936142,"cum_taiex":877189.0246011482,"x":1675209600000,"y":873465.7615936142},{"year_month":"2023-03-01","cum_LowMAX":909402.8936568482,"cum_LowLIDX":896153.659535887,"cum_LowIVOL":972595.7602197654,"cum_bh":974645.7736831831,"cum_etf":894052.4622272893,"cum_taiex":897799.0324769017,"x":1677628800000,"y":894052.4622272893},{"year_month":"2023-04-01","cum_LowMAX":938443.0150778928,"cum_LowLIDX":892822.3573761978,"cum_LowIVOL":984945.2697298838,"cum_bh":964609.1164716026,"cum_etf":863172.2597537917,"cum_taiex":881454.4959479154,"x":1680307200000,"y":863172.2597537917},{"year_month":"2023-05-01","cum_LowMAX":964857.6375391646,"cum_LowLIDX":977538.2778820223,"cum_LowIVOL":1017445.080598622,"cum_bh":1022530.744500205,"cum_etf":927505.8280285638,"cum_taiex":938021.124965232,"x":1682899200000,"y":927505.8280285638},{"year_month":"2023-06-01","cum_LowMAX":954620.3809243425,"cum_LowLIDX":975200.4268547908,"cum_LowIVOL":1027568.520342846,"cum_bh":1037667.312748819,"cum_etf":949195.4341639597,"cum_taiex":957064.3806096233,"x":1685577600000,"y":949195.4341639597},{"year_month":"2023-07-01","cum_LowMAX":958868.0638326601,"cum_LowLIDX":964273.2388858713,"cum_LowIVOL":1026236.09024846,"cum_bh":1063333.406415298,"cum_etf":960819.6714654397,"cum_taiex":970071.3635860834,"x":1688169600000,"y":960819.6714654397},{"year_month":"2023-08-01","cum_LowMAX":929852.0788259538,"cum_LowLIDX":925046.8798168567,"cum_LowIVOL":988830.7854659498,"cum_bh":1038127.285651258,"cum_etf":937694.3547445206,"cum_taiex":941164.0224269453,"x":1690848000000,"y":937694.3547445206},{"year_month":"2023-09-01","cum_LowMAX":940752.4884095371,"cum_LowLIDX":931972.4830360566,"cum_LowIVOL":976973.8985452474,"cum_bh":1026957.828799996,"cum_etf":914942.0270029714,"cum_taiex":925278.3615250383,"x":1693526400000,"y":914942.0270029714},{"year_month":"2023-10-01","cum_LowMAX":915429.7638424948,"cum_LowLIDX":907879.8839606909,"cum_LowIVOL":955766.6447300022,"cum_bh":1004662.298239315,"cum_etf":903752.3576218815,"cum_taiex":905335.9196127253,"x":1696118400000,"y":903752.3576218815},{"year_month":"2023-11-01","cum_LowMAX":973246.6356063625,"cum_LowLIDX":970107.8611050142,"cum_LowIVOL":1025878.547475667,"cum_bh":1097598.435204912,"cum_etf":979842.1700224862,"cum_taiex":986389.8759825764,"x":1698796800000,"y":979842.1700224862},{"year_month":"2023-12-01","cum_LowMAX":989193.8716708184,"cum_LowLIDX":986260.1460327568,"cum_LowIVOL":1041264.287055171,"cum_bh":1141748.966974668,"cum_etf":1010427.205721604,"cum_taiex":1014507.431685547,"x":1701388800000,"y":1010427.205721604},{"year_month":"2024-01-01","cum_LowMAX":965550.507188412,"cum_LowLIDX":946120.9463188514,"cum_LowIVOL":1018401.954077779,"cum_bh":1090696.916109896,"cum_etf":1025592.413959339,"cum_taiex":1012173.547701461,"x":1704067200000,"y":1025592.413959339},{"year_month":"2024-03-01","cum_LowMAX":1000760.353596617,"cum_LowLIDX":1060114.83662577,"cum_LowIVOL":1083401.155046181,"cum_bh":1195787.451833961,"cum_etf":1204603.486471148,"cum_taiex":1148239.757514758,"x":1709251200000,"y":1204603.486471148},{"year_month":"2024-04-01","cum_LowMAX":1000028.528638719,"cum_LowLIDX":1034598.876921094,"cum_LowIVOL":1092148.445500924,"cum_bh":1185452.769061433,"cum_etf":1212237.214445085,"cum_taiex":1159616.115866731,"x":1711929600000,"y":1212237.214445085}],"type":"line","name":"0050.TW ETF Buy-and-Hold"},{"group":"group","data":[{"year_month":"2022-02-01","cum_LowMAX":1020970.203857083,"cum_LowLIDX":1013125.018387972,"cum_LowIVOL":1007137.933016818,"cum_bh":981461.1082801098,"cum_etf":978452.8860795046,"cum_taiex":998742.7747117924,"x":1643673600000,"y":998742.7747117924},{"year_month":"2022-03-01","cum_LowMAX":1051576.401046118,"cum_LowLIDX":996784.52509883,"cum_LowIVOL":1029517.605030662,"cum_bh":1008441.161141318,"cum_etf":975626.9824130909,"cum_taiex":1001078.979319158,"x":1646092800000,"y":1001078.979319158},{"year_month":"2022-04-01","cum_LowMAX":1024964.757934175,"cum_LowLIDX":961882.7969367442,"cum_LowIVOL":1010597.442872398,"cum_bh":967374.5180789279,"cum_etf":909572.5979046068,"cum_taiex":938769.0286964958,"x":1648771200000,"y":938769.0286964958},{"year_month":"2022-05-01","cum_LowMAX":982785.2112029038,"cum_LowLIDX":981845.4778907616,"cum_LowIVOL":1035976.509076767,"cum_bh":955332.4885126891,"cum_etf":916990.496539003,"cum_taiex":950966.887689458,"x":1651363200000,"y":950966.887689458},{"year_month":"2022-06-01","cum_LowMAX":925632.2764265877,"cum_LowLIDX":886140.778209055,"cum_LowIVOL":952019.3700101142,"cum_bh":877167.0383020563,"cum_etf":818085.5652719502,"cum_taiex":838825.0883245795,"x":1654041600000,"y":838825.0883245795},{"year_month":"2022-07-01","cum_LowMAX":931837.8594602137,"cum_LowLIDX":888928.1847002797,"cum_LowIVOL":936719.6336172485,"cum_bh":907707.1717091401,"cum_etf":846824.9904070799,"cum_taiex":848689.0633334559,"x":1656633600000,"y":848689.0633334559},{"year_month":"2022-08-01","cum_LowMAX":922420.4318508921,"cum_LowLIDX":873261.4747747027,"cum_LowIVOL":924726.6396813983,"cum_bh":911451.7423870291,"cum_etf":845607.4729196606,"cum_taiex":854085.0097350145,"x":1659312000000,"y":854085.0097350145},{"year_month":"2022-09-01","cum_LowMAX":871524.1338423868,"cum_LowLIDX":788675.5540684409,"cum_LowIVOL":866267.8953928553,"cum_bh":833281.7540346941,"cum_etf":743861.3644693268,"cum_taiex":759549.3924221483,"x":1661990400000,"y":759549.3924221483},{"year_month":"2022-10-01","cum_LowMAX":854360.9416978983,"cum_LowLIDX":788710.2280624278,"cum_LowIVOL":852993.1553493376,"cum_bh":835223.7787068865,"cum_etf":712223.0015891124,"cum_taiex":732683.9787373444,"x":1664582400000,"y":732683.9787373444},{"year_month":"2022-11-01","cum_LowMAX":919167.9710743646,"cum_LowLIDX":896778.588162226,"cum_LowIVOL":960327.0002571972,"cum_bh":943798.7188351767,"cum_etf":836619.3718984381,"cum_taiex":841870.1328380016,"x":1667260800000,"y":841870.1328380016},{"year_month":"2022-12-01","cum_LowMAX":884479.1857516171,"cum_LowLIDX":860297.0790784378,"cum_LowIVOL":938824.8379877885,"cum_bh":895792.0102851032,"cum_etf":792397.5706138019,"cum_taiex":799896.467049967,"x":1669852800000,"y":799896.467049967},{"year_month":"2023-02-01","cum_LowMAX":897554.9380231338,"cum_LowLIDX":866661.4134198753,"cum_LowIVOL":942304.2650929083,"cum_bh":958564.3428449853,"cum_etf":873465.7615936142,"cum_taiex":877189.0246011482,"x":1675209600000,"y":877189.0246011482},{"year_month":"2023-03-01","cum_LowMAX":909402.8936568482,"cum_LowLIDX":896153.659535887,"cum_LowIVOL":972595.7602197654,"cum_bh":974645.7736831831,"cum_etf":894052.4622272893,"cum_taiex":897799.0324769017,"x":1677628800000,"y":897799.0324769017},{"year_month":"2023-04-01","cum_LowMAX":938443.0150778928,"cum_LowLIDX":892822.3573761978,"cum_LowIVOL":984945.2697298838,"cum_bh":964609.1164716026,"cum_etf":863172.2597537917,"cum_taiex":881454.4959479154,"x":1680307200000,"y":881454.4959479154},{"year_month":"2023-05-01","cum_LowMAX":964857.6375391646,"cum_LowLIDX":977538.2778820223,"cum_LowIVOL":1017445.080598622,"cum_bh":1022530.744500205,"cum_etf":927505.8280285638,"cum_taiex":938021.124965232,"x":1682899200000,"y":938021.124965232},{"year_month":"2023-06-01","cum_LowMAX":954620.3809243425,"cum_LowLIDX":975200.4268547908,"cum_LowIVOL":1027568.520342846,"cum_bh":1037667.312748819,"cum_etf":949195.4341639597,"cum_taiex":957064.3806096233,"x":1685577600000,"y":957064.3806096233},{"year_month":"2023-07-01","cum_LowMAX":958868.0638326601,"cum_LowLIDX":964273.2388858713,"cum_LowIVOL":1026236.09024846,"cum_bh":1063333.406415298,"cum_etf":960819.6714654397,"cum_taiex":970071.3635860834,"x":1688169600000,"y":970071.3635860834},{"year_month":"2023-08-01","cum_LowMAX":929852.0788259538,"cum_LowLIDX":925046.8798168567,"cum_LowIVOL":988830.7854659498,"cum_bh":1038127.285651258,"cum_etf":937694.3547445206,"cum_taiex":941164.0224269453,"x":1690848000000,"y":941164.0224269453},{"year_month":"2023-09-01","cum_LowMAX":940752.4884095371,"cum_LowLIDX":931972.4830360566,"cum_LowIVOL":976973.8985452474,"cum_bh":1026957.828799996,"cum_etf":914942.0270029714,"cum_taiex":925278.3615250383,"x":1693526400000,"y":925278.3615250383},{"year_month":"2023-10-01","cum_LowMAX":915429.7638424948,"cum_LowLIDX":907879.8839606909,"cum_LowIVOL":955766.6447300022,"cum_bh":1004662.298239315,"cum_etf":903752.3576218815,"cum_taiex":905335.9196127253,"x":1696118400000,"y":905335.9196127253},{"year_month":"2023-11-01","cum_LowMAX":973246.6356063625,"cum_LowLIDX":970107.8611050142,"cum_LowIVOL":1025878.547475667,"cum_bh":1097598.435204912,"cum_etf":979842.1700224862,"cum_taiex":986389.8759825764,"x":1698796800000,"y":986389.8759825764},{"year_month":"2023-12-01","cum_LowMAX":989193.8716708184,"cum_LowLIDX":986260.1460327568,"cum_LowIVOL":1041264.287055171,"cum_bh":1141748.966974668,"cum_etf":1010427.205721604,"cum_taiex":1014507.431685547,"x":1701388800000,"y":1014507.431685547},{"year_month":"2024-01-01","cum_LowMAX":965550.507188412,"cum_LowLIDX":946120.9463188514,"cum_LowIVOL":1018401.954077779,"cum_bh":1090696.916109896,"cum_etf":1025592.413959339,"cum_taiex":1012173.547701461,"x":1704067200000,"y":1012173.547701461},{"year_month":"2024-03-01","cum_LowMAX":1000760.353596617,"cum_LowLIDX":1060114.83662577,"cum_LowIVOL":1083401.155046181,"cum_bh":1195787.451833961,"cum_etf":1204603.486471148,"cum_taiex":1148239.757514758,"x":1709251200000,"y":1148239.757514758},{"year_month":"2024-04-01","cum_LowMAX":1000028.528638719,"cum_LowLIDX":1034598.876921094,"cum_LowIVOL":1092148.445500924,"cum_bh":1185452.769061433,"cum_etf":1212237.214445085,"cum_taiex":1159616.115866731,"x":1711929600000,"y":1159616.115866731}],"type":"line","name":"TAIEX Benchmark"}],"tooltip":{"valuePrefix":"NT$","valueDecimals":0},"legend":{"align":"center","verticalAlign":"bottom"}},"theme":{"colors":["#d35400","#2980b9","#2ecc71","#f1c40f","#2c3e50","#7f8c8d"],"chart":{"style":{"fontFamily":"Roboto","color":"#666666"}},"title":{"align":"left","style":{"fontFamily":"Roboto Condensed","fontWeight":"bold"}},"subtitle":{"align":"left","style":{"fontFamily":"Roboto Condensed"}},"legend":{"align":"right","verticalAlign":"bottom"},"xAxis":{"gridLineWidth":1,"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"yAxis":{"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"plotOptions":{"line":{"marker":{"enabled":false}},"spline":{"marker":{"enabled":false}},"area":{"marker":{"enabled":false}},"areaspline":{"marker":{"enabled":false}},"arearange":{"marker":{"enabled":false}},"bubble":{"maxSize":"10%"}}},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadCSV":"Download CSV","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","downloadXLS":"Download XLS","drillUpText":"◁ Back to {series.name}","exitFullscreen":"Exit from full screen","exportData":{"annotationHeader":"Annotations","categoryDatetimeHeader":"DateTime","categoryHeader":"Category"},"hideData":"Hide data table","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbolMagnitude":1000,"numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"shortWeekdays":["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],"thousandsSep":" ","viewData":"View data table","viewFullscreen":"View in full screen","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":["Roboto","Roboto+Condensed"],"debug":false},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="summary-statistics-across-strategies" class="level2">
+<h2 class="anchored" data-anchor-id="summary-statistics-across-strategies">7. Summary Statistics Across Strategies</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>strategy_summary <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Strategy =</span> <span class="fu">c</span>(<span class="st">"Low-MAX (BCW 2011)"</span>,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>               <span class="st">"Low-LIDX (Kumar et al. 2024)"</span>,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>               <span class="st">"Low-IVOL (Ang et al. 2006)"</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>               <span class="st">"Buy-and-Hold (Equal-Weighted)"</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>               <span class="st">"0050.TW ETF Buy-and-Hold"</span>,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>               <span class="st">"TAIEX Benchmark"</span>),</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Mean_Monthly_Return_pct =</span> <span class="fu">c</span>(</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>(ls_max<span class="sc">$</span>T1, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>(ls_lidx<span class="sc">$</span>T1, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>(ls_ivol<span class="sc">$</span>T1, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>(bh_basket<span class="sc">$</span>bh_ret, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>(etf_0050<span class="sc">$</span>etf_ret, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>(taiex<span class="sc">$</span>taiex_ret, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">Volatility_pct =</span> <span class="fu">c</span>(</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sd</span>(ls_max<span class="sc">$</span>T1, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sd</span>(ls_lidx<span class="sc">$</span>T1, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sd</span>(ls_ivol<span class="sc">$</span>T1, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sd</span>(bh_basket<span class="sc">$</span>bh_ret, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sd</span>(etf_0050<span class="sc">$</span>etf_ret, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sd</span>(taiex<span class="sc">$</span>taiex_ret, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> </span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Annualized_Sharpe =</span> Mean_Monthly_Return_pct <span class="sc">/</span> Volatility_pct <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">12</span>))</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(strategy_summary) <span class="sc">|&gt;</span> </span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatRound</span>(<span class="fu">c</span>(<span class="st">"Mean_Monthly_Return_pct"</span>,<span class="st">"Volatility_pct"</span>,<span class="st">"Annualized_Sharpe"</span>),</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>              <span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-85c94459c80741d33a15" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-85c94459c80741d33a15">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6"],["Low-MAX (BCW 2011)","Low-LIDX (Kumar et al. 2024)","Low-IVOL (Ang et al. 2006)","Buy-and-Hold (Equal-Weighted)","0050.TW ETF Buy-and-Hold","TAIEX Benchmark"],[0.05601229062228595,0.2846725363035909,0.4377124873461498,0.7201557731615256,0.910654733003732,0.7092508875137891],[3.420393070583156,5.626857014191138,4.240609905398239,4.826298000431688,6.421704002663088,5.760294475357821],[0.05672806090065688,0.1752549585510282,0.3575618998700062,0.5168957193974515,0.4912404137784694,0.4265263096331169]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Strategy<\/th>\n      <th>Mean_Monthly_Return_pct<\/th>\n      <th>Volatility_pct<\/th>\n      <th>Annualized_Sharpe<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"targets":3,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"targets":4,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"className":"dt-right","targets":[2,3,4]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Strategy","targets":1},{"name":"Mean_Monthly_Return_pct","targets":2},{"name":"Volatility_pct","targets":3},{"name":"Annualized_Sharpe","targets":4}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render","options.columnDefs.2.render"],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="caveats-and-connections-to-the-literature" class="level2">
+<h2 class="anchored" data-anchor-id="caveats-and-connections-to-the-literature">8. Caveats and Connections to the Literature</h2>
+<p>Several caveats are worth emphasizing to students:</p>
+<ol type="1">
+<li><p><strong>Sample size and power.</strong> With ~20 stocks and ~28 months, our terciles contain about 7 stocks each. <span class="citation" data-cites="bali2011maxing">Bali, Cakici, and Whitelaw (<a href="#ref-bali2011maxing" role="doc-biblioref">2011</a>)</span> use thousands of stocks and four decades; <span class="citation" data-cites="kumar2024skewness">Kumar, Motahari, and Taffler (<a href="#ref-kumar2024skewness" role="doc-biblioref">2024</a>)</span> use the full CRSP universe from 1963–2015. Any “anomaly” in our small sample is best treated as a <em>teaching artifact</em>, not evidence about the Taiwanese market.</p></li>
+<li><p><strong>Conditioning matters.</strong> <span class="citation" data-cites="lin2018skewness">Lin and Liu (<a href="#ref-lin2018skewness" role="doc-biblioref">2018</a>)</span> show that even in the U.S., the MAX anomaly is concentrated in stocks dominated by individual investors. Our basket of Taiwan 50 large-caps is heavily institutionally held, so we might <em>expect</em> the MAX/LIDX/IVOL strategies to underperform here — itself a Lin-and-Liu-style empirical prediction.</p></li>
+<li><p><strong>Risk adjustment.</strong> Production-quality tests adjust returns using factor models (Fama-French 3/5, Carhart momentum). The four-factor and six-factor alphas in <span class="citation" data-cites="bali2011maxing">Bali, Cakici, and Whitelaw (<a href="#ref-bali2011maxing" role="doc-biblioref">2011</a>)</span> Table III and <span class="citation" data-cites="kumar2024skewness">Kumar, Motahari, and Taffler (<a href="#ref-kumar2024skewness" role="doc-biblioref">2024</a>)</span> Table 4 are the relevant magnitudes for academic claims. We omit factor adjustment here for clarity.</p></li>
+<li><p><strong>Transaction costs and short-selling.</strong> Our long-short strategies implicitly assume costless short-selling. In Taiwan, shorting individual stocks involves locate costs, securities-borrowing constraints, and tick-rules. Both <span class="citation" data-cites="bali2011maxing">Bali, Cakici, and Whitelaw (<a href="#ref-bali2011maxing" role="doc-biblioref">2011</a>)</span> and <span class="citation" data-cites="kumar2024skewness">Kumar, Motahari, and Taffler (<a href="#ref-kumar2024skewness" role="doc-biblioref">2024</a>)</span> emphasize that short-selling frictions help explain why these anomalies persist.</p></li>
+<li><p><strong>IVOL measurement.</strong> Our IVOL is the residual standard deviation from a single-factor market-model regression on daily returns within each month — much simpler than the daily Fama-French three-factor specification of <span class="citation" data-cites="ang2006cross">Ang et al. (<a href="#ref-ang2006cross" role="doc-biblioref">2006</a>)</span>. The two are highly correlated, but a publishable replication would use the original specification.</p></li>
+</ol>
+</section>
+<section id="suggested-extensions" class="level2">
+<h2 class="anchored" data-anchor-id="suggested-extensions">9. Suggested Extensions</h2>
+<ol type="1">
+<li><strong>Implement JACKPOT</strong> <span class="citation" data-cites="conrad2014death">(<a href="#ref-conrad2014death" role="doc-biblioref">Conrad, Kapadia, and Xing 2014</a>)</span>: Estimate a logit/probit model predicting whether a stock generates a log return above some threshold (e.g., 50% over 6 months in a Taiwanese context) using lagged firm characteristics, and use the fitted probability as a sort variable.</li>
+<li><strong>Implement ESKEW</strong> <span class="citation" data-cites="boyer2010expected">(<a href="#ref-boyer2010expected" role="doc-biblioref">Boyer, Mitton, and Vorkink 2010</a>)</span>: Run a monthly cross-sectional predictive regression of realized skewness on lagged firm characteristics, then sort on the <em>fitted</em> (expected) skewness.</li>
+<li><strong>Replicate BCW’s IVOL/MAX horse-race</strong> <span class="citation" data-cites="bali2011maxing">(<a href="#ref-bali2011maxing" role="doc-biblioref">Bali, Cakici, and Whitelaw 2011</a> Table 9)</span>: Double-sort on MAX and IVOL to test whether MAX subsumes the IVOL puzzle. This is the most influential single result in BCW, and replicating it locally is informative.</li>
+<li><strong>Extend to MIN as a sanity check.</strong> <span class="citation" data-cites="bali2011maxing">Bali, Cakici, and Whitelaw (<a href="#ref-bali2011maxing" role="doc-biblioref">2011</a>)</span> report that minimum daily return generates the <em>opposite</em> sign — consistent with prospect-theory loss aversion. This provides a useful internal validity check.</li>
+<li><strong>Combine into a composite mispricing index.</strong> Following <span class="citation" data-cites="kumar2024skewness">Kumar, Motahari, and Taffler (<a href="#ref-kumar2024skewness" role="doc-biblioref">2024</a>)</span>, form a single MIS-style index by averaging decile ranks across MAX, LIDX, and IVOL, and sort on the composite.</li>
+</ol>
+</section>
+<section id="student-exercise" class="level2">
+<h2 class="anchored" data-anchor-id="student-exercise">10. Student Exercise</h2>
+<p>Design and implement your own behavioral-finance strategy for a Taiwanese stock universe. Specifically:</p>
+<ol type="1">
+<li><strong>Choose a behavioral signal</strong> beyond MAX, LIDX, or IVOL (suggestions: 52-week high proximity, total skewness over a 6/12-month window, turnover-based proxies for retail attention, short-interest ratios).</li>
+<li><strong>Form portfolios</strong> by sorting on your signal each month using terciles or quintiles.</li>
+<li><strong>Benchmark</strong> against the three strategies in this note plus the equal-weighted buy-and-hold and the TAIEX index.</li>
+<li><strong>Discuss</strong> whether the results support or contradict the <span class="citation" data-cites="lin2018skewness">Lin and Liu (<a href="#ref-lin2018skewness" role="doc-biblioref">2018</a>)</span> prediction that lottery anomalies should be weak in institutionally-held large-caps.</li>
+</ol>
+<p>A successful answer demonstrates (a) careful construction of the cross-sectional signal, (b) honest acknowledgment of small-sample limitations, and (c) thoughtful interpretation in light of the conditioning argument in <span class="citation" data-cites="lin2018skewness">Lin and Liu (<a href="#ref-lin2018skewness" role="doc-biblioref">2018</a>)</span> and <span class="citation" data-cites="kumar2024skewness">Kumar, Motahari, and Taffler (<a href="#ref-kumar2024skewness" role="doc-biblioref">2024</a>)</span>.</p>
+</section>
+<section id="references" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-ang2006cross" class="csl-entry" role="listitem">
+Ang, Andrew, Robert J. Hodrick, Yuhang Xing, and Xiaoyan Zhang. 2006. <span>“The Cross-Section of Volatility and Expected Returns.”</span> <em>Journal of Finance</em> 61 (1): 259–99.
+</div>
+<div id="ref-bali2011maxing" class="csl-entry" role="listitem">
+Bali, Turan G., Nusret Cakici, and Robert F. Whitelaw. 2011. <span>“Maxing Out: Stocks as Lotteries and the Cross-Section of Expected Returns.”</span> <em>Journal of Financial Economics</em> 99 (2): 427–46.
+</div>
+<div id="ref-barberis2008stocks" class="csl-entry" role="listitem">
+Barberis, Nicholas, and Ming Huang. 2008. <span>“Stocks as Lotteries: The Implications of Probability Weighting for Security Prices.”</span> <em>American Economic Review</em> 98 (5): 2066–2100.
+</div>
+<div id="ref-boyer2010expected" class="csl-entry" role="listitem">
+Boyer, Brian, Todd Mitton, and Keith Vorkink. 2010. <span>“Expected Idiosyncratic Skewness.”</span> <em>Review of Financial Studies</em> 23 (1): 169–202.
+</div>
+<div id="ref-brunnermeier2007optimal" class="csl-entry" role="listitem">
+Brunnermeier, Markus K., Christian Gollier, and Jonathan A. Parker. 2007. <span>“Optimal Beliefs, Asset Prices, and the Preference for Skewed Returns.”</span> <em>American Economic Review</em> 97 (2): 159–65.
+</div>
+<div id="ref-conrad2014death" class="csl-entry" role="listitem">
+Conrad, Jennifer, Nishad Kapadia, and Yuhang Xing. 2014. <span>“Death and Jackpot: Why Do Individual Investors Hold Overpriced Stocks?”</span> <em>Journal of Financial Economics</em> 113 (3): 455–75.
+</div>
+<div id="ref-kumar2024skewness" class="csl-entry" role="listitem">
+Kumar, Alok, Mehrshad Motahari, and Richard J. Taffler. 2024. <span>“Skewness Sentiment and Market Anomalies.”</span> <em>Management Science</em> 70 (7): 4328–56.
+</div>
+<div id="ref-kumar2014deviations" class="csl-entry" role="listitem">
+Kumar, Alok, and Jeremy K. Page. 2014. <span>“Deviations from Norms and Informed Trading.”</span> <em>Journal of Financial and Quantitative Analysis</em> 49 (4): 1005–37.
+</div>
+<div id="ref-kumar2016gambling" class="csl-entry" role="listitem">
+Kumar, Alok, Jeremy K. Page, and Oliver G. Spalt. 2016. <span>“Gambling and Comovement.”</span> <em>Journal of Financial and Quantitative Analysis</em> 51 (1): 85–111.
+</div>
+<div id="ref-lin2018skewness" class="csl-entry" role="listitem">
+Lin, Tse-Chun, and Xin Liu. 2018. <span>“Skewness, Individual Investor Preference, and the Cross-Section of Stock Returns.”</span> <em>Review of Finance</em> 22 (5): 1841–76.
+</div>
+<div id="ref-mitton2007equilibrium" class="csl-entry" role="listitem">
+Mitton, Todd, and Keith Vorkink. 2007. <span>“Equilibrium Underdiversification and the Preference for Skewness.”</span> <em>Review of Financial Studies</em> 20 (4): 1255–88.
+</div>
+</div>
+<hr>
+<p>Happy coding! 🚀</p>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p><i class="fa-brands fa-creative-commons" aria-label="creative-commons"></i> 2024–2025 Calvin J. Chiou<br>
+All content licensed under <a href="https://creativecommons.org/licenses/by/4.0/"><i class="fa-brands fa-creative-commons" aria-label="creative-commons"></i> <i class="fa-brands fa-creative-commons-by" aria-label="creative-commons-by"></i>CC BY 4.0</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>This website is made with <i class="fa-brands fa-r-project" aria-label="r-project"></i> and <a href="https://quarto.org/">Quarto</a></p>
+</div>
+  </div>
+</footer>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const links = document.querySelectorAll("a[href]");
+    links.forEach(function (link) {
+      const href = link.getAttribute("href");
+      if (
+        href &&
+        !href.startsWith("/") &&
+        !href.startsWith("#") &&
+        !href.startsWith(window.location.origin) &&
+        !href.includes(window.location.hostname)
+      ) {
+        link.setAttribute("target", "_blank");
+        link.setAttribute("rel", "noopener noreferrer");
+      }
+    });
+  });
+</script>
+
+
+
+
+</body></html>

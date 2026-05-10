@@ -1,5 +1,5 @@
 ---
-title: "A Taxonomy of Individual Liquidity Provision: Evidence from the Taiwan Stock Exchange"
+title: "A taxonomy of individual liquidity provision: Evidence from the Taiwan Stock Exchange"
 description: "*Finance Research Letters*, Vol. 50, 103246"
 author: 
   - name: "**Calvin J. Chiou**"

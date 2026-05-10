@@ -1,0 +1,502 @@
+---
+title: "R Note 5 - Behavioral Finance and Lottery-Like Stock Strategies"
+author: 
+  - name: "Asst. Prof. Calvin J. Chiou"
+    email: jjchiou@nccu.edu.tw
+    affiliations: 
+    - name: "National Chengchi University (NCCU)"
+
+format: html
+editor: visual
+bibliography: references.bib
+---
+
+```{r, include=FALSE}
+library(tidyquant)
+library(tidyverse)
+library(lubridate)
+library(highcharter)
+library(DT)
+library(moments)   # for skewness()
+library(broom)
+```
+
+## Introduction
+
+In Note 4, we explored a moving-average crossover strategy and benchmarked it against a buy-and-hold position on `0050.TW`. Those strategies rest on **technical analysis** — the idea that past price patterns convey information about future prices. In this note, we step beyond pure technicals and explore **behavioral finance**-motivated strategies that exploit systematic biases in investor preferences.
+
+The behavioral finance literature documents that many investors — particularly retail investors — exhibit a preference for stocks with **lottery-like payoffs**: assets offering a small probability of a large positive return, even at the cost of a low or negative expected return. This preference distorts prices in predictable ways and gives rise to cross-sectional return anomalies that academic researchers and quantitative traders have studied extensively.
+
+Three lines of empirical work guide this note:
+
+1.  @bali2011maxing propose the maximum daily return over the previous month (**MAX**) as a proxy for lottery-like features and document that high-MAX stocks subsequently *underperform* by more than 1% per month in U.S. data.
+
+2.  @lin2018skewness show that this MAX–return relation is *concentrated* among stocks preferred by individual investors, with the spread effectively zero among institutionally-held large-caps.
+
+3.  @kumar2024skewness broaden this evidence by combining several skewness proxies — MAXRET, lottery index (LIDX), jackpot probability (JACKPOT), and expected idiosyncratic skewness (ESKEW) — and showing that **skewness sentiment** amplifies a wide range of cross-sectional anomalies, primarily through the underperformance of overpriced (short-leg) stocks.
+
+The pedagogical aim of this note is fourfold:
+
+1.  Introduce a cross-sectional portfolio sorting framework using a basket of Taiwan 50 (`0050.TW`) constituents.
+2.  Implement a **MAX-based long-short strategy** following @bali2011maxing.
+3.  Implement a **lottery index (LIDX) strategy** combining price, volatility, and skewness, following @kumar2016gambling and @kumar2024skewness.
+4.  Implement an **idiosyncratic-volatility (IVOL) strategy**, drawing on the seminal puzzle of @ang2006cross — but using Note 3's simpler market-model residuals to keep the implementation tractable.
+
+> **Note on scope**: The original studies use thousands of U.S. stocks across decades. With a small Taiwanese basket and a short window, our portfolio sorts are illustrative rather than statistically definitive. The goal is to learn the *methodology*, not to make causal claims about Taiwanese market efficiency.
+
+## 1. Theoretical Background
+
+### 1.1 Why Should Lottery-Like Stocks Underperform?
+
+Classical asset pricing (CAPM) predicts that only systematic risk (covariance with the market) is priced. Idiosyncratic skewness and extreme tail outcomes should not matter, because rational investors hold well-diversified portfolios and diversify these features away.
+
+Behavioral models depart from this view in two complementary ways:
+
+-   **Cumulative Prospect Theory** [@barberis2008stocks]: Investors overweight small probabilities of large gains, leading them to overpay for positively-skewed (lottery-like) assets. In equilibrium, these assets earn *lower* expected returns.
+
+-   **Optimal Beliefs / Skewness Preference** [@brunnermeier2007optimal; @mitton2007equilibrium]: When investors are under-diversified, idiosyncratic skewness enters their utility directly. They willingly hold positively-skewed stocks at a discount to expected return.
+
+Both frameworks predict the empirical pattern documented by @bali2011maxing: stocks with extreme positive recent returns earn *lower* subsequent returns.
+
+### 1.2 The Role of Individual Investors
+
+@lin2018skewness argue that this anomaly should concentrate among stocks where individual investors are most active, because retail investors are the natural carriers of the behavioral biases above. Institutional investors are typically well-diversified and treat lottery-like holdings as informed bets rather than skewness preference [@kumar2014deviations].
+
+### 1.3 Skewness Sentiment as a Common Mispricing Driver
+
+@kumar2024skewness extend this view by showing that skewness preference is not just a single-anomaly phenomenon — it is a *common* driver of cross-sectional mispricing across at least 11 distinct anomaly strategies. Their evidence works through two channels:
+
+1.  **Multiple skewness proxies tell the same story.** They compare four skewness measures — MAXRET, LIDX, JACKPOT (the out-of-sample probability of a stock generating a log return $> 100\%$ in the next 12 months), and ESKEW (expected idiosyncratic skewness from a predictive regression according to @boyer2010expected) — and find that all four interact significantly with mispricing. A one-standard-deviation increase in skewness adds 30%–60% to the predictive power of the combined mispricing measure.
+
+2.  **The amplification is short-leg-driven.** Skewness has essentially no effect on the long leg (underpriced stocks). The interaction comes entirely from skewness-loving investors bidding up the short leg.
+
+We will not implement JACKPOT or ESKEW directly — both require either a fitted logit panel or a cross-sectional predictive regression that is beyond the scope of a single note. But we *will* implement LIDX, which is conceptually closely related and computationally tractable, and we will discuss JACKPOT and ESKEW as natural extensions.
+
+### 1.4 The Idiosyncratic Volatility Puzzle
+
+@ang2006cross document a separate but related puzzle: stocks with high idiosyncratic volatility, measured as the residual standard deviation from a Fama-French three-factor model fit to *daily* returns within the previous month, earn *lower* future returns. This contradicts standard intuition that volatility should be compensated, and it has spawned a large literature.
+
+The connection to MAX/skewness is empirically tight. @bali2011maxing show that controlling for MAX *reverses* the IVOL puzzle, and @kumar2024skewness conclude that IVOL and skewness exacerbate anomalies for *different* reasons (IVOL deters arbitrageurs; skewness attracts speculators), but that both effects are present.
+
+> **A practical simplification.** The Ang et al. (2006) IVOL measure uses the daily Fama-French three-factor regression, which requires importing the FF factors and estimating a regression separately for every stock-month. To keep the implementation light, we use the **simpler market-model residual standard deviation** introduced in Note 3 (regressing the stock on a single market index). This is not identical to Ang et al.'s measure, but it captures the same economic intuition — the part of return volatility unrelated to systematic market movement — and is sufficient for pedagogical purposes. Students interested in the original measure should consult @ang2006cross directly.
+
+## 2. Building a Cross-Sectional Stock Universe
+
+Because MAX, LIDX, and IVOL anomalies are inherently **cross-sectional** — they require sorting stocks into portfolios — we cannot apply them to a single asset. Instead, we construct a basket of liquid Taiwanese large-caps drawn from the Taiwan 50 constituents.
+
+```{r}
+# Define a sample of Taiwan 50 ETF constituents (illustrative subset)
+tickers <- c("2330.TW",  # TSMC
+             "2317.TW",  # Hon Hai (Foxconn)
+             "2454.TW",  # MediaTek
+             "2308.TW",  # Delta Electronics
+             "2412.TW",  # Chunghwa Telecom
+             "2882.TW",  # Cathay Financial
+             "2881.TW",  # Fubon Financial
+             "1303.TW",  # Nan Ya Plastics
+             "1301.TW",  # Formosa Plastics
+             "2002.TW",  # China Steel
+             "2891.TW",  # CTBC Financial
+             "3711.TW",  # ASE Technology
+             "2303.TW",  # UMC
+             "2207.TW",  # Hotai Motor
+             "1216.TW",  # Uni-President
+             "2884.TW",  # E.SUN Financial
+             "2886.TW",  # Mega Financial
+             "2885.TW",  # Yuanta Financial
+             "3008.TW",  # LARGAN Precision
+             "2357.TW")  # Asustek
+```
+
+```{r, message=FALSE, warning=FALSE}
+# Pull daily prices for the basket
+start_date <- "2022-01-01"
+end_date   <- "2024-04-30"
+
+stocks_data <- tq_get(tickers, from = start_date, to = end_date) |> 
+  select(symbol, date, adjusted, volume) |> 
+  arrange(symbol, date)
+
+# Compute daily returns by stock
+stocks_ret <- stocks_data |> 
+  group_by(symbol) |> 
+  mutate(ret = adjusted / lag(adjusted) - 1) |> 
+  ungroup() |> 
+  drop_na(ret)
+
+# Pull TAIEX as the market proxy for IVOL estimation
+market_data <- tq_get("^TWII", from = start_date, to = end_date) |> 
+  select(date, mkt_close = adjusted) |> 
+  arrange(date) |> 
+  mutate(mkt_ret = mkt_close / lag(mkt_close) - 1) |> 
+  drop_na(mkt_ret)
+
+# Merge stock returns with market returns
+stocks_ret <- stocks_ret |> 
+  inner_join(market_data |> select(date, mkt_ret), by = "date")
+
+datatable(head(stocks_ret, 12)) |> 
+  formatRound(c("adjusted", "ret", "mkt_ret"), digits = 4)
+```
+
+We will need monthly holding-period returns repeatedly, so we compute them once:
+
+```{r}
+stocks_monthly_ret <- stocks_ret |> 
+  mutate(year_month = floor_date(date, "month")) |> 
+  group_by(symbol, year_month) |> 
+  summarise(monthly_ret = prod(1 + ret) - 1, .groups = "drop")
+```
+
+## 3. Strategy A: The MAX Effect [@bali2011maxing]
+
+### 3.1 Constructing the MAX Variable
+
+Following @bali2011maxing, we define for each stock $i$ at the end of month $t$:
+
+$$
+\text{MAX}_{i,t} = \max\{R_{i,d}\}, \quad d \in \text{month } t
+$$
+
+That is, MAX is the single largest daily return observed during the formation month. High-MAX stocks are those that recently experienced an extreme up-day — the kind of payoff that, behaviorally, attracts lottery-seeking investors.
+
+```{r}
+stocks_max <- stocks_ret |> 
+  mutate(year_month = floor_date(date, "month")) |> 
+  group_by(symbol, year_month) |> 
+  summarise(MAX = max(ret, na.rm = TRUE),
+            n_days = n(),
+            .groups = "drop") |> 
+  filter(n_days >= 15)
+```
+
+### 3.2 Forming Tercile Portfolios on MAX
+
+Each month we sort stocks into terciles (3 groups, since our universe is small — Bali et al. use deciles with thousands of stocks). The strategy goes long the **low-MAX** group and short the **high-MAX** group, rebalanced monthly.
+
+```{r}
+max_signal <- stocks_max |> 
+  group_by(symbol) |> 
+  arrange(year_month) |> 
+  mutate(MAX_lag = lag(MAX)) |> 
+  ungroup() |> 
+  drop_na(MAX_lag)
+
+panel_max <- max_signal |> 
+  inner_join(stocks_monthly_ret, by = c("symbol", "year_month")) |> 
+  group_by(year_month) |> 
+  mutate(MAX_tercile = ntile(MAX_lag, 3)) |> 
+  ungroup()
+
+port_max <- panel_max |> 
+  group_by(year_month, MAX_tercile) |> 
+  summarise(port_ret = mean(monthly_ret, na.rm = TRUE), .groups = "drop")
+
+ls_max <- port_max |> 
+  pivot_wider(names_from = MAX_tercile, values_from = port_ret,
+              names_prefix = "T") |> 
+  arrange(year_month) |> 
+  mutate(LS_ret  = T1 - T3,
+         cum_low = cumprod(1 + T1),
+         cum_LS  = cumprod(1 + LS_ret))
+
+cat(sprintf("MAX L-S monthly mean: %.2f%% | Sharpe (ann.): %.3f\n",
+            100 * mean(ls_max$LS_ret, na.rm = TRUE),
+            mean(ls_max$LS_ret, na.rm = TRUE) /
+              sd(ls_max$LS_ret, na.rm = TRUE) * sqrt(12)))
+```
+
+## 4. Strategy B: The Lottery Index [@kumar2016gambling; @kumar2024skewness]
+
+### 4.1 Why a Composite Lottery Index?
+
+Any single skewness measure — MAX, total skewness, or anything else — is noisy. @kumar2016gambling and @kumar2024skewness argue that *bundling* characteristics gives a more reliable identifier of "lottery stocks." Their **lottery index (LIDX)** combines three features that retail investors collectively associate with gambling-style payoffs:
+
+-   **Low price** — lottery stocks are typically cheap in absolute terms, since retail investors are often capital-constrained and prefer to buy whole shares cheaply.
+-   **High idiosyncratic volatility** — they offer dispersion in outcomes.
+-   **High idiosyncratic skewness** — they offer the right-tail "jackpot" possibility.
+
+A stock that scores high on all three is the canonical lottery stock. The construction is similar in spirit to the individual-investor preference index in @lin2018skewness — average percentile ranks across multiple characteristics to wash out idiosyncratic noise in any single proxy.
+
+### 4.2 Estimating Idiosyncratic Volatility (Note 3 Style)
+
+We follow Note 3's approach: regress each stock's daily returns on the TAIEX market return over a rolling one-month window, and take the residual standard deviation as IVOL. This is *not* the @ang2006cross measure (which uses daily Fama-French three factors), but it captures the same economic idea with much less infrastructure.
+
+```{r}
+# Estimate IVOL and idiosyncratic skewness for each stock-month from a daily 
+# market-model regression (LIDX needs both quantities)
+estimate_ivol_iskew <- function(df) {
+  if (nrow(df) < 15 || sd(df$ret) == 0) return(tibble(IVOL = NA_real_, ISKEW = NA_real_))
+  fit <- lm(ret ~ mkt_ret, data = df)
+  tibble(IVOL = sd(residuals(fit)), ISKEW = skewness(residuals(fit)))
+}
+
+stock_ivol_iskew <- stocks_ret |> 
+  mutate(year_month = floor_date(date, "month")) |> 
+  group_by(symbol, year_month) |> 
+  group_modify(~ estimate_ivol_iskew(.x)) |> 
+  ungroup() |> 
+  drop_na(IVOL, ISKEW)
+
+datatable(head(stock_ivol_iskew, 12)) |> 
+  formatRound(c("IVOL", "ISKEW"), digits = 4)
+```
+
+### 4.3 Constructing LIDX
+
+The standard recipe is: each month, rank every stock on each lottery feature (low price, high IVOL, high ISKEW) within the cross-section, then average the percentile ranks. Stocks scoring highest on the average rank are the most lottery-like.
+
+```{r}
+# Get month-end price for each stock
+stock_price <- stocks_ret |> 
+  mutate(year_month = floor_date(date, "month")) |> 
+  group_by(symbol, year_month) |> 
+  summarise(price = last(adjusted), .groups = "drop")
+
+# Combine the three lottery features
+lidx_raw <- stock_price |> 
+  inner_join(stock_ivol_iskew, by = c("symbol", "year_month"))
+
+# Cross-sectional percentile ranks within each month
+# Lottery preference: LOW price (negate to flip), HIGH IVOL, HIGH ISKEW
+lidx <- lidx_raw |> 
+  group_by(year_month) |> 
+  mutate(
+    rank_price = percent_rank(-price),  # negate so low price gets high rank
+    rank_ivol  = percent_rank(IVOL),
+    rank_iskew = percent_rank(ISKEW),
+    LIDX = (rank_price + rank_ivol + rank_iskew) / 3
+  ) |> 
+  ungroup() |> 
+  select(symbol, year_month, price, IVOL, ISKEW, LIDX)
+
+datatable(head(lidx, 12)) |> 
+  formatRound(c("price","IVOL","ISKEW","LIDX"), digits = 3)
+```
+
+### 4.4 LIDX Long-Short Strategy
+
+```{r}
+lidx_signal <- lidx |> 
+  group_by(symbol) |> 
+  arrange(year_month) |> 
+  mutate(LIDX_lag = lag(LIDX)) |> 
+  ungroup() |> 
+  drop_na(LIDX_lag)
+
+panel_lidx <- lidx_signal |> 
+  inner_join(stocks_monthly_ret, by = c("symbol", "year_month")) |> 
+  group_by(year_month) |> 
+  mutate(LIDX_tercile = ntile(LIDX_lag, 3)) |> 
+  ungroup()
+
+port_lidx <- panel_lidx |> 
+  group_by(year_month, LIDX_tercile) |> 
+  summarise(port_ret = mean(monthly_ret, na.rm = TRUE), .groups = "drop")
+
+ls_lidx <- port_lidx |> 
+  pivot_wider(names_from = LIDX_tercile, values_from = port_ret,
+              names_prefix = "T") |> 
+  arrange(year_month) |> 
+  mutate(LS_ret = T1 - T3,
+         cum_low_lidx = cumprod(1 + T1),
+         cum_LS_lidx  = cumprod(1 + LS_ret))
+
+cat(sprintf("LIDX L-S monthly mean: %.2f%% | Sharpe (ann.): %.3f\n",
+            100 * mean(ls_lidx$LS_ret, na.rm = TRUE),
+            mean(ls_lidx$LS_ret, na.rm = TRUE) /
+              sd(ls_lidx$LS_ret, na.rm = TRUE) * sqrt(12)))
+```
+
+## 5. Strategy C: The IVOL Anomaly [@ang2006cross]
+
+@ang2006cross document that high-IVOL stocks earn lower subsequent returns — a result that runs counter to standard risk-return intuition and remains an active research puzzle. We test it here using our market-model IVOL from Section 4.2.
+
+> **Pedagogical caveat.** @ang2006cross use the residual standard deviation from a *daily Fama-French three-factor* regression. We use the residual standard deviation from a *daily one-factor* market-model regression (the same form as in Note 3). The two measures are highly correlated in practice, but a careful replication should use the original specification.
+
+```{r}
+ivol_signal <- stock_ivol_iskew |> 
+  group_by(symbol) |> 
+  arrange(year_month) |> 
+  mutate(IVOL_lag = lag(IVOL)) |> 
+  ungroup() |> 
+  drop_na(IVOL_lag)
+
+panel_ivol <- ivol_signal |> 
+  inner_join(stocks_monthly_ret, by = c("symbol", "year_month")) |> 
+  group_by(year_month) |> 
+  mutate(IVOL_tercile = ntile(IVOL_lag, 3)) |> 
+  ungroup()
+
+port_ivol <- panel_ivol |> 
+  group_by(year_month, IVOL_tercile) |> 
+  summarise(port_ret = mean(monthly_ret, na.rm = TRUE), .groups = "drop")
+
+ls_ivol <- port_ivol |> 
+  pivot_wider(names_from = IVOL_tercile, values_from = port_ret,
+              names_prefix = "T") |> 
+  arrange(year_month) |> 
+  mutate(LS_ret = T1 - T3,
+         cum_low_ivol = cumprod(1 + T1),
+         cum_LS_ivol  = cumprod(1 + LS_ret))
+
+cat(sprintf("IVOL L-S monthly mean: %.2f%% | Sharpe (ann.): %.3f\n",
+            100 * mean(ls_ivol$LS_ret, na.rm = TRUE),
+            mean(ls_ivol$LS_ret, na.rm = TRUE) /
+              sd(ls_ivol$LS_ret, na.rm = TRUE) * sqrt(12)))
+```
+
+## 6. Comparing All Strategies
+
+We now bring all three behavioral strategies together with three passive benchmarks: an equal-weighted basket of our 20 stocks, the **0050.TW ETF** (the Taiwan 50 ETF used in Note 4), and the broader **TAIEX index**. Including 0050 keeps continuity with Note 4 and gives students a directly investable passive alternative — unlike the TAIEX index, which is not itself tradeable. To make returns comparable, we focus on the **long leg** of each strategy with a NT\$1,000,000 initial investment.
+
+```{r, message=FALSE}
+# Equal-weighted basket (buy-and-hold all 20 stocks)
+bh_basket <- stocks_monthly_ret |> 
+  group_by(year_month) |> 
+  summarise(bh_ret = mean(monthly_ret, na.rm = TRUE), .groups = "drop") |> 
+  arrange(year_month) |> 
+  mutate(cum_bh = cumprod(1 + bh_ret))
+
+# 0050.TW ETF buy-and-hold (Note 4's primary asset)
+etf_0050 <- tq_get("0050.TW", from = start_date, to = end_date) |> 
+  select(date, etf_close = adjusted) |> 
+  mutate(year_month = floor_date(date, "month")) |> 
+  group_by(year_month) |> 
+  summarise(etf_close = last(etf_close), .groups = "drop") |> 
+  arrange(year_month) |> 
+  mutate(etf_ret = etf_close / lag(etf_close) - 1) |> 
+  drop_na(etf_ret) |> 
+  mutate(cum_etf = cumprod(1 + etf_ret))
+
+# TAIEX benchmark
+taiex <- market_data |> 
+  mutate(year_month = floor_date(date, "month")) |> 
+  group_by(year_month) |> 
+  summarise(taiex_close = last(mkt_close), .groups = "drop") |> 
+  arrange(year_month) |> 
+  mutate(taiex_ret = taiex_close / lag(taiex_close) - 1) |> 
+  drop_na(taiex_ret) |> 
+  mutate(cum_taiex = cumprod(1 + taiex_ret))
+
+# Stitch all series together
+comparison <- ls_max |> select(year_month, cum_LowMAX = cum_low) |> 
+  inner_join(ls_lidx  |> select(year_month, cum_LowLIDX = cum_low_lidx), by = "year_month") |> 
+  inner_join(ls_ivol  |> select(year_month, cum_LowIVOL = cum_low_ivol), by = "year_month") |> 
+  inner_join(bh_basket |> select(year_month, cum_bh),    by = "year_month") |> 
+  inner_join(etf_0050  |> select(year_month, cum_etf),   by = "year_month") |> 
+  inner_join(taiex     |> select(year_month, cum_taiex), by = "year_month")
+
+# Scale to NT$1,000,000 starting capital
+capital <- 1000000
+comparison <- comparison |> mutate(across(starts_with("cum_"), ~ . * capital))
+
+datatable(tail(comparison, 8)) |> 
+  formatRound(columns = c("cum_LowMAX","cum_LowLIDX","cum_LowIVOL",
+                          "cum_bh","cum_etf","cum_taiex"),
+              digits = 0)
+```
+
+```{r}
+highchart() |> 
+  hc_title(text = "Strategy Comparison: Behavioral vs. Passive (NT$1,000,000 Initial)") |> 
+  hc_xAxis(type = "datetime", title = list(text = "Month")) |> 
+  hc_yAxis(title = list(text = "Portfolio Value (NT$)")) |> 
+  hc_add_series(data = comparison, type = "line",
+                hcaes(x = year_month, y = cum_LowMAX),
+                name = "Low-MAX (Bali et al. 2011)") |> 
+  hc_add_series(data = comparison, type = "line",
+                hcaes(x = year_month, y = cum_LowLIDX),
+                name = "Low-LIDX (Kumar et al. 2024)") |> 
+  hc_add_series(data = comparison, type = "line",
+                hcaes(x = year_month, y = cum_LowIVOL),
+                name = "Low-IVOL (Ang et al. 2006)") |> 
+  hc_add_series(data = comparison, type = "line",
+                hcaes(x = year_month, y = cum_bh),
+                name = "Equal-Weighted Buy-and-Hold") |> 
+  hc_add_series(data = comparison, type = "line",
+                hcaes(x = year_month, y = cum_etf),
+                name = "0050.TW ETF Buy-and-Hold") |> 
+  hc_add_series(data = comparison, type = "line",
+                hcaes(x = year_month, y = cum_taiex),
+                name = "TAIEX Benchmark") |> 
+  hc_tooltip(valuePrefix = "NT$", valueDecimals = 0) |> 
+  hc_legend(align = "center", verticalAlign = "bottom") |> 
+  hc_add_theme(hc_theme_smpl())
+```
+
+## 7. Summary Statistics Across Strategies
+
+```{r}
+strategy_summary <- tibble(
+  Strategy = c("Low-MAX (BCW 2011)",
+               "Low-LIDX (Kumar et al. 2024)",
+               "Low-IVOL (Ang et al. 2006)",
+               "Buy-and-Hold (Equal-Weighted)",
+               "0050.TW ETF Buy-and-Hold",
+               "TAIEX Benchmark"),
+  Mean_Monthly_Return_pct = c(
+    mean(ls_max$T1, na.rm = TRUE),
+    mean(ls_lidx$T1, na.rm = TRUE),
+    mean(ls_ivol$T1, na.rm = TRUE),
+    mean(bh_basket$bh_ret, na.rm = TRUE),
+    mean(etf_0050$etf_ret, na.rm = TRUE),
+    mean(taiex$taiex_ret, na.rm = TRUE)
+  ) * 100,
+  Volatility_pct = c(
+    sd(ls_max$T1, na.rm = TRUE),
+    sd(ls_lidx$T1, na.rm = TRUE),
+    sd(ls_ivol$T1, na.rm = TRUE),
+    sd(bh_basket$bh_ret, na.rm = TRUE),
+    sd(etf_0050$etf_ret, na.rm = TRUE),
+    sd(taiex$taiex_ret, na.rm = TRUE)
+  ) * 100
+) |> 
+  mutate(Annualized_Sharpe = Mean_Monthly_Return_pct / Volatility_pct * sqrt(12))
+
+datatable(strategy_summary) |> 
+  formatRound(c("Mean_Monthly_Return_pct","Volatility_pct","Annualized_Sharpe"),
+              digits = 3)
+```
+
+## 8. Caveats and Connections to the Literature
+
+Several caveats are worth emphasizing to students:
+
+1.  **Sample size and power.** With \~20 stocks and \~28 months, our terciles contain about 7 stocks each. @bali2011maxing use thousands of stocks and four decades; @kumar2024skewness use the full CRSP universe from 1963–2015. Any "anomaly" in our small sample is best treated as a *teaching artifact*, not evidence about the Taiwanese market.
+
+2.  **Conditioning matters.** @lin2018skewness show that even in the U.S., the MAX anomaly is concentrated in stocks dominated by individual investors. Our basket of Taiwan 50 large-caps is heavily institutionally held, so we might *expect* the MAX/LIDX/IVOL strategies to underperform here — itself a Lin-and-Liu-style empirical prediction.
+
+3.  **Risk adjustment.** Production-quality tests adjust returns using factor models (Fama-French 3/5, Carhart momentum). The four-factor and six-factor alphas in @bali2011maxing Table III and @kumar2024skewness Table 4 are the relevant magnitudes for academic claims. We omit factor adjustment here for clarity.
+
+4.  **Transaction costs and short-selling.** Our long-short strategies implicitly assume costless short-selling. In Taiwan, shorting individual stocks involves locate costs, securities-borrowing constraints, and tick-rules. Both @bali2011maxing and @kumar2024skewness emphasize that short-selling frictions help explain why these anomalies persist.
+
+5.  **IVOL measurement.** Our IVOL is the residual standard deviation from a single-factor market-model regression on daily returns within each month — much simpler than the daily Fama-French three-factor specification of @ang2006cross. The two are highly correlated, but a publishable replication would use the original specification.
+
+## 9. Suggested Extensions
+
+1.  **Implement JACKPOT** [@conrad2014death]: Estimate a logit/probit model predicting whether a stock generates a log return above some threshold (e.g., 50% over 6 months in a Taiwanese context) using lagged firm characteristics, and use the fitted probability as a sort variable.
+2.  **Implement ESKEW** [@boyer2010expected]: Run a monthly cross-sectional predictive regression of realized skewness on lagged firm characteristics, then sort on the *fitted* (expected) skewness.
+3.  **Replicate BCW's IVOL/MAX horse-race** [@bali2011maxing Table 9]: Double-sort on MAX and IVOL to test whether MAX subsumes the IVOL puzzle. This is the most influential single result in BCW, and replicating it locally is informative.
+4.  **Extend to MIN as a sanity check.** @bali2011maxing report that minimum daily return generates the *opposite* sign — consistent with prospect-theory loss aversion. This provides a useful internal validity check.
+5.  **Combine into a composite mispricing index.** Following @kumar2024skewness, form a single MIS-style index by averaging decile ranks across MAX, LIDX, and IVOL, and sort on the composite.
+
+## 10. Student Exercise
+
+Design and implement your own behavioral-finance strategy for a Taiwanese stock universe. Specifically:
+
+1.  **Choose a behavioral signal** beyond MAX, LIDX, or IVOL (suggestions: 52-week high proximity, total skewness over a 6/12-month window, turnover-based proxies for retail attention, short-interest ratios).
+2.  **Form portfolios** by sorting on your signal each month using terciles or quintiles.
+3.  **Benchmark** against the three strategies in this note plus the equal-weighted buy-and-hold and the TAIEX index.
+4.  **Discuss** whether the results support or contradict the @lin2018skewness prediction that lottery anomalies should be weak in institutionally-held large-caps.
+
+A successful answer demonstrates (a) careful construction of the cross-sectional signal, (b) honest acknowledgment of small-sample limitations, and (c) thoughtful interpretation in light of the conditioning argument in @lin2018skewness and @kumar2024skewness.
+
+## References {.unnumbered}
+
+::: {#refs}
+:::
+
+------------------------------------------------------------------------
+
+Happy coding! 🚀

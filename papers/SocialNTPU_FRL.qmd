@@ -1,0 +1,28 @@
+---
+title: "Corporate social performance, retail investor trading, and stock price crash risk"
+description: "*Finance Research Letters*, Vol. 101, 110055"
+author: 
+  - name: "Chang Chan"
+    affiliations:
+      - name: "Graduate School of Humanities and Social Sciences, Dharma Drum Institute of Liberal Arts"
+  - name: "**Calvin J. Chiou**"
+    affiliations:
+      - name: "College of Commerce, National Chengchi University"
+  - name: "Chin-En Wu"
+    affiliations:
+      - name: "LeBow College of Business, Drexel University"
+    attributes:
+      corresponding: true
+date: "July, 2026"
+doi: https://doi.org/10.1016/j.frl.2026.110055
+categories:
+  - Publications
+---
+
+## Abstract
+
+We investigate the relationship between corporate social performance (CSP) and stock price crash risk in Taiwan, a market dominated by retail investors. While prior literature primarily focuses on environmental performance and institutional monitoring channels, relatively little is known about whether and how investors, particularly retail investors, respond to firms’ social engagement. We find that higher CSP is associated with lower crash risk, and that this relation is stronger among firms with greater retail trading intensity. The results are robust to alternative specifications, including a two-stage Heckman selection model, a dynamic system GMM estimator, and alternative measures. These findings suggest that in retail-dominated markets, CSP affects downside risk through investor behavior, consistent with an attention- and reputation-based channel. Overall, our study highlights that the asset pricing implications of CSP depend on investor composition and are more pronounced when retail participation is high.
+
+## Keywords
+
+*Corporate social performance, Stock crash risk, Retail attention*
