@@ -1,5 +1,5 @@
 ---
-title: "ggplot2 Themes"
+title: "ggplot2 Theme Gallery"
 author: 
   - name: "Asst. Prof. Calvin J. Chiou"
     email: jjchiou@nccu.edu.tw
@@ -8,247 +8,383 @@ author:
 format: 
   html: 
     toc: true
+    toc-depth: 3
+    toc-location: right
+    number-sections: true
+    self-contained: true
+    # title-block-banner: true
 editor: visual
 ---
 
-# Introduction
-
-In this document, we will explore various themes and styles available in `ggplot2`.
-
-```{r}
-library(ggplot2)
-library(ggthemes)
-
-# Basic plot
-p <- ggplot(mpg, aes(x=displ, y=hwy, color=class)) +
-  geom_point() +
-  labs(title="Default Theme")
-
-p
+```{=html}
+<style>
+  .quarto-title-block .quarto-title {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+  }
+  .quarto-title-block .quarto-title::before {
+    content: "";
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    background: url("logo_ggplot2.png") no-repeat center/contain;
+    flex-shrink: 0;
+  }
+</style>
 ```
 
-Below are examples of applying different basic themes to your plot:
+# Setup
 
-## Theme Gray
+In this document, we explore various themes and styles available in `ggplot2` and related packages. All examples use a **line chart with three series** drawn from the built-in `economics_long` dataset (unemployment rate, personal consumption expenditure, and personal savings rate — rescaled to a common 0–100 index for comparability).
+
+```{r setup, message=FALSE, warning=FALSE}
+library(ggplot2)
+
+# ── Base data: three economic series, re-indexed to 0–100 ──────────────────
+rescale01 <- function(x) (x - min(x)) / (max(x) - min(x)) * 100
+
+econ <- subset(economics_long,
+               variable %in% c("uempmed", "pce", "psavert"))
+econ$variable <- factor(econ$variable,
+                        levels  = c("uempmed", "pce", "psavert"),
+                        labels  = c("Unemployment", "Consumption", "Savings"))
+
+# Index each series to [0, 100]
+econ$value_idx <- ave(econ$value01, econ$variable,
+                      FUN = function(x) rescale01(x))
+
+# Base plot object (reused throughout)
+p <- ggplot(econ, aes(x = date, y = value_idx, color = variable)) +
+  geom_line(linewidth = 0.8) +
+  labs(x = "Year", y = "Index (0 – 100)",
+       color = "Series",
+       caption = "Source: ggplot2::economics_long")
+```
+
+------------------------------------------------------------------------
+
+# Built-in `ggplot2` Themes
+
+Below are examples of every built-in theme shipped with `ggplot2`.
+
+## Theme Gray (default)
 
 ```{r}
 p + theme_gray() +
-  labs(title="Theme Gray")
+  labs(title = "Theme Gray")
 ```
 
-## Theme Dark-on-light
+## Theme Dark-on-light (BW)
 
 ```{r}
 p + theme_bw() +
-  labs(title="Theme BW")
+  labs(title = "Theme BW")
 ```
 
 ## Theme Linedraw
 
 ```{r}
 p + theme_linedraw() +
-  labs(title="Theme Linedraw")
+  labs(title = "Theme Linedraw")
 ```
 
 ## Theme Light
 
 ```{r}
 p + theme_light() +
-  labs(title="Theme Light")
+  labs(title = "Theme Light")
 ```
 
 ## Theme Dark
 
 ```{r}
 p + theme_dark() +
-  labs(title="Theme Dark")
+  labs(title = "Theme Dark")
 ```
 
 ## Theme Minimal
 
 ```{r}
 p + theme_minimal() +
-  labs(title="Theme Minimal")
+  labs(title = "Theme Minimal")
 ```
 
 ## Theme Classic
 
 ```{r}
 p + theme_classic() +
-  labs(title="Theme Classic")
+  labs(title = "Theme Classic")
 ```
 
 ## Theme Void
 
 ```{r}
 p + theme_void() +
-  labs(title="Theme Void")
+  labs(title = "Theme Void")
 ```
 
 ## Theme Test
 
 ```{r}
 p + theme_test() +
-  labs(title="Theme Test")
+  labs(title = "Theme Test")
 ```
 
 ------------------------------------------------------------------------
 
 # Themes in `ggthemes`
 
-Below are examples of applying additional themes using package `ggthemes` to your plot:
+Additional themes and matching color scales from the `ggthemes` package (v 5.2.0, released 2025-11-30).
+
+## Theme Base
+
+Mimics base R graphics aesthetics. *New to the gallery — added in `ggthemes` 4.x.*
+
+```{r}
+library(ggthemes)
+
+p + theme_base() +
+  labs(title = "Theme Base")
+```
 
 ## Theme Economist
 
 ```{r}
 p + theme_economist() +
-  labs(title="Theme Economist") +
-  scale_color_economist()
+  scale_color_economist() +
+  labs(title = "Theme Economist")
 ```
 
-## Theme Economist - White
+## Theme Economist – White
 
 ```{r}
 p + theme_economist_white() +
-  labs(title="Theme Economist - White") +
-  scale_color_economist()
+  scale_color_economist() +
+  labs(title = "Theme Economist – White")
 ```
 
-## Theme Excel
+## Theme Excel (Classic)
 
 ```{r}
 p + theme_excel() +
-  labs(title="Theme Excel") +
-  scale_color_excel()
+  scale_color_excel() +
+  labs(title = "Theme Excel (Classic)")
 ```
 
-## Theme Excel - New
+## Theme Excel – New
 
 ```{r, warning=FALSE}
 p + theme_excel_new() +
-  labs(title="Theme Excel - New") +
-  scale_color_excel_new()
+  scale_color_excel_new() +
+  labs(title = "Theme Excel – New")
 ```
 
 ## Theme LibreOffice Calc
 
 ```{r}
 p + theme_calc() +
-  labs(title="Theme Calc") +
   scale_color_calc() +
-  scale_shape_calc()
+  labs(title = "Theme Calc")
 ```
 
 ## Theme Highcharts
 
 ```{r}
 p + theme_hc() +
-  labs(title="Theme Highcharts") + 
-  scale_color_hc()
+  scale_color_hc() +
+  labs(title = "Theme Highcharts")
 ```
 
 ## Theme Google Docs
 
 ```{r}
 p + theme_gdocs() +
-  labs(title="Theme Google Docs") +
-  scale_color_gdocs()
+  scale_color_gdocs() +
+  labs(title = "Theme Google Docs")
 ```
 
 ## Theme Clean
 
 ```{r, warning=FALSE}
 p + theme_clean() +
-  labs(title="Theme Clean") +
-  scale_color_canva()
+  scale_color_canva() +
+  labs(title = "Theme Clean")
 ```
 
 ## Theme 538
 
 ```{r}
 p + theme_fivethirtyeight() +
-  labs(title="Theme 538")
+  labs(title = "Theme 538")
 ```
 
 ## Theme igray
 
 ```{r}
 p + theme_igray() +
-  labs(title="Theme igray")
+  labs(title = "Theme igray")
 ```
 
-## Theme few
+## Theme Few
 
 ```{r}
 p + theme_few() +
-  labs(title="Theme few") +
-  scale_color_few()
+  scale_color_few() +
+  labs(title = "Theme Few")
 ```
 
 ## Theme Solarized
 
 ```{r}
-# light
+# Light
 p + theme_solarized() +
-  labs(title="Theme Solarized") +
-  scale_color_solarized()
-# light2
+  scale_color_solarized() +
+  labs(title = "Theme Solarized – Light")
+
+# Light 2
 p + theme_solarized_2() +
-  labs(title="Theme Solarized2") +
-  scale_color_solarized()
-# dark
+  scale_color_solarized() +
+  labs(title = "Theme Solarized 2")
+
+# Dark
 p + theme_solarized(light = FALSE) +
-  labs(title="Theme Solarized Dark") +
-  scale_color_solarized()
+  scale_color_solarized() +
+  labs(title = "Theme Solarized – Dark")
 ```
 
-## Theme tufte
+## Theme Tufte
 
 ```{r}
 p + theme_tufte() +
-  labs(title="Theme tufte")
+  labs(title = "Theme Tufte")
 ```
 
 ## Theme Stata
 
 ```{r}
 p + theme_stata() +
-  labs(title="Theme Stata") + 
-  scale_color_stata() + 
-  scale_shape_stata()
+  scale_color_stata() +
+  labs(title = "Theme Stata")
 ```
 
 ## Theme Wall Street Journal (WSJ)
 
 ```{r}
 p + theme_wsj() +
-  labs(title="Theme Wall Street Journal")
+  labs(title = "Theme Wall Street Journal")
 ```
 
 ## Theme Pander
 
 ```{r}
 p + theme_pander() +
-  labs(title="Theme Pander") +
-  scale_color_pander()
+  scale_color_pander() +
+  labs(title = "Theme Pander")
 ```
 
-## Theme Tidyquant
+------------------------------------------------------------------------
+
+## Notable Color Scales in `ggthemes`
+
+The following demos use `theme_minimal()` as a neutral backdrop so the color scales are the focus.
+
+### Colorblind-safe Palette
+
+`scale_color_colorblind()` (alias: `scale_colour_colourblind()`) provides an 8-color palette that is safe for the most common forms of color-vision deficiency. *Renamed in `ggthemes` 5.2.0 to the British spelling.*
+
+```{r}
+p + theme_minimal() +
+  scale_color_colorblind() +
+  labs(title = "Colorblind-safe Palette (ggthemes)")
+```
+
+### Paul Tol Qualitative Palette
+
+`scale_color_ptol()` implements Paul Tol's colorblind-safe qualitative palette, popular in scientific publishing.
+
+```{r}
+p + theme_minimal() +
+  scale_color_ptol() +
+  labs(title = "Paul Tol Qualitative Palette (ggthemes)")
+```
+
+### Tableau Color Scales
+
+`scale_color_tableau()` offers Tableau's discrete palettes. The default is the classic "Tableau 10".
+
+```{r}
+p + theme_minimal() +
+  scale_color_tableau() +
+  labs(title = "Tableau 10 Palette (ggthemes)")
+```
+
+------------------------------------------------------------------------
+
+# Themes in `tidyquant`
 
 ```{r, message=FALSE}
 library(tidyquant)
-# Tidyquant - basic
+
+# Tidyquant – standard
 p + theme_tq() +
-  labs(title="Theme Tidyquant") +
-  scale_color_tq()
-# dark
+  scale_color_tq() +
+  labs(title = "Theme Tidyquant")
+
+# Tidyquant – dark
 p + theme_tq_dark() +
-  labs(title="Theme Tidyquant Dark") +
-  scale_color_tq()
-# green
+  scale_color_tq() +
+  labs(title = "Theme Tidyquant Dark")
+
+# Tidyquant – green
 p + theme_tq_green() +
-  labs(title="Theme Tidyquant Green") +
-  scale_color_tq()
+  scale_color_tq() +
+  labs(title = "Theme Tidyquant Green")
+```
+
+------------------------------------------------------------------------
+
+# Themes in `hrbrthemes`
+
+`hrbrthemes` (v 0.8.x, Bob Rudis) is a typography-focused package offering publication-ready themes. It ships with a bundled copy of Roboto Condensed so no font installation is required for the core themes.
+
+```{r, message=FALSE, warning=FALSE}
+library(hrbrthemes)
+
+# Suppress font warnings if Roboto Condensed is unavailable on this system
+update_geom_font_defaults()
+```
+
+## Theme ipsum
+
+Clean, minimal, and opinionated — one of the most widely used non-ggplot2 themes in academic and data journalism contexts.
+
+```{r, warning=FALSE}
+p + theme_ipsum() +
+  labs(title = "Theme ipsum (hrbrthemes)")
+```
+
+## Theme ipsum_rc (Roboto Condensed)
+
+```{r, warning=FALSE}
+p + theme_ipsum_rc() +
+  labs(title = "Theme ipsum_rc (hrbrthemes)")
+```
+
+## Theme ft_rc (Financial Times – Dark)
+
+Inspired by the Financial Times's dark-background online charts.
+
+```{r, warning=FALSE}
+p + theme_ft_rc() +
+  labs(title = "Theme ft_rc – FT Dark (hrbrthemes)")
+```
+
+## Theme modern_rc (Modern Dark)
+
+```{r, warning=FALSE}
+p + theme_modern_rc() +
+  labs(title = "Theme modern_rc – Modern Dark (hrbrthemes)")
 ```
 
 ------------------------------------------------------------------------
@@ -257,13 +393,92 @@ p + theme_tq_green() +
 
 ```{r}
 custom_theme <- theme(
-  plot.title = element_text(size = 14, face = "bold", hjust = 0.5),
-  axis.title = element_text(size = 12, face = "bold"),
-  axis.text = element_text(size = 10),
+  plot.title       = element_text(size = 14, face = "bold", hjust = 0.5),
+  axis.title       = element_text(size = 12, face = "bold"),
+  axis.text        = element_text(size = 10),
   panel.background = element_rect(fill = "white"),
-  panel.grid.major = element_line(color = "grey", linewidth = 0.5),
-  panel.grid.minor = element_line(color = "lightgrey", linewidth = 0.25)
+  panel.grid.major = element_line(color = "grey80",   linewidth = 0.5),
+  panel.grid.minor = element_line(color = "grey90",   linewidth = 0.25),
+  legend.position  = "bottom"
 )
 
-p + custom_theme + labs(title = "Custom Theme")
+p + custom_theme +
+  labs(title = "Custom Theme")
+```
+
+------------------------------------------------------------------------
+
+# Academic Journal Style
+
+Academic journals (e.g., *Journal of Finance*, *Review of Financial Studies*) typically require figures that are **black-and-white compatible**, use **grayscale or high-contrast linetype differentiation**, have **no chart junk**, and are sized for a **single or double column** layout. The example below builds a self-contained `theme_journal` that satisfies these conventions, and uses **linetypes instead of color** so the figure survives grayscale printing.
+
+```{r journal-style, fig.width=5, fig.height=3.5, fig.dpi=300}
+# ── Journal theme definition ───────────────────────────────────────────────
+theme_journal <- function(base_size = 10, base_family = "serif") {
+  theme_classic(base_size = base_size, base_family = base_family) %+replace%
+    theme(
+      # Title & caption
+      plot.title      = element_text(size = base_size, face = "bold",
+                                     hjust = 0, margin = margin(b = 4)),
+      plot.caption    = element_text(size = base_size - 2, hjust = 0,
+                                     color = "grey40",
+                                     margin = margin(t = 6)),
+      # Axes
+      axis.title      = element_text(size = base_size),
+      axis.text       = element_text(size = base_size - 1, color = "black"),
+      axis.line       = element_line(color = "black", linewidth = 0.4),
+      axis.ticks      = element_line(color = "black", linewidth = 0.4),
+      # No background, no minor grid; faint major grid only
+      panel.grid.major = element_line(color = "grey88", linewidth = 0.3),
+      panel.grid.minor = element_blank(),
+      # Legend: compact, inside or below
+      legend.title    = element_text(size = base_size - 1, face = "bold"),
+      legend.text     = element_text(size = base_size - 1),
+      legend.key.width = unit(1.5, "cm"),   # room to see the linetype
+      legend.position = "bottom",
+      legend.background = element_blank(),
+      # Margins
+      plot.margin     = margin(6, 8, 6, 6)
+    )
+}
+
+# ── Plot: grayscale + linetype (no reliance on color) ─────────────────────
+p_journal <- ggplot(econ,
+                    aes(x = date, y = value_idx,
+                        color    = variable,
+                        linetype = variable)) +
+  geom_line(linewidth = 0.6) +
+  scale_color_grey(start = 0, end = 0.6) +      # black → mid-grey
+  scale_linetype_manual(values = c("solid", "dashed", "dotdash")) +
+  labs(
+    title    = "U.S. Economic Indicators, 1967–2015",
+    subtitle = NULL,
+    x        = "Year",
+    y        = "Index (0 – 100)",
+    color    = NULL,
+    linetype = NULL,
+    caption  = "Note: Each series re-indexed to [0, 100]. Source: ggplot2::economics_long."
+  ) +
+  theme_journal()
+
+p_journal
+```
+
+Key design choices that match journal submission guidelines:
+
+- **Serif font** (`"serif"`) matches the body typeface of most economics journals.
+- **`scale_color_grey()` + `scale_linetype_manual()`** — the figure is fully legible in both color and grayscale print, satisfying most journals' figure requirements.
+- **`fig.width = 5, fig.height = 3.5`** targets a single-column figure width (\~127 mm) common in two-column journal layouts.
+- **`fig.dpi = 300`** meets the minimum resolution for most journals (300 dpi for line art).
+- No fill, no background shading, no minor gridlines — eliminates chart junk per Tufte's principles.
+
+To export the figure as a standalone file for submission:
+
+```{r journal-export, eval=FALSE}
+ggsave("fig1.png", plot = p_journal,
+       width = 5, height = 3.5, units = "in", device = "png")
+
+ggsave("fig1.tiff", plot = p_journal,
+       width = 5, height = 3.5, units = "in",
+       dpi = 600, compression = "lzw")   # 600 dpi TIFF for some journals
 ```

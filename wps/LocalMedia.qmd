@@ -1,0 +1,27 @@
+---
+title: "When the Watchdog Leaves, the Empire Shrinks: Local Media Closures and Corporate Investment"
+description: "*Under Submission*"
+author: 
+  - name: "Yunju Cha"
+    affiliations:
+      - name: "National Chengchi University"
+  - name: "**Calvin J. Chiou**"
+    affiliations:
+      - name: "National Chengchi University"
+  - name: "Chin-En Wu"
+    affiliations:
+      - name: "Drexel University"
+attributes:
+  corresponding: true
+date: "May, 2026"
+categories:
+  - Working Papers
+---
+
+## Abstract
+
+Contrary to the conventional view that weaker external monitoring emboldens self-interested managers, we find that CEOs reduce empire building after a local newspaper closes near firm headquarters. Using a difference-in-differences design exploiting local newspaper closures in the United States from 2003 to 2018, affected firms overinvest less, undertake fewer and smaller acquisitions, and initiate fewer large and diversifying bids. The reduction is most pronounced in cash-financed acquisitions and in transaction categories most closely associated with managerial expansion incentives, while divestiture activity is unchanged. The evidence supports a reputation-preservation channel, in which heightened informational opacity raises financing frictions and managerial career concerns, inducing investment conservatism rather than entrenchment. Our results identify the local press primarily as a producer of information for capital providers rather than as a disciplinarian of managerial slack.
+
+## Keywords
+
+*Local newspapers, empire building, mergers and acquisitions, corporate governance*

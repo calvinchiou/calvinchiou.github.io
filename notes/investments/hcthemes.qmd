@@ -1,5 +1,5 @@
 ---
-title: "highcharter Themes"
+title: "highcharter Theme Gallery"
 author: 
   - name: "Asst. Prof. Calvin J. Chiou"
     email: jjchiou@nccu.edu.tw
@@ -8,223 +8,422 @@ author:
 format: 
   html: 
     toc: true
+    toc-depth: 3
+    toc-location: right
+    number-sections: true
+    self-contained: true
 editor: visual
 ---
 
-## Introduction
-
-In this document, we will explore various themes and styles available in `highcharter`.
-
-```{r, message=FALSE}
-library(highcharter) 
-library(dplyr)
-
-# Sample dataset
-data <- mtcars %>%
-  tibble::rownames_to_column(var = "car") %>%
-  mutate(cyl = as.factor(cyl))
-# Basic plot
-p <- highchart() %>% 
-    hc_add_series(data, type = "scatter", hcaes(x = mpg, y = hp, group = cyl))
-p %>% hc_title(text = "Default Theme")
+```{=html}
+<style>
+  .quarto-title-block .quarto-title {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+  }
+  .quarto-title-block .quarto-title::before {
+    content: "";
+    display: inline-block;
+    width: 228px;
+    height: 48px;
+    background: url("highcharts-logo.png") no-repeat center/contain;
+    flex-shrink: 0;
+  }
+</style>
 ```
 
-Below are examples of applying different themes to your plot:
+# Setup
+
+In this document, we explore various themes available in `highcharter` — the R wrapper for the Highcharts JavaScript library. All examples use a **line chart with three series** drawn from the built-in `economics_long` dataset (unemployment duration, personal consumption expenditure, and personal savings rate — rescaled to a common 0–100 index for comparability), mirroring the dataset used in the companion `ggplot2` theme gallery.
+
+```{r setup, message=FALSE, warning=FALSE}
+library(highcharter)
+library(dplyr)
+
+# ── Base data: three economic series, re-indexed to 0–100 ──────────────────
+rescale01 <- function(x) (x - min(x)) / (max(x) - min(x)) * 100
+
+econ <- ggplot2::economics_long |>
+  filter(variable %in% c("uempmed", "pce", "psavert")) |>
+  mutate(
+    variable = factor(variable,
+                      levels = c("uempmed", "pce", "psavert"),
+                      labels = c("Unemployment", "Consumption", "Savings")),
+    year     = as.integer(format(date, "%Y"))
+  ) |>
+  group_by(variable) |>
+  mutate(value_idx = rescale01(value01)) |>
+  ungroup()
+
+# ── Base highchart object (reused throughout) ──────────────────────────────
+# Each series is added separately so highcharter draws three distinct lines.
+make_base <- function() {
+  unemp <- filter(econ, variable == "Unemployment")
+  cons  <- filter(econ, variable == "Consumption")
+  sav   <- filter(econ, variable == "Savings")
+
+  highchart(type = "stock") |>
+    hc_add_series(unemp, "line", hcaes(x = date, y = value_idx),
+                  name = "Unemployment") |>
+    hc_add_series(cons,  "line", hcaes(x = date, y = value_idx),
+                  name = "Consumption") |>
+    hc_add_series(sav,   "line", hcaes(x = date, y = value_idx),
+                  name = "Savings") |>
+    hc_xAxis(title = list(text = "Year")) |>
+    hc_yAxis(title = list(text = "Index (0 – 100)")) |>
+    hc_tooltip(shared = TRUE, valueDecimals = 1) |>
+    hc_credits(enabled = TRUE,
+               text   = "Source: ggplot2::economics_long")
+}
+```
+
+> **Note:** `highcharter` produces **interactive HTML widgets**. Hover over any line to see crosshair tooltips; click legend entries to toggle series visibility. This is one of `highcharter`'s key advantages over static `ggplot2` output.
+
+------------------------------------------------------------------------
+
+# Default Theme
+
+```{r}
+make_base() |>
+  hc_title(text = "Default Theme")
+```
+
+------------------------------------------------------------------------
+
+# Built-in `highcharter` Themes
+
+All themes below are applied with `hc_add_theme()`. Each theme ships as a named function `hc_theme_*()` that returns an `hc_theme` object.
 
 ## Theme Google
 
 ```{r}
-p %>%
-  hc_title(text = "Theme Google") %>%
+make_base() |>
+  hc_title(text = "Theme Google") |>
   hc_add_theme(hc_theme_google())
 ```
 
 ## Theme Financial Times
 
 ```{r}
-p %>%
-  hc_title(text = "Theme Financial Times") %>%
+make_base() |>
+  hc_title(text = "Theme Financial Times") |>
   hc_add_theme(hc_theme_ft())
 ```
 
 ## Theme Economist
 
 ```{r}
-p %>%
-  hc_title(text = "Theme Economist") %>%
+make_base() |>
+  hc_title(text = "Theme Economist") |>
   hc_add_theme(hc_theme_economist())
 ```
 
 ## Theme Elementary
 
 ```{r}
-p %>%
-  hc_title(text = "Theme Elementary") %>%
+make_base() |>
+  hc_title(text = "Theme Elementary") |>
   hc_add_theme(hc_theme_elementary())
 ```
 
 ## Theme Simple
 
 ```{r}
-p %>%
-  hc_title(text = "Theme Simple") %>%
+make_base() |>
+  hc_title(text = "Theme Simple") |>
   hc_add_theme(hc_theme_smpl())
 ```
 
 ## Theme Database
 
 ```{r}
-p %>%
-  hc_title(text = "Theme Database") %>%
+make_base() |>
+  hc_title(text = "Theme Database") |>
   hc_add_theme(hc_theme_db())
 ```
 
 ## Theme FFX
 
 ```{r}
-p %>%
-  hc_title(text = "Theme FFX") %>%
+make_base() |>
+  hc_title(text = "Theme FFX") |>
   hc_add_theme(hc_theme_ffx())
 ```
 
 ## Theme FiveThirtyEight
 
 ```{r}
-p %>%
-  hc_title(text = "Theme FiveThirtyEight") %>%
+make_base() |>
+  hc_title(text = "Theme FiveThirtyEight") |>
   hc_add_theme(hc_theme_538())
 ```
 
 ## Theme Flat
 
 ```{r}
-p %>%
-  hc_title(text = "Theme Flat") %>%
+make_base() |>
+  hc_title(text = "Theme Flat") |>
   hc_add_theme(hc_theme_flat())
 ```
 
 ## Theme Flat Dark
 
 ```{r}
-p %>%
-  hc_title(text = "Theme Flat Dark") %>%
+make_base() |>
+  hc_title(text = "Theme Flat Dark") |>
   hc_add_theme(hc_theme_flatdark())
 ```
 
 ## Theme Chalk
 
 ```{r}
-p %>%
-  hc_title(text = "Theme Chalk") %>%
+make_base() |>
+  hc_title(text = "Theme Chalk") |>
   hc_add_theme(hc_theme_chalk())
 ```
 
 ## Theme Handdrawn
 
 ```{r}
-p %>%
-  hc_title(text = "Theme Handdrawn") %>%
+make_base() |>
+  hc_title(text = "Theme Handdrawn") |>
   hc_add_theme(hc_theme_handdrawn())
 ```
 
 ## Theme Dark Unica
 
 ```{r}
-p %>%
-  hc_title(text = "Theme Dark Unica") %>%
+make_base() |>
+  hc_title(text = "Theme Dark Unica") |>
   hc_add_theme(hc_theme_darkunica())
 ```
 
 ## Theme ggplot2
 
+Replicates the classic `ggplot2` gray aesthetic inside Highcharts.
+
 ```{r}
-p %>%
-  hc_title(text = "Theme ggplot2") %>%
+make_base() |>
+  hc_title(text = "Theme ggplot2") |>
   hc_add_theme(hc_theme_ggplot2())
 ```
 
 ## Theme Alone
 
 ```{r}
-p %>%
-  hc_title(text = "Theme Alone") %>%
+make_base() |>
+  hc_title(text = "Theme Alone") |>
   hc_add_theme(hc_theme_alone())
 ```
 
 ## Theme Bloom
 
 ```{r}
-p %>%
-  hc_title(text = "Theme Bloom") %>%
+make_base() |>
+  hc_title(text = "Theme Bloom") |>
   hc_add_theme(hc_theme_bloom())
 ```
 
-## Theme Gridlight
+## Theme Grid Light
 
 ```{r}
-p %>%
-  hc_title(text = "Theme Grid Light") %>%
+make_base() |>
+  hc_title(text = "Theme Grid Light") |>
   hc_add_theme(hc_theme_gridlight())
 ```
 
 ## Theme Highcharter
 
+The default documentation theme for the `highcharter` package itself.
+
 ```{r}
-p %>%
-  hc_title(text = "Theme Highcharter") %>%
+make_base() |>
+  hc_title(text = "Theme Highcharter") |>
   hc_add_theme(hc_theme_hcrt())
 ```
 
 ## Theme Null
 
+Strips all styling — useful as a blank canvas for fully custom themes.
+
 ```{r}
-p %>%
-  hc_title(text = "Theme Null") %>%
+make_base() |>
+  hc_title(text = "Theme Null") |>
   hc_add_theme(hc_theme_null())
 ```
 
 ## Theme Monokai
 
 ```{r}
-p %>%
-  hc_title(text = "Theme Monokai") %>%
+make_base() |>
+  hc_title(text = "Theme Monokai") |>
   hc_add_theme(hc_theme_monokai())
 ```
 
-## Theme Sansignika
+## Theme Sandsignika
 
 ```{r}
-p %>%
-  hc_title(text = "Theme Sansignika") %>%
+make_base() |>
+  hc_title(text = "Theme Sandsignika") |>
   hc_add_theme(hc_theme_sandsignika())
 ```
 
 ## Theme Sparkline
 
+`hc_theme_sparkline()` and its variant `hc_theme_sparkline_vb()` strip axes and chrome to produce compact inline sparklines.
+
 ```{r}
-p %>%
-  hc_title(text = "Theme Sparkline") %>%
+make_base() |>
+  hc_title(text = "Theme Sparkline") |>
   hc_add_theme(hc_theme_sparkline())
-p %>%
-  hc_title(text = "Theme Sparkline VB") %>%
+
+make_base() |>
+  hc_title(text = "Theme Sparkline VB") |>
   hc_add_theme(hc_theme_sparkline_vb())
 ```
 
 ## Theme Superheroes
 
 ```{r}
-p %>%
-  hc_title(text = "Theme Superheroes") %>%
+make_base() |>
+  hc_title(text = "Theme Superheroes") |>
   hc_add_theme(hc_theme_superheroes())
 ```
 
 ## Theme Tufte
 
+Inspired by Edward Tufte's data-ink ratio principles. `hc_theme_tufte2()` is a lighter variant.
+
 ```{r}
-p %>%
-  hc_title(text = "Theme Tufte") %>%
+make_base() |>
+  hc_title(text = "Theme Tufte") |>
   hc_add_theme(hc_theme_tufte())
-p %>%
-  hc_title(text = "Theme Tufte2") %>%
+
+make_base() |>
+  hc_title(text = "Theme Tufte 2") |>
   hc_add_theme(hc_theme_tufte2())
 ```
+
+------------------------------------------------------------------------
+
+# Custom Theme
+
+`hc_theme()` constructs a theme from scratch, and `hc_theme_merge()` layers a custom override on top of any existing theme — analogous to `%+replace%` in `ggplot2`.
+
+```{r}
+# ── Stand-alone custom theme ───────────────────────────────────────────────
+custom_hc_theme <- hc_theme(
+  colors = c("#2C3E50", "#E74C3C", "#27AE60"),   # 3 series colors
+  chart  = list(
+    backgroundColor = "#FAFAFA",
+    style = list(fontFamily = "Georgia, serif")
+  ),
+  title = list(
+    style = list(color = "#2C3E50", fontSize = "16px", fontWeight = "bold")
+  ),
+  xAxis = list(
+    gridLineColor  = "#ECF0F1",
+    lineColor      = "#BDC3C7",
+    tickColor      = "#BDC3C7",
+    labels = list(style = list(color = "#7F8C8D"))
+  ),
+  yAxis = list(
+    gridLineColor  = "#ECF0F1",
+    labels = list(style = list(color = "#7F8C8D"))
+  ),
+  legend = list(
+    itemStyle      = list(color = "#2C3E50", fontWeight = "normal"),
+    itemHoverStyle = list(color = "#E74C3C")
+  ),
+  tooltip = list(
+    backgroundColor = "#2C3E50",
+    style           = list(color = "#FFFFFF")
+  )
+)
+
+make_base() |>
+  hc_title(text = "Custom Theme") |>
+  hc_add_theme(custom_hc_theme)
+```
+
+## Merging Themes with `hc_theme_merge()`
+
+`hc_theme_merge()` takes any existing theme and patches only the properties you specify, leaving the rest intact — useful for minor tweaks without rewriting a full theme.
+
+```{r}
+# Start from Theme Simple and override just the background and title color
+merged_theme <- hc_theme_merge(
+  hc_theme_smpl(),
+  hc_theme(
+    chart = list(backgroundColor = "#F0F4F8"),
+    title = list(style = list(color = "#1A237E", fontWeight = "bold"))
+  )
+)
+
+make_base() |>
+  hc_title(text = "Theme Simple + Custom Override") |>
+  hc_add_theme(merged_theme)
+```
+
+------------------------------------------------------------------------
+
+# Academic Journal Style
+
+For working papers, slide decks, and online appendices, a clean high-contrast interactive figure is preferable to a static image. The theme below follows the same principles as the `theme_journal` in the `ggplot2` gallery — minimal chrome, serif font, no decorative fills — while retaining `highcharter`'s interactive tooltip and legend-toggle features.
+
+```{r}
+# ── Journal-style highcharter theme ───────────────────────────────────────
+# ── Convert dates to JS timestamps (required for type = "chart" datetime axis)
+econ_ts <- econ |> 
+  mutate(ts = datetime_to_timestamp(date))
+
+unemp <- filter(econ_ts, variable == "Unemployment")
+cons  <- filter(econ_ts, variable == "Consumption")
+sav   <- filter(econ_ts, variable == "Savings")
+
+highchart() |>
+  hc_chart(type = "line") |>
+  hc_xAxis(type  = "datetime",
+           title = list(text = "Year"),
+           lineColor = "#000000", lineWidth = 1,
+           tickColor = "#000000", gridLineWidth = 0,
+           labels = list(style = list(color = "#000000", fontSize = "11px"))) |>
+  hc_yAxis(title = list(text = "Index (0 – 100)"),
+           gridLineColor = "#DDDDDD", gridLineWidth = 1,
+           labels = list(style = list(color = "#000000", fontSize = "11px"))) |>
+  hc_add_series(name = "Unemployment",
+                data = list_parse2(data.frame(unemp$ts, unemp$value_idx))) |>
+  hc_add_series(name = "Consumption",
+                data = list_parse2(data.frame(cons$ts,  cons$value_idx)))  |>
+  hc_add_series(name = "Savings",
+                data = list_parse2(data.frame(sav$ts,   sav$value_idx)))   |>
+  hc_colors(c("#000000", "#555555", "#AAAAAA")) |>      # explicit, not via theme
+  hc_plotOptions(series = list(lineWidth = 1.5,
+                               marker    = list(enabled = FALSE))) |>
+  hc_tooltip(shared = TRUE, valueDecimals = 1,
+             backgroundColor = "#FFFFFF", borderColor = "#000000",
+             style = list(color = "#000000", fontSize = "11px")) |>
+  hc_title(text = "U.S. Economic Indicators, 1967–2015",
+           align = "left",
+           style = list(fontSize = "13px", fontWeight = "bold")) |>
+  hc_subtitle(text = "Each series re-indexed to [0, 100]",
+              align = "left",
+              style = list(color = "#444444", fontSize = "11px")) |>
+  hc_legend(itemStyle      = list(color = "#000000", fontWeight = "normal",
+                                  fontSize = "11px"),
+            itemHoverStyle = list(color = "#555555")) |>
+  hc_credits(enabled = TRUE,
+             text  = "Source: ggplot2::economics_long",
+             style = list(color = "#888888", fontSize = "10px")) |>
+  hc_chart(style = list(fontFamily = "Georgia, Times New Roman, serif"))
+```
+
+Key design choices:
+
+- **Serif font** (`Georgia`) matches the body typeface of most economics journals and is consistent with the `ggplot2` journal theme in the companion gallery.
+- **Grayscale color palette** — black, mid-grey, light-grey — ensures the chart survives greyscale printing if a static screenshot is embedded in a PDF submission.
+- **No dot markers** on lines (`marker = list(enabled = FALSE)`) reduces visual clutter in dense time-series charts.
+- **Left-aligned title** follows APA and most economics journal figure conventions.
+- **Minimal gridlines** — horizontal only, light grey — provides y-axis orientation without chart junk.
+- Interactive tooltips and legend toggles are retained for the HTML/online-appendix version.

@@ -52,9 +52,9 @@ Classical asset pricing (CAPM) predicts that only systematic risk (covariance wi
 
 Behavioral models depart from this view in two complementary ways:
 
--   **Cumulative Prospect Theory** [@barberis2008stocks]: Investors overweight small probabilities of large gains, leading them to overpay for positively-skewed (lottery-like) assets. In equilibrium, these assets earn *lower* expected returns.
+- **Cumulative Prospect Theory** [@barberis2008stocks]: Investors overweight small probabilities of large gains, leading them to overpay for positively-skewed (lottery-like) assets. In equilibrium, these assets earn *lower* expected returns.
 
--   **Optimal Beliefs / Skewness Preference** [@brunnermeier2007optimal; @mitton2007equilibrium]: When investors are under-diversified, idiosyncratic skewness enters their utility directly. They willingly hold positively-skewed stocks at a discount to expected return.
+- **Optimal Beliefs / Skewness Preference** [@brunnermeier2007optimal; @mitton2007equilibrium]: When investors are under-diversified, idiosyncratic skewness enters their utility directly. They willingly hold positively-skewed stocks at a discount to expected return.
 
 Both frameworks predict the empirical pattern documented by @bali2011maxing: stocks with extreme positive recent returns earn *lower* subsequent returns.
 
@@ -154,9 +154,7 @@ stocks_monthly_ret <- stocks_ret |>
 
 Following @bali2011maxing, we define for each stock $i$ at the end of month $t$:
 
-$$
-\text{MAX}_{i,t} = \max\{R_{i,d}\}, \quad d \in \text{month } t
-$$
+$$\text{MAX}_{i,t} = \max\{R_{i,d}\}, \quad d \in \text{month } t$$
 
 That is, MAX is the single largest daily return observed during the formation month. High-MAX stocks are those that recently experienced an extreme up-day — the kind of payoff that, behaviorally, attracts lottery-seeking investors.
 
@@ -212,9 +210,9 @@ cat(sprintf("MAX L-S monthly mean: %.2f%% | Sharpe (ann.): %.3f\n",
 
 Any single skewness measure — MAX, total skewness, or anything else — is noisy. @kumar2016gambling and @kumar2024skewness argue that *bundling* characteristics gives a more reliable identifier of "lottery stocks." Their **lottery index (LIDX)** combines three features that retail investors collectively associate with gambling-style payoffs:
 
--   **Low price** — lottery stocks are typically cheap in absolute terms, since retail investors are often capital-constrained and prefer to buy whole shares cheaply.
--   **High idiosyncratic volatility** — they offer dispersion in outcomes.
--   **High idiosyncratic skewness** — they offer the right-tail "jackpot" possibility.
+- **Low price** — lottery stocks are typically cheap in absolute terms, since retail investors are often capital-constrained and prefer to buy whole shares cheaply.
+- **High idiosyncratic volatility** — they offer dispersion in outcomes.
+- **High idiosyncratic skewness** — they offer the right-tail "jackpot" possibility.
 
 A stock that scores high on all three is the canonical lottery stock. The construction is similar in spirit to the individual-investor preference index in @lin2018skewness — average percentile ranks across multiple characteristics to wash out idiosyncratic noise in any single proxy.
 

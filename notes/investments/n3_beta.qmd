@@ -12,9 +12,9 @@ editor: visual
 
 # Course Information
 
--   **Course Name:** Investments \| 000351051
+- **Course Name:** Investments \| 000351051
 
--   **Semester:** Spring 2025
+- **Semester:** Spring 2025
 
 ## Introduction
 
@@ -89,7 +89,7 @@ datatable(returns_data) |>
   formatRound(columns = c("stock_return","market_return"), digits = 4)
 ```
 
-### **Visualize Stock Prices**
+### **3. Visualize Stock Prices**
 
 We will visualize the stock prices of Apple using **`ggplot2`** with a nice theme.
 
@@ -140,21 +140,19 @@ The market model is a statistical model that describes the relationship between 
 
 [^2]: You might be wondering why the risk-free rate is ignored in the market model. Indeed, some people would regress $R_i-R_f$ on $R_M-R_f$, where the risk-free rate, $R_f$, is typically measured by Treasury Bill yields. Including the risk-free rate will make beta coefficient slightly different, but the change will be usually minor. For simplicity, you may choose to ignore the risk-free rate.
 
-$$
-R_i=\alpha+ \beta \times R_m + \epsilon
-$$
+$$R_i=\alpha+ \beta \times R_m + \epsilon$$
 
 where:
 
--   $R_i$ is the return of the individual stock.
+- $R_i$ is the return of the individual stock.
 
--   $\alpha$ (alpha) is the intercept, representing the stock's return independent of the market's return.
+- $\alpha$ (alpha) is the intercept, representing the stock's return independent of the market's return.
 
--   $\beta$ (beta) is the slope coefficient, representing the sensitivity of the stock's return to the market's return (this is the beta coefficient we are estimating).
+- $\beta$ (beta) is the slope coefficient, representing the sensitivity of the stock's return to the market's return (this is the beta coefficient we are estimating).
 
--   $R_m$ is the return of the market.
+- $R_m$ is the return of the market.
 
--   $\epsilon$ (epsilon) is the error term, representing the part of the stock's return not explained by the market return.
+- $\epsilon$ (epsilon) is the error term, representing the part of the stock's return not explained by the market return.
 
 In this section, we will perform a linear regression of the stock returns on the market returns to estimate the beta coefficient. The beta coefficient indicates how much the stock's return is expected to change in response to a 1% change in the market's return. A beta greater than 1 indicates that the stock is more volatile than the market, while a beta less than 1 indicates that the stock is less volatile. Theoretically, beta coefficient is considered as a measure of systematic risk of a stock.
 

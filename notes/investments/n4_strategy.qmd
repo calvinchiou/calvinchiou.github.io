@@ -44,9 +44,9 @@ head(etf_data)
 
 We compute two simple moving averages:
 
--   **MA20**: Short-term (20-day) average
+- **MA20**: Short-term (20-day) average
 
--   **MA50**: Long-term (50-day) average
+- **MA50**: Long-term (50-day) average
 
 These are commonly used in technical trading strategies to identify trend changes.
 
@@ -65,9 +65,9 @@ head(etf_ma)
 
 We generate buy and sell signals:
 
--   **Buy** when MA20 crosses **above** MA50
+- **Buy** when MA20 crosses **above** MA50
 
--   **Sell** when MA20 crosses **below** MA50
+- **Sell** when MA20 crosses **below** MA50
 
 ```{r}
 etf_signals <- etf_ma |> 
@@ -210,9 +210,9 @@ A **buy-and-hold strategy** is one of the most basic forms of passive investing.
 
 In this section, we simulate a buy-and-hold approach for `0050.TW`, starting from **March 27, 2023**. This date is chosen arbitrarily within our sample period, and we invest the full capital of **NT\$1,000,000** on that day. We then compare this strategy to:
 
--   The *moving average crossover strategy*
+- The *moving average crossover strategy*
 
--   The *market benchmark* using the TAIEX index
+- The *market benchmark* using the TAIEX index
 
 ```{r}
 # Filter data from 2023-03-27 onward
