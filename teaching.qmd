@@ -1,6 +1,7 @@
 ---
 title: "Teaching"
-toc: true
+table-of-contents: true
+editor: visual
 ---
 
 <lord-icon src='https://cdn.lordicon.com/vvyxyrur.json' trigger='loop' delay='1500' colors='primary:#121331,secondary:#3080e8' style='width:60px;height:60px'></lord-icon>
