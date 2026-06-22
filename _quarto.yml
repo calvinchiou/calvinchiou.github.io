@@ -26,6 +26,8 @@ website:
         text: Teaching
       - href: resources.qmd
         text: Resources
+      # - href: io_exposures_dashboard.qmd
+      #   text: Dashboard
     
     right: 
       - icon: linkedin

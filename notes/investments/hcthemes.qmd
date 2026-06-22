@@ -12,6 +12,8 @@ format:
     toc-location: right
     number-sections: true
     self-contained: true
+    highlight-style: github
+    title-block-banner: true
 editor: visual
 ---
 
@@ -25,9 +27,9 @@ editor: visual
   .quarto-title-block .quarto-title::before {
     content: "";
     display: inline-block;
-    width: 228px;
+    width:  48px;
     height: 48px;
-    background: url("highcharts-logo.png") no-repeat center/contain;
+    background: url("highcharts.svg") no-repeat center/contain;
     flex-shrink: 0;
   }
 </style>

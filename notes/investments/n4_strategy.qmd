@@ -6,7 +6,14 @@ author:
     affiliations: 
     - name: "National Chengchi University (NCCU)"
 
-format: html
+format: 
+  html: 
+    toc: true
+    toc-depth: 3
+    toc-location: right
+    number-sections: false
+    self-contained: true
+    highlight-style: github
 editor: visual
 ---
 
@@ -17,7 +24,13 @@ library(lubridate)
 library(highcharter)
 ```
 
-## Introduction
+## Course Information
+
+- **Course Name:** Investments \| 000351051
+
+- **Semester:** Spring 2026
+
+# Introduction
 
 This document demonstrates a simple quantitative strategy applied to the Taiwan 50 ETF (symbol: `0050.TW`), one of the most actively traded ETFs representing large-cap stocks in Taiwan. The aim is twofold:
 
@@ -28,7 +41,7 @@ This document demonstrates a simple quantitative strategy applied to the Taiwan 
 
 Through this analysis, we seek to understand how systematic market movements explain the performance of 0050.TW and evaluate whether a naive technical strategy offers meaningful results in the context of Taiwan's equity market.
 
-## **1. Retrieve Historical Price Data**
+## 1. Retrieve Historical Price Data
 
 We begin by retrieving daily adjusted price data for the ETF 0050.TW. This serves as the basis for both the trading simulation and return calculations.
 
@@ -40,7 +53,7 @@ etf_data <- tq_get("0050.TW",
 head(etf_data)
 ```
 
-## **2. Calculate Moving Averages**
+## 2. Calculate Moving Averages
 
 We compute two simple moving averages:
 
@@ -82,7 +95,7 @@ etf_signals <- etf_ma |>
 etf_signals |> filter(!is.na(signal))
 ```
 
-## **4. Simulate Trading Strategy**
+## 4. Simulate Trading Strategy
 
 We simulate an all-in/all-out strategy using an initial capital of NT\$1,000,000. The strategy takes full positions based on the generated signals and tracks the portfolio value over time.
 
@@ -116,7 +129,7 @@ for (i in 1:nrow(etf_signals)) {
 }
 ```
 
-## **5. Plot Portfolio Performance**
+## 5. Plot Portfolio Performance
 
 We plot the evolution of total portfolio value to visualize how the trading strategy performed over time.
 
@@ -134,7 +147,7 @@ highchart() |>
   hc_legend(enabled = FALSE)
 ```
 
-## **6. Final Performance Summary**
+## 6. Final Performance Summary
 
 We summarize the total return of the strategy from start to end.
 
@@ -146,7 +159,7 @@ cat("Final Value: NT$", round(final_value, 2), "\n")
 cat("Total Return: ", round(return_pct, 2), "%")
 ```
 
-## **7. Retrieve Taiwan Market Index**
+## 7. Retrieve Taiwan Market Index
 
 To examine systematic risk, we retrieve the TWSE Capitalization Weighted Stock Index (`^TWII`) as a proxy for Taiwan’s stock market.
 
@@ -157,7 +170,7 @@ market_data <- tq_get("^TWII", from = "2023-03-27", to = "2024-04-30") |>
 head(market_data)
 ```
 
-## **8. Simulate Buy-and-Hold Benchmark**
+## 8. Simulate Buy-and-Hold Benchmark
 
 We simulate how the NT\$1,000,000 investment in the TAIEX index grows by holding all shares purchased on the first day to the end.
 

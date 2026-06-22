@@ -11,19 +11,19 @@ This page shares something that are excellent for academic beginners!
 
 ### Finance
 
--   [The Economist's Craft](https://press.princeton.edu/books/hardcover/9780691216492/the-economists-craft): An Introduction to Research, Publishing, and Professional Development, Michael S. Weisbach, 2021, Princeton University Press.
--   [Tidy Finance](https://www.tidy-finance.org/)
--   Cochrane, J. H. (2005). [*Asset Pricing*](https://www.johnhcochrane.com/asset-pricing). Princeton University Press.
+- [The Economist's Craft](https://press.princeton.edu/books/hardcover/9780691216492/the-economists-craft): An Introduction to Research, Publishing, and Professional Development, Michael S. Weisbach, 2021, Princeton University Press.
+- [Tidy Finance](https://www.tidy-finance.org/)
+- Cochrane, J. H. (2005). [*Asset Pricing*](https://www.johnhcochrane.com/asset-pricing). Princeton University Press.
 
 ### Data Science
 
--   [Data Science Live Book](https://livebook.datascienceheroes.com/), Pablo Casas, 2019.
--   [Cookbook for R](http://www.cookbook-r.com/), Winston Chang, 2013.
+- [Data Science Live Book](https://livebook.datascienceheroes.com/), Pablo Casas, 2019.
+- [Cookbook for R](http://www.cookbook-r.com/), Winston Chang, 2013.
 
 # Websites
 
--   [Prof. Robert Faff's Pitching Research Template](https://pitchingresearch.com/)
+- [Prof. Robert Faff's Pitching Research Template](https://pitchingresearch.com/)
 
--   [Finance Conference Calendar](https://afajof.org/conference-calendar/) via [AFA](https://afajof.org/)
+- [Finance Conference Calendar](https://afajof.org/conference-calendar/) via [AFA](https://afajof.org/)
 
--   [Manning Publications](https://www.manning.com/) for technical books.
+- [Manning Publications](https://www.manning.com/) for technical books.

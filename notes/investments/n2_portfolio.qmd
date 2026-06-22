@@ -6,15 +6,22 @@ author:
     affiliations: 
     - name: "National Chengchi University (NCCU)"
 
-format: html
+format: 
+  html: 
+    toc: true
+    toc-depth: 3
+    toc-location: right
+    number-sections: false
+    self-contained: true
+    highlight-style: github
 editor: visual
 ---
 
 ## Course Information
 
--   **Course Name:** Investments \| 000351051
+- **Course Name:** Investments \| 000351051
 
--   **Semester:** Spring 2025
+- **Semester:** Spring 2025
 
 ## 1. Fetching Stock Data
 
@@ -59,7 +66,7 @@ datatable(initial_positions)
 
 ## 3. Portfolio Valuation and Return Calculation
 
-### Portfolio Value
+### 3.1 Portfolio Value
 
 Calculate the portfolio value for each trading day:
 
@@ -75,19 +82,17 @@ datatable(portfolio) |>
   formatRound(columns = c("total_value"), digits = 2)
 ```
 
-### Portfolio Returns
+### 3.2 Portfolio Returns
 
-### A. Calculating returns from the net value of portfolio
+#### A. Calculating returns from the net value of portfolio
 
 Returns in finance can be calculated using either discrete or continuous methods. Both approaches measure investment performance but have different interpretations and applications. Here presents the key difference between these two:
 
 | Feature | Discrete Returns | Continuous Returns |
 |------------------------|------------------------|------------------------|
-| **Formula** | $$
-R_t=P_t/P_{t-1}-1
-$$ | $$
-R_t=ln(P_t/P_{t-1})
-$$ |
+| **Formula** |  |  |
+| $$R_t=P_t/P_{t-1}-1$$ |  |  |
+| $$R_t=ln(P_t/P_{t-1})$$ |  |  |
 | **Interpretation** | Simple percentage change | Log-based compounding change |
 | **Time Additivity** | ❌ No | ✅ Yes |
 | **Compounding** | Not considered | Naturally accounts for compounding |
@@ -104,7 +109,7 @@ datatable(portfolio) |>
   formatRound(columns = c("total_value","discrete_return","continuous_return"), digits = 2)
 ```
 
-### B. Calculating returns directly from portfolio securities
+#### B. Calculating returns directly from portfolio securities
 
 Similar to the previous method, we calculate discrete and continuous returns for the portfolio through portfoflio stocks directly rather than net value:
 
@@ -139,7 +144,7 @@ datatable(portfolio_ret) |>
   formatRound(columns = c("port_return"), digits = 4)
 ```
 
-### Portfolio Volatility
+### 3.3 Portfolio Volatility
 
 Calculate variance and volatility (standard deviation) of portfolio returns from individual stocks.
 
@@ -149,13 +154,13 @@ $$ \sigma_p = \sqrt{ w^T \mathbf{\Sigma}w}$$
 
 Where:
 
--   $\sigma_p$ = Portfolio volatility
+- $\sigma_p$ = Portfolio volatility
 
--   $w$ = Column vector of asset weights ($w_1, w_2, w_3, w_4$)
+- $w$ = Column vector of asset weights ($w_1, w_2, w_3, w_4$)
 
--   $\mathbf{\Sigma}$ = Covariance matrix of asset returns
+- $\mathbf{\Sigma}$ = Covariance matrix of asset returns
 
--   $w^T$ = Transposed weight vector
+- $w^T$ = Transposed weight vector
 
 ```{r}
 # sigma for each stock
@@ -209,7 +214,7 @@ This interactive visualization shows how the value of your equally weighted port
 
 Buy-and-hold returns represent the total return from buying a stock and holding it over a specified period, without any transactions in between.
 
-### Calculation
+#### Calculation
 
 To calculate buy-and-hold returns:
 
@@ -246,7 +251,7 @@ combined_portfolios <- portfolio |>
 head(combined_portfolios)
 ```
 
-### Visualization of Both Portfolios
+#### Visualization of Both Portfolios
 
 ```{r}
 combined_portfolios_long <- combined_portfolios |> 
@@ -264,13 +269,13 @@ hchart(combined_portfolios_long, "line", hcaes(x = date, y = Value, group = Port
 
 1.  Suppose we use the following portfolio weights: XOM (20%), WMT (30%), NVDA (30%), and AAPL (20%).
 
-    -   Recalculate how many shares you would purchase initially.
-    -   Compute and visualize the portfolio value and returns.
+    - Recalculate how many shares you would purchase initially.
+    - Compute and visualize the portfolio value and returns.
 
 2.  Change the budget to \$500,000 and use portfolio weights: XOM (25%), WMT (25%), NVDA (25%), and AAPL (25%).
 
-    -   Recalculate the shares purchased, portfolio value, and returns.
-    -   Provide an interactive visualization for this scenario.
+    - Recalculate the shares purchased, portfolio value, and returns.
+    - Provide an interactive visualization for this scenario.
 
 ------------------------------------------------------------------------
 

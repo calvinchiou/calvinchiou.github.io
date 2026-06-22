@@ -7,24 +7,24 @@ toc: true
 
 ## General
 
--   If students would like to request recommendation letters from me, please read [Recommendation Letter Policy](recommendation.qmd)
+- If students would like to request recommendation letters from me, please read [Recommendation Letter Policy](recommendation.qmd)
 
 ## Undergraduate level
 
--   [**Investments**](investments.qmd), National Chengchi University, Spring 2025
--   **Financial Management**, National Chengchi University, 2024
+- [**Investments**](investments.qmd), National Chengchi University, Spring 2025
+- **Financial Management**, National Chengchi University, 2024
 
 ## Ph.D. level
 
--   **Seminar on Corporate Finance** (PhD), National Chengchi University, Spring 2025
+- **Seminar on Corporate Finance** (PhD), National Chengchi University, Spring 2025
 
 ## Other
 
--   **Textual Analysis and Web Crawling using R** (mini-workshop), National Central University, Fall 2017.
+- **Textual Analysis and Web Crawling using R** (mini-workshop), National Central University, Fall 2017.
 
 ## Teaching Awards & Grants
 
--   Off-Site to UT Austin EMI Professional Development Program \| 2025\
-    ![](img/utaustin_logo.svg.png){width="245" height="69"} ![](img/rcemi.png){width="98"}
--   Excellent Undergraduate English-taught Course Award, NCCU \| 2024
--   Professorship Mentor Program, NCCU \| 2024
+- Off-Site to UT Austin EMI Professional Development Program \| 2025\
+  ![](img/utaustin_logo.svg.png){width="245" height="69"} ![](img/rcemi.png){width="98"}
+- Excellent Undergraduate English-taught Course Award, NCCU \| 2024
+- Professorship Mentor Program, NCCU \| 2024
