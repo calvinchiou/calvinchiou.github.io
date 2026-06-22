@@ -1,0 +1,565 @@
+---
+title: "Week 2: The Time Value of Money"
+subtitle: "Financial Calculation with R"
+author: "Calvin J. Chiou | 邱健嘉"
+institute: "National Chengchi University"
+format:
+  revealjs:
+    theme: serif
+    transition: slide
+    slide-number: c/t
+    progress: true
+    footer: "Week 2 · Time Value of Money"
+    chalkboard: false
+    code-fold: false
+    code-line-numbers: false
+    code-overflow: wrap
+    highlight-style: github
+    embed-resources: true
+    logo: images/logo_en.png
+    fig-align: center
+    # fig-width: 8
+    # fig-height: 4.5
+    width: 1280
+    height: 720
+knitr:
+  opts_chunk:
+    echo: true
+    # eval: false
+    message: false
+    warning: false
+    fig-align: center
+    out-width: "80%"
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+```{=html}
+<style>
+.reveal { font-size: 30px; }
+.reveal section h2 { color: #234E70; }
+.reveal .footer { font-size: 0.55em; opacity: 0.75; }
+.reveal .slide-number { font-size: 0.6em; }
+.reveal pre code { font-size: 0.78em; line-height: 1.25; }
+.reveal table { font-size: 0.85em; }
+.reveal table.dataTable {font-size: 0.75em !important; }
+.reveal .dataTables_wrapper {font-size: 0.75em !important; }
+</style>
+```
+
+```{r, eval=TRUE, echo=FALSE}
+#| label: "load"
+library(tidyquant)
+library(tidyverse)
+library(highcharter)
+library(ggplot2)
+library(ggthemes)
+```
+
+# The Core Idea
+
+## A dollar today is not a dollar tomorrow
+
+Suppose someone offers you a choice:
+
+- **Option A:** NT\$1,000 today.
+- **Option B:** NT\$1,000 one year from today.
+
+Which is better? Most people pick A. Why?
+
+## A dollar today is not a dollar tomorrow
+
+Suppose someone offers you a choice:
+
+- **Option A:** NT\$1,000 today.
+- **Option B:** NT\$1,000 one year from today.
+
+Which is better? Most people pick A. Why?
+
+**Three reasons:**
+
+1.  You could invest A and earn interest.
+2.  Inflation may erode B's purchasing power.
+3.  B is uncertain --- you might not actually get it.
+
+## The fundamental relation
+
+If you can invest at an annual rate $r$, then **NT\$1 today** grows to
+**NT\$(1+r)** in one year.
+
+Equivalently, **NT\$1 next year** is worth only **NT\$**$\frac{1}{1+r}$
+today.
+
+This single idea --- the **discount factor** $\frac{1}{1+r}$ --- is the
+foundation of every valuation formula in finance, from a savings account
+to a billion-dollar acquisition.
+
+# 1. Future Value and Present Value
+
+## Future Value
+
+Investing $PV$ today at rate $r$ for $n$ years:
+
+::: {.callout-note title="Future value (annual compounding)"}
+$$FV = PV \cdot (1+r)^n$$
+:::
+
+```{r}
+PV <- 1000
+r  <- 0.05
+n  <- 10
+FV <- PV * (1 + r)^n
+FV
+```
+
+NT\$1,000 today becomes NT\$1,628.89 in ten years at 5%.
+
+## Present Value
+
+Running the relation backwards:
+
+::: {.callout-note title="Present value"}
+$$PV = \frac{FV}{(1+r)^n}$$
+:::
+
+```{r}
+FV <- 1000
+r  <- 0.05
+n  <- 10
+PV <- FV / (1 + r)^n
+PV
+```
+
+NT\$1,000 *promised* in ten years is worth only NT\$613.91 today.
+
+## Writing a reusable function
+
+Hard-coding numbers is fragile. Wrap the formula in a function:
+
+```{r}
+pv <- function(FV, r, n) FV / (1 + r)^n
+fv <- function(PV, r, n) PV * (1 + r)^n
+
+pv(FV = 1000, r = 0.05, n = 10)
+fv(PV = 1000, r = 0.05, n = 10)
+```
+
+Now any calculation in the course can call `pv()` or `fv()`.
+
+# 2. Compounding
+
+## Compounding $m$ times per year
+
+If interest is paid $m$ times per year, each period the rate is $r/m$:
+
+::: callout-note
+$$FV = PV \cdot \left(1 + \frac{r}{m}\right)^{m\,n}$$
+:::
+
+```{r}
+PV <- 1000; r <- 0.05; n <- 10
+m <- c(1, 2, 4, 12, 365)
+FV_m <- PV * (1 + r/m)^(m*n)
+data.frame(periods_per_year = m, FV = round(FV_m, 2))
+```
+
+More frequent compounding $\Rightarrow$ larger FV, but the gains shrink
+fast.
+
+## Continuous compounding
+
+Take $m \to \infty$:
+
+::: {.callout-note title="Continuous compounding"}
+$$FV = PV \cdot e^{r n}, \qquad PV = FV \cdot e^{-r n}$$
+:::
+
+```{r}
+PV <- 1000; r <- 0.05; n <- 10
+FV_cont <- PV * exp(r * n)
+FV_cont
+```
+
+This is the form you'll meet again in option pricing (Black-Scholes uses
+continuous compounding throughout).
+
+## Visualizing the compounding gap
+
+```{r}
+#| code-fold: true
+n <- 0:30
+df <- data.frame(
+  year   = n,
+  simple = 1000 + 1000 * 0.05 * n,
+  comp   = 1000 * (1 + 0.05)^n,
+  comp_monthly = 1000 * (1 + 0.05/12)^(n*12),
+  cont   = 1000 * exp(0.05 * n)
+)
+```
+
+```{r, eval=TRUE}
+#| code-fold: true
+highchart(width = 1280) |>
+  hc_title(text = "Simple vs. Annual vs. Continuous Compounding") |>
+  hc_xAxis(title = list(text = "Year"), categories = df$year) |>
+  hc_yAxis(title = list(text = "Future Value (NT$)")) |>
+  hc_add_series(name = "Simple", data = df$simple, type = "line") |>
+  hc_add_series(name = "Annual",data = df$comp,type = "line") |>
+  hc_add_series(name = "Monthly",data = df$comp_monthly,type = "line") |>
+  hc_add_series(name = "Continuous", data = df$cont, type = "line") |>
+  hc_tooltip(shared = TRUE, valueDecimals = 2) |>
+  hc_plotOptions(series = list(marker = list(enabled = FALSE)))
+```
+
+# 3. Annuities
+
+## What is an annuity?
+
+An **annuity** is a stream of equal cash flows $C$ paid at the end of
+each period for $n$ periods. Examples:
+
+- Monthly mortgage payments.
+- Yearly retirement-fund withdrawals.
+- Coupon payments on a bond.
+
+The present value of all those payments is the sum of $n$ discounted
+cash flows.
+
+## The annuity formula
+
+::: {.callout-note title="Present value of an ordinary annuity"}
+$$PV = C \cdot \frac{1 - (1+r)^{-n}}{r}$$
+:::
+
+```{r}
+annuity_pv <- function(C, r, n) {
+  C * (1 - (1 + r)^(-n)) / r
+}
+annuity_pv(C = 50000, r = 0.04, n = 20)
+```
+
+NT\$50,000 every year for 20 years at 4% has a present value of about
+NT\$679,500 --- much less than $20 \times 50{,}000 = 1{,}000{,}000$.
+
+## Perpetuity
+
+Let $n \to \infty$ in the annuity formula:
+
+::: {.callout-note title="Perpetuity"}
+$$PV = \frac{C}{r}$$
+:::
+
+```{r}
+perp_pv <- function(C, r) C / r
+perp_pv(C = 50000, r = 0.04)
+```
+
+A NT\$50,000 perpetual payment at 4% is worth NT\$1,250,000 today ---
+the same logic underlies the **Gordon growth model** for valuing stocks.
+
+# 4. Net Present Value
+
+## Mixed cash flows: NPV
+
+Most real projects produce *unequal* cash flows at different times. Sum
+them all, discounted to today:
+
+::: {.callout-note title="Net present value"}
+$$NPV = \sum_{t=0}^{n} \frac{CF_t}{(1+r)^t}$$
+:::
+
+**Decision rule:** invest if $NPV > 0$.
+
+## NPV in R
+
+```{r}
+cf <- c(-100000, 30000, 35000, 40000, 45000)
+r  <- 0.08
+t  <- 0:(length(cf) - 1)
+NPV <- sum(cf / (1 + r)^t)
+NPV
+```
+
+A small investment with a positive NPV of about NT\$22,300 --- the
+project creates value.
+
+## Internal Rate of Return (IRR)
+
+The IRR is the discount rate that makes $NPV = 0$:
+$$\sum_{t=0}^{n} \frac{CF_t}{(1+\text{IRR})^t} = 0.$$
+
+```{r}
+npv <- function(r, cf) {
+  t <- 0:(length(cf) - 1)
+  sum(cf / (1 + r)^t)
+}
+irr <- uniroot(npv, interval = c(-0.99, 1), cf = cf)$root
+irr
+```
+
+If IRR exceeds your required return, accept the project --- equivalent
+to $NPV > 0$ when cash flows are conventional.
+
+# 5. A Mini Application
+
+## How much to save for retirement?
+
+You are 25, want NT\$10,000,000 by age 65, earning 6% per year. How much
+do you need to save *each year*?
+
+Rearrange the future-value-of-annuity formula:
+
+$$FV = C \cdot \frac{(1+r)^n - 1}{r}
+\quad\Rightarrow\quad
+C = \frac{FV \cdot r}{(1+r)^n - 1}$$
+
+```{r}
+target <- 10000000; r <- 0.06; n <- 40
+C <- target * r / ((1 + r)^n - 1)
+C
+```
+
+Only about NT\$64,600 per year --- the power of compounding over 40
+years.
+
+## What if you wait until 35?
+
+```{r}
+target <- 10000000; r <- 0.06; n <- 30
+C <- target * r / ((1 + r)^n - 1)
+C
+```
+
+NT\$126,500 per year --- nearly *double*, just by starting 10 years
+later.
+
+**Lesson:** time is the most expensive variable in any financial plan.
+
+## The monthly payment formula
+
+A fully-amortizing loan of principal $L$ at monthly rate $r_m = r/12$
+over $N$ months has constant monthly payment:
+
+$$M = L \cdot \frac{r_m \cdot (1+r_m)^N}{(1+r_m)^N - 1}$$
+
+This is just the annuity-payment formula from earlier, applied monthly.
+
+```{r}
+monthly_payment <- function(L, annual_rate, years) {
+  r_m <- annual_rate / 12
+  N   <- years * 12
+  L * r_m * (1 + r_m)^N / ((1 + r_m)^N - 1)
+}
+```
+
+For a **3-year grace period**, the first 36 months are interest-only
+(monthly payment = $L \cdot r_m$), and the remaining principal then
+amortizes over 27 years --- a second call to `monthly_payment()` with
+`years = 27`.
+
+## **Comparing the six scenarios**
+
+```{r}
+#| code-fold: true
+loans <- c(20e6, 15e6, 10e6)
+rate  <- 0.022
+
+# All six (loan × scheme) combinations
+scenarios <- tibble(
+  loan   = rep(loans, each = 2),
+  scheme = rep(c("No grace", "3-yr grace"), times = 3)
+) |>
+  mutate(
+    pmt_yr1to3 = if_else(scheme == "No grace",
+                         monthly_payment(loan, rate, 30),
+                         loan * rate / 12),                          # interest only
+    pmt_yr4on  = if_else(scheme == "No grace",
+                         monthly_payment(loan, rate, 30),
+                         monthly_payment(loan, rate, 27)),           # amortize over 27 yr
+    total_paid     = pmt_yr1to3 * 36 + pmt_yr4on * (30 * 12 - 36),
+    total_interest = total_paid - loan
+  )
+```
+
+```{r, echo=FALSE}
+library(DT)
+scenarios |> 
+  datatable(
+    filter = "none", height = "80%"
+  ) |> 
+  formatRound(columns = c(3,4,5,6), digits = 2)
+```
+
+The grace period **lowers the first three years**, but the post-grace
+payment is **higher** (the same principal must amortize in 27 years
+instead of 30) --- and **total interest paid is larger**.
+
+## Where does the money actually go?
+
+Each monthly payment splits between *interest* and *principal*. In the
+early years almost all of it is interest --- so the debt balance shrinks
+very slowly. The closed-form remaining balance after $k$ months is
+$$B_k = L \cdot (1+r_m)^k - M \cdot \frac{(1+r_m)^k - 1}{r_m}$$
+
+```{r}
+# Remaining balance after k months for a fully-amortizing loan
+balance_amort <- function(L, annual_rate, years, k) {
+  r_m <- annual_rate / 12
+  M   <- monthly_payment(L, annual_rate, years)
+  L * (1 + r_m)^k - M * ((1 + r_m)^k - 1) / r_m
+}
+# remaining after 24 years (24*12 months)
+balance_amort(20e6, 0.025, 30, 24*12)
+# remaining after 10 years
+balance_amort(20e6, 0.025, 30, 10*12)
+```
+
+## Remaining principal over 30 years {.smaller}
+
+```{r}
+#| code-fold: true
+# Full 360-month trajectory for one (loan, scheme) pair
+balance_path <- function(L, annual_rate, scheme) {
+  months <- 0:(30 * 12)
+  if (scheme == "No grace") {
+    bal <- balance_amort(L, annual_rate, 30, months)
+  } else {
+    bal <- ifelse(months <= 36, L,
+                  balance_amort(L, annual_rate, 27, months - 36))
+  }
+  data.frame(month = months, balance = bal, loan = L, scheme = scheme)
+}
+balances <- do.call(rbind, lapply(loans, function(L) {
+  rbind(balance_path(L, rate, "No grace"),
+        balance_path(L, rate, "3-yr grace"))
+}))
+```
+
+```{r}
+#| code-fold: true
+#| fig-height: 5
+# Named color lookup: one color per loan size (millions of NT$)
+colors_by_loan <- c("20" = "#1F3A5F", "15" = "#2E86AB", "10" = "#E07A5F")
+# Start an empty highcharter chart with all the chart-level styling
+hc <- highchart(width = 1280) |>
+  hc_title(text = "Debt balance (remaining principal) over 30 years") |>
+  hc_subtitle(text = "Dashed = 3-year grace period; solid = no grace") |>
+  hc_xAxis(title = list(text = "Month")) |>
+  hc_yAxis(title = list(text = "Balance (NT$ million)"),
+           labels = list(format = "{value:.1f}")) |>
+  hc_tooltip(shared = TRUE, valueDecimals = 2,
+             valuePrefix = "NT$", valueSuffix = " M") |>
+  hc_plotOptions(line = list(marker = list(enabled = FALSE)))
+
+# Add one series per (loan size, scheme) pair --- six series in total.
+# Same color for the same loan size; solid line = no grace, dashed = 3-yr grace.
+for (L in loans) {
+  for (sch in c("No grace", "3-yr grace")) {
+    d <- balances |> dplyr::filter(loan == L, scheme == sch)
+    hc <- hc |> hc_add_series(
+      data      = d,
+      hcaes(x = month, y = balance / 1e6),
+      name      = paste0("NT$", L / 1e6, "M · ", sch),
+      type      = "line",
+      color     = colors_by_loan[as.character(L / 1e6)],
+      dashStyle = if (sch == "No grace") "Solid" else "ShortDash"
+    )
+  }
+}
+
+# Print the finished chart
+hc
+```
+
+The grace-period borrower carries the full principal for 3 years, then
+has to pay it down faster. The dashed line is flat from month 0 to month
+36, then descends more steeply than its solid counterpart.
+
+## Visualizing the payment paths
+
+```{r}
+#| code-fold: true
+#| fig-width: 10
+#| fig-height: 4.5
+paths <- expand.grid(loan   = loans,
+                     scheme = c("No grace", "3-yr grace"),
+                     month  = 1:(30 * 12)) |>
+  mutate(
+    payment = case_when(
+      scheme == "No grace"                 ~ monthly_payment(loan, rate, 30),
+      scheme == "3-yr grace" & month <= 36 ~ loan * rate / 12,
+      scheme == "3-yr grace" & month >  36 ~ monthly_payment(loan, rate, 27)
+    ),
+    loan_label = paste0("NT$", loan / 1e6, "M")
+  )
+
+# Compute the average monthly payment per (loan, scheme) over the full 30 years
+payment_summary <- paths |>
+  group_by(loan_label, scheme) |>
+  summarise(avg_payment = mean(payment), .groups = "drop")
+
+ggplot(payment_summary,
+       aes(x = loan_label, y = avg_payment / 1000, fill = scheme)) +
+  geom_col(position = position_dodge(width = 0.7), width = 0.6) +
+  geom_text(aes(label = scales::comma(round(avg_payment / 1000))),
+            position = position_dodge(width = 0.7),
+            vjust = -0.4, size = 3.5) +
+  scale_fill_manual(values = c("No grace"   = "#234E70",
+                               "3-yr grace" = "#D9534F")) +
+  labs(title = "Average monthly mortgage payment over 30 years",
+       subtitle = "By loan size and grace-period scheme",
+       x = "Loan size", y = "Average monthly payment (NT$ thousand)",
+       fill = NULL) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+## The takeaway
+
+The grace period is **not free money** --- it is a *re-timing* of cash
+flows. You pay less in years 1--3 and more in years 4--30, plus extra
+interest over the full life of the loan.
+
+**When does a grace period make sense?**
+
+- You expect your income to rise significantly within a few years.
+- You face large one-time expenses early in the loan (renovation, kids).
+- You can invest the cash saved early at a *higher* rate than 2.2% ---
+  the same time-value-of-money logic in reverse.
+
+**When does it not?**
+
+- You can already afford the level payment comfortably.
+- You want to minimize total interest paid over the life of the loan.
+
+The Week 4 lesson on **investment opportunity cost** will sharpen this
+intuition further.
+
+## What this week covered
+
+1.  Why money has a time value: $\frac{1}{1+r}$ is the discount factor.
+2.  PV, FV, and the effect of compounding frequency.
+3.  Continuous compounding: $FV = PV\,e^{rn}$.
+4.  Annuities, perpetuities, and the Gordon-growth intuition.
+5.  NPV and IRR for evaluating mixed cash-flow projects.
+6.  Built a mortgage calculator and compared loan structures.
+7.  Wrote reusable functions: `pv()`, `fv()`, `annuity_pv()`,
+    `monthly_payment()`, `npv()`.
+
+**Next week:** we apply this thinking to *stock returns*.
+
+## Exercise
+
+1.  You inherit NT\$500,000 today. Invested at 7%, what is it worth in
+    30 years?
+2.  A bond pays NT\$10,000 a year for 15 years, then NT\$1,000,000 at
+    maturity. What is its present value at $r = 5\%$?
+3.  Write a function `annuity_fv(C, r, n)`. Verify it against your
+    `fv()` and `annuity_pv()` functions.
+4.  A project costs NT\$2 million today and returns NT\$600,000 a year
+    for 5 years. Is it worth accepting at $r = 9\%$? What is the IRR?
+
+::: {style="text-align:center"}
+Thank you!
+:::

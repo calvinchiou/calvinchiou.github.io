@@ -1,0 +1,473 @@
+---
+title: "Week 1: First Encounter with R and Financial Data"
+subtitle: "Financial Calculation with R"
+author: "Calvin J. Chiou | 邱健嘉"
+institute: "National Chengchi University"
+format:
+  revealjs:
+    theme: serif
+    transition: slide
+    slide-number: c/t
+    progress: true
+    footer: "Week 1 · R & Financial Data"
+    chalkboard: false
+    code-fold: false
+    code-line-numbers: false
+    code-overflow: wrap
+    highlight-style: github
+    embed-resources: true
+    logo: images/logo_en.png
+    fig-align: center
+    # fig-width: 8
+    # fig-height: 4.5
+    width: 1280
+    height: 720
+knitr:
+  opts_chunk:
+    echo: true
+    # eval: false
+    message: false
+    warning: false
+    fig-align: center
+    out-width: "80%"
+---
+
+```{=html}
+<style>
+.reveal { font-size: 30px; }
+.reveal section h2 { color: #234E70; }
+.reveal .footer { font-size: 0.55em; opacity: 0.75; }
+.reveal .slide-number { font-size: 0.6em; }
+.reveal pre code { font-size: 0.78em; line-height: 1.25; }
+.reveal table { font-size: 0.85em; }
+.reveal table.dataTable {font-size: 0.75em !important; }
+.reveal .dataTables_wrapper {font-size: 0.75em !important; }
+</style>
+```
+
+# Welcome
+
+## What this course is
+
+A six-week, fully online introduction that turns the question
+
+> *"How do investors actually compute things?"*
+
+into runnable R code.
+
+Each week we
+
+- start with a real investor question,
+- write down the relevant formula,
+- turn the formula into R code,
+- and visualize the answer with real market data.
+
+## The six-week roadmap
+
+| Week | Theme                                 |
+|------|---------------------------------------|
+| 1    | R and financial data --- this deck    |
+| 2    | Time value of money                   |
+| 3    | Calculating returns                   |
+| 4    | Portfolio returns and diversification |
+| 5    | Risk, Beta, and the market model      |
+| 6    | A working trading strategy in R       |
+
+## Why R for finance?
+
+- **Free and open source** --- no licensing barrier for students or replication.
+- **A dominant language in empirical finance research** alongside Python and Stata.
+- **`tidyverse`** makes data wrangling readable.
+- **`tidyquant`** wraps Yahoo Finance into one-line downloads.
+- **`highcharter` / `ggplot2`** produce publication-grade charts.
+
+# 1. Setting Up R and RStudio
+
+## Installation
+
+Two pieces of software --- both free:
+
+- **R** itself: <https://www.r-project.org>
+
+  ![](images/R_logo.svg.png){width="160"}
+
+- **RStudio Desktop**: <https://posit.co/downloads>\
+  ![](images/RStudio.png){width="160"}
+
+Install R first, then RStudio. RStudio is the IDE you'll actually look at.
+
+## A quick tour of RStudio
+
+When you open RStudio for the first time, you'll see **four panes**:
+
+- **Source (top-left)** --- where you write and save your `.R` or `.qmd` scripts. Run a line with **Ctrl/Cmd + Enter**.
+- **Console (bottom-left)** --- where R runs commands and prints results. You can also type here interactively.
+- **Environment (top-right)** --- lists every variable, data frame, and function currently in memory.
+- **Files / Plots / Help (bottom-right)** --- file browser, plot output, and the all-important `?function_name` help pages.
+
+**Pro tip:** create a new project (*File → New Project*) for this course. RStudio remembers your working directory and open files per project --- much less painful than chasing file paths.
+
+## Installing the packages we will need
+
+```{r, eval=FALSE}
+#| label: "install"
+install.packages("tidyquant")
+install.packages("tidyverse")
+install.packages("highcharter")
+install.packages("ggplot2")
+install.packages("ggthemes")
+```
+
+Load them once per session:
+
+```{r, eval=TRUE}
+#| label: "load"
+library(tidyquant)
+library(tidyverse)
+library(highcharter)
+library(ggplot2)
+library(ggthemes)
+```
+
+# 2. R Syntax in Five Minutes
+
+## Arithmetic and assignment
+
+```{r}
+x <- 10
+y <- 5
+
+x + y       # 15
+x - y       # 5
+x * y       # 50
+x / y       # 2
+x ^ y       # 100000
+```
+
+`<-` is the assignment operator. `=` works too, but `<-` is conventional.
+
+## Core data types
+
+```{r}
+num_var    <- 42                              # numeric
+char_var   <- "Hello, R!"                     # character
+bool_var   <- TRUE                            # logical
+factor_var <- factor(c("low","med","high"))   # factor
+```
+
+Use `class(x)` to ask R what type a variable is.
+
+```{r}
+class(num_var)
+class(char_var)
+class(bool_var)
+class(factor_var)
+```
+
+## Reading R's error messages
+
+R's errors look intimidating but follow a pattern. The three you'll meet most often:
+
+**1. Typo in a variable name**
+
+``` r
+print(num_vra)
+#> Error: object 'num_vra' not found
+```
+
+$\Rightarrow$ Check spelling. R is case-sensitive: `Apple` $\neq$ `apple`.
+
+**2. Forgotten quotes around a string**
+
+``` r
+char_var <- Hello, R!
+#> Error: unexpected ',' in "char_var <- Hello,"
+```
+
+$\Rightarrow$ Strings need quotes: `"Hello, R!"`.
+
+**3. Mismatched parentheses or braces**
+
+``` r
+mean(c(1, 2, 3)
+#> + 
+```
+
+$\Rightarrow$ The `+` prompt means R is waiting for you to close a bracket. Press **Esc** and check.
+
+**Habit to build:** when stuck, read the error from *bottom to top*. The last line usually says exactly what went wrong.
+
+# 3. Data Structures
+
+## Vectors and matrices
+
+```{r}
+prices <- c(100, 102, 105, 107, 110)   # vector
+prices
+
+matrix(1:9, nrow = 3)                  # matrix
+```
+
+A **vector** holds many values of the same type. A **matrix** is a 2-D vector --- rows and columns of one type.
+
+## Data frames --- the workhorse of finance
+
+A data frame is a *table*: each column is a vector, each row is one observation.
+
+```{r}
+stock_data <- data.frame(
+  Date  = ymd("2024-01-01") + 0:4,
+  Price = prices
+)
+```
+
+```{r, echo=FALSE}
+library(DT)
+stock_data |> 
+  datatable(
+    filter = "none", height = "80%"
+  )
+```
+
+This is what a downloaded stock-price table will look like.
+
+# 4. The Pipe and the for Loop
+
+## The pipe `|>` --- chaining operations
+
+Without a pipe:
+
+```{r, eval=FALSE}
+arrange(filter(mutate(data, z = x + y), z > 6), desc(z))
+```
+
+With a pipe:
+
+```{r, eval=FALSE}
+data |>
+  mutate(z = x + y) |>
+  filter(z > 6) |>
+  arrange(desc(z))
+```
+
+Read left-to-right, top-to-bottom --- the way you actually think.
+
+## `for` loops
+
+```{r}
+for (i in 1:5) print(i)
+```
+
+Looping over a price vector:
+
+```{r}
+adjusted <- numeric(length(prices))
+for (i in seq_along(prices)) {
+  adjusted[i] <- prices[i] * 1.10
+}
+adjusted
+```
+
+We'll use this exact pattern in Week 6 to simulate a trading strategy.
+
+# 5. Pulling Real Stock Data
+
+## One line, one stock
+
+```{r}
+apple <- tq_get("AAPL",
+                from = "2023-01-01",
+                to   = "2026-01-01")
+```
+
+```{r, echo=FALSE}
+datatable(data = apple, height = "80%",
+          options = list(pageLength = 5)) |> 
+  formatRound(columns = c("open","high","low","close","adjusted"), digits = 2)
+```
+
+Columns you get: `symbol, date, open, high, low, close, volume, adjusted`.
+
+The **adjusted** column corrects for splits and dividends --- this is the column we use for return calculations.
+
+## A closer look at the `date` column
+
+The `date` column is not text --- it's a special **Date** class that R knows how to compare, sort, and do arithmetic on:
+
+```{r}
+class(apple$date)
+```
+
+This lets you filter by date naturally:
+
+```{r, eval=TRUE}
+apple |>
+  filter(date >= "2023-07-01", date <= "2023-07-31") |>
+  head(3)
+```
+
+You can also do date arithmetic --- "how many days between two dates?":
+
+```{r, eval=TRUE}
+ymd("2023-12-31") - ymd("2023-01-01")
+```
+
+**Why it matters:** every return, every backtest, every event study we do in this course starts with correctly-handled dates. Get this right and the rest is easy.
+
+## From daily to monthly or yearly data — (1)
+
+A common task: collapse daily prices into **monthly** or **yearly** summaries. The recipe is always *extract → group → summarise*.
+
+Extract the year and month from `date` with `lubridate`:
+
+```{r, eval=TRUE}
+apple <- apple |>
+  mutate(year  = year(date),
+         month = month(date))
+head(apple |> select(date, year, month, adjusted), 3)
+```
+
+Group and summarise --- monthly average price and total volume:
+
+```{r, eval=TRUE}
+apple_monthly <- apple |>
+  group_by(year, month) |>
+  summarise(avg_price    = mean(adjusted),
+            total_volume = sum(volume),
+            .groups = "drop")
+head(apple_monthly, 3)
+```
+
+## From daily to monthly or yearly data — (2)
+
+Or roll up to annual figures:
+
+```{r, eval=TRUE}
+apple_yearly <- apple |>
+  group_by(year) |>
+  summarise(year_open  = first(adjusted),
+            year_close = last(adjusted),
+            year_high  = max(high),
+            year_low   = min(low),
+            .groups = "drop")
+head(apple_yearly, 3)
+```
+
+**Tip:** `first()` and `last()` (from `dplyr`) are perfect for "value at the start/end of the period" --- the building blocks of period returns we'll need in Week 3.
+
+## Computing a simple daily return
+
+A first taste of what we'll formalize in Week 3:
+
+```{r}
+apple <- apple |>
+  arrange(date) |>
+  mutate(daily_return = adjusted / lag(adjusted) - 1)
+```
+
+```{r, echo=FALSE}
+datatable(data = apple, height = "80%",
+          options = list(pageLength = 5)) |> 
+  formatRound(columns = c("open","high","low","close","adjusted","daily_return"), digits = 2)
+```
+
+`lag()` gives yesterday's value. The formula $R_t = P_t / P_{t-1} - 1$ becomes one line of R.
+
+# 6. Visualization
+
+## The grammar of `ggplot2`
+
+`ggplot2` builds charts in layers, like sentences from grammar:
+
+- **`ggplot(data, aes(...))`** --- the *subject*: which data, and which columns map to which visual properties (x-axis, y-axis, color, size).
+
+- **`geom_line()`, `geom_point()`, `geom_bar()`...** --- the *verb*: how to draw each row (a line? a dot? a bar?).
+
+- **`labs()`, `theme_*()`, `scale_*()`** --- the *adjectives*: titles, themes, colors, axis formats.
+
+You add layers with `+`. This is the only ggplot syntax you really need to remember:
+
+``` r
+ggplot(data, aes(x = ..., y = ...)) +
+  geom_xxx() +
+  labs(...) +
+  theme_xxx()
+```
+
+Everything else is just looking up which `geom_*` you want.
+
+## A static chart with `ggplot2`
+
+```{r, eval=TRUE}
+#| code-fold: true
+ggplot(apple, 
+       aes(x = date, 
+           open = open,
+           high = high,
+           low = low,
+           close = close)) +
+  labs(title = "AAPL Adjusted Close",
+       x = "Date", y = "Price (USD)") +
+  geom_candlestick(fill_up = "#0F5499", fill_down = "#DB4E60") +
+  theme_minimal(base_size = 14, base_family = "Georgia") +
+  theme(
+    plot.background = element_rect(fill = "#FFF1E6", colour = NA),
+    panel.background = element_rect(fill = "#FFF1E6", colour = NA),
+    plot.title = element_text(face = "bold", size = 16)
+  )
+```
+
+`ggplot2` builds a chart layer-by-layer: data $\rightarrow$ aesthetics $\rightarrow$ geom $\rightarrow$ theme.
+
+## An interactive chart with `highcharter`
+
+```{r}
+#| code-fold: true
+highchart(type = "stock", width = 1280) |>
+  hc_title(text = "AAPL Price and Volume") |> 
+  hc_add_series(apple, 
+                type = "candlestick",
+                hcaes(
+                  x = date,
+                  open = open,
+                  high = high,
+                  low = low,
+                  close = close
+                  ),
+                name = "AAPL") |>
+  hc_add_series(apple, type = "column",
+                hcaes(x = date, y = volume),
+                name = "Volume", yAxis = 1) |>
+  hc_yAxis_multiples(
+    list(title = list(text = "Price")),
+    list(title = list(text = "Volume"), opposite = FALSE)) |> 
+  hc_tooltip(
+    valuePrefix = "$",
+    valueDecimals = 2,  # 2-decimal tooltips
+    shared = TRUE   # show all series at once
+  )
+```
+
+`highcharter` charts are interactive --- pan, zoom, hover for tooltips.
+
+## What this week covered
+
+1.  Installed R, RStudio, and the core finance packages.
+2.  Learned R syntax, types, vectors, matrices, and data frames.
+3.  Used the pipe `|>` and `for` loops.
+4.  Pulled real stock data with `tq_get()`.
+5.  Computed our first daily return and plotted it two ways.
+
+**Next week:** the time value of money --- why a dollar today is worth more than a dollar tomorrow, and how to write a present-value function in R.
+
+## Exercise
+
+1.  Pull **MSFT** prices for 2023.
+2.  Compute daily returns.
+3.  Plot the price trend with `ggplot2` and a theme of your choice.
+4.  Build a vector, a matrix, and a data frame, and run some arithmetic on each.
+5.  Create an interactive `highcharter` chart of MSFT price + volume.
+
+::: {style="text-align:center"}
+Thank you!
+:::

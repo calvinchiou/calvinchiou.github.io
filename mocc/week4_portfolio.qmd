@@ -1,0 +1,327 @@
+---
+title: "Week 4: Portfolio Returns and Diversification"
+subtitle: "Financial Calculation with R"
+author: "Calvin J. Chiou | 邱健嘉"
+institute: "National Chengchi University"
+format:
+  revealjs:
+    theme: serif
+    transition: slide
+    slide-number: c/t
+    progress: true
+    footer: "Week 4 · Portfolios"
+    chalkboard: false
+    code-fold: false
+    code-line-numbers: false
+    code-overflow: wrap
+    highlight-style: github
+    embed-resources: true
+    logo: images/logo_en.png
+    fig-align: center
+    width: 1280
+    height: 720
+knitr:
+  opts_chunk:
+    echo: true
+    # eval: false
+    message: false
+    warning: false
+    fig-align: center
+    out-width: "80%"
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+```{=html}
+<style>
+.reveal { font-size: 30px; }
+.reveal section h2 { color: #234E70; }
+.reveal .footer { font-size: 0.55em; opacity: 0.75; }
+.reveal .slide-number { font-size: 0.6em; }
+.reveal pre code { font-size: 0.78em; line-height: 1.25; }
+.reveal table { font-size: 0.85em; }
+.reveal table.dataTable {font-size: 0.75em !important; }
+.reveal .dataTables_wrapper {font-size: 0.75em !important; }
+</style>
+```
+
+```{r, eval=TRUE, echo=FALSE}
+#| label: "load"
+library(tidyquant)
+library(tidyverse)
+library(highcharter)
+library(ggplot2)
+library(ggthemes)
+library(DT)
+```
+
+# Why Combine Stocks at All?
+
+## The investor's problem
+
+You have NT\$1,000,000 and want to invest it.
+
+You *could* put it all in one stock. But two centuries of theory and
+practice say:
+
+**Spread it across many.**
+
+The reason is that combining imperfectly-correlated assets reduces the
+*volatility* of your wealth without reducing the expected return
+proportionally.
+
+This is the central insight of **modern portfolio theory** (Markowitz,
+1952).
+
+# 1. Setting Up a Portfolio
+
+## A four-stock equal-weighted portfolio
+
+```{r}
+stocks <- c("XOM", "WMT", "NVDA", "AAPL")
+prices <- tq_get(stocks,
+                 from = "2023-01-01",
+                 to   = "2026-01-01")
+```
+
+We have columns:
+`symbol, date, open, high, low, close, volume, adjusted`.
+
+```{r, echo=FALSE}
+datatable(data = prices, height = "80%", filter = "top",
+          options = list(pageLength = 5)) |> 
+  formatRound(columns = c("open","high","low","close","adjusted"), digits = 2)
+```
+
+## Allocating the budget
+
+With NT\$1,000,000 split equally:
+
+```{r}
+budget    <- 1000000
+n_stocks  <- length(stocks)
+per_stock <- budget / n_stocks    # 250,000 each
+
+initial_positions <- prices |>
+  filter(date == min(date)) |>
+  mutate(shares = floor(per_stock / adjusted)) |>
+  select(symbol, shares)
+
+initial_positions
+```
+
+`floor()` because we can only buy whole shares.
+
+# 2. Portfolio Value Over Time
+
+## Tracking total value
+
+```{r}
+portfolio <- prices |>
+  inner_join(initial_positions, by = "symbol") |>
+  mutate(position_value = shares * adjusted) |>
+  group_by(date) |>
+  summarise(total_value = sum(position_value)) |>
+  arrange(date)
+
+head(portfolio)
+```
+
+For each date, sum the four positions $\to$ one number per day.
+
+## Portfolio return --- two paths to the same number
+
+### Path A: from total portfolio value
+
+```{r}
+portfolio <- portfolio |>
+  mutate(R_disc = total_value / lag(total_value) - 1,
+         r_log  = log(total_value / lag(total_value)))
+```
+
+### Path B: weighted average of individual returns
+
+$$R_p = \sum_{i=1}^{N} w_i \, R_i$$ The cross-section additivity result
+from Week 3.
+
+## Path B in code
+
+```{r}
+indiv <- prices |>
+  group_by(symbol) |>
+  mutate(R_disc = adjusted / lag(adjusted) - 1) |>
+  ungroup() |>
+  mutate(weight = 0.25)   # equal-weighted
+
+port_ret <- indiv |>
+  group_by(date) |>
+  summarise(R_p = sum(weight * R_disc), .groups = "drop")
+```
+
+Path A and Path B will give the same number for discrete returns (up to
+rounding from the share floors).
+
+# 3. Portfolio Volatility
+
+## A single stock's volatility
+
+We measure risk by the standard deviation of its returns:
+
+$$\sigma_i = \sqrt{\,\mathrm{Var}(R_i)\,}$$
+
+```{r}
+vol_table <- indiv |>
+  drop_na(R_disc) |>
+  group_by(symbol) |>
+  summarise(sigma = sd(R_disc))
+vol_table
+```
+
+This is the **total** volatility of each stock.
+
+## Portfolio volatility --- the key formula
+
+For an $N$-asset portfolio with weights $\mathbf{w}$ and a covariance
+matrix $\boldsymbol{\Sigma}$ of asset returns:
+
+::: {.callout-note title="Portfolio variance and volatility"}
+$$\sigma_p^{\,2} = \mathbf{w}^{\top} \boldsymbol{\Sigma}\, \mathbf{w},
+\qquad
+\sigma_p = \sqrt{\mathbf{w}^{\top} \boldsymbol{\Sigma}\, \mathbf{w}}.$$
+:::
+
+**The portfolio's volatility is *not* the weighted average of the
+individual volatilities.** The covariances matter.
+
+## The covariance matrix in R
+
+```{r}
+returns_wide <- indiv |>
+  drop_na(R_disc) |>
+  select(symbol, date, R_disc) |>
+  pivot_wider(names_from = symbol, values_from = R_disc)
+
+cov_matrix <- cov(returns_wide[ , -1], use = "pairwise.complete.obs")
+round(cov_matrix, 6)
+```
+
+The diagonal is each stock's variance. The off-diagonals are how the
+stocks move *together*.
+
+## Computing $\sigma_p$ via matrix algebra
+
+```{r}
+weights <- c(0.25, 0.25, 0.25, 0.25)   # XOM WMT NVDA AAPL
+
+port_var <- t(weights) %*% cov_matrix %*% weights
+port_sd  <- sqrt(port_var)
+port_sd
+```
+
+`%*%` is matrix multiplication.
+
+Compare `port_sd` against `mean(vol_table$sigma)` --- the portfolio is
+*less* volatile than the average individual stock. That is
+diversification.
+
+# 4. Correlation and Diversification
+
+## Why correlation matters
+
+Decompose the variance formula for $N = 2$:
+
+$$\sigma_p^{\,2}
+= w_1^2 \sigma_1^2 + w_2^2 \sigma_2^2
++ 2\, w_1 w_2\, \rho_{12}\, \sigma_1 \sigma_2.$$
+
+- $\rho_{12} = +1$: no diversification,
+  $\sigma_p = w_1\sigma_1 + w_2\sigma_2$.
+- $\rho_{12} = 0$: substantial reduction.
+- $\rho_{12} = -1$: in principle, $\sigma_p$ can be driven to zero.
+
+Real stocks tend to have correlations of 0.3--0.8 with each other ---
+enough for diversification to bite, but not enough to eliminate market
+risk.
+
+## The correlation matrix
+
+```{r}
+cor_matrix <- cor(returns_wide[ , -1], use = "pairwise.complete.obs")
+round(cor_matrix, 2)
+```
+
+Look at the off-diagonal entries: pairs with lower correlation
+contribute more to volatility reduction.
+
+# 5. Comparing Portfolios
+
+## Equal-weighted vs. all-NVDA
+
+```{r}
+nvda_only <- prices |>
+  filter(symbol == "NVDA", date == min(date)) |>
+  mutate(shares = floor(budget / adjusted)) |>
+  select(symbol, shares)
+
+nvda_port <- prices |>
+  filter(symbol == "NVDA") |>
+  inner_join(nvda_only, by = "symbol") |>
+  mutate(total_value = shares * adjusted) |>
+  select(date, nvda_only = total_value)
+
+combined <- portfolio |>
+  select(date, equal_weighted = total_value) |>
+  inner_join(nvda_port, by = "date")
+
+head(combined)
+```
+
+## Plotting them
+
+```{r}
+#| code-fold: true
+highchart(width = 1280) |>
+  hc_add_series(combined, type = "line",
+                hcaes(x = date, y = equal_weighted),
+                name = "Equal-Weighted") |>
+  hc_add_series(combined, type = "line",
+                hcaes(x = date, y = nvda_only),
+                name = "100% NVDA") |>
+  hc_xAxis(type = "datetime", title = list(text = "Date")) |>
+  hc_yAxis(title = list(text = "Portfolio Value (NT$)")) |> 
+  hc_tooltip(shared = TRUE, valueDecimals = 0, valuePrefix = "NT$")
+```
+
+A single-stock portfolio can crush a diversified one *in a good year*.
+It can also collapse spectacularly. Compare *both* return and
+volatility, not just return.
+
+## What this week covered
+
+1.  Built an equal-weighted four-stock portfolio with NT\$1M.
+2.  Tracked daily portfolio value with `group_by()` + `summarise()`.
+3.  Computed portfolio return two ways: from total value, and as
+    $\sum w_i R_i$.
+4.  Computed portfolio volatility from $\boldsymbol{\Sigma}$:
+    $\sigma_p = \sqrt{\mathbf{w}^{\top}\!\boldsymbol{\Sigma}\,\mathbf{w}}$.
+5.  Saw how correlation drives diversification gains.
+6.  Compared a diversified portfolio against an all-in-one-stock bet.
+
+**Next week:** we ask which part of a stock's volatility is *systematic*
+(the market) and which is *idiosyncratic*.
+
+## Exercise
+
+1.  Repeat the four-stock analysis with weights XOM 20%, WMT 30%, NVDA
+    30%, AAPL 20%. Recompute portfolio value, return, and $\sigma_p$.
+2.  Change the budget to NT\$500,000 with equal weights. Report shares
+    purchased per stock.
+3.  Add a fifth stock of your choice. Does adding it *raise* or *lower*
+    $\sigma_p$? Why?
+4.  Plot the four cumulative returns and the portfolio's cumulative
+    return on the same `highcharter` chart.
+
+::: {style="text-align:center"}
+Thank you!
+:::

@@ -1,0 +1,384 @@
+---
+title: "Week 6: A Working Trading Strategy in R"
+subtitle: "Financial Calculation with R"
+author: "Calvin J. Chiou | 邱健嘉"
+institute: "National Chengchi University"
+format:
+  revealjs:
+    theme: serif
+    transition: slide
+    slide-number: c/t
+    progress: true
+    footer: "Week 6 · Trading Strategy"
+    chalkboard: false
+    code-fold: false
+    code-line-numbers: false
+    code-overflow: wrap
+    highlight-style: github
+    embed-resources: true
+    logo: images/logo_en.png
+    fig-align: center
+    width: 1280
+    height: 720
+knitr:
+  opts_chunk:
+    echo: true
+    # eval: false
+    message: false
+    warning: false
+    fig-align: center
+    out-width: "80%"
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+```{=html}
+<style>
+.reveal { font-size: 30px; }
+.reveal section h2 { color: #234E70; }
+.reveal .footer { font-size: 0.55em; opacity: 0.75; }
+.reveal .slide-number { font-size: 0.6em; }
+.reveal pre code { font-size: 0.78em; line-height: 1.25; }
+.reveal table { font-size: 0.85em; }
+.reveal table.dataTable {font-size: 0.75em !important; }
+.reveal .dataTables_wrapper {font-size: 0.75em !important; }
+</style>
+```
+
+```{r, eval=TRUE, echo=FALSE}
+#| label: "load"
+library(tidyquant)
+library(tidyverse)
+library(highcharter)
+library(ggplot2)
+library(DT)
+```
+
+# The Capstone
+
+## Where we are
+
+In five weeks we have built:
+
+- R data-handling fluency (Week 1)
+- Time value of money (Week 2)
+- Return calculations (Week 3)
+- Portfolio formation and volatility (Week 4)
+- The market model and $\beta$ (Week 5)
+
+This week we combine all of it into one complete pipeline: download data
+$\to$ generate signals $\to$ simulate trades $\to$ benchmark.
+
+## The case study
+
+We will trade the Taiwan 50 ETF, ticker `0050.TW` --- one of the most
+actively traded ETFs in Taiwan, representing large-cap Taiwanese stocks.
+
+- **Period:** 2023-01-01 to 2026-01-01.
+- **Strategy:** a moving-average crossover.
+- **Initial capital:** NT\$1,000,000.
+- **Benchmarks:** TAIEX index and buy-and-hold 0050.
+
+The goal is not to *get rich* --- it is to learn the *methodology* of
+designing, implementing, and honestly evaluating a quantitative
+strategy.
+
+# 1. Downloading the Data
+
+## ETF prices
+
+```{r}
+etf <- tq_get("0050.TW",
+              from = "2023-01-01",
+              to   = "2026-01-01")
+```
+
+Two columns matter for what follows: `date` and `adjusted`.
+
+```{r, echo=FALSE}
+datatable(data = etf, height = "80%",
+          options = list(pageLength = 5)) |> 
+  formatRound(columns = c("open","high","low","close","adjusted"), digits = 2)
+```
+
+# 2. Moving Averages
+
+## What is a moving average?
+
+A rolling mean of the last $n$ days of adjusted close.
+
+::: {.callout-note title="Simple moving average"}
+$$MA_n(t) = \frac{1}{n}\sum_{i=0}^{n-1} P_{t-i}$$
+:::
+
+We use two:
+
+- **MA20:** short-term trend (\~1 trading month).
+- **MA50:** medium-term trend (\~2.5 trading months).
+
+The relative position of the two is our trading signal.
+
+## Computing both in R
+
+```{r}
+etf_ma <- etf |>
+  mutate(MA20 = SMA(adjusted, n = 20),
+         MA50 = SMA(adjusted, n = 50)) |>
+  na.omit()
+```
+
+`SMA()` comes from the **TTR** package, which `tidyquant` loads for us.
+
+`na.omit()` drops the first 49 rows where MA50 is not yet defined.
+
+```{r, echo=FALSE}
+datatable(data = etf_ma, height = "80%",
+          options = list(pageLength = 5)) |> 
+  formatRound(columns = c("open","high","low","close","adjusted","MA20","MA50"), digits = 2)
+```
+
+# 3. Trading Signals
+
+## The crossover rule
+
+::: {.callout-note title="Signal definition"}
+- **Buy** when MA20 crosses *above* MA50 ("golden cross").
+- **Sell** when MA20 crosses *below* MA50 ("death cross").
+:::
+
+In code, "crosses above today" means: *yesterday's MA20 was below MA50,
+today's MA20 is at or above MA50.*
+
+## Implementing the rule
+
+```{r}
+etf_signals <- etf_ma |>
+  mutate(signal = case_when(
+    lag(MA20) <  lag(MA50) & MA20 >= MA50 ~ "buy",
+    lag(MA20) >  lag(MA50) & MA20 <= MA50 ~ "sell",
+    TRUE                                  ~ NA_character_
+  ))
+```
+
+`case_when()` is the tidyverse multi-branch `if/else`.
+
+```{r, echo=FALSE}
+datatable(data = etf_signals |> filter(!is.na(signal)), height = "80%",
+          options = list(pageLength = 5)) |> 
+  formatRound(columns = c("open","high","low","close","adjusted","MA20","MA50"), digits = 2)
+```
+
+# 4. Simulating the Trades
+
+## The all-in / all-out simulator
+
+A simple state machine: at each date, check the signal and update
+`cash`, `position`, and `total_value`.
+
+```{r}
+capital   <- 1000000
+cash      <- capital
+position  <- 0
+portfolio <- data.frame()
+
+for (i in seq_len(nrow(etf_signals))) {
+  date_i  <- etf_signals$date[i]
+  price_i <- etf_signals$adjusted[i]
+  sig     <- etf_signals$signal[i]
+
+  if (!is.na(sig)) {
+    if (sig == "buy") {
+      position <- floor(cash / price_i)
+      cash     <- cash - position * price_i
+    } else if (sig == "sell") {
+      cash     <- cash + position * price_i
+      position <- 0
+    }
+  }
+  total_value <- cash + position * price_i
+  portfolio   <- bind_rows(portfolio,
+                  data.frame(date = date_i, price = price_i,
+                             position, cash, total_value))
+}
+```
+
+## What the loop is doing
+
+1.  Walk through every trading day in order.
+2.  On a buy signal: spend all the cash on as many shares as we can
+    afford.
+3.  On a sell signal: liquidate completely back to cash.
+4.  Every day, record `total_value = cash + position * price`.
+
+This is the simplest possible "in or out" strategy --- no leverage, no
+shorting, no partial positions, no transaction costs.
+
+# 5. Plotting the Strategy
+
+## Portfolio value over time
+
+```{r}
+#| code-fold: true
+highchart(width = 1280) |>
+  hc_title(text = "MA Crossover --- Portfolio Value") |>
+  hc_xAxis(type = "datetime",
+           title = list(text = "Date")) |>
+  hc_yAxis(title = list(text = "Total Value (NT$)")) |>
+  hc_add_series(data = portfolio, type = "line",
+                hcaes(x = date, y = total_value),
+                name = "Portfolio Value") |>
+  hc_tooltip(valuePrefix = "NT$", valueDecimals = 2) |>
+  hc_legend(enabled = FALSE)
+```
+
+## Final performance number
+
+```{r}
+final_value <- tail(portfolio$total_value, 1)
+return_pct  <- (final_value - capital) / capital * 100
+
+cat("Final value: NT$", round(final_value, 2), "\n")
+cat("Total return:", round(return_pct, 2), "%\n")
+```
+
+One number is never enough --- we need a *benchmark*.
+
+# 6. Benchmarking
+
+## The TAIEX market benchmark
+
+```{r}
+market <- tq_get("^TWII",
+                 from = "2023-01-01",
+                 to   = "2026-01-01") |>
+  select(date, market_price = adjusted)
+
+init_price <- market$market_price[1]
+units      <- floor(1000000 / init_price)
+
+market_bh <- market |>
+  mutate(benchmark_value = units * market_price) |>
+  select(date, benchmark_value)
+```
+
+A simulated NT\$1M invested in the index, never traded.
+
+## Buy-and-hold 0050
+
+```{r}
+bh_etf <- etf |>
+  filter(date >= ymd("2023-03-27"))
+
+init_etf <- bh_etf$adjusted[1]
+units_bh <- floor(1000000 / init_etf)
+
+bh_etf <- bh_etf |>
+  mutate(bh_etf_value = units_bh * adjusted) |>
+  select(date, bh_etf_value)
+```
+
+We start all three strategies on the same date so the comparison is
+fair.
+
+## Merging and plotting
+
+```{r}
+comp <- portfolio |>
+  select(date, strategy_value = total_value) |>
+  inner_join(market_bh,  by = "date") |>
+  inner_join(bh_etf,     by = "date")
+```
+
+```{r}
+#| code-fold: true
+highchart(type = "stock", width = 1280) |>
+  hc_title(text = "Strategy vs. Benchmarks") |>
+  hc_xAxis(type = "datetime") |>
+  hc_yAxis(title = list(text = "Portfolio Value (NT$)")) |>
+  hc_add_series(comp, "line",
+                hcaes(x = date, y = strategy_value),
+                name = "MA Strategy") |>
+  hc_add_series(comp, "line",
+                hcaes(x = date, y = bh_etf_value),
+                name = "Buy-and-Hold 0050") |>
+  hc_add_series(comp, "line",
+                hcaes(x = date, y = benchmark_value),
+                name = "TAIEX") |>
+  hc_tooltip(
+    valuePrefix = "NT$",
+    valueDecimals = 0,  # 2-decimal tooltips
+    shared = TRUE   # show all series at once
+  )
+```
+
+# 7. Lessons and Limitations
+
+## What this kind of comparison teaches
+
+Three serious lessons emerge from looking at the chart honestly:
+
+- The MA crossover often *lags* sharp trend reversals --- it buys late
+  and sells late.
+- A long stretch of sideways prices generates many false signals
+  ("whipsaws"), each costing implicit slippage.
+- Buy-and-hold, the most boring strategy on the planet, is competitive
+  with --- sometimes better than --- an active rule.
+
+This is the *standard* result for naive technical strategies in academic
+backtests. It is a feature of the problem, not a bug in your code.
+
+## What we ignored
+
+- **Transaction costs and slippage**: every trade costs money in
+  reality.
+- **Bid-ask spreads**: you don't actually trade at the close.
+- **Survivorship bias**: 0050 is the post-2003 winner index.
+- **Look-ahead bias**: we used `lag()` correctly --- always check this.
+- **Risk adjustment**: we compared raw returns, not Sharpe ratios. A
+  volatile winner is not the same kind of "good" as a smooth winner.
+
+A serious research replication would address every one of these.
+
+## Five strategy variants to try
+
+1.  **Add a stop-loss:** exit if the position drops 10% from entry.
+2.  **Momentum allocation:** switch between 0050 and a bond proxy based
+    on trailing 12-month return.
+3.  **Volatility-scaled positions:** larger position when realized
+    volatility is low; smaller when high.
+4.  **Mean reversion:** use Bollinger Bands or RSI to fade extremes
+    instead of follow trends.
+5.  **Calendar rotation:** invest only Nov--Apr; cash the rest.
+
+## What this week --- and this course --- covered
+
+1.  Built a complete strategy: download $\to$ signal $\to$ trade $\to$
+    benchmark.
+2.  Used `SMA()` and `case_when()` for signal generation.
+3.  Walked a `for` loop through every trading day to update positions.
+4.  Compared the strategy fairly against two benchmarks.
+5.  Discussed honest caveats about backtests.
+
+You have now built, end-to-end, the workflow that every quantitative
+finance team in the world starts with. The difference is in the polish
+--- not the bones.
+
+## Final exercise: your own strategy
+
+**Design and backtest your own rule.**
+
+1.  Choose a signal --- another MA pair, a momentum window, a calendar
+    effect, an RSI threshold, or anything else.
+2.  Modify the simulation loop from this deck.
+3.  Benchmark against the MA crossover strategy, buy-and-hold 0050, and
+    TAIEX.
+4.  Plot all four series on one `highcharter` chart.
+5.  Report final value, total return, and one risk number (annualized
+    $\sigma$ or Sharpe).
+6.  In one paragraph, explain *why* your strategy did better or worse,
+    and what you would change next.
+
+::: {style="text-align:center"}
+Thank you, and happy investing!
+:::

@@ -2553,5 +2553,852 @@
     "title": "R Note 3 - Estimating Beta Coefficients",
     "section": "",
     "text": "We will visualize the stock prices of Apple using ggplot2 with a nice theme.\n\n# Plot the stock prices using highcharter\nhighchart() |&gt; \n  hc_title(text = \"NVIDIA Inc. (NVDA) Stock Prices\") |&gt;\n  hc_xAxis(type = \"datetime\", title = list(text = \"Date\")) |&gt;\n  hc_yAxis(title = list(text = \"Adjusted Closing Price\")) |&gt;\n  hc_add_series(stock_data, type = \"line\",\n                hcaes(x = date, y = adjusted),\n                name = \"Adjusted Price\") |&gt;\n  hc_tooltip(pointFormat = \"Price: &lt;b&gt;${point.y:.2f}&lt;/b&gt;\") |&gt;\n  hc_title(style = list(fontSize = \"16px\", align = \"center\")) |&gt; \n  hc_add_theme(hc_theme_smpl())\n\n\n\n\n# Step 1: Fit the linear model\nfit &lt;- lm(stock_return ~ market_return, data = returns_data)\n\n# Step 2: Add fitted values to the data\nreturns_data$fit &lt;- predict(fit)\n\n# Step 3: Scatterplot of Stock Return vs. Market Return\nhighchart() |&gt;\n  hc_title(text = \"Linear Relation: NVIDIA vs. S&P 500\") |&gt;\n  hc_xAxis(title = list(text = \"Market Return (^GSPC)\")) |&gt;\n  hc_yAxis(title = list(text = \"Stock Return (NVDA)\")) |&gt;\n  hc_add_series(\n    data = returns_data,\n    type = \"scatter\",\n    hcaes(x = market_return, y = stock_return),\n    name = \"Daily Returns\",\n  ) |&gt;\n  hc_add_series(\n    data = returns_data[order(returns_data$market_return), ],  # sort to connect line smoothly\n    type = \"line\",\n    hcaes(x = market_return, y = fit),\n    name = \"Linear Fit\",\n  ) |&gt;\n  hc_tooltip(pointFormat = \"Market Return: {point.x:.4f}&lt;br&gt;Stock Return: {point.y:.4f}\") |&gt;\n  hc_legend(align = \"center\", verticalAlign = \"bottom\") |&gt; \n  hc_add_theme(hc_theme_smpl())"
+  },
+  {
+    "objectID": "mocc.html",
+    "href": "mocc.html",
+    "title": "Financial Calculation with R",
+    "section": "",
+    "text": "Lecture Notes\n\n\n\n\n\n\nTitle\n\n\n\nModified\n\n\n\n\n\n\n\n\nWeek 1: First Encounter with R and Financial Data\n\n\n6/3/26, 11:41:02 PM\n\n\n\n\n\n\nWeek 2: The Time Value of Money\n\n\n6/3/26, 10:01:04 PM\n\n\n\n\n\n\nWeek 3: Calculating Returns\n\n\n6/3/26, 11:53:41 PM\n\n\n\n\n\n\nWeek 4: Portfolio Returns and Diversification\n\n\n6/22/26, 10:51:51 PM\n\n\n\n\n\n\nWeek 5: Risk, Beta, and the Market Model\n\n\n6/4/26, 12:08:49 AM\n\n\n\n\n\n\nWeek 6: A Working Trading Strategy in R\n\n\n6/4/26, 12:18:36 AM\n\n\n\n\n\n\nNo matching items\n\n\n\n\n\n\n Back to top"
+  },
+  {
+    "objectID": "mocc/week5_beta.html",
+    "href": "mocc/week5_beta.html",
+    "title": "Week 5: Risk, Beta, and the Market Model",
+    "section": "",
+    "text": "A stock’s total volatility \\(\\sigma_i\\) has two ingredients:\n\nSystematic risk: co-moves with the market. Cannot be diversified away.\nIdiosyncratic risk: stock-specific. Vanishes in a well-diversified portfolio.\n\nThe market model is the simplest tool to separate the two. And it gives us a single number that captures systematic risk: \\(\\beta\\)."
+  },
+  {
+    "objectID": "mocc/week5_beta.html#last-week-we-measured-volatility.-this-week-we-decompose-it.",
+    "href": "mocc/week5_beta.html#last-week-we-measured-volatility.-this-week-we-decompose-it.",
+    "title": "Week 5: Risk, Beta, and the Market Model",
+    "section": "Last week we measured volatility. This week we decompose it.",
+    "text": "Last week we measured volatility. This week we decompose it.\nA stock’s total volatility \\(\\sigma_i\\) has two ingredients:\n\nSystematic risk: co-moves with the market. Cannot be diversified away.\nIdiosyncratic risk: stock-specific. Vanishes in a well-diversified portfolio.\n\nThe market model is the simplest tool to separate the two. And it gives us a single number that captures systematic risk: \\(\\beta\\)."
+  },
+  {
+    "objectID": "mocc/week5_beta.html#a-linear-regression-of-stock-on-market",
+    "href": "mocc/week5_beta.html#a-linear-regression-of-stock-on-market",
+    "title": "Week 5: Risk, Beta, and the Market Model",
+    "section": "A linear regression of stock on market",
+    "text": "A linear regression of stock on market\n\n\n\n\n\n\n\nMarket model\n\n\n\\[R_{i,t} = \\alpha_i + \\beta_i\\, R_{m,t} + \\varepsilon_{i,t}\\]\n\n\n\n\n\n\\(R_{i,t}\\): stock \\(i\\)’s return on day \\(t\\).\n\\(R_{m,t}\\): the market’s return on day \\(t\\).\n\\(\\alpha_i\\): intercept — average performance unrelated to the market.\n\\(\\beta_i\\): slope — the sensitivity of the stock to the market.\n\\(\\varepsilon_{i,t}\\): residual — the part the market cannot explain.\n\nIn R, this is a one-line call to lm()."
+  },
+  {
+    "objectID": "mocc/week5_beta.html#what-does-beta-mean",
+    "href": "mocc/week5_beta.html#what-does-beta-mean",
+    "title": "Week 5: Risk, Beta, and the Market Model",
+    "section": "What does \\(\\beta\\) mean?",
+    "text": "What does \\(\\beta\\) mean?\n\\[\\beta_i = \\frac{\\mathrm{Cov}(R_i,\\,R_m)}{\\mathrm{Var}(R_m)}\\]\n\n\\(\\beta &gt; 1\\): stock amplifies market moves — more cyclical.\n\\(\\beta = 1\\): stock moves with the market on average.\n\\(0 &lt; \\beta &lt; 1\\): stock moves with the market but less than 1-for-1 — defensive.\n\\(\\beta &lt; 0\\): stock moves against the market — rare; gold and some hedges.\n\nFor tech stocks like NVDA we typically see \\(\\beta &gt; 1\\); for utilities and consumer staples, \\(\\beta &lt; 1\\)."
+  },
+  {
+    "objectID": "mocc/week5_beta.html#the-data",
+    "href": "mocc/week5_beta.html#the-data",
+    "title": "Week 5: Risk, Beta, and the Market Model",
+    "section": "The data",
+    "text": "The data\n\nstock_ticker  &lt;- \"NVDA\"\nmarket_ticker &lt;- \"^GSPC\"   # S&P 500\nstart_date    &lt;- \"2020-01-01\"\nend_date      &lt;- \"2026-01-01\"\n\nstock_data  &lt;- tq_get(stock_ticker,  from = start_date, to = end_date)\nmarket_data &lt;- tq_get(market_ticker, from = start_date, to = end_date)\n\nThree years of daily data is a typical estimation window."
+  },
+  {
+    "objectID": "mocc/week5_beta.html#computing-daily-returns",
+    "href": "mocc/week5_beta.html#computing-daily-returns",
+    "title": "Week 5: Risk, Beta, and the Market Model",
+    "section": "Computing daily returns",
+    "text": "Computing daily returns\n\nstock_returns &lt;- stock_data |&gt;\n  tq_transmute(select     = adjusted,\n               mutate_fun = periodReturn,\n               period     = \"daily\",\n               col_rename = \"stock_return\")\n\nmarket_returns &lt;- market_data |&gt;\n  tq_transmute(select     = adjusted,\n               mutate_fun = periodReturn,\n               period     = \"daily\",\n               col_rename = \"market_return\")\n\nreturns &lt;- left_join(stock_returns, market_returns,\n                     by = \"date\") |&gt;\n  na.omit()\n\ntq_transmute() with periodReturn is the tidyquant shorthand for the discrete-return formula from Week 3."
+  },
+  {
+    "objectID": "mocc/week5_beta.html#running-the-regression",
+    "href": "mocc/week5_beta.html#running-the-regression",
+    "title": "Week 5: Risk, Beta, and the Market Model",
+    "section": "Running the regression",
+    "text": "Running the regression\n\nmodel &lt;- lm(stock_return ~ market_return, data = returns)\nsummary(model)\n\n\nCall:\nlm(formula = stock_return ~ market_return, data = returns)\n\nResiduals:\n      Min        1Q    Median        3Q       Max \n-0.145472 -0.013799 -0.001514  0.012568  0.226263 \n\nCoefficients:\n              Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)   0.001807   0.000615   2.939  0.00335 ** \nmarket_return 1.784310   0.046634  38.262  &lt; 2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 0.02386 on 1506 degrees of freedom\nMultiple R-squared:  0.4929,    Adjusted R-squared:  0.4926 \nF-statistic:  1464 on 1 and 1506 DF,  p-value: &lt; 2.2e-16\n\n\nWhat to look for in the output:\n\nEstimate for market_return: this is \\(\\hat\\beta\\).\nEstimate for (Intercept): this is \\(\\hat\\alpha\\).\nPr(&gt;|t|): is \\(\\beta\\) statistically distinguishable from 0?\nMultiple R-squared: fraction of variance explained by the market."
+  },
+  {
+    "objectID": "mocc/week5_beta.html#extracting-hatbeta-cleanly",
+    "href": "mocc/week5_beta.html#extracting-hatbeta-cleanly",
+    "title": "Week 5: Risk, Beta, and the Market Model",
+    "section": "Extracting \\(\\hat\\beta\\) cleanly",
+    "text": "Extracting \\(\\hat\\beta\\) cleanly\n\nlibrary(broom)\n\nbeta_hat &lt;- tidy(model) |&gt;\n  filter(term == \"market_return\") |&gt;\n  pull(estimate)\n\ncat(\"Estimated beta for\", stock_ticker, \"=\",\n    round(beta_hat, 2), \"\\n\")\n\nEstimated beta for NVDA = 1.78 \n\n\nFor NVDA over 2020–2022, this comes out around 1.6 — NVDA tended to move about 1.6% for every 1% move in the S&P 500."
+  },
+  {
+    "objectID": "mocc/week5_beta.html#a-scatter-plot-with-the-fitted-line",
+    "href": "mocc/week5_beta.html#a-scatter-plot-with-the-fitted-line",
+    "title": "Week 5: Risk, Beta, and the Market Model",
+    "section": "A scatter plot with the fitted line",
+    "text": "A scatter plot with the fitted line\n\n\nCode\nreturns$fit &lt;- predict(model)\n\nhighchart(width = 1280) |&gt;\n  hc_title(text = \"NVDA vs. S&P 500 --- Linear Fit\") |&gt;\n  hc_xAxis(title = list(text = \"Market Return\")) |&gt;\n  hc_yAxis(title = list(text = \"Stock Return\")) |&gt;\n  hc_add_series(data = returns, type = \"scatter\",\n                hcaes(x = market_return, y = stock_return),\n                name = \"Daily Returns\") |&gt;\n  hc_add_series(data = returns[order(returns$market_return), ],\n                type = \"line\",\n                hcaes(x = market_return, y = fit),\n                name = \"Fitted line\") |&gt; \n  hc_tooltip(valueDecimals = 2)\n\n\n\n\n\n\nThe slope of that line is your eyeball estimate of \\(\\beta\\)."
+  },
+  {
+    "objectID": "mocc/week5_beta.html#what-the-regression-cant-explain",
+    "href": "mocc/week5_beta.html#what-the-regression-cant-explain",
+    "title": "Week 5: Risk, Beta, and the Market Model",
+    "section": "What the regression can’t explain",
+    "text": "What the regression can’t explain\nThe residuals \\(\\hat\\varepsilon_{i,t} = R_{i,t} - \\hat{\\alpha} - \\hat\\beta\\, R_{m,t}\\) are the stock-specific portion of returns.\n\n\n\n\n\n\n\nIdiosyncratic volatility\n\n\n\\[\\sigma_{\\varepsilon,i} = \\mathrm{sd}\\!\\left(\\hat\\varepsilon_{i,t}\\right)\\]\n\n\n\n\n\nresiduals_i &lt;- resid(model)\nidio_vol    &lt;- sd(residuals_i)\ncat(\"Idiosyncratic volatility:\",\n    round(idio_vol, 4), \"\\n\")\n\nIdiosyncratic volatility: 0.0238"
+  },
+  {
+    "objectID": "mocc/week5_beta.html#decomposition-of-variance",
+    "href": "mocc/week5_beta.html#decomposition-of-variance",
+    "title": "Week 5: Risk, Beta, and the Market Model",
+    "section": "Decomposition of variance",
+    "text": "Decomposition of variance\nIn population:\n\\[\\underbrace{\\sigma_i^2}_{\\text{total}}\n\\;=\\;\n\\underbrace{\\beta_i^2\\, \\sigma_m^2}_{\\text{systematic}}\n\\;+\\;\n\\underbrace{\\sigma_{\\varepsilon,i}^2}_{\\text{idiosyncratic}}.\\]\n\nsigma_total &lt;- sd(returns$stock_return)\nsigma_mkt   &lt;- sd(returns$market_return)\nsys_part    &lt;- beta_hat^2 * sigma_mkt^2\nidio_part   &lt;- idio_vol^2\n\nc(total_var = sigma_total^2,\n  systematic = sys_part,\n  idiosyncratic = idio_part)\n\n    total_var    systematic idiosyncratic \n 0.0011217328  0.0005529309  0.0005688019 \n\n\nsystematic + idiosyncratic should approximately equal total_var — the analysis-of-variance identity behind the market model."
+  },
+  {
+    "objectID": "mocc/week5_beta.html#beta-is-what-the-capm-prices",
+    "href": "mocc/week5_beta.html#beta-is-what-the-capm-prices",
+    "title": "Week 5: Risk, Beta, and the Market Model",
+    "section": "\\(\\beta\\) is what the CAPM prices",
+    "text": "\\(\\beta\\) is what the CAPM prices\nThe Capital Asset Pricing Model (Sharpe, 1964) says expected excess return depends only on \\(\\beta\\):\n\n\n\n\n\n\n\nCAPM\n\n\n\\[E[R_i] - R_f = \\beta_i \\,\\bigl(E[R_m] - R_f\\bigr)\\]\n\n\n\n\n\nHigh-\\(\\beta\\) stocks should earn higher expected returns.\nIdiosyncratic risk should not be priced — you can diversify it away.\n\nThe empirical evidence is mixed (the “low-beta anomaly”), but \\(\\beta\\) remains the single most-cited measure of a stock’s market risk."
+  },
+  {
+    "objectID": "mocc/week5_beta.html#course-connections",
+    "href": "mocc/week5_beta.html#course-connections",
+    "title": "Week 5: Risk, Beta, and the Market Model",
+    "section": "Course connections",
+    "text": "Course connections\nWhat we built this week will be the foundation for two later ideas you’ll meet if you continue:\n\nCumulative abnormal returns (CAR) in event studies. The market model predicts a stock’s “normal” return; whatever the stock does above and beyond that prediction around an event date is the abnormal return.\nMulti-factor models (Fama-French, Carhart). We replace the single market return with several factor portfolios. The R syntax barely changes: lm(R_i ~ MKT + SMB + HML)."
+  },
+  {
+    "objectID": "mocc/week5_beta.html#what-this-week-covered",
+    "href": "mocc/week5_beta.html#what-this-week-covered",
+    "title": "Week 5: Risk, Beta, and the Market Model",
+    "section": "What this week covered",
+    "text": "What this week covered\n\nDecomposed total risk into systematic and idiosyncratic parts.\nEstimated \\(\\beta\\) with one call to lm().\nExtracted and interpreted summary(model) and tidy(model).\nComputed idiosyncratic volatility from residuals.\nConnected \\(\\beta\\) to the CAPM and to multi-factor extensions.\n\nNext week: we use everything we’ve learned to design, run, and benchmark a trading strategy."
+  },
+  {
+    "objectID": "mocc/week5_beta.html#exercise",
+    "href": "mocc/week5_beta.html#exercise",
+    "title": "Week 5: Risk, Beta, and the Market Model",
+    "section": "Exercise",
+    "text": "Exercise\n\nEstimate \\(\\beta\\) for AAPL, KO (Coca-Cola), and TSLA against the S&P 500 over 2020–2022. Rank them. Which is the most market-sensitive?\nEstimate \\(\\beta\\) for 2330.TW (TSMC) against ^TWII (TAIEX) over the same window.\nFor each stock, report \\(\\beta\\), \\(\\sigma_{\\varepsilon}\\), and the \\(R^2\\) of the regression.\nPlot the four scatter plots side-by-side and comment on which stock’s returns are best explained by its respective market index.\n\n\nThank you!"
+  },
+  {
+    "objectID": "mocc/week6_strategy.html",
+    "href": "mocc/week6_strategy.html",
+    "title": "Week 6: A Working Trading Strategy in R",
+    "section": "",
+    "text": "In five weeks we have built:\n\nR data-handling fluency (Week 1)\nTime value of money (Week 2)\nReturn calculations (Week 3)\nPortfolio formation and volatility (Week 4)\nThe market model and \\(\\beta\\) (Week 5)\n\nThis week we combine all of it into one complete pipeline: download data \\(\\to\\) generate signals \\(\\to\\) simulate trades \\(\\to\\) benchmark.\n\n\n\nWe will trade the Taiwan 50 ETF, ticker 0050.TW — one of the most actively traded ETFs in Taiwan, representing large-cap Taiwanese stocks.\n\nPeriod: 2023-01-01 to 2026-01-01.\nStrategy: a moving-average crossover.\nInitial capital: NT$1,000,000.\nBenchmarks: TAIEX index and buy-and-hold 0050.\n\nThe goal is not to get rich — it is to learn the methodology of designing, implementing, and honestly evaluating a quantitative strategy."
+  },
+  {
+    "objectID": "mocc/week6_strategy.html#where-we-are",
+    "href": "mocc/week6_strategy.html#where-we-are",
+    "title": "Week 6: A Working Trading Strategy in R",
+    "section": "Where we are",
+    "text": "Where we are\nIn five weeks we have built:\n\nR data-handling fluency (Week 1)\nTime value of money (Week 2)\nReturn calculations (Week 3)\nPortfolio formation and volatility (Week 4)\nThe market model and \\(\\beta\\) (Week 5)\n\nThis week we combine all of it into one complete pipeline: download data \\(\\to\\) generate signals \\(\\to\\) simulate trades \\(\\to\\) benchmark."
+  },
+  {
+    "objectID": "mocc/week6_strategy.html#the-case-study",
+    "href": "mocc/week6_strategy.html#the-case-study",
+    "title": "Week 6: A Working Trading Strategy in R",
+    "section": "The case study",
+    "text": "The case study\nWe will trade the Taiwan 50 ETF, ticker 0050.TW — one of the most actively traded ETFs in Taiwan, representing large-cap Taiwanese stocks.\n\nPeriod: 2023-01-01 to 2026-01-01.\nStrategy: a moving-average crossover.\nInitial capital: NT$1,000,000.\nBenchmarks: TAIEX index and buy-and-hold 0050.\n\nThe goal is not to get rich — it is to learn the methodology of designing, implementing, and honestly evaluating a quantitative strategy."
+  },
+  {
+    "objectID": "mocc/week6_strategy.html#etf-prices",
+    "href": "mocc/week6_strategy.html#etf-prices",
+    "title": "Week 6: A Working Trading Strategy in R",
+    "section": "ETF prices",
+    "text": "ETF prices\n\netf &lt;- tq_get(\"0050.TW\",\n              from = \"2023-01-01\",\n              to   = \"2026-01-01\")\n\nTwo columns matter for what follows: date and adjusted."
+  },
+  {
+    "objectID": "mocc/week6_strategy.html#what-is-a-moving-average",
+    "href": "mocc/week6_strategy.html#what-is-a-moving-average",
+    "title": "Week 6: A Working Trading Strategy in R",
+    "section": "What is a moving average?",
+    "text": "What is a moving average?\nA rolling mean of the last \\(n\\) days of adjusted close.\n\n\n\n\n\n\n\nSimple moving average\n\n\n\\[MA_n(t) = \\frac{1}{n}\\sum_{i=0}^{n-1} P_{t-i}\\]\n\n\n\n\nWe use two:\n\nMA20: short-term trend (~1 trading month).\nMA50: medium-term trend (~2.5 trading months).\n\nThe relative position of the two is our trading signal."
+  },
+  {
+    "objectID": "mocc/week6_strategy.html#computing-both-in-r",
+    "href": "mocc/week6_strategy.html#computing-both-in-r",
+    "title": "Week 6: A Working Trading Strategy in R",
+    "section": "Computing both in R",
+    "text": "Computing both in R\n\netf_ma &lt;- etf |&gt;\n  mutate(MA20 = SMA(adjusted, n = 20),\n         MA50 = SMA(adjusted, n = 50)) |&gt;\n  na.omit()\n\nSMA() comes from the TTR package, which tidyquant loads for us.\nna.omit() drops the first 49 rows where MA50 is not yet defined."
+  },
+  {
+    "objectID": "mocc/week6_strategy.html#the-crossover-rule",
+    "href": "mocc/week6_strategy.html#the-crossover-rule",
+    "title": "Week 6: A Working Trading Strategy in R",
+    "section": "The crossover rule",
+    "text": "The crossover rule\n\n\n\n\n\n\n\nSignal definition\n\n\n\nBuy when MA20 crosses above MA50 (“golden cross”).\nSell when MA20 crosses below MA50 (“death cross”).\n\n\n\n\n\nIn code, “crosses above today” means: yesterday’s MA20 was below MA50, today’s MA20 is at or above MA50."
+  },
+  {
+    "objectID": "mocc/week6_strategy.html#implementing-the-rule",
+    "href": "mocc/week6_strategy.html#implementing-the-rule",
+    "title": "Week 6: A Working Trading Strategy in R",
+    "section": "Implementing the rule",
+    "text": "Implementing the rule\n\netf_signals &lt;- etf_ma |&gt;\n  mutate(signal = case_when(\n    lag(MA20) &lt;  lag(MA50) & MA20 &gt;= MA50 ~ \"buy\",\n    lag(MA20) &gt;  lag(MA50) & MA20 &lt;= MA50 ~ \"sell\",\n    TRUE                                  ~ NA_character_\n  ))\n\ncase_when() is the tidyverse multi-branch if/else."
+  },
+  {
+    "objectID": "mocc/week6_strategy.html#the-all-in-all-out-simulator",
+    "href": "mocc/week6_strategy.html#the-all-in-all-out-simulator",
+    "title": "Week 6: A Working Trading Strategy in R",
+    "section": "The all-in / all-out simulator",
+    "text": "The all-in / all-out simulator\nA simple state machine: at each date, check the signal and update cash, position, and total_value.\n\ncapital   &lt;- 1000000\ncash      &lt;- capital\nposition  &lt;- 0\nportfolio &lt;- data.frame()\n\nfor (i in seq_len(nrow(etf_signals))) {\n  date_i  &lt;- etf_signals$date[i]\n  price_i &lt;- etf_signals$adjusted[i]\n  sig     &lt;- etf_signals$signal[i]\n\n  if (!is.na(sig)) {\n    if (sig == \"buy\") {\n      position &lt;- floor(cash / price_i)\n      cash     &lt;- cash - position * price_i\n    } else if (sig == \"sell\") {\n      cash     &lt;- cash + position * price_i\n      position &lt;- 0\n    }\n  }\n  total_value &lt;- cash + position * price_i\n  portfolio   &lt;- bind_rows(portfolio,\n                  data.frame(date = date_i, price = price_i,\n                             position, cash, total_value))\n}"
+  },
+  {
+    "objectID": "mocc/week6_strategy.html#what-the-loop-is-doing",
+    "href": "mocc/week6_strategy.html#what-the-loop-is-doing",
+    "title": "Week 6: A Working Trading Strategy in R",
+    "section": "What the loop is doing",
+    "text": "What the loop is doing\n\nWalk through every trading day in order.\nOn a buy signal: spend all the cash on as many shares as we can afford.\nOn a sell signal: liquidate completely back to cash.\nEvery day, record total_value = cash + position * price.\n\nThis is the simplest possible “in or out” strategy — no leverage, no shorting, no partial positions, no transaction costs."
+  },
+  {
+    "objectID": "mocc/week6_strategy.html#portfolio-value-over-time",
+    "href": "mocc/week6_strategy.html#portfolio-value-over-time",
+    "title": "Week 6: A Working Trading Strategy in R",
+    "section": "Portfolio value over time",
+    "text": "Portfolio value over time\n\n\nCode\nhighchart(width = 1280) |&gt;\n  hc_title(text = \"MA Crossover --- Portfolio Value\") |&gt;\n  hc_xAxis(type = \"datetime\",\n           title = list(text = \"Date\")) |&gt;\n  hc_yAxis(title = list(text = \"Total Value (NT$)\")) |&gt;\n  hc_add_series(data = portfolio, type = \"line\",\n                hcaes(x = date, y = total_value),\n                name = \"Portfolio Value\") |&gt;\n  hc_tooltip(valuePrefix = \"NT$\", valueDecimals = 2) |&gt;\n  hc_legend(enabled = FALSE)"
+  },
+  {
+    "objectID": "mocc/week6_strategy.html#final-performance-number",
+    "href": "mocc/week6_strategy.html#final-performance-number",
+    "title": "Week 6: A Working Trading Strategy in R",
+    "section": "Final performance number",
+    "text": "Final performance number\n\nfinal_value &lt;- tail(portfolio$total_value, 1)\nreturn_pct  &lt;- (final_value - capital) / capital * 100\n\ncat(\"Final value: NT$\", round(final_value, 2), \"\\n\")\n\nFinal value: NT$ 2101443 \n\ncat(\"Total return:\", round(return_pct, 2), \"%\\n\")\n\nTotal return: 110.14 %\n\n\nOne number is never enough — we need a benchmark."
+  },
+  {
+    "objectID": "mocc/week6_strategy.html#the-taiex-market-benchmark",
+    "href": "mocc/week6_strategy.html#the-taiex-market-benchmark",
+    "title": "Week 6: A Working Trading Strategy in R",
+    "section": "The TAIEX market benchmark",
+    "text": "The TAIEX market benchmark\n\nmarket &lt;- tq_get(\"^TWII\",\n                 from = \"2023-01-01\",\n                 to   = \"2026-01-01\") |&gt;\n  select(date, market_price = adjusted)\n\ninit_price &lt;- market$market_price[1]\nunits      &lt;- floor(1000000 / init_price)\n\nmarket_bh &lt;- market |&gt;\n  mutate(benchmark_value = units * market_price) |&gt;\n  select(date, benchmark_value)\n\nA simulated NT$1M invested in the index, never traded."
+  },
+  {
+    "objectID": "mocc/week6_strategy.html#buy-and-hold-0050",
+    "href": "mocc/week6_strategy.html#buy-and-hold-0050",
+    "title": "Week 6: A Working Trading Strategy in R",
+    "section": "Buy-and-hold 0050",
+    "text": "Buy-and-hold 0050\n\nbh_etf &lt;- etf |&gt;\n  filter(date &gt;= ymd(\"2023-03-27\"))\n\ninit_etf &lt;- bh_etf$adjusted[1]\nunits_bh &lt;- floor(1000000 / init_etf)\n\nbh_etf &lt;- bh_etf |&gt;\n  mutate(bh_etf_value = units_bh * adjusted) |&gt;\n  select(date, bh_etf_value)\n\nWe start all three strategies on the same date so the comparison is fair."
+  },
+  {
+    "objectID": "mocc/week6_strategy.html#merging-and-plotting",
+    "href": "mocc/week6_strategy.html#merging-and-plotting",
+    "title": "Week 6: A Working Trading Strategy in R",
+    "section": "Merging and plotting",
+    "text": "Merging and plotting\n\ncomp &lt;- portfolio |&gt;\n  select(date, strategy_value = total_value) |&gt;\n  inner_join(market_bh,  by = \"date\") |&gt;\n  inner_join(bh_etf,     by = \"date\")\n\n\n\nCode\nhighchart(type = \"stock\", width = 1280) |&gt;\n  hc_title(text = \"Strategy vs. Benchmarks\") |&gt;\n  hc_xAxis(type = \"datetime\") |&gt;\n  hc_yAxis(title = list(text = \"Portfolio Value (NT$)\")) |&gt;\n  hc_add_series(comp, \"line\",\n                hcaes(x = date, y = strategy_value),\n                name = \"MA Strategy\") |&gt;\n  hc_add_series(comp, \"line\",\n                hcaes(x = date, y = bh_etf_value),\n                name = \"Buy-and-Hold 0050\") |&gt;\n  hc_add_series(comp, \"line\",\n                hcaes(x = date, y = benchmark_value),\n                name = \"TAIEX\") |&gt;\n  hc_tooltip(\n    valuePrefix = \"NT$\",\n    valueDecimals = 0,  # 2-decimal tooltips\n    shared = TRUE   # show all series at once\n  )"
+  },
+  {
+    "objectID": "mocc/week6_strategy.html#what-this-kind-of-comparison-teaches",
+    "href": "mocc/week6_strategy.html#what-this-kind-of-comparison-teaches",
+    "title": "Week 6: A Working Trading Strategy in R",
+    "section": "What this kind of comparison teaches",
+    "text": "What this kind of comparison teaches\nThree serious lessons emerge from looking at the chart honestly:\n\nThe MA crossover often lags sharp trend reversals — it buys late and sells late.\nA long stretch of sideways prices generates many false signals (“whipsaws”), each costing implicit slippage.\nBuy-and-hold, the most boring strategy on the planet, is competitive with — sometimes better than — an active rule.\n\nThis is the standard result for naive technical strategies in academic backtests. It is a feature of the problem, not a bug in your code."
+  },
+  {
+    "objectID": "mocc/week6_strategy.html#what-we-ignored",
+    "href": "mocc/week6_strategy.html#what-we-ignored",
+    "title": "Week 6: A Working Trading Strategy in R",
+    "section": "What we ignored",
+    "text": "What we ignored\n\nTransaction costs and slippage: every trade costs money in reality.\nBid-ask spreads: you don’t actually trade at the close.\nSurvivorship bias: 0050 is the post-2003 winner index.\nLook-ahead bias: we used lag() correctly — always check this.\nRisk adjustment: we compared raw returns, not Sharpe ratios. A volatile winner is not the same kind of “good” as a smooth winner.\n\nA serious research replication would address every one of these."
+  },
+  {
+    "objectID": "mocc/week6_strategy.html#five-strategy-variants-to-try",
+    "href": "mocc/week6_strategy.html#five-strategy-variants-to-try",
+    "title": "Week 6: A Working Trading Strategy in R",
+    "section": "Five strategy variants to try",
+    "text": "Five strategy variants to try\n\nAdd a stop-loss: exit if the position drops 10% from entry.\nMomentum allocation: switch between 0050 and a bond proxy based on trailing 12-month return.\nVolatility-scaled positions: larger position when realized volatility is low; smaller when high.\nMean reversion: use Bollinger Bands or RSI to fade extremes instead of follow trends.\nCalendar rotation: invest only Nov–Apr; cash the rest."
+  },
+  {
+    "objectID": "mocc/week6_strategy.html#what-this-week-and-this-course-covered",
+    "href": "mocc/week6_strategy.html#what-this-week-and-this-course-covered",
+    "title": "Week 6: A Working Trading Strategy in R",
+    "section": "What this week — and this course — covered",
+    "text": "What this week — and this course — covered\n\nBuilt a complete strategy: download \\(\\to\\) signal \\(\\to\\) trade \\(\\to\\) benchmark.\nUsed SMA() and case_when() for signal generation.\nWalked a for loop through every trading day to update positions.\nCompared the strategy fairly against two benchmarks.\nDiscussed honest caveats about backtests.\n\nYou have now built, end-to-end, the workflow that every quantitative finance team in the world starts with. The difference is in the polish — not the bones."
+  },
+  {
+    "objectID": "mocc/week6_strategy.html#final-exercise-your-own-strategy",
+    "href": "mocc/week6_strategy.html#final-exercise-your-own-strategy",
+    "title": "Week 6: A Working Trading Strategy in R",
+    "section": "Final exercise: your own strategy",
+    "text": "Final exercise: your own strategy\nDesign and backtest your own rule.\n\nChoose a signal — another MA pair, a momentum window, a calendar effect, an RSI threshold, or anything else.\nModify the simulation loop from this deck.\nBenchmark against the MA crossover strategy, buy-and-hold 0050, and TAIEX.\nPlot all four series on one highcharter chart.\nReport final value, total return, and one risk number (annualized \\(\\sigma\\) or Sharpe).\nIn one paragraph, explain why your strategy did better or worse, and what you would change next.\n\n\nThank you, and happy investing!"
+  },
+  {
+    "objectID": "mocc/week3_returns.html",
+    "href": "mocc/week3_returns.html",
+    "title": "Week 3: Calculating Returns",
+    "section": "",
+    "text": "You bought a stock at NT$100. It’s now NT$110.\nHow much did you make?\nTwo equally valid answers:\n\nIn money: NT$10.\nIn percentage: 10%.\n\nThis week is about percentage returns — and the fact that there are two different definitions, both correct, both used in practice."
+  },
+  {
+    "objectID": "mocc/week3_returns.html#the-investors-most-basic-question",
+    "href": "mocc/week3_returns.html#the-investors-most-basic-question",
+    "title": "Week 3: Calculating Returns",
+    "section": "The investor’s most basic question",
+    "text": "The investor’s most basic question\nYou bought a stock at NT$100. It’s now NT$110.\nHow much did you make?\nTwo equally valid answers:\n\nIn money: NT$10.\nIn percentage: 10%.\n\nThis week is about percentage returns — and the fact that there are two different definitions, both correct, both used in practice."
+  },
+  {
+    "objectID": "mocc/week3_returns.html#definition",
+    "href": "mocc/week3_returns.html#definition",
+    "title": "Week 3: Calculating Returns",
+    "section": "Definition",
+    "text": "Definition\n\n\n\n\n\n\n\nDiscrete return\n\n\n\\[R_t = \\frac{P_t}{P_{t-1}} - 1 = \\frac{P_t - P_{t-1}}{P_{t-1}}\\]\n\n\n\n\nThe intuitive percentage change. If \\(P_{t-1} = 100\\) and \\(P_t = 110\\), then \\(R_t = 10\\%\\).\nThis is the version you see in newspapers, brokerage statements, and industry research."
+  },
+  {
+    "objectID": "mocc/week3_returns.html#computing-it-in-r-with-dplyr",
+    "href": "mocc/week3_returns.html#computing-it-in-r-with-dplyr",
+    "title": "Week 3: Calculating Returns",
+    "section": "Computing it in R with dplyr",
+    "text": "Computing it in R with dplyr\n\napple &lt;- tq_get(\"AAPL\", from = \"2023-01-01\", to = \"2026-01-01\")\n\napple &lt;- apple |&gt;\n  arrange(date) |&gt;\n  mutate(R_disc = adjusted / lag(adjusted) - 1)\n\nlag() shifts the column down one row — the previous day’s price."
+  },
+  {
+    "objectID": "mocc/week3_returns.html#definition-1",
+    "href": "mocc/week3_returns.html#definition-1",
+    "title": "Week 3: Calculating Returns",
+    "section": "Definition",
+    "text": "Definition\n\n\n\n\n\n\n\nContinuous (log) return\n\n\n\\[r_t = \\ln\\!\\left(\\frac{P_t}{P_{t-1}}\\right) = \\ln P_t - \\ln P_{t-1}\\]\n\n\n\n\nThe log return is the instantaneous-growth-rate version of return — the counterpart of continuous compounding from Week 2.\nFor small changes, \\(r_t \\approx R_t\\). They diverge for large moves."
+  },
+  {
+    "objectID": "mocc/week3_returns.html#discrete-vs.-continuous-side-by-side",
+    "href": "mocc/week3_returns.html#discrete-vs.-continuous-side-by-side",
+    "title": "Week 3: Calculating Returns",
+    "section": "Discrete vs. continuous — side by side",
+    "text": "Discrete vs. continuous — side by side\n\napple &lt;- apple |&gt;\n  mutate(R_disc = adjusted / lag(adjusted) - 1,\n         r_log  = log(adjusted / lag(adjusted)))\n\nFor a typical daily move of \\(\\pm 1\\%\\), the two are nearly identical. For a \\(+50\\%\\) jump, \\(R = 0.50\\) but \\(r = \\ln(1.5) = 0.405\\)."
+  },
+  {
+    "objectID": "mocc/week3_returns.html#when-to-use-which",
+    "href": "mocc/week3_returns.html#when-to-use-which",
+    "title": "Week 3: Calculating Returns",
+    "section": "When to use which?",
+    "text": "When to use which?\n\n\n\n\n\n\n\n\n\nDiscrete \\(R\\)\nContinuous \\(r\\)\n\n\n\n\nInterpretation\nSimple % change\nLog-based, continuous\n\n\nTime-additive?\nNo\nYes\n\n\nCross-section sum\nYes (portfolio)\nNo\n\n\nWhere used\nIndustry, reporting\nAcademic research, modelling\n\n\n\nThe time-additivity of log returns is what makes them the standard in econometrics: a 2-day log return is just the sum of two daily log returns."
+  },
+  {
+    "objectID": "mocc/week3_returns.html#why-log-returns-are-time-additive",
+    "href": "mocc/week3_returns.html#why-log-returns-are-time-additive",
+    "title": "Week 3: Calculating Returns",
+    "section": "Why log returns are time-additive",
+    "text": "Why log returns are time-additive\nOver \\(n\\) days: \\[\\frac{P_T}{P_0} = \\prod_{t=1}^{T}\\frac{P_t}{P_{t-1}}\n\\quad\\Rightarrow\\quad\n\\ln\\!\\frac{P_T}{P_0} = \\sum_{t=1}^{T} r_t.\\] So \\(r_{0 \\to T} = r_1 + r_2 + \\cdots + r_T\\). Sum them.\nBut the same formula in discrete form is: \\[1 + R_{0 \\to T} = \\prod_{t=1}^{T} (1 + R_t).\\] So \\(R_{0 \\to T} \\ne R_1 + R_2 + \\cdots + R_T\\). Compound them."
+  },
+  {
+    "objectID": "mocc/week3_returns.html#why-discrete-returns-are-cross-section-additive",
+    "href": "mocc/week3_returns.html#why-discrete-returns-are-cross-section-additive",
+    "title": "Week 3: Calculating Returns",
+    "section": "Why discrete returns are cross-section-additive",
+    "text": "Why discrete returns are cross-section-additive\nFor a portfolio with weights \\(w_i\\) summing to 1:\n\\[R_p = \\sum_{i=1}^{N} w_i\\,R_i \\qquad \\text{(exactly)}\\] This is exact for discrete returns, and only approximate for log returns.\nPractical rule of thumb:\n\nAggregating across stocks at one point in time \\(\\to\\) discrete.\nAggregating across time for one stock \\(\\to\\) continuous."
+  },
+  {
+    "objectID": "mocc/week3_returns.html#cumulative-discrete-return",
+    "href": "mocc/week3_returns.html#cumulative-discrete-return",
+    "title": "Week 3: Calculating Returns",
+    "section": "Cumulative discrete return",
+    "text": "Cumulative discrete return\n\\[R_{\\text{cum}} = \\prod_{t=1}^{T}(1 + R_t) - 1\\]\n\napple &lt;- apple |&gt;\n  mutate(cum_R = cumprod(1 + coalesce(R_disc, 0)) - 1)\n\ncumprod() does the running product; coalesce(R_disc, 0) replaces the first NA with 0 so the cumulative product starts from 1."
+  },
+  {
+    "objectID": "mocc/week3_returns.html#cumulative-log-return",
+    "href": "mocc/week3_returns.html#cumulative-log-return",
+    "title": "Week 3: Calculating Returns",
+    "section": "Cumulative log return",
+    "text": "Cumulative log return\n\\[r_{\\text{cum}} = \\sum_{t=1}^{T} r_t\\]\n\napple &lt;- apple |&gt;\n  mutate(cum_r = cumsum(coalesce(r_log, 0)))\n\nJust cumsum() — nothing more.\nTo convert back to a discrete cumulative return: \\(R_{\\text{cum}} = e^{r_{\\text{cum}}} - 1\\)."
+  },
+  {
+    "objectID": "mocc/week3_returns.html#a-passive-strategy-in-one-line",
+    "href": "mocc/week3_returns.html#a-passive-strategy-in-one-line",
+    "title": "Week 3: Calculating Returns",
+    "section": "A passive strategy in one line",
+    "text": "A passive strategy in one line\nThe simplest possible “strategy”: buy on day 0, never trade. The return over any horizon is just the price ratio:\n\\[R_{\\text{BH}} = \\frac{P_T}{P_0} - 1\\]\n\napple |&gt;\n  summarise(BH_return = last(adjusted) / first(adjusted) - 1)\n\n# A tibble: 1 × 1\n  BH_return\n      &lt;dbl&gt;\n1      1.21\n\n\nIt sounds trivial — but as we’ll see in Week 6, a well-chosen buy-and-hold often beats more complex active strategies. Don’t dismiss it."
+  },
+  {
+    "objectID": "mocc/week3_returns.html#a-return-time-series",
+    "href": "mocc/week3_returns.html#a-return-time-series",
+    "title": "Week 3: Calculating Returns",
+    "section": "A return time-series",
+    "text": "A return time-series\n\n\nCode\nhighchart(type = \"stock\", width = 1280) |&gt;\n  hc_add_series(apple, type = \"line\",\n                hcaes(x = date, y = R_disc * 100),\n                name = \"AAPL Daily Return (%)\") |&gt;\n  hc_title(text = \"AAPL Daily Returns 2023\") |&gt;\n  hc_yAxis(title = list(text = \"Return (%)\")) |&gt; \n  hc_tooltip(valueDecimals = 2, valueSuffix = \" %\")"
+  },
+  {
+    "objectID": "mocc/week3_returns.html#cumulative-return-chart",
+    "href": "mocc/week3_returns.html#cumulative-return-chart",
+    "title": "Week 3: Calculating Returns",
+    "section": "Cumulative-return chart",
+    "text": "Cumulative-return chart\n\n\nCode\nhighchart(type = \"stock\", width = 1280) |&gt;\n  hc_add_series(apple, type = \"line\",\n                hcaes(x = date, y = cum_R * 100),\n                name = \"Cumulative Discrete Return\") |&gt;\n  hc_add_series(apple, type = \"line\",\n                hcaes(x = date, y = cum_r * 100),\n                name = \"Cumulative Log Return\") |&gt;\n  hc_title(text = \"AAPL 2023 --- Two Ways to Measure Cumulative Return\") |&gt;\n  hc_yAxis(title = list(text = \"%\")) |&gt; \n  hc_tooltip(valueDecimals = 2, valueSuffix = \" %\")\n\n\n\n\n\n\nThe two lines diverge slightly as returns accumulate — the visual proof of compounding."
+  },
+  {
+    "objectID": "mocc/week3_returns.html#what-this-week-covered",
+    "href": "mocc/week3_returns.html#what-this-week-covered",
+    "title": "Week 3: Calculating Returns",
+    "section": "What this week covered",
+    "text": "What this week covered\n\nTwo return definitions: discrete \\(R\\) and continuous \\(r\\).\nTime-additivity (logs sum) vs. cross-section additivity (discrete sums).\nMulti-period returns: cumprod() and cumsum().\nBuy-and-hold return in one line.\nPlotting return series with highcharter.\n\nNext week: we put many stocks into a single portfolio and compute its return and its volatility."
+  },
+  {
+    "objectID": "mocc/week3_returns.html#exercise",
+    "href": "mocc/week3_returns.html#exercise",
+    "title": "Week 3: Calculating Returns",
+    "section": "Exercise",
+    "text": "Exercise\n\nDownload MSFT, GOOGL, and NVDA for 2023. Compute both discrete and log daily returns for each.\nFor NVDA, compute the cumulative 2023 return two ways (cumprod of discrete vs. cumsum of log). By how much do they differ at year-end?\nWhat is the annualized mean daily log return for each stock? (Hint: multiply daily mean by 252.)\nPlot the three cumulative-return paths on one highcharter chart. Which stock won 2023?\n\n\nThank you!"
+  },
+  {
+    "objectID": "mocc/week2_tvm.html",
+    "href": "mocc/week2_tvm.html",
+    "title": "Week 2: The Time Value of Money",
+    "section": "",
+    "text": "Suppose someone offers you a choice:\n\nOption A: NT$1,000 today.\nOption B: NT$1,000 one year from today.\n\nWhich is better? Most people pick A. Why?\n\n\n\nSuppose someone offers you a choice:\n\nOption A: NT$1,000 today.\nOption B: NT$1,000 one year from today.\n\nWhich is better? Most people pick A. Why?\nThree reasons:\n\nYou could invest A and earn interest.\nInflation may erode B’s purchasing power.\nB is uncertain — you might not actually get it.\n\n\n\n\nIf you can invest at an annual rate \\(r\\), then NT$1 today grows to NT$(1+r) in one year.\nEquivalently, NT$1 next year is worth only NT$\\(\\frac{1}{1+r}\\) today.\nThis single idea — the discount factor \\(\\frac{1}{1+r}\\) — is the foundation of every valuation formula in finance, from a savings account to a billion-dollar acquisition."
+  },
+  {
+    "objectID": "mocc/week2_tvm.html#a-dollar-today-is-not-a-dollar-tomorrow",
+    "href": "mocc/week2_tvm.html#a-dollar-today-is-not-a-dollar-tomorrow",
+    "title": "Week 2: The Time Value of Money",
+    "section": "A dollar today is not a dollar tomorrow",
+    "text": "A dollar today is not a dollar tomorrow\nSuppose someone offers you a choice:\n\nOption A: NT$1,000 today.\nOption B: NT$1,000 one year from today.\n\nWhich is better? Most people pick A. Why?"
+  },
+  {
+    "objectID": "mocc/week2_tvm.html#a-dollar-today-is-not-a-dollar-tomorrow-1",
+    "href": "mocc/week2_tvm.html#a-dollar-today-is-not-a-dollar-tomorrow-1",
+    "title": "Week 2: The Time Value of Money",
+    "section": "A dollar today is not a dollar tomorrow",
+    "text": "A dollar today is not a dollar tomorrow\nSuppose someone offers you a choice:\n\nOption A: NT$1,000 today.\nOption B: NT$1,000 one year from today.\n\nWhich is better? Most people pick A. Why?\nThree reasons:\n\nYou could invest A and earn interest.\nInflation may erode B’s purchasing power.\nB is uncertain — you might not actually get it."
+  },
+  {
+    "objectID": "mocc/week2_tvm.html#the-fundamental-relation",
+    "href": "mocc/week2_tvm.html#the-fundamental-relation",
+    "title": "Week 2: The Time Value of Money",
+    "section": "The fundamental relation",
+    "text": "The fundamental relation\nIf you can invest at an annual rate \\(r\\), then NT$1 today grows to NT$(1+r) in one year.\nEquivalently, NT$1 next year is worth only NT$\\(\\frac{1}{1+r}\\) today.\nThis single idea — the discount factor \\(\\frac{1}{1+r}\\) — is the foundation of every valuation formula in finance, from a savings account to a billion-dollar acquisition."
+  },
+  {
+    "objectID": "mocc/week2_tvm.html#future-value",
+    "href": "mocc/week2_tvm.html#future-value",
+    "title": "Week 2: The Time Value of Money",
+    "section": "Future Value",
+    "text": "Future Value\nInvesting \\(PV\\) today at rate \\(r\\) for \\(n\\) years:\n\n\n\n\n\n\n\nFuture value (annual compounding)\n\n\n\\[FV = PV \\cdot (1+r)^n\\]\n\n\n\n\n\nPV &lt;- 1000\nr  &lt;- 0.05\nn  &lt;- 10\nFV &lt;- PV * (1 + r)^n\nFV\n\n[1] 1628.895\n\n\nNT$1,000 today becomes NT$1,628.89 in ten years at 5%."
+  },
+  {
+    "objectID": "mocc/week2_tvm.html#present-value",
+    "href": "mocc/week2_tvm.html#present-value",
+    "title": "Week 2: The Time Value of Money",
+    "section": "Present Value",
+    "text": "Present Value\nRunning the relation backwards:\n\n\n\n\n\n\n\nPresent value\n\n\n\\[PV = \\frac{FV}{(1+r)^n}\\]\n\n\n\n\n\nFV &lt;- 1000\nr  &lt;- 0.05\nn  &lt;- 10\nPV &lt;- FV / (1 + r)^n\nPV\n\n[1] 613.9133\n\n\nNT$1,000 promised in ten years is worth only NT$613.91 today."
+  },
+  {
+    "objectID": "mocc/week2_tvm.html#writing-a-reusable-function",
+    "href": "mocc/week2_tvm.html#writing-a-reusable-function",
+    "title": "Week 2: The Time Value of Money",
+    "section": "Writing a reusable function",
+    "text": "Writing a reusable function\nHard-coding numbers is fragile. Wrap the formula in a function:\n\npv &lt;- function(FV, r, n) FV / (1 + r)^n\nfv &lt;- function(PV, r, n) PV * (1 + r)^n\n\npv(FV = 1000, r = 0.05, n = 10)\n\n[1] 613.9133\n\nfv(PV = 1000, r = 0.05, n = 10)\n\n[1] 1628.895\n\n\nNow any calculation in the course can call pv() or fv()."
+  },
+  {
+    "objectID": "mocc/week2_tvm.html#compounding-m-times-per-year",
+    "href": "mocc/week2_tvm.html#compounding-m-times-per-year",
+    "title": "Week 2: The Time Value of Money",
+    "section": "Compounding \\(m\\) times per year",
+    "text": "Compounding \\(m\\) times per year\nIf interest is paid \\(m\\) times per year, each period the rate is \\(r/m\\):\n\n\n\n\n\n\nNote\n\n\n\\[FV = PV \\cdot \\left(1 + \\frac{r}{m}\\right)^{m\\,n}\\]\n\n\n\n\nPV &lt;- 1000; r &lt;- 0.05; n &lt;- 10\nm &lt;- c(1, 2, 4, 12, 365)\nFV_m &lt;- PV * (1 + r/m)^(m*n)\ndata.frame(periods_per_year = m, FV = round(FV_m, 2))\n\n  periods_per_year      FV\n1                1 1628.89\n2                2 1638.62\n3                4 1643.62\n4               12 1647.01\n5              365 1648.66\n\n\nMore frequent compounding \\(\\Rightarrow\\) larger FV, but the gains shrink fast."
+  },
+  {
+    "objectID": "mocc/week2_tvm.html#continuous-compounding",
+    "href": "mocc/week2_tvm.html#continuous-compounding",
+    "title": "Week 2: The Time Value of Money",
+    "section": "Continuous compounding",
+    "text": "Continuous compounding\nTake \\(m \\to \\infty\\):\n\n\n\n\n\n\n\nContinuous compounding\n\n\n\\[FV = PV \\cdot e^{r n}, \\qquad PV = FV \\cdot e^{-r n}\\]\n\n\n\n\n\nPV &lt;- 1000; r &lt;- 0.05; n &lt;- 10\nFV_cont &lt;- PV * exp(r * n)\nFV_cont\n\n[1] 1648.721\n\n\nThis is the form you’ll meet again in option pricing (Black-Scholes uses continuous compounding throughout)."
+  },
+  {
+    "objectID": "mocc/week2_tvm.html#visualizing-the-compounding-gap",
+    "href": "mocc/week2_tvm.html#visualizing-the-compounding-gap",
+    "title": "Week 2: The Time Value of Money",
+    "section": "Visualizing the compounding gap",
+    "text": "Visualizing the compounding gap\n\n\nCode\nn &lt;- 0:30\ndf &lt;- data.frame(\n  year   = n,\n  simple = 1000 + 1000 * 0.05 * n,\n  comp   = 1000 * (1 + 0.05)^n,\n  comp_monthly = 1000 * (1 + 0.05/12)^(n*12),\n  cont   = 1000 * exp(0.05 * n)\n)\n\n\n\n\nCode\nhighchart(width = 1280) |&gt;\n  hc_title(text = \"Simple vs. Annual vs. Continuous Compounding\") |&gt;\n  hc_xAxis(title = list(text = \"Year\"), categories = df$year) |&gt;\n  hc_yAxis(title = list(text = \"Future Value (NT$)\")) |&gt;\n  hc_add_series(name = \"Simple\", data = df$simple, type = \"line\") |&gt;\n  hc_add_series(name = \"Annual\",data = df$comp,type = \"line\") |&gt;\n  hc_add_series(name = \"Monthly\",data = df$comp_monthly,type = \"line\") |&gt;\n  hc_add_series(name = \"Continuous\", data = df$cont, type = \"line\") |&gt;\n  hc_tooltip(shared = TRUE, valueDecimals = 2) |&gt;\n  hc_plotOptions(series = list(marker = list(enabled = FALSE)))"
+  },
+  {
+    "objectID": "mocc/week2_tvm.html#what-is-an-annuity",
+    "href": "mocc/week2_tvm.html#what-is-an-annuity",
+    "title": "Week 2: The Time Value of Money",
+    "section": "What is an annuity?",
+    "text": "What is an annuity?\nAn annuity is a stream of equal cash flows \\(C\\) paid at the end of each period for \\(n\\) periods. Examples:\n\nMonthly mortgage payments.\nYearly retirement-fund withdrawals.\nCoupon payments on a bond.\n\nThe present value of all those payments is the sum of \\(n\\) discounted cash flows."
+  },
+  {
+    "objectID": "mocc/week2_tvm.html#the-annuity-formula",
+    "href": "mocc/week2_tvm.html#the-annuity-formula",
+    "title": "Week 2: The Time Value of Money",
+    "section": "The annuity formula",
+    "text": "The annuity formula\n\n\n\n\n\n\n\nPresent value of an ordinary annuity\n\n\n\\[PV = C \\cdot \\frac{1 - (1+r)^{-n}}{r}\\]\n\n\n\n\n\nannuity_pv &lt;- function(C, r, n) {\n  C * (1 - (1 + r)^(-n)) / r\n}\nannuity_pv(C = 50000, r = 0.04, n = 20)\n\n[1] 679516.3\n\n\nNT$50,000 every year for 20 years at 4% has a present value of about NT$679,500 — much less than \\(20 \\times 50{,}000 = 1{,}000{,}000\\)."
+  },
+  {
+    "objectID": "mocc/week2_tvm.html#perpetuity",
+    "href": "mocc/week2_tvm.html#perpetuity",
+    "title": "Week 2: The Time Value of Money",
+    "section": "Perpetuity",
+    "text": "Perpetuity\nLet \\(n \\to \\infty\\) in the annuity formula:\n\n\n\n\n\n\n\nPerpetuity\n\n\n\\[PV = \\frac{C}{r}\\]\n\n\n\n\n\nperp_pv &lt;- function(C, r) C / r\nperp_pv(C = 50000, r = 0.04)\n\n[1] 1250000\n\n\nA NT$50,000 perpetual payment at 4% is worth NT$1,250,000 today — the same logic underlies the Gordon growth model for valuing stocks."
+  },
+  {
+    "objectID": "mocc/week2_tvm.html#mixed-cash-flows-npv",
+    "href": "mocc/week2_tvm.html#mixed-cash-flows-npv",
+    "title": "Week 2: The Time Value of Money",
+    "section": "Mixed cash flows: NPV",
+    "text": "Mixed cash flows: NPV\nMost real projects produce unequal cash flows at different times. Sum them all, discounted to today:\n\n\n\n\n\n\n\nNet present value\n\n\n\\[NPV = \\sum_{t=0}^{n} \\frac{CF_t}{(1+r)^t}\\]\n\n\n\n\nDecision rule: invest if \\(NPV &gt; 0\\)."
+  },
+  {
+    "objectID": "mocc/week2_tvm.html#npv-in-r",
+    "href": "mocc/week2_tvm.html#npv-in-r",
+    "title": "Week 2: The Time Value of Money",
+    "section": "NPV in R",
+    "text": "NPV in R\n\ncf &lt;- c(-100000, 30000, 35000, 40000, 45000)\nr  &lt;- 0.08\nt  &lt;- 0:(length(cf) - 1)\nNPV &lt;- sum(cf / (1 + r)^t)\nNPV\n\n[1] 22614.27\n\n\nA small investment with a positive NPV of about NT$22,300 — the project creates value."
+  },
+  {
+    "objectID": "mocc/week2_tvm.html#internal-rate-of-return-irr",
+    "href": "mocc/week2_tvm.html#internal-rate-of-return-irr",
+    "title": "Week 2: The Time Value of Money",
+    "section": "Internal Rate of Return (IRR)",
+    "text": "Internal Rate of Return (IRR)\nThe IRR is the discount rate that makes \\(NPV = 0\\): \\[\\sum_{t=0}^{n} \\frac{CF_t}{(1+\\text{IRR})^t} = 0.\\]\n\nnpv &lt;- function(r, cf) {\n  t &lt;- 0:(length(cf) - 1)\n  sum(cf / (1 + r)^t)\n}\nirr &lt;- uniroot(npv, interval = c(-0.99, 1), cf = cf)$root\nirr\n\n[1] 0.1709537\n\n\nIf IRR exceeds your required return, accept the project — equivalent to \\(NPV &gt; 0\\) when cash flows are conventional."
+  },
+  {
+    "objectID": "mocc/week2_tvm.html#how-much-to-save-for-retirement",
+    "href": "mocc/week2_tvm.html#how-much-to-save-for-retirement",
+    "title": "Week 2: The Time Value of Money",
+    "section": "How much to save for retirement?",
+    "text": "How much to save for retirement?\nYou are 25, want NT$10,000,000 by age 65, earning 6% per year. How much do you need to save each year?\nRearrange the future-value-of-annuity formula:\n\\[FV = C \\cdot \\frac{(1+r)^n - 1}{r}\n\\quad\\Rightarrow\\quad\nC = \\frac{FV \\cdot r}{(1+r)^n - 1}\\]\n\ntarget &lt;- 10000000; r &lt;- 0.06; n &lt;- 40\nC &lt;- target * r / ((1 + r)^n - 1)\nC\n\n[1] 64615.36\n\n\nOnly about NT$64,600 per year — the power of compounding over 40 years."
+  },
+  {
+    "objectID": "mocc/week2_tvm.html#what-if-you-wait-until-35",
+    "href": "mocc/week2_tvm.html#what-if-you-wait-until-35",
+    "title": "Week 2: The Time Value of Money",
+    "section": "What if you wait until 35?",
+    "text": "What if you wait until 35?\n\ntarget &lt;- 10000000; r &lt;- 0.06; n &lt;- 30\nC &lt;- target * r / ((1 + r)^n - 1)\nC\n\n[1] 126489.1\n\n\nNT$126,500 per year — nearly double, just by starting 10 years later.\nLesson: time is the most expensive variable in any financial plan."
+  },
+  {
+    "objectID": "mocc/week2_tvm.html#the-monthly-payment-formula",
+    "href": "mocc/week2_tvm.html#the-monthly-payment-formula",
+    "title": "Week 2: The Time Value of Money",
+    "section": "The monthly payment formula",
+    "text": "The monthly payment formula\nA fully-amortizing loan of principal \\(L\\) at monthly rate \\(r_m = r/12\\) over \\(N\\) months has constant monthly payment:\n\\[M = L \\cdot \\frac{r_m \\cdot (1+r_m)^N}{(1+r_m)^N - 1}\\]\nThis is just the annuity-payment formula from earlier, applied monthly.\n\nmonthly_payment &lt;- function(L, annual_rate, years) {\n  r_m &lt;- annual_rate / 12\n  N   &lt;- years * 12\n  L * r_m * (1 + r_m)^N / ((1 + r_m)^N - 1)\n}\n\nFor a 3-year grace period, the first 36 months are interest-only (monthly payment = \\(L \\cdot r_m\\)), and the remaining principal then amortizes over 27 years — a second call to monthly_payment() with years = 27."
+  },
+  {
+    "objectID": "mocc/week2_tvm.html#comparing-the-six-scenarios",
+    "href": "mocc/week2_tvm.html#comparing-the-six-scenarios",
+    "title": "Week 2: The Time Value of Money",
+    "section": "Comparing the six scenarios",
+    "text": "Comparing the six scenarios\n\n\nCode\nloans &lt;- c(20e6, 15e6, 10e6)\nrate  &lt;- 0.022\n\n# All six (loan × scheme) combinations\nscenarios &lt;- tibble(\n  loan   = rep(loans, each = 2),\n  scheme = rep(c(\"No grace\", \"3-yr grace\"), times = 3)\n) |&gt;\n  mutate(\n    pmt_yr1to3 = if_else(scheme == \"No grace\",\n                         monthly_payment(loan, rate, 30),\n                         loan * rate / 12),                          # interest only\n    pmt_yr4on  = if_else(scheme == \"No grace\",\n                         monthly_payment(loan, rate, 30),\n                         monthly_payment(loan, rate, 27)),           # amortize over 27 yr\n    total_paid     = pmt_yr1to3 * 36 + pmt_yr4on * (30 * 12 - 36),\n    total_interest = total_paid - loan\n  )\n\n\n\n\n\n\n\n\nThe grace period lowers the first three years, but the post-grace payment is higher (the same principal must amortize in 27 years instead of 30) — and total interest paid is larger."
+  },
+  {
+    "objectID": "mocc/week2_tvm.html#where-does-the-money-actually-go",
+    "href": "mocc/week2_tvm.html#where-does-the-money-actually-go",
+    "title": "Week 2: The Time Value of Money",
+    "section": "Where does the money actually go?",
+    "text": "Where does the money actually go?\nEach monthly payment splits between interest and principal. In the early years almost all of it is interest — so the debt balance shrinks very slowly. The closed-form remaining balance after \\(k\\) months is \\[B_k = L \\cdot (1+r_m)^k - M \\cdot \\frac{(1+r_m)^k - 1}{r_m}\\]\n\n# Remaining balance after k months for a fully-amortizing loan\nbalance_amort &lt;- function(L, annual_rate, years, k) {\n  r_m &lt;- annual_rate / 12\n  M   &lt;- monthly_payment(L, annual_rate, years)\n  L * (1 + r_m)^k - M * ((1 + r_m)^k - 1) / r_m\n}\n# remaining after 24 years (24*12 months)\nbalance_amort(20e6, 0.025, 30, 24*12)\n\n[1] 5278476\n\n# remaining after 10 years\nbalance_amort(20e6, 0.025, 30, 10*12)\n\n[1] 14912955"
+  },
+  {
+    "objectID": "mocc/week2_tvm.html#remaining-principal-over-30-years",
+    "href": "mocc/week2_tvm.html#remaining-principal-over-30-years",
+    "title": "Week 2: The Time Value of Money",
+    "section": "Remaining principal over 30 years",
+    "text": "Remaining principal over 30 years\n\n\nCode\n# Full 360-month trajectory for one (loan, scheme) pair\nbalance_path &lt;- function(L, annual_rate, scheme) {\n  months &lt;- 0:(30 * 12)\n  if (scheme == \"No grace\") {\n    bal &lt;- balance_amort(L, annual_rate, 30, months)\n  } else {\n    bal &lt;- ifelse(months &lt;= 36, L,\n                  balance_amort(L, annual_rate, 27, months - 36))\n  }\n  data.frame(month = months, balance = bal, loan = L, scheme = scheme)\n}\nbalances &lt;- do.call(rbind, lapply(loans, function(L) {\n  rbind(balance_path(L, rate, \"No grace\"),\n        balance_path(L, rate, \"3-yr grace\"))\n}))\n\n\n\n\nCode\n# Named color lookup: one color per loan size (millions of NT$)\ncolors_by_loan &lt;- c(\"20\" = \"#1F3A5F\", \"15\" = \"#2E86AB\", \"10\" = \"#E07A5F\")\n# Start an empty highcharter chart with all the chart-level styling\nhc &lt;- highchart(width = 1280) |&gt;\n  hc_title(text = \"Debt balance (remaining principal) over 30 years\") |&gt;\n  hc_subtitle(text = \"Dashed = 3-year grace period; solid = no grace\") |&gt;\n  hc_xAxis(title = list(text = \"Month\")) |&gt;\n  hc_yAxis(title = list(text = \"Balance (NT$ million)\"),\n           labels = list(format = \"{value:.1f}\")) |&gt;\n  hc_tooltip(shared = TRUE, valueDecimals = 2,\n             valuePrefix = \"NT$\", valueSuffix = \" M\") |&gt;\n  hc_plotOptions(line = list(marker = list(enabled = FALSE)))\n\n# Add one series per (loan size, scheme) pair --- six series in total.\n# Same color for the same loan size; solid line = no grace, dashed = 3-yr grace.\nfor (L in loans) {\n  for (sch in c(\"No grace\", \"3-yr grace\")) {\n    d &lt;- balances |&gt; dplyr::filter(loan == L, scheme == sch)\n    hc &lt;- hc |&gt; hc_add_series(\n      data      = d,\n      hcaes(x = month, y = balance / 1e6),\n      name      = paste0(\"NT$\", L / 1e6, \"M · \", sch),\n      type      = \"line\",\n      color     = colors_by_loan[as.character(L / 1e6)],\n      dashStyle = if (sch == \"No grace\") \"Solid\" else \"ShortDash\"\n    )\n  }\n}\n\n# Print the finished chart\nhc\n\n\n\n\n\n\nThe grace-period borrower carries the full principal for 3 years, then has to pay it down faster. The dashed line is flat from month 0 to month 36, then descends more steeply than its solid counterpart."
+  },
+  {
+    "objectID": "mocc/week2_tvm.html#visualizing-the-payment-paths",
+    "href": "mocc/week2_tvm.html#visualizing-the-payment-paths",
+    "title": "Week 2: The Time Value of Money",
+    "section": "Visualizing the payment paths",
+    "text": "Visualizing the payment paths\n\n\nCode\npaths &lt;- expand.grid(loan   = loans,\n                     scheme = c(\"No grace\", \"3-yr grace\"),\n                     month  = 1:(30 * 12)) |&gt;\n  mutate(\n    payment = case_when(\n      scheme == \"No grace\"                 ~ monthly_payment(loan, rate, 30),\n      scheme == \"3-yr grace\" & month &lt;= 36 ~ loan * rate / 12,\n      scheme == \"3-yr grace\" & month &gt;  36 ~ monthly_payment(loan, rate, 27)\n    ),\n    loan_label = paste0(\"NT$\", loan / 1e6, \"M\")\n  )\n\n# Compute the average monthly payment per (loan, scheme) over the full 30 years\npayment_summary &lt;- paths |&gt;\n  group_by(loan_label, scheme) |&gt;\n  summarise(avg_payment = mean(payment), .groups = \"drop\")\n\nggplot(payment_summary,\n       aes(x = loan_label, y = avg_payment / 1000, fill = scheme)) +\n  geom_col(position = position_dodge(width = 0.7), width = 0.6) +\n  geom_text(aes(label = scales::comma(round(avg_payment / 1000))),\n            position = position_dodge(width = 0.7),\n            vjust = -0.4, size = 3.5) +\n  scale_fill_manual(values = c(\"No grace\"   = \"#234E70\",\n                               \"3-yr grace\" = \"#D9534F\")) +\n  labs(title = \"Average monthly mortgage payment over 30 years\",\n       subtitle = \"By loan size and grace-period scheme\",\n       x = \"Loan size\", y = \"Average monthly payment (NT$ thousand)\",\n       fill = NULL) +\n  theme_minimal(base_size = 12) +\n  theme(legend.position = \"bottom\")"
+  },
+  {
+    "objectID": "mocc/week2_tvm.html#the-takeaway",
+    "href": "mocc/week2_tvm.html#the-takeaway",
+    "title": "Week 2: The Time Value of Money",
+    "section": "The takeaway",
+    "text": "The takeaway\nThe grace period is not free money — it is a re-timing of cash flows. You pay less in years 1–3 and more in years 4–30, plus extra interest over the full life of the loan.\nWhen does a grace period make sense?\n\nYou expect your income to rise significantly within a few years.\nYou face large one-time expenses early in the loan (renovation, kids).\nYou can invest the cash saved early at a higher rate than 2.2% — the same time-value-of-money logic in reverse.\n\nWhen does it not?\n\nYou can already afford the level payment comfortably.\nYou want to minimize total interest paid over the life of the loan.\n\nThe Week 4 lesson on investment opportunity cost will sharpen this intuition further."
+  },
+  {
+    "objectID": "mocc/week2_tvm.html#what-this-week-covered",
+    "href": "mocc/week2_tvm.html#what-this-week-covered",
+    "title": "Week 2: The Time Value of Money",
+    "section": "What this week covered",
+    "text": "What this week covered\n\nWhy money has a time value: \\(\\frac{1}{1+r}\\) is the discount factor.\nPV, FV, and the effect of compounding frequency.\nContinuous compounding: \\(FV = PV\\,e^{rn}\\).\nAnnuities, perpetuities, and the Gordon-growth intuition.\nNPV and IRR for evaluating mixed cash-flow projects.\nBuilt a mortgage calculator and compared loan structures.\nWrote reusable functions: pv(), fv(), annuity_pv(), monthly_payment(), npv().\n\nNext week: we apply this thinking to stock returns."
+  },
+  {
+    "objectID": "mocc/week2_tvm.html#exercise",
+    "href": "mocc/week2_tvm.html#exercise",
+    "title": "Week 2: The Time Value of Money",
+    "section": "Exercise",
+    "text": "Exercise\n\nYou inherit NT$500,000 today. Invested at 7%, what is it worth in 30 years?\nA bond pays NT$10,000 a year for 15 years, then NT$1,000,000 at maturity. What is its present value at \\(r = 5\\%\\)?\nWrite a function annuity_fv(C, r, n). Verify it against your fv() and annuity_pv() functions.\nA project costs NT$2 million today and returns NT$600,000 a year for 5 years. Is it worth accepting at \\(r = 9\\%\\)? What is the IRR?\n\n\nThank you!"
+  },
+  {
+    "objectID": "mocc/week1_r_basics.html",
+    "href": "mocc/week1_r_basics.html",
+    "title": "Week 1: First Encounter with R and Financial Data",
+    "section": "",
+    "text": "A six-week, fully online introduction that turns the question\n\n“How do investors actually compute things?”\n\ninto runnable R code.\nEach week we\n\nstart with a real investor question,\nwrite down the relevant formula,\nturn the formula into R code,\nand visualize the answer with real market data.\n\n\n\n\n\n\n\nWeek\nTheme\n\n\n\n\n1\nR and financial data — this deck\n\n\n2\nTime value of money\n\n\n3\nCalculating returns\n\n\n4\nPortfolio returns and diversification\n\n\n5\nRisk, Beta, and the market model\n\n\n6\nA working trading strategy in R\n\n\n\n\n\n\n\nFree and open source — no licensing barrier for students or replication.\nA dominant language in empirical finance research alongside Python and Stata.\ntidyverse makes data wrangling readable.\ntidyquant wraps Yahoo Finance into one-line downloads.\nhighcharter / ggplot2 produce publication-grade charts."
+  },
+  {
+    "objectID": "mocc/week1_r_basics.html#what-this-course-is",
+    "href": "mocc/week1_r_basics.html#what-this-course-is",
+    "title": "Week 1: First Encounter with R and Financial Data",
+    "section": "What this course is",
+    "text": "What this course is\nA six-week, fully online introduction that turns the question\n\n“How do investors actually compute things?”\n\ninto runnable R code.\nEach week we\n\nstart with a real investor question,\nwrite down the relevant formula,\nturn the formula into R code,\nand visualize the answer with real market data."
+  },
+  {
+    "objectID": "mocc/week1_r_basics.html#the-six-week-roadmap",
+    "href": "mocc/week1_r_basics.html#the-six-week-roadmap",
+    "title": "Week 1: First Encounter with R and Financial Data",
+    "section": "The six-week roadmap",
+    "text": "The six-week roadmap\n\n\n\nWeek\nTheme\n\n\n\n\n1\nR and financial data — this deck\n\n\n2\nTime value of money\n\n\n3\nCalculating returns\n\n\n4\nPortfolio returns and diversification\n\n\n5\nRisk, Beta, and the market model\n\n\n6\nA working trading strategy in R"
+  },
+  {
+    "objectID": "mocc/week1_r_basics.html#why-r-for-finance",
+    "href": "mocc/week1_r_basics.html#why-r-for-finance",
+    "title": "Week 1: First Encounter with R and Financial Data",
+    "section": "Why R for finance?",
+    "text": "Why R for finance?\n\nFree and open source — no licensing barrier for students or replication.\nA dominant language in empirical finance research alongside Python and Stata.\ntidyverse makes data wrangling readable.\ntidyquant wraps Yahoo Finance into one-line downloads.\nhighcharter / ggplot2 produce publication-grade charts."
+  },
+  {
+    "objectID": "mocc/week1_r_basics.html#installation",
+    "href": "mocc/week1_r_basics.html#installation",
+    "title": "Week 1: First Encounter with R and Financial Data",
+    "section": "Installation",
+    "text": "Installation\nTwo pieces of software — both free:\n\nR itself: https://www.r-project.org\n\nRStudio Desktop: https://posit.co/downloads\n\n\nInstall R first, then RStudio. RStudio is the IDE you’ll actually look at."
+  },
+  {
+    "objectID": "mocc/week1_r_basics.html#a-quick-tour-of-rstudio",
+    "href": "mocc/week1_r_basics.html#a-quick-tour-of-rstudio",
+    "title": "Week 1: First Encounter with R and Financial Data",
+    "section": "A quick tour of RStudio",
+    "text": "A quick tour of RStudio\nWhen you open RStudio for the first time, you’ll see four panes:\n\nSource (top-left) — where you write and save your .R or .qmd scripts. Run a line with Ctrl/Cmd + Enter.\nConsole (bottom-left) — where R runs commands and prints results. You can also type here interactively.\nEnvironment (top-right) — lists every variable, data frame, and function currently in memory.\nFiles / Plots / Help (bottom-right) — file browser, plot output, and the all-important ?function_name help pages.\n\nPro tip: create a new project (File → New Project) for this course. RStudio remembers your working directory and open files per project — much less painful than chasing file paths."
+  },
+  {
+    "objectID": "mocc/week1_r_basics.html#installing-the-packages-we-will-need",
+    "href": "mocc/week1_r_basics.html#installing-the-packages-we-will-need",
+    "title": "Week 1: First Encounter with R and Financial Data",
+    "section": "Installing the packages we will need",
+    "text": "Installing the packages we will need\n\ninstall.packages(\"tidyquant\")\ninstall.packages(\"tidyverse\")\ninstall.packages(\"highcharter\")\ninstall.packages(\"ggplot2\")\ninstall.packages(\"ggthemes\")\n\nLoad them once per session:\n\nlibrary(tidyquant)\nlibrary(tidyverse)\nlibrary(highcharter)\nlibrary(ggplot2)\nlibrary(ggthemes)"
+  },
+  {
+    "objectID": "mocc/week1_r_basics.html#arithmetic-and-assignment",
+    "href": "mocc/week1_r_basics.html#arithmetic-and-assignment",
+    "title": "Week 1: First Encounter with R and Financial Data",
+    "section": "Arithmetic and assignment",
+    "text": "Arithmetic and assignment\n\nx &lt;- 10\ny &lt;- 5\n\nx + y       # 15\n\n[1] 15\n\nx - y       # 5\n\n[1] 5\n\nx * y       # 50\n\n[1] 50\n\nx / y       # 2\n\n[1] 2\n\nx ^ y       # 100000\n\n[1] 1e+05\n\n\n&lt;- is the assignment operator. = works too, but &lt;- is conventional."
+  },
+  {
+    "objectID": "mocc/week1_r_basics.html#core-data-types",
+    "href": "mocc/week1_r_basics.html#core-data-types",
+    "title": "Week 1: First Encounter with R and Financial Data",
+    "section": "Core data types",
+    "text": "Core data types\n\nnum_var    &lt;- 42                              # numeric\nchar_var   &lt;- \"Hello, R!\"                     # character\nbool_var   &lt;- TRUE                            # logical\nfactor_var &lt;- factor(c(\"low\",\"med\",\"high\"))   # factor\n\nUse class(x) to ask R what type a variable is.\n\nclass(num_var)\n\n[1] \"numeric\"\n\nclass(char_var)\n\n[1] \"character\"\n\nclass(bool_var)\n\n[1] \"logical\"\n\nclass(factor_var)\n\n[1] \"factor\""
+  },
+  {
+    "objectID": "mocc/week1_r_basics.html#reading-rs-error-messages",
+    "href": "mocc/week1_r_basics.html#reading-rs-error-messages",
+    "title": "Week 1: First Encounter with R and Financial Data",
+    "section": "Reading R’s error messages",
+    "text": "Reading R’s error messages\nR’s errors look intimidating but follow a pattern. The three you’ll meet most often:\n1. Typo in a variable name\nprint(num_vra)\n#&gt; Error: object 'num_vra' not found\n\\(\\Rightarrow\\) Check spelling. R is case-sensitive: Apple \\(\\neq\\) apple.\n2. Forgotten quotes around a string\nchar_var &lt;- Hello, R!\n#&gt; Error: unexpected ',' in \"char_var &lt;- Hello,\"\n\\(\\Rightarrow\\) Strings need quotes: \"Hello, R!\".\n3. Mismatched parentheses or braces\nmean(c(1, 2, 3)\n#&gt; + \n\\(\\Rightarrow\\) The + prompt means R is waiting for you to close a bracket. Press Esc and check.\nHabit to build: when stuck, read the error from bottom to top. The last line usually says exactly what went wrong."
+  },
+  {
+    "objectID": "mocc/week1_r_basics.html#vectors-and-matrices",
+    "href": "mocc/week1_r_basics.html#vectors-and-matrices",
+    "title": "Week 1: First Encounter with R and Financial Data",
+    "section": "Vectors and matrices",
+    "text": "Vectors and matrices\n\nprices &lt;- c(100, 102, 105, 107, 110)   # vector\nprices\n\n[1] 100 102 105 107 110\n\nmatrix(1:9, nrow = 3)                  # matrix\n\n     [,1] [,2] [,3]\n[1,]    1    4    7\n[2,]    2    5    8\n[3,]    3    6    9\n\n\nA vector holds many values of the same type. A matrix is a 2-D vector — rows and columns of one type."
+  },
+  {
+    "objectID": "mocc/week1_r_basics.html#data-frames-the-workhorse-of-finance",
+    "href": "mocc/week1_r_basics.html#data-frames-the-workhorse-of-finance",
+    "title": "Week 1: First Encounter with R and Financial Data",
+    "section": "Data frames — the workhorse of finance",
+    "text": "Data frames — the workhorse of finance\nA data frame is a table: each column is a vector, each row is one observation.\n\nstock_data &lt;- data.frame(\n  Date  = ymd(\"2024-01-01\") + 0:4,\n  Price = prices\n)\n\n\n\n\n\n\n\nThis is what a downloaded stock-price table will look like."
+  },
+  {
+    "objectID": "mocc/week1_r_basics.html#the-pipe-chaining-operations",
+    "href": "mocc/week1_r_basics.html#the-pipe-chaining-operations",
+    "title": "Week 1: First Encounter with R and Financial Data",
+    "section": "The pipe |> — chaining operations",
+    "text": "The pipe |&gt; — chaining operations\nWithout a pipe:\n\narrange(filter(mutate(data, z = x + y), z &gt; 6), desc(z))\n\nWith a pipe:\n\ndata |&gt;\n  mutate(z = x + y) |&gt;\n  filter(z &gt; 6) |&gt;\n  arrange(desc(z))\n\nRead left-to-right, top-to-bottom — the way you actually think."
+  },
+  {
+    "objectID": "mocc/week1_r_basics.html#for-loops",
+    "href": "mocc/week1_r_basics.html#for-loops",
+    "title": "Week 1: First Encounter with R and Financial Data",
+    "section": "for loops",
+    "text": "for loops\n\nfor (i in 1:5) print(i)\n\n[1] 1\n[1] 2\n[1] 3\n[1] 4\n[1] 5\n\n\nLooping over a price vector:\n\nadjusted &lt;- numeric(length(prices))\nfor (i in seq_along(prices)) {\n  adjusted[i] &lt;- prices[i] * 1.10\n}\nadjusted\n\n[1] 110.0 112.2 115.5 117.7 121.0\n\n\nWe’ll use this exact pattern in Week 6 to simulate a trading strategy."
+  },
+  {
+    "objectID": "mocc/week1_r_basics.html#one-line-one-stock",
+    "href": "mocc/week1_r_basics.html#one-line-one-stock",
+    "title": "Week 1: First Encounter with R and Financial Data",
+    "section": "One line, one stock",
+    "text": "One line, one stock\n\napple &lt;- tq_get(\"AAPL\",\n                from = \"2023-01-01\",\n                to   = \"2026-01-01\")\n\n\n\n\n\n\n\nColumns you get: symbol, date, open, high, low, close, volume, adjusted.\nThe adjusted column corrects for splits and dividends — this is the column we use for return calculations."
+  },
+  {
+    "objectID": "mocc/week1_r_basics.html#a-closer-look-at-the-date-column",
+    "href": "mocc/week1_r_basics.html#a-closer-look-at-the-date-column",
+    "title": "Week 1: First Encounter with R and Financial Data",
+    "section": "A closer look at the date column",
+    "text": "A closer look at the date column\nThe date column is not text — it’s a special Date class that R knows how to compare, sort, and do arithmetic on:\n\nclass(apple$date)\n\n[1] \"Date\"\n\n\nThis lets you filter by date naturally:\n\napple |&gt;\n  filter(date &gt;= \"2023-07-01\", date &lt;= \"2023-07-31\") |&gt;\n  head(3)\n\n# A tibble: 3 × 8\n  symbol date        open  high   low close   volume adjusted\n  &lt;chr&gt;  &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;\n1 AAPL   2023-07-03  194.  194.  192.  192. 31458200     190.\n2 AAPL   2023-07-05  192.  193.  191.  191. 46920300     189.\n3 AAPL   2023-07-06  190.  192.  189.  192. 45094300     189.\n\n\nYou can also do date arithmetic — “how many days between two dates?”:\n\nymd(\"2023-12-31\") - ymd(\"2023-01-01\")\n\nTime difference of 364 days\n\n\nWhy it matters: every return, every backtest, every event study we do in this course starts with correctly-handled dates. Get this right and the rest is easy."
+  },
+  {
+    "objectID": "mocc/week1_r_basics.html#from-daily-to-monthly-or-yearly-data-1",
+    "href": "mocc/week1_r_basics.html#from-daily-to-monthly-or-yearly-data-1",
+    "title": "Week 1: First Encounter with R and Financial Data",
+    "section": "From daily to monthly or yearly data — (1)",
+    "text": "From daily to monthly or yearly data — (1)\nA common task: collapse daily prices into monthly or yearly summaries. The recipe is always extract → group → summarise.\nExtract the year and month from date with lubridate:\n\napple &lt;- apple |&gt;\n  mutate(year  = year(date),\n         month = month(date))\nhead(apple |&gt; select(date, year, month, adjusted), 3)\n\n# A tibble: 3 × 4\n  date        year month adjusted\n  &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;\n1 2023-01-03  2023     1     123.\n2 2023-01-04  2023     1     124.\n3 2023-01-05  2023     1     123.\n\n\nGroup and summarise — monthly average price and total volume:\n\napple_monthly &lt;- apple |&gt;\n  group_by(year, month) |&gt;\n  summarise(avg_price    = mean(adjusted),\n            total_volume = sum(volume),\n            .groups = \"drop\")\nhead(apple_monthly, 3)\n\n# A tibble: 3 × 4\n   year month avg_price total_volume\n  &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;\n1  2023     1      134.   1443652500\n2  2023     2      149.   1307198900\n3  2023     3      153.   1520266600"
+  },
+  {
+    "objectID": "mocc/week1_r_basics.html#from-daily-to-monthly-or-yearly-data-2",
+    "href": "mocc/week1_r_basics.html#from-daily-to-monthly-or-yearly-data-2",
+    "title": "Week 1: First Encounter with R and Financial Data",
+    "section": "From daily to monthly or yearly data — (2)",
+    "text": "From daily to monthly or yearly data — (2)\nOr roll up to annual figures:\n\napple_yearly &lt;- apple |&gt;\n  group_by(year) |&gt;\n  summarise(year_open  = first(adjusted),\n            year_close = last(adjusted),\n            year_high  = max(high),\n            year_low   = min(low),\n            .groups = \"drop\")\nhead(apple_yearly, 3)\n\n# A tibble: 3 × 5\n   year year_open year_close year_high year_low\n  &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n1  2023      123.       190.      200.     124.\n2  2024      184.       249.      260.     164.\n3  2025      242.       271.      289.     169.\n\n\nTip: first() and last() (from dplyr) are perfect for “value at the start/end of the period” — the building blocks of period returns we’ll need in Week 3."
+  },
+  {
+    "objectID": "mocc/week1_r_basics.html#computing-a-simple-daily-return",
+    "href": "mocc/week1_r_basics.html#computing-a-simple-daily-return",
+    "title": "Week 1: First Encounter with R and Financial Data",
+    "section": "Computing a simple daily return",
+    "text": "Computing a simple daily return\nA first taste of what we’ll formalize in Week 3:\n\napple &lt;- apple |&gt;\n  arrange(date) |&gt;\n  mutate(daily_return = adjusted / lag(adjusted) - 1)\n\n\n\n\n\n\n\nlag() gives yesterday’s value. The formula \\(R_t = P_t / P_{t-1} - 1\\) becomes one line of R."
+  },
+  {
+    "objectID": "mocc/week1_r_basics.html#the-grammar-of-ggplot2",
+    "href": "mocc/week1_r_basics.html#the-grammar-of-ggplot2",
+    "title": "Week 1: First Encounter with R and Financial Data",
+    "section": "The grammar of ggplot2",
+    "text": "The grammar of ggplot2\nggplot2 builds charts in layers, like sentences from grammar:\n\nggplot(data, aes(...)) — the subject: which data, and which columns map to which visual properties (x-axis, y-axis, color, size).\ngeom_line(), geom_point(), geom_bar()… — the verb: how to draw each row (a line? a dot? a bar?).\nlabs(), theme_*(), scale_*() — the adjectives: titles, themes, colors, axis formats.\n\nYou add layers with +. This is the only ggplot syntax you really need to remember:\nggplot(data, aes(x = ..., y = ...)) +\n  geom_xxx() +\n  labs(...) +\n  theme_xxx()\nEverything else is just looking up which geom_* you want."
+  },
+  {
+    "objectID": "mocc/week1_r_basics.html#a-static-chart-with-ggplot2",
+    "href": "mocc/week1_r_basics.html#a-static-chart-with-ggplot2",
+    "title": "Week 1: First Encounter with R and Financial Data",
+    "section": "A static chart with ggplot2",
+    "text": "A static chart with ggplot2\n\n\nCode\nggplot(apple, \n       aes(x = date, \n           open = open,\n           high = high,\n           low = low,\n           close = close)) +\n  labs(title = \"AAPL Adjusted Close\",\n       x = \"Date\", y = \"Price (USD)\") +\n  geom_candlestick(fill_up = \"#0F5499\", fill_down = \"#DB4E60\") +\n  theme_minimal(base_size = 14, base_family = \"Georgia\") +\n  theme(\n    plot.background = element_rect(fill = \"#FFF1E6\", colour = NA),\n    panel.background = element_rect(fill = \"#FFF1E6\", colour = NA),\n    plot.title = element_text(face = \"bold\", size = 16)\n  )\n\n\n\nggplot2 builds a chart layer-by-layer: data \\(\\rightarrow\\) aesthetics \\(\\rightarrow\\) geom \\(\\rightarrow\\) theme."
+  },
+  {
+    "objectID": "mocc/week1_r_basics.html#an-interactive-chart-with-highcharter",
+    "href": "mocc/week1_r_basics.html#an-interactive-chart-with-highcharter",
+    "title": "Week 1: First Encounter with R and Financial Data",
+    "section": "An interactive chart with highcharter",
+    "text": "An interactive chart with highcharter\n\n\nCode\nhighchart(type = \"stock\", width = 1280) |&gt;\n  hc_title(text = \"AAPL Price and Volume\") |&gt; \n  hc_add_series(apple, \n                type = \"candlestick\",\n                hcaes(\n                  x = date,\n                  open = open,\n                  high = high,\n                  low = low,\n                  close = close\n                  ),\n                name = \"AAPL\") |&gt;\n  hc_add_series(apple, type = \"column\",\n                hcaes(x = date, y = volume),\n                name = \"Volume\", yAxis = 1) |&gt;\n  hc_yAxis_multiples(\n    list(title = list(text = \"Price\")),\n    list(title = list(text = \"Volume\"), opposite = FALSE)) |&gt; \n  hc_tooltip(\n    valuePrefix = \"$\",\n    valueDecimals = 2,  # 2-decimal tooltips\n    shared = TRUE   # show all series at once\n  )\n\n\n\n\n\n\nhighcharter charts are interactive — pan, zoom, hover for tooltips."
+  },
+  {
+    "objectID": "mocc/week1_r_basics.html#what-this-week-covered",
+    "href": "mocc/week1_r_basics.html#what-this-week-covered",
+    "title": "Week 1: First Encounter with R and Financial Data",
+    "section": "What this week covered",
+    "text": "What this week covered\n\nInstalled R, RStudio, and the core finance packages.\nLearned R syntax, types, vectors, matrices, and data frames.\nUsed the pipe |&gt; and for loops.\nPulled real stock data with tq_get().\nComputed our first daily return and plotted it two ways.\n\nNext week: the time value of money — why a dollar today is worth more than a dollar tomorrow, and how to write a present-value function in R."
+  },
+  {
+    "objectID": "mocc/week1_r_basics.html#exercise",
+    "href": "mocc/week1_r_basics.html#exercise",
+    "title": "Week 1: First Encounter with R and Financial Data",
+    "section": "Exercise",
+    "text": "Exercise\n\nPull MSFT prices for 2023.\nCompute daily returns.\nPlot the price trend with ggplot2 and a theme of your choice.\nBuild a vector, a matrix, and a data frame, and run some arithmetic on each.\nCreate an interactive highcharter chart of MSFT price + volume.\n\n\nThank you!"
+  },
+  {
+    "objectID": "mocc/week4_portfolio.html",
+    "href": "mocc/week4_portfolio.html",
+    "title": "Week 4: Portfolio Returns and Diversification",
+    "section": "",
+    "text": "You have NT$1,000,000 and want to invest it.\nYou could put it all in one stock. But two centuries of theory and practice say:\nSpread it across many.\nThe reason is that combining imperfectly-correlated assets reduces the volatility of your wealth without reducing the expected return proportionally.\nThis is the central insight of modern portfolio theory (Markowitz, 1952)."
+  },
+  {
+    "objectID": "mocc/week4_portfolio.html#the-investors-problem",
+    "href": "mocc/week4_portfolio.html#the-investors-problem",
+    "title": "Week 4: Portfolio Returns and Diversification",
+    "section": "The investor’s problem",
+    "text": "The investor’s problem\nYou have NT$1,000,000 and want to invest it.\nYou could put it all in one stock. But two centuries of theory and practice say:\nSpread it across many.\nThe reason is that combining imperfectly-correlated assets reduces the volatility of your wealth without reducing the expected return proportionally.\nThis is the central insight of modern portfolio theory (Markowitz, 1952)."
+  },
+  {
+    "objectID": "mocc/week4_portfolio.html#a-four-stock-equal-weighted-portfolio",
+    "href": "mocc/week4_portfolio.html#a-four-stock-equal-weighted-portfolio",
+    "title": "Week 4: Portfolio Returns and Diversification",
+    "section": "A four-stock equal-weighted portfolio",
+    "text": "A four-stock equal-weighted portfolio\n\nstocks &lt;- c(\"XOM\", \"WMT\", \"NVDA\", \"AAPL\")\nprices &lt;- tq_get(stocks,\n                 from = \"2023-01-01\",\n                 to   = \"2026-01-01\")\n\nWe have columns: symbol, date, open, high, low, close, volume, adjusted."
+  },
+  {
+    "objectID": "mocc/week4_portfolio.html#allocating-the-budget",
+    "href": "mocc/week4_portfolio.html#allocating-the-budget",
+    "title": "Week 4: Portfolio Returns and Diversification",
+    "section": "Allocating the budget",
+    "text": "Allocating the budget\nWith NT$1,000,000 split equally:\n\nbudget    &lt;- 1000000\nn_stocks  &lt;- length(stocks)\nper_stock &lt;- budget / n_stocks    # 250,000 each\n\ninitial_positions &lt;- prices |&gt;\n  filter(date == min(date)) |&gt;\n  mutate(shares = floor(per_stock / adjusted)) |&gt;\n  select(symbol, shares)\n\ninitial_positions\n\n# A tibble: 4 × 2\n  symbol shares\n  &lt;chr&gt;   &lt;dbl&gt;\n1 XOM      2637\n2 WMT      5438\n3 NVDA    17503\n4 AAPL     2032\n\n\nfloor() because we can only buy whole shares."
+  },
+  {
+    "objectID": "mocc/week4_portfolio.html#tracking-total-value",
+    "href": "mocc/week4_portfolio.html#tracking-total-value",
+    "title": "Week 4: Portfolio Returns and Diversification",
+    "section": "Tracking total value",
+    "text": "Tracking total value\n\nportfolio &lt;- prices |&gt;\n  inner_join(initial_positions, by = \"symbol\") |&gt;\n  mutate(position_value = shares * adjusted) |&gt;\n  group_by(date) |&gt;\n  summarise(total_value = sum(position_value)) |&gt;\n  arrange(date)\n\nhead(portfolio)\n\n# A tibble: 6 × 2\n  date       total_value\n  &lt;date&gt;           &lt;dbl&gt;\n1 2023-01-03     999823.\n2 2023-01-04    1010986.\n3 2023-01-05    1004612.\n4 2023-01-06    1033384.\n5 2023-01-09    1039853.\n6 2023-01-10    1049565.\n\n\nFor each date, sum the four positions \\(\\to\\) one number per day."
+  },
+  {
+    "objectID": "mocc/week4_portfolio.html#portfolio-return-two-paths-to-the-same-number",
+    "href": "mocc/week4_portfolio.html#portfolio-return-two-paths-to-the-same-number",
+    "title": "Week 4: Portfolio Returns and Diversification",
+    "section": "Portfolio return — two paths to the same number",
+    "text": "Portfolio return — two paths to the same number\nPath A: from total portfolio value\n\nportfolio &lt;- portfolio |&gt;\n  mutate(R_disc = total_value / lag(total_value) - 1,\n         r_log  = log(total_value / lag(total_value)))\n\nPath B: weighted average of individual returns\n\\[R_p = \\sum_{i=1}^{N} w_i \\, R_i\\] The cross-section additivity result from Week 3."
+  },
+  {
+    "objectID": "mocc/week4_portfolio.html#path-b-in-code",
+    "href": "mocc/week4_portfolio.html#path-b-in-code",
+    "title": "Week 4: Portfolio Returns and Diversification",
+    "section": "Path B in code",
+    "text": "Path B in code\n\nindiv &lt;- prices |&gt;\n  group_by(symbol) |&gt;\n  mutate(R_disc = adjusted / lag(adjusted) - 1) |&gt;\n  ungroup() |&gt;\n  mutate(weight = 0.25)   # equal-weighted\n\nport_ret &lt;- indiv |&gt;\n  group_by(date) |&gt;\n  summarise(R_p = sum(weight * R_disc), .groups = \"drop\")\n\nPath A and Path B will give the same number for discrete returns (up to rounding from the share floors)."
+  },
+  {
+    "objectID": "mocc/week4_portfolio.html#a-single-stocks-volatility",
+    "href": "mocc/week4_portfolio.html#a-single-stocks-volatility",
+    "title": "Week 4: Portfolio Returns and Diversification",
+    "section": "A single stock’s volatility",
+    "text": "A single stock’s volatility\nWe measure risk by the standard deviation of its returns:\n\\[\\sigma_i = \\sqrt{\\,\\mathrm{Var}(R_i)\\,}\\]\n\nvol_table &lt;- indiv |&gt;\n  drop_na(R_disc) |&gt;\n  group_by(symbol) |&gt;\n  summarise(sigma = sd(R_disc))\nvol_table\n\n# A tibble: 4 × 2\n  symbol  sigma\n  &lt;chr&gt;   &lt;dbl&gt;\n1 AAPL   0.0161\n2 NVDA   0.0316\n3 WMT    0.0125\n4 XOM    0.0142\n\n\nThis is the total volatility of each stock."
+  },
+  {
+    "objectID": "mocc/week4_portfolio.html#portfolio-volatility-the-key-formula",
+    "href": "mocc/week4_portfolio.html#portfolio-volatility-the-key-formula",
+    "title": "Week 4: Portfolio Returns and Diversification",
+    "section": "Portfolio volatility — the key formula",
+    "text": "Portfolio volatility — the key formula\nFor an \\(N\\)-asset portfolio with weights \\(\\mathbf{w}\\) and a covariance matrix \\(\\boldsymbol{\\Sigma}\\) of asset returns:\n\n\n\n\n\n\n\nPortfolio variance and volatility\n\n\n\\[\\sigma_p^{\\,2} = \\mathbf{w}^{\\top} \\boldsymbol{\\Sigma}\\, \\mathbf{w},\n\\qquad\n\\sigma_p = \\sqrt{\\mathbf{w}^{\\top} \\boldsymbol{\\Sigma}\\, \\mathbf{w}}.\\]\n\n\n\n\nThe portfolio’s volatility is not the weighted average of the individual volatilities. The covariances matter."
+  },
+  {
+    "objectID": "mocc/week4_portfolio.html#the-covariance-matrix-in-r",
+    "href": "mocc/week4_portfolio.html#the-covariance-matrix-in-r",
+    "title": "Week 4: Portfolio Returns and Diversification",
+    "section": "The covariance matrix in R",
+    "text": "The covariance matrix in R\n\nreturns_wide &lt;- indiv |&gt;\n  drop_na(R_disc) |&gt;\n  select(symbol, date, R_disc) |&gt;\n  pivot_wider(names_from = symbol, values_from = R_disc)\n\ncov_matrix &lt;- cov(returns_wide[ , -1], use = \"pairwise.complete.obs\")\nround(cov_matrix, 6)\n\n          XOM      WMT     NVDA     AAPL\nXOM  0.000203 0.000018 0.000000 0.000043\nWMT  0.000018 0.000157 0.000023 0.000054\nNVDA 0.000000 0.000023 0.001001 0.000191\nAAPL 0.000043 0.000054 0.000191 0.000260\n\n\nThe diagonal is each stock’s variance. The off-diagonals are how the stocks move together."
+  },
+  {
+    "objectID": "mocc/week4_portfolio.html#computing-sigma_p-via-matrix-algebra",
+    "href": "mocc/week4_portfolio.html#computing-sigma_p-via-matrix-algebra",
+    "title": "Week 4: Portfolio Returns and Diversification",
+    "section": "Computing \\(\\sigma_p\\) via matrix algebra",
+    "text": "Computing \\(\\sigma_p\\) via matrix algebra\n\nweights &lt;- c(0.25, 0.25, 0.25, 0.25)   # XOM WMT NVDA AAPL\n\nport_var &lt;- t(weights) %*% cov_matrix %*% weights\nport_sd  &lt;- sqrt(port_var)\nport_sd\n\n           [,1]\n[1,] 0.01192684\n\n\n%*% is matrix multiplication.\nCompare port_sd against mean(vol_table$sigma) — the portfolio is less volatile than the average individual stock. That is diversification."
+  },
+  {
+    "objectID": "mocc/week4_portfolio.html#why-correlation-matters",
+    "href": "mocc/week4_portfolio.html#why-correlation-matters",
+    "title": "Week 4: Portfolio Returns and Diversification",
+    "section": "Why correlation matters",
+    "text": "Why correlation matters\nDecompose the variance formula for \\(N = 2\\):\n\\[\\sigma_p^{\\,2}\n= w_1^2 \\sigma_1^2 + w_2^2 \\sigma_2^2\n+ 2\\, w_1 w_2\\, \\rho_{12}\\, \\sigma_1 \\sigma_2.\\]\n\n\\(\\rho_{12} = +1\\): no diversification, \\(\\sigma_p = w_1\\sigma_1 + w_2\\sigma_2\\).\n\\(\\rho_{12} = 0\\): substantial reduction.\n\\(\\rho_{12} = -1\\): in principle, \\(\\sigma_p\\) can be driven to zero.\n\nReal stocks tend to have correlations of 0.3–0.8 with each other — enough for diversification to bite, but not enough to eliminate market risk."
+  },
+  {
+    "objectID": "mocc/week4_portfolio.html#the-correlation-matrix",
+    "href": "mocc/week4_portfolio.html#the-correlation-matrix",
+    "title": "Week 4: Portfolio Returns and Diversification",
+    "section": "The correlation matrix",
+    "text": "The correlation matrix\n\ncor_matrix &lt;- cor(returns_wide[ , -1], use = \"pairwise.complete.obs\")\nround(cor_matrix, 2)\n\n      XOM  WMT NVDA AAPL\nXOM  1.00 0.10 0.00 0.19\nWMT  0.10 1.00 0.06 0.27\nNVDA 0.00 0.06 1.00 0.37\nAAPL 0.19 0.27 0.37 1.00\n\n\nLook at the off-diagonal entries: pairs with lower correlation contribute more to volatility reduction."
+  },
+  {
+    "objectID": "mocc/week4_portfolio.html#equal-weighted-vs.-all-nvda",
+    "href": "mocc/week4_portfolio.html#equal-weighted-vs.-all-nvda",
+    "title": "Week 4: Portfolio Returns and Diversification",
+    "section": "Equal-weighted vs. all-NVDA",
+    "text": "Equal-weighted vs. all-NVDA\n\nnvda_only &lt;- prices |&gt;\n  filter(symbol == \"NVDA\", date == min(date)) |&gt;\n  mutate(shares = floor(budget / adjusted)) |&gt;\n  select(symbol, shares)\n\nnvda_port &lt;- prices |&gt;\n  filter(symbol == \"NVDA\") |&gt;\n  inner_join(nvda_only, by = \"symbol\") |&gt;\n  mutate(total_value = shares * adjusted) |&gt;\n  select(date, nvda_only = total_value)\n\ncombined &lt;- portfolio |&gt;\n  select(date, equal_weighted = total_value) |&gt;\n  inner_join(nvda_port, by = \"date\")\n\nhead(combined)\n\n# A tibble: 6 × 3\n  date       equal_weighted nvda_only\n  &lt;date&gt;              &lt;dbl&gt;     &lt;dbl&gt;\n1 2023-01-03        999823.  1000000.\n2 2023-01-04       1010986.  1030318.\n3 2023-01-05       1004612.   996507.\n4 2023-01-06       1033384.  1038002.\n5 2023-01-09       1039853.  1091722.\n6 2023-01-10       1049565.  1111351."
+  },
+  {
+    "objectID": "mocc/week4_portfolio.html#plotting-them",
+    "href": "mocc/week4_portfolio.html#plotting-them",
+    "title": "Week 4: Portfolio Returns and Diversification",
+    "section": "Plotting them",
+    "text": "Plotting them\n\n\nCode\nhighchart(width = 1280) |&gt;\n  hc_add_series(combined, type = \"line\",\n                hcaes(x = date, y = equal_weighted),\n                name = \"Equal-Weighted\") |&gt;\n  hc_add_series(combined, type = \"line\",\n                hcaes(x = date, y = nvda_only),\n                name = \"100% NVDA\") |&gt;\n  hc_xAxis(type = \"datetime\", title = list(text = \"Date\")) |&gt;\n  hc_yAxis(title = list(text = \"Portfolio Value (NT$)\")) |&gt; \n  hc_tooltip(shared = TRUE, valueDecimals = 0, valuePrefix = \"NT$\")\n\n\n\n\n\n\nA single-stock portfolio can crush a diversified one in a good year. It can also collapse spectacularly. Compare both return and volatility, not just return."
+  },
+  {
+    "objectID": "mocc/week4_portfolio.html#equal-weighted-vs.-100-nvda",
+    "href": "mocc/week4_portfolio.html#equal-weighted-vs.-100-nvda",
+    "title": "Week 4: Portfolio Returns and Diversification",
+    "section": "Equal-Weighted vs. 100% NVDA",
+    "text": "Equal-Weighted vs. 100% NVDA\n\n\n\n\n\n\nA single-stock portfolio can crush a diversified one in a good year. It can also collapse spectacularly. Compare both return and volatility, not just return."
+  },
+  {
+    "objectID": "mocc/week4_portfolio.html#what-this-week-covered",
+    "href": "mocc/week4_portfolio.html#what-this-week-covered",
+    "title": "Week 4: Portfolio Returns and Diversification",
+    "section": "What this week covered",
+    "text": "What this week covered\n\nBuilt an equal-weighted four-stock portfolio with NT$1M.\nTracked daily portfolio value with group_by() + summarise().\nComputed portfolio return two ways: from total value, and as \\(\\sum w_i R_i\\).\nComputed portfolio volatility from \\(\\boldsymbol{\\Sigma}\\): \\(\\sigma_p = \\sqrt{\\mathbf{w}^{\\top}\\!\\boldsymbol{\\Sigma}\\,\\mathbf{w}}\\).\nSaw how correlation drives diversification gains.\nCompared a diversified portfolio against an all-in-one-stock bet.\n\nNext week: we ask which part of a stock’s volatility is systematic (the market) and which is idiosyncratic."
+  },
+  {
+    "objectID": "mocc/week4_portfolio.html#exercise",
+    "href": "mocc/week4_portfolio.html#exercise",
+    "title": "Week 4: Portfolio Returns and Diversification",
+    "section": "Exercise",
+    "text": "Exercise\n\nRepeat the four-stock analysis with weights XOM 20%, WMT 30%, NVDA 30%, AAPL 20%. Recompute portfolio value, return, and \\(\\sigma_p\\).\nChange the budget to NT$500,000 with equal weights. Report shares purchased per stock.\nAdd a fifth stock of your choice. Does adding it raise or lower \\(\\sigma_p\\)? Why?\nPlot the four cumulative returns and the portfolio’s cumulative return on the same highcharter chart.\n\n\nThank you!"
+  },
+  {
+    "objectID": "mocc/week4_portfolio.html#plotting-them-equal-weighted-vs.-100-nvda",
+    "href": "mocc/week4_portfolio.html#plotting-them-equal-weighted-vs.-100-nvda",
+    "title": "Week 4: Portfolio Returns and Diversification",
+    "section": "Plotting them: Equal-Weighted vs. 100% NVDA",
+    "text": "Plotting them: Equal-Weighted vs. 100% NVDA\n\n\nCode\nhighchart(type = \"stock\") |&gt;\n  hc_add_series(combined, type = \"line\",\n                hcaes(x = date, y = equal_weighted),\n                name = \"Equal-Weighted\") |&gt;\n  hc_add_series(combined, type = \"line\",\n                hcaes(x = date, y = nvda_only),\n                name = \"100% NVDA\") |&gt;\n  hc_yAxis(title = list(text = \"Portfolio Value (NT$)\")) |&gt; \n  hc_tooltip(shared = TRUE, valueDecimals = 2,\n             valuePrefix = \"NT$\") |&gt;\n  hc_plotOptions(line = list(marker = list(enabled = FALSE)))\n\n\n\n\n\n\nA single-stock portfolio can crush a diversified one in a good year. It can also collapse spectacularly. Compare both return and volatility, not just return."
   }
 ]
