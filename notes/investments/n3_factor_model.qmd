@@ -1,0 +1,519 @@
+---
+title: "R Note 3 - Factor Model Estimation"
+author: 
+  - name: "Asst. Prof. Calvin J. Chiou"
+    email: jjchiou@nccu.edu.tw
+    affiliations: 
+    - name: "National Chengchi University (NCCU)"
+
+format: 
+  html: 
+    toc: true
+    toc-depth: 3
+    toc-location: right
+    number-sections: false
+    self-contained: true
+    highlight-style: github
+editor: visual
+---
+
+## Course Information
+
+- **Course Name:** Investments \| 000351051
+
+- **Semester:** Spring 2025
+
+## Introduction
+
+In this document, we estimate **factor models** for a stock's returns. A factor model decomposes a stock's return into systematic components driven by common risk factors and a residual idiosyncratic component. We begin with the simplest case — the **market model** (one factor: the market return) — and progressively extend it to the **Fama-French three-factor model** (Fama and French, 1993) and the **Carhart four-factor model** (Carhart, 1996), which adds a momentum factor.
+
+The general $K$-factor model is:
+
+$$R_{i,t} - R_{f,t} = \alpha_i + \sum_{k=1}^{K} \beta_{i,k} \, F_{k,t} + \varepsilon_{i,t}$$
+
+where $R_{f,t}$ is the risk-free rate, $F_{k,t}$ are factor returns (e.g., market, size, value, momentum), and $\beta_{i,k}$ are the corresponding factor loadings estimated by OLS.
+
+```{r, message=FALSE}
+# Load required packages
+library(tidyquant)
+library(tidyverse)
+library(broom)
+library(DT)
+library(ggplot2)
+library(ggthemes)
+library(highcharter)
+library(frenchdata)  # install.packages("frenchdata")
+```
+
+------------------------------------------------------------------------
+
+## 1. Fetching Stock Data
+
+We collect daily adjusted price data for NVIDIA (NVDA) using `tidyquant`. The estimation window spans 2020–2022, a three-year horizon commonly used in empirical finance.[^1]
+
+[^1]: There is no unique answer to how to set the estimation window. Three years of daily data (approximately 756 observations) is a widely used convention. The implicit assumption is that the estimated loadings from the historical period reflect the stock's risk exposures in recent periods.
+
+```{r, message=FALSE}
+stock_ticker  <- "NVDA"
+market_ticker <- "^GSPC"
+
+start_date <- "2020-01-01"
+end_date   <- "2022-12-31"
+
+stock_data  <- tq_get(stock_ticker,  from = start_date, to = end_date)
+market_data <- tq_get(market_ticker, from = start_date, to = end_date)
+```
+
+### Preview Data
+
+```{r}
+datatable(stock_data) |> 
+  formatRound(columns = c("open","high","low","close","adjusted"), digits = 2)
+```
+
+------------------------------------------------------------------------
+
+## 2. Data Preparation
+
+We calculate daily returns for both the stock and the market index using `tq_transmute()`, then merge them.
+
+```{r}
+stock_returns <- stock_data |> 
+  tq_transmute(select     = adjusted,
+               mutate_fun = periodReturn,
+               period     = "daily",
+               col_rename = "stock_return")
+
+market_returns <- market_data |> 
+  tq_transmute(select     = adjusted,
+               mutate_fun = periodReturn,
+               period     = "daily",
+               col_rename = "market_return")
+
+returns_data <- left_join(stock_returns, market_returns, by = "date") |> 
+  na.omit()
+
+datatable(returns_data) |> 
+  formatRound(columns = c("stock_return", "market_return"), digits = 4)
+```
+
+### Visualize Stock Prices
+
+```{r, message=FALSE}
+highchart() |> 
+  hc_title(text = "NVIDIA Inc. (NVDA) Stock Prices") |>
+  hc_xAxis(type = "datetime", title = list(text = "Date")) |>
+  hc_yAxis(title = list(text = "Adjusted Closing Price (USD)")) |>
+  hc_add_series(stock_data, type = "line",
+                hcaes(x = date, y = adjusted),
+                name = "Adjusted Price") |>
+  hc_tooltip(pointFormat = "Price: <b>${point.y:.2f}</b>") |>
+  hc_add_theme(hc_theme_smpl())
+```
+
+------------------------------------------------------------------------
+
+## 3. The Market Model (One-Factor Model)
+
+The **market model** is the simplest factor model. It regresses a stock's excess return on the market excess return:[^2]
+
+[^2]: For simplicity, some practitioners omit the risk-free rate and regress raw returns on raw market returns. Including the risk-free rate on both sides produces slightly different estimates but the difference is usually minor at daily frequency.
+
+$$R_{i,t} - R_{f,t} = \alpha_i + \beta_i \,(R_{m,t} - R_{f,t}) + \varepsilon_{i,t}$$
+
+where:
+
+- $\alpha_i$ is the stock's abnormal return independent of the market.
+- $\beta_i$ is the **market beta** — the sensitivity of the stock's excess return to the market excess return. This is the measure of **systematic risk**.
+- $\varepsilon_{i,t}$ is the idiosyncratic component unexplained by the market.
+
+### Scatterplot: NVDA vs. S&P 500
+
+```{r, message=FALSE}
+#| code-fold: true
+fit_market <- lm(stock_return ~ market_return, data = returns_data)
+returns_data$fit <- predict(fit_market)
+
+highchart() |>
+  hc_title(text = "Linear Relation: NVDA vs. S&P 500") |>
+  hc_xAxis(title = list(text = "Market Return (S&P 500)")) |>
+  hc_yAxis(title = list(text = "Stock Return (NVDA)")) |>
+  hc_add_series(data = returns_data,
+                type = "scatter",
+                hcaes(x = market_return, y = stock_return),
+                name = "Daily Returns") |>
+  hc_add_series(data = returns_data[order(returns_data$market_return), ],
+                type = "line",
+                hcaes(x = market_return, y = fit),
+                name = "Fitted Line") |>
+  hc_tooltip(pointFormat = "Market: {point.x:.4f}<br>Stock: {point.y:.4f}") |>
+  hc_legend(align = "center", verticalAlign = "bottom") |>
+  hc_add_theme(hc_theme_smpl())
+```
+
+### Regression Output
+
+```{r}
+model_1f <- lm(stock_return ~ market_return, data = returns_data)
+summary(model_1f)
+```
+
+### Extracting $\hat{\beta}$ and Idiosyncratic Volatility
+
+```{r}
+beta_hat <- tidy(model_1f) |> 
+  filter(term == "market_return") |> 
+  pull(estimate)
+
+idio_vol <- sd(resid(model_1f))
+
+cat("Estimated market beta for", stock_ticker, ":", round(beta_hat, 4), "\n")
+cat("Idiosyncratic volatility (residual SD):",   round(idio_vol, 6), "\n")
+```
+
+### Variance Decomposition
+
+The market model implies a clean decomposition of total variance:
+
+$$\underbrace{\sigma_i^2}_{\text{total}} = \underbrace{\beta_i^2 \,\sigma_m^2}_{\text{systematic}} + \underbrace{\sigma_{\varepsilon,i}^2}_{\text{idiosyncratic}}$$
+
+```{r}
+sigma_total <- sd(returns_data$stock_return)
+sigma_mkt   <- sd(returns_data$market_return)
+sys_part    <- beta_hat^2 * sigma_mkt^2
+idio_part   <- idio_vol^2
+
+tibble(
+  Component     = c("Total variance", "Systematic", "Idiosyncratic"),
+  Value         = c(sigma_total^2, sys_part, idio_part),
+  Fraction      = c(1, sys_part / sigma_total^2, idio_part / sigma_total^2)
+) |> 
+  datatable() |> 
+  formatRound(columns = c("Value", "Fraction"), digits = 6)
+```
+
+------------------------------------------------------------------------
+
+## 4. Retrieving Factor Data from Kenneth French's Data Library
+
+The most authoritative source of factor return data for empirical asset pricing is **Kenneth French's Data Library**, hosted at Dartmouth. The `frenchdata` package provides a convenient R interface to download these datasets directly.
+
+```{r, eval=FALSE}
+# Install once
+install.packages("frenchdata")
+```
+
+```{r, message=FALSE}
+library(frenchdata)
+```
+
+### 4.1 Browsing Available Datasets
+
+```{r}
+datasets <- get_french_data_list()
+# Show the first 20 available datasets
+head(datasets, 20)
+```
+
+### 4.2 Downloading the Fama-French Three Factors (Daily)
+
+The dataset `"Fama/French 3 Factors [Daily]"` contains four daily series: the market excess return (`Mkt-RF`), the size factor (`SMB`), the value factor (`HML`), and the risk-free rate (`RF`).
+
+```{r}
+ff3_raw <- download_french_data("Fama/French 3 Factors [Daily]")
+
+# The data is stored in the $subsets list; the first element contains daily data
+ff3_daily <- ff3_raw$subsets$data[[1]] |> 
+  mutate(date = ymd(date)) |>         # parse date from YYYYMMDD integer
+  rename(
+    MktRF = `Mkt-RF`,
+    RF    = RF,
+    SMB   = SMB,
+    HML   = HML
+  ) |> 
+  mutate(across(c(MktRF, RF, SMB, HML), ~ . / 100))  # convert from % to decimal
+
+head(ff3_daily)
+```
+
+> **Note on units:** French's data are published as percentages (e.g., `0.35` means 0.35%). Dividing by 100 converts them to decimals consistent with return calculations in R.
+
+### 4.3 Plotting the Risk-Free Rate, Market Risk Premium, SMB, and HML
+
+Visualizing the factor series helps build intuition about what each factor captures.
+
+```{r}
+#| code-fold: true
+ff3_plot <- ff3_daily |> 
+  filter(date >= "2000-01-01") |> 
+  mutate(
+    RF_cum    = cumprod(1 + RF) - 1,
+    MktRF_cum = cumprod(1 + MktRF) - 1,
+    SMB_cum   = cumprod(1 + SMB) - 1,
+    HML_cum   = cumprod(1 + HML) - 1
+  )
+
+highchart(type = "stock") |>
+  hc_title(text = "Fama-French Three Factors — Cumulative Returns (2000–)") |>
+  hc_yAxis(title = list(text = "Cumulative Return")) |>
+  hc_add_series(ff3_plot, type = "line",
+                hcaes(x = date, y = MktRF_cum),
+                name = "Mkt-RF (Market Risk Premium)") |>
+  hc_add_series(ff3_plot, type = "line",
+                hcaes(x = date, y = SMB_cum),
+                name = "SMB (Size)") |>
+  hc_add_series(ff3_plot, type = "line",
+                hcaes(x = date, y = HML_cum),
+                name = "HML (Value)") |>
+  hc_add_series(ff3_plot, type = "line",
+                hcaes(x = date, y = RF_cum),
+                name = "RF (Risk-Free Rate)") |>
+  hc_tooltip(valueDecimals = 4, shared = TRUE) |>
+  hc_legend(enabled = TRUE, align = "center", verticalAlign = "bottom") |>
+  hc_add_theme(hc_theme_smpl())
+```
+
+We can also visualize the **daily risk-free rate** and **daily market risk premium** side-by-side over a shorter window to see their contrasting behavior:
+
+```{r}
+#| code-fold: true
+ff3_recent <- ff3_daily |> filter(date >= "2020-01-01")
+
+highchart() |>
+  hc_title(text = "Daily Risk-Free Rate and Market Risk Premium (2020–2022)") |>
+  hc_xAxis(type = "datetime", title = list(text = "Date")) |>
+  hc_yAxis(title = list(text = "Daily Return"),
+           labels = list(format = "{value:.3%}")) |>
+  hc_add_series(ff3_recent, type = "line",
+                hcaes(x = date, y = RF),
+                name = "Risk-Free Rate (RF)") |>
+  hc_add_series(ff3_recent, type = "line",
+                hcaes(x = date, y = MktRF),
+                name = "Market Risk Premium (Mkt-RF)") |>
+  hc_tooltip(valueDecimals = 5, valueSuffix = "", shared = TRUE) |>
+  hc_legend(enabled = TRUE, align = "center", verticalAlign = "bottom") |>
+  hc_add_theme(hc_theme_smpl())
+```
+
+------------------------------------------------------------------------
+
+## 5. The Fama-French Three-Factor Model
+
+Fama and French (1993) argue that the market alone cannot fully explain the cross-section of expected returns. Two additional factors capture systematic risks related to firm **size** and **book-to-market ratio**:
+
+$$R_{i,t} - R_{f,t} = \alpha_i + \beta_i^{MKT}\,\text{MktRF}_t + \beta_i^{SMB}\,\text{SMB}_t + \beta_i^{HML}\,\text{HML}_t + \varepsilon_{i,t}$$
+
+- **MktRF** (Market Risk Premium): $R_m - R_f$. The market factor; same as the CAPM.
+- **SMB** (Small Minus Big): average return of small-cap portfolios minus large-cap portfolios. Captures the **size premium**.
+- **HML** (High Minus Low): average return of high book-to-market (value) portfolios minus low book-to-market (growth) portfolios. Captures the **value premium**.
+
+### 5.1 Merging Stock Returns with French Factors
+
+```{r}
+# Restrict factors to the estimation window
+ff3_est <- ff3_daily |> 
+  filter(date >= start_date, date <= end_date)
+
+# Compute stock excess return: stock_return - RF
+ff3_merged <- returns_data |> 
+  left_join(ff3_est |> select(date, MktRF, SMB, HML, RF), by = "date") |> 
+  mutate(excess_return = stock_return - RF) |> 
+  na.omit()
+
+datatable(ff3_merged |> select(date, excess_return, MktRF, SMB, HML)) |> 
+  formatRound(columns = c("excess_return","MktRF","SMB","HML"), digits = 5)
+```
+
+### 5.2 Regression: Fama-French Three-Factor Model
+
+```{r}
+model_ff3 <- lm(excess_return ~ MktRF + SMB + HML, data = ff3_merged)
+summary(model_ff3)
+```
+
+### 5.3 Interpreting the Factor Loadings
+
+```{r}
+tidy(model_ff3) |> 
+  datatable() |> 
+  formatRound(columns = c("estimate","std.error","statistic","p.value"), digits = 4)
+```
+
+The key takeaways:
+
+- $\hat\beta^{MKT}$: a large positive value means the stock amplifies market moves — i.e., high systematic risk.
+- $\hat\beta^{SMB}$: a **negative** loading is typical for large-cap stocks like NVDA; it loads negatively on the small-cap premium.
+- $\hat\beta^{HML}$: a **negative** loading indicates a growth stock (low book-to-market); NVDA is a canonical growth firm.
+
+### 5.4 Comparing Model Fit: One-Factor vs. Three-Factor
+
+```{r}
+glance(model_1f)  |> select(r.squared, adj.r.squared, sigma, nobs)
+glance(model_ff3) |> select(r.squared, adj.r.squared, sigma, nobs)
+```
+
+The three-factor model typically explains more of the variance in individual stock returns (higher $R^2$) compared to the single-factor market model.
+
+------------------------------------------------------------------------
+
+## 6. The Momentum Factor and the Carhart Four-Factor Model
+
+Jegadeesh and Titman (1993) document a striking empirical regularity: stocks that performed well (poorly) over the past 6–12 months tend to continue performing well (poorly) over the next 3–12 months. This **momentum anomaly** is pervasive across markets and time periods and is not captured by the Fama-French three factors.
+
+Carhart (1996) incorporates momentum into the factor framework by adding a fourth factor:
+
+$$R_{i,t} - R_{f,t} = \alpha_i + \beta_i^{MKT}\,\text{MktRF}_t + \beta_i^{SMB}\,\text{SMB}_t + \beta_i^{HML}\,\text{HML}_t + \beta_i^{MOM}\,\text{MOM}_t + \varepsilon_{i,t}$$
+
+- **MOM** (Winners Minus Losers, or UMD — Up Minus Down): the average return of high prior-return ("winner") portfolios minus low prior-return ("loser") portfolios, constructed using returns from months $t-12$ to $t-2$ (skipping the most recent month to avoid short-term reversal contamination).
+
+The Carhart model is widely used in mutual fund performance evaluation. A fund's $\alpha_i$ ("Carhart alpha") after controlling for all four factors is a cleaner measure of manager skill than raw excess return.
+
+### 6.1 Downloading the Momentum Factor (Daily)
+
+The momentum factor is available as a separate dataset on French's website.
+
+```{r}
+mom_raw <- download_french_data("Momentum Factor (Mom) [Daily]")
+
+mom_daily <- mom_raw$subsets$data[[1]] |> 
+  mutate(date = ymd(date),
+         MOM  = Mom / 100) |>   # convert % to decimal
+  select(date, MOM)
+
+head(mom_daily)
+```
+
+### 6.2 Visualizing the Momentum Factor
+
+```{r}
+#| code-fold: true
+mom_plot <- mom_daily |> 
+  filter(date >= "2000-01-01") |> 
+  mutate(MOM_cum = cumprod(1 + MOM) - 1)
+
+highchart(type = "stock") |>
+  hc_title(text = "Momentum Factor (MOM) — Cumulative Return (2000–)") |>
+  hc_yAxis(title = list(text = "Cumulative Return"),
+           labels = list(format = "{value:.0%}")) |>
+  hc_add_series(mom_plot, type = "line",
+                hcaes(x = date, y = MOM_cum),
+                name = "MOM (Winners − Losers)") |>
+  hc_tooltip(valueDecimals = 4) |>
+  hc_legend(enabled = FALSE) |>
+  hc_add_theme(hc_theme_smpl())
+```
+
+> **Momentum crashes:** note the dramatic drawdown around 2009. After the financial crisis, past losers rebounded violently while past winners lagged, producing a catastrophic reversal for momentum strategies. This pattern — momentum working well in normal times but crashing in market rebounds — is a well-known feature of the factor and an active area of research (e.g., Daniel and Moskowitz, 2016).
+
+### 6.3 All Four Factors Together
+
+```{r}
+#| code-fold: true
+all_factors <- ff3_daily |> 
+  inner_join(mom_daily, by = "date") |> 
+  filter(date >= "2000-01-01") |> 
+  mutate(
+    MktRF_cum = cumprod(1 + MktRF) - 1,
+    SMB_cum   = cumprod(1 + SMB)   - 1,
+    HML_cum   = cumprod(1 + HML)   - 1,
+    MOM_cum   = cumprod(1 + MOM)   - 1
+  )
+
+highchart(type = "stock") |>
+  hc_title(text = "Carhart Four Factors — Cumulative Returns (2000–)") |>
+  hc_yAxis(title = list(text = "Cumulative Return"),
+           labels = list(format = "{value:.0%}")) |>
+  hc_add_series(all_factors, type = "line",
+                hcaes(x = date, y = MktRF_cum), name = "Mkt-RF") |>
+  hc_add_series(all_factors, type = "line",
+                hcaes(x = date, y = SMB_cum),   name = "SMB") |>
+  hc_add_series(all_factors, type = "line",
+                hcaes(x = date, y = HML_cum),   name = "HML") |>
+  hc_add_series(all_factors, type = "line",
+                hcaes(x = date, y = MOM_cum),   name = "MOM") |>
+  hc_tooltip(valueDecimals = 4, shared = TRUE) |>
+  hc_legend(align = "center", verticalAlign = "bottom") |>
+  hc_add_theme(hc_theme_smpl())
+```
+
+### 6.4 Regression: Carhart Four-Factor Model
+
+```{r}
+# Merge all four factors with the stock excess return
+carhart_data <- ff3_merged |> 
+  left_join(mom_daily, by = "date") |> 
+  na.omit()
+
+model_carhart <- lm(excess_return ~ MktRF + SMB + HML + MOM,
+                    data = carhart_data)
+summary(model_carhart)
+```
+
+### 6.5 Extracting and Interpreting All Factor Loadings
+
+```{r}
+tidy(model_carhart) |> 
+  datatable() |> 
+  formatRound(columns = c("estimate","std.error","statistic","p.value"), digits = 4)
+```
+
+For a high-momentum stock like NVDA:
+
+- A positive $\hat\beta^{MOM}$ means NVDA tends to ride momentum — it has behaved like a "winner" stock that continues to win.
+- After controlling for momentum, the alpha $\hat\alpha$ represents abnormal return that cannot be attributed to any of the four systematic risk factors.
+
+### 6.6 Model Comparison: One-Factor → Two-Factor → Four-Factor
+
+```{r}
+bind_rows(
+  glance(model_1f)      |> mutate(Model = "Market (1F)"),
+  glance(model_ff3)     |> mutate(Model = "Fama-French (3F)"),
+  glance(model_carhart) |> mutate(Model = "Carhart (4F)")
+) |> 
+  select(Model, r.squared, adj.r.squared, sigma, AIC, BIC) |> 
+  datatable() |> 
+  formatRound(columns = c("r.squared","adj.r.squared","sigma","AIC","BIC"), digits = 4)
+```
+
+Moving from the one-factor market model to the four-factor Carhart model generally increases $R^2$ and lowers $\sigma$ (residual standard error), reflecting a more complete account of the systematic sources of risk that drive the stock's returns.
+
+------------------------------------------------------------------------
+
+## 7. Summary
+
+This note built factor model estimation step by step:
+
+| Model | Factors | Key insight |
+|----|----|----|
+| Market model | MktRF | $\beta$ captures co-movement with the market; idiosyncratic risk is the rest. |
+| Fama-French (3F) | MktRF, SMB, HML | Size and value are additional priced risk sources beyond the market. |
+| Carhart (4F) | MktRF, SMB, HML, MOM | Momentum (past winners/losers) adds further explanatory power; widely used in fund evaluation. |
+
+The regression mechanics are the same throughout — only the right-hand-side variables change. Factor data from Kenneth French's library makes replication straightforward via the `frenchdata` package.
+
+------------------------------------------------------------------------
+
+## Exercises
+
+1.  **Change the stock.** Repeat the full four-factor estimation for Apple (AAPL) and Tesla (TSLA) over 2020–2022. Compare the factor loadings. Which stock loads more heavily on momentum? Which has a larger idiosyncratic volatility?
+
+2.  **Interpretation.** For NVDA's Carhart regression, construct a table showing: (a) the estimated loading, (b) its standard error, (c) its *t*-statistic, and (d) a one-sentence economic interpretation of each coefficient.
+
+3.  **Extended window.** Re-estimate the Carhart model for NVDA over 2015–2022 (eight years). Do the loadings change substantially? What does stability (or instability) of loadings imply for the assumption that beta is constant?
+
+4.  **Variance decomposition.** Using the Carhart model residuals for NVDA, compute: total variance, systematic variance attributable to each factor ($\hat\beta_k^2 \,\text{Var}(F_k)$), and idiosyncratic variance. How much of total variance is explained by the market alone vs. all four factors combined?
+
+5.  **Alpha hunting.** Download data for a mutual fund ETF of your choice (e.g., ARKK). Estimate its Carhart alpha over 2019–2023. Is the alpha statistically significant? What does this suggest about the fund's performance after adjusting for factor exposures?
+
+------------------------------------------------------------------------
+
+## References
+
+- Carhart, M. M. (1996). On persistence in mutual fund performance. *Journal of Finance*, 52(1), 57–82.
+- Fama, E. F., & French, K. R. (1993). Common risk factors in the returns on stocks and bonds. *Journal of Financial Economics*, 33(1), 3–56.
+- Jegadeesh, N., & Titman, S. (1993). Returns to buying winners and selling losers: Implications for stock market efficiency. *Journal of Finance*, 48(1), 65–91.
+- French, K. R. Data Library. <https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html>
+
+------------------------------------------------------------------------
+
+Happy coding! 🚀

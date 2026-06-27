@@ -67,6 +67,7 @@ format:
     # mainfont: "Gill Sans, sans-serif"
     # css: styles.css
     toc: true
+    toc-location: right
     footnotes-hover: true
     grid:
       body-width: 1200px
@@ -79,7 +80,7 @@ format:
     #   gutter-width: 2.0rem
     
     include-in-header:
-      text: |
+    - text: |
         <script src="https://cdn.lordicon.com/lordicon.js"></script>
     
     include-after-body:

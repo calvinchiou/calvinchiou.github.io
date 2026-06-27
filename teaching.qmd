@@ -4,28 +4,141 @@ table-of-contents: true
 editor: visual
 ---
 
-<lord-icon src='https://cdn.lordicon.com/vvyxyrur.json' trigger='loop' delay='1500' colors='primary:#121331,secondary:#3080e8' style='width:60px;height:60px'></lord-icon>
+```{=html}
+<style>
+.course-card { border-left: 4px solid #2c6fad; margin-bottom: 1.2rem; }
+.course-card.other { border-left-color: #3d9970; }
+.course-card .card-body { padding: 1rem 1.2rem 0.85rem; }
+.course-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.2rem; }
+.course-meta { font-size: 0.82rem; color: #6c757d; margin-bottom: 0.6rem; }
+</style>
+```
 
-## General
+::: callout-note
+## Recommendation Letters
 
-- If students would like to request recommendation letters from me, please read [Recommendation Letter Policy](recommendation.qmd)
+Students requesting a recommendation letter, please review the [Recommendation Letter Policy](recommendation.qmd) before reaching out.
+:::
 
-## Undergraduate level
+## Courses
 
-- [**Investments**](investments.qmd), National Chengchi University, Spring 2025
-- **Financial Management**, National Chengchi University, 2024
+:::::: {.card .course-card}
+::::: card-body
+::: course-title
+Investments [undergrad]{.badge .bg-primary .ms-1 style="font-size:0.65rem;"}
+:::
 
-## Ph.D. level
+::: course-meta
+National Chengchi University · Course 351051 · English (EMI)
+:::
 
-- **Seminar on Corporate Finance** (PhD), National Chengchi University, Spring 2025
+**Topics:** Portfolio Theory · Asset Pricing · Factor Models · Trading Strategy · Behavioral Finance · Portfolio Optimization
 
-## Other
+<details>
 
-- **Textual Analysis and Web Crawling using R** (mini-workshop), National Central University, Fall 2017.
+<summary style="font-size:0.85rem; color:#6c757d; cursor:pointer; margin-top:0.5rem;">
+
+R lecture notes
+
+</summary>
+
+| Note | Topic |
+|:-------------------------------:|---------------------------------------|
+| [Note 1](notes/investments/n1_introduction.html) | Introduction to R & Financial Data Handling |
+| [Note 2](notes/investments/n2_portfolio.html) | Portfolio Formation |
+| [Note 3](notes/investments/n3_factor_model.html) | Factor Model Estimation |
+| [Note 4](notes/investments/n4_strategy.html) | Trading Strategies |
+| [Note 5](notes/investments/n5_behavioral.html) | Behavrioal Finance & Lottery-like Stock Anamoly |
+| [Note 6](notes/investments/n6_optimization.html) | Portfolio Optimization *(coming soon)* |
+| [Appendix A](notes/investments/ggthemes.html) | ggplot2 Theme Gallery |
+| [Appendix B](notes/investments/hcthemes.html) | highcharter Theme Gallery |
+
+</details>
+:::::
+::::::
+
+:::::: {.card .course-card}
+::::: card-body
+::: course-title
+Financial Management [undergrad]{.badge .bg-primary .ms-1 style="font-size:0.65rem;"}
+:::
+
+::: course-meta
+National Chengchi University · Course 347051 · English (EMI)
+:::
+
+**Topics:** Capital Budgeting · Capital Structure · Valuation · Free Cash Flow
+:::::
+::::::
+
+:::::: {.card .course-card}
+::::: card-body
+::: course-title
+[Institutional Investors: Theory and Evidence](notes/inst_investor/Syllabus_Inst_Investor_v4.html) [graduate]{.badge .bg-warning .ms-1 style="font-size:0.65rem;"}
+:::
+
+::: course-meta
+National Chengchi University · Materials in preparation
+:::
+
+**Topics:** Mutual Funds · Hedge Funds · Pension Funds · Delegated Asset Management · Fund Performance · Institutional Trading
+
+<details>
+
+<summary style="font-size:0.85rem; color:#6c757d; cursor:pointer; margin-top:0.5rem;">
+
+R lecture notes
+
+</summary>
+
+</details>
+:::::
+::::::
+
+:::::: {.card .course-card .phd}
+::::: card-body
+::: course-title
+Seminar on Corporate Finance [PhD]{.badge .bg-warning .ms-1 style="font-size:0.65rem;"}
+:::
+
+::: course-meta
+National Chengchi University · English (EMI)
+:::
+
+**Topics:** Capital Structure · Payout Policy · M&A · Corporate Governance · Empirical Methods
+:::::
+::::::
+
+------------------------------------------------------------------------
+
+## Workshops & Short Courses
+
+:::::: {.card .course-card .other}
+::::: card-body
+::: course-title
+Textual Analysis and Web Crawling using R
+:::
+
+::: course-meta
+National Central University · Mini-workshop · Fall 2017
+:::
+
+**Topics:** Web Scraping · Text Mining · R
+:::::
+::::::
+
+------------------------------------------------------------------------
 
 ## Teaching Awards & Grants
 
-- Off-Site to UT Austin EMI Professional Development Program \| 2025\
-  ![](img/utaustin_logo.svg.png){width="245" height="69"} ![](img/rcemi.png){width="98"}
-- Excellent Undergraduate English-taught Course Award, NCCU \| 2024
-- Professorship Mentor Program, NCCU \| 2024
+:::: card
+::: card-body
+**Off-Site to UT Austin — EMI Professional Development Program** · 2025
+
+![](img/utaustin_logo.svg.png){height="40"} ![](img/rcemi.png){height="40"}
+:::
+::::
+
+**Excellent Undergraduate English-taught Course Award**, NCCU · 2024
+
+**Professorship Mentor Program**, NCCU · 2024

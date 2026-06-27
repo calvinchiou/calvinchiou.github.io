@@ -1,0 +1,335 @@
+---
+title: "Institutional Investors: Theory and Evidence"
+subtitle: "Fall AY115 | NCCU College of Commerce"
+format:
+  pdf:
+    toc: true
+    toc-depth: 2
+    number-sections: false
+    documentclass: scrartcl
+    # mainfont: "Latin Modern Roman"
+    sansfont: "Century Schoolbook"
+    # monofont: "Latin Modern Mono"
+    CJKmainfont: "Songti TC"
+    fontsize: 12pt
+  html:
+    toc: true
+    toc-depth: 2
+    self-contained: true
+    highlight-style: github
+engine: xelatex
+editor: source
+---
+
+## Course Information
+
+**Course Code:** 357854001
+
+**Time and Venue:** Thursday 16:10–18:00, Venue TBA
+
+**Lecturer:** Asst. Prof. Calvin J. Chiou (邱健嘉)
+
+**Office:** Commerce Building 261233
+
+**Office Hours:** By appointment
+
+**Email:** [`\texttt{jjchiou@nccu.edu.tw}`{=latex}](mailto:jjchiou@nccu.edu.tw)
+
+------------------------------------------------------------------------
+
+## Course Description
+
+This course explores the economic role and strategic behavior of institutional investors in financial markets and corporate governance. We cover different types of institutional investors (e.g., mutual funds, pension funds, and insurance companies) examining their investment objectives and constraints, and their influence on firm policies, market efficiency, and ESG practices. Special attention is given to the Taiwan and broader Asian institutional investor landscape to connect theory to the local context.
+
+A distinguishing feature of this course is its integration of empirical methods with theory. Five sessions include instructor-led R labs in which students implement fund performance measures, holdings-based analyses, and factor model regressions directly in R using CRSP mutual fund data and Kenneth French's public factor library. Lecture notes for these sessions are distributed as R Quarto documents that students can run and extend independently.
+
+## Learning Objectives
+
+By the end of the course, students will be able to:
+
+1.  Identify and distinguish the major types of institutional investors and their structural incentives.
+2.  Analyze how institutional investors affect corporate governance, firm behavior, and market prices.
+3.  Critically evaluate empirical research on institutional investor strategies, performance, and market impact.
+4.  Recognize the key identification challenges in this literature and discuss how leading papers address them.
+5.  Implement core fund performance and holdings-based measures in R, including factor model alphas, DGTW benchmarks, active share, churn ratio, and window dressing indices.
+6.  Develop and present an original research idea or critical literature review in the institutional investor domain.
+
+## Course Materials
+
+**Academic papers:** Readings are drawn from published and working papers across top finance journals including the *Journal of Finance* (JF), *Journal of Financial Economics* (JFE), *Review of Financial Studies* (RFS), *Management Science* (MS), *Journal of Financial and Quantitative Analysis* (JFQA), and *Review of Finance* (RF). A complete reading list is provided at the end of this syllabus.
+
+**R lecture notes:** Empirical lab sessions are accompanied by `.qmd` lecture notes distributed via Moodle. Students should have R (≥ 4.3) and RStudio (or Positron) installed.
+
+## Course Format
+
+This is a graduate research seminar combining three modes of instruction:
+
+- **Lecture and discussion** (\~50%): The instructor introduces the week's topic, reviews key papers, and frames open research questions.
+- **Student presentations** (\~30%): Students present assigned papers from the asset management literature.
+- **Empirical R labs** (\~20%): Five instructor-led sessions demonstrating how to implement measures from the readings in R. Lab notes are distributed on the instructor's website.
+
+Active participation is expected. Students are encouraged to read at least the abstract, introduction, and conclusion of all assigned papers before class.
+
+## Software and Computing
+
+All empirical work in this course uses **R** via **RStudio** or **Positron**. Lecture notes are written in **R Quarto** and are self-contained: they load data, run all analyses, and produce formatted output. Labs 1–3 require no proprietary data access. Labs 4–5 use CRSP Mutual Fund Holdings; data files will be publicly available or distributed by the instructor via Moodle.
+
+Students are expected to have R and the required packages installed before Week 2.
+
+## Assessment
+
+| Component                        | Weight |
+|----------------------------------|--------|
+| Class Participation & Discussion | 20%    |
+| Paper Presentations              | 30%    |
+| Final Written Report             | 20%    |
+| Final Presentation               | 30%    |
+
+### Paper Presentations
+
+Each student will present **two papers** during the semester (or one extended presentation covering a topic area). Presentation slots are allocated during Week 1. Each presentation should:
+
+- Summarize the research question, data, methodology, and main findings.
+- Situate the paper within the broader literature covered in the course.
+- Raise at least two discussion questions for the class.
+- Be approximately **20–25 minutes**, followed by 10 minutes of Q&A.
+
+Presentations may be individual or in pairs (to be confirmed based on enrollment). Slides are required.
+
+### Final Report and Presentation
+
+**Each student** completes a final report demonstrating their ability to engage with the institutional investor literature. The report should focus on a specific topic and take one of the following forms:
+
+- A **literature review and synthesis** of a focused sub-topic (minimum 10 papers).
+- A **preliminary** **research project** with a clearly stated question, data strategy, expected contribution, and empirical results.
+- A **replication and extension** of an existing empirical paper, optionally using the R methods introduced in the lab sessions.
+
+**Key deadlines:**
+
+| Milestone | Deadline |
+|------------------------------------|-----------|
+| Topic proposal (1 paragraph via Moodle or email) | End of Week 8 |
+| Final written report (≤ 10 double-spaced pages, excl. references) | End of Week 17 |
+| Final in-class presentation (20–30 min) | Weeks 15–16 |
+
+------------------------------------------------------------------------
+
+## Course Schedule
+
+Weeks marked **\[Lab\]** include an instructor-led R session in the second half of class. Lab notes (`.qmd`) are distributed on Moodle before each lab week. Theory lecture and paper discussion occupy the first half of the session.
+
+| Week | Type | Topic | Key Readings | Notes |
+|:----|:---------|:--------------------------|:----------------------------------|:----------------|
+| 1 | Lecture | Course Overview and Motivation | Bebchuk, Cohen & Hirst (2017) | Presentation slots assigned; R setup check |
+| 2 | Lecture | Types of Institutional Investors and Asset Concentration Trends | Gompers & Metrick (2001); Ferreira & Matos (2008) | Taiwan/Asian context |
+| 3 | **\[Lab 1\]** | Measuring Fund Performance I: Carhart Four-Factor Model | Carhart (1997); Wermers (2011) | *Lab: factor model estimation* |
+| 4 | Lecture | Fund Performance and the Luck vs. Skill Debate | Fama & French (2010); Berk & van Binsbergen (2015) | Student presentation |
+| 5 | **\[Lab 2\]** | Measuring Fund Performance II: DGTW Characteristic-Adjusted Returns | Daniel et al. (1997); Wermers (2000) | *Lab: constructing size × BM × momentum benchmarks* |
+| 6 | Lecture | Benchmarking, Style Drift, and Active Share | Bollen & Busse (2005); Cremers & Petajisto (2009) | Student presentation |
+| 7 | Lecture | Tournament Behavior, Risk Shifting, and Fund Flows | Brown et al. (1996); Sirri & Tufano (1998) | Student presentation |
+| 8 | Lecture | Manager Incentives and Fund Family Conflicts | Gaspar et al. (2006); Bhattacharya et al. (2013) | **Topic proposals due**; student presentation |
+| 9 | **\[Lab 3\]** | Measuring Fund Performance III: Bootstrap Inference for Luck vs. Skill | Fama & French (2010) | *Lab: joint block bootstrap; actual vs. simulated alpha distribution in R* |
+| 10 | Lecture | Fund Holdings and Trading Behavior | Kacperczyk, Sialm & Zheng (2005); Wermers (1999) | Student presentation |
+| 11 | **\[Lab 4\]** | Holdings-Based Measures: Active Share, Churn Ratio, and Window Dressing | Cremers & Petajisto (2009); Agarwal, Gay & Ling (2014) | *Lab: computing active share, churn ratio, and window dressing* |
+| 12 | Lecture | Career Concerns, Performance Manipulation, and Behavioral Biases | Kempf et al. (2009); Frazzini & Lamont (2008) | Student presentation |
+| 13 | Lecture | Institutional Monitoring, Voting, and Proxy Engagement | Gillan & Starks (2000); Iliev & Lowry (2015) | Student presentation |
+| 14 | **\[Lab 5\]** | Holdings-Based Analysis: Institutional Ownership and Common Ownership Measures | Appel et al. (2016); Azar et al. (2018) | *Lab: ownership concentration, MHHI common ownership* |
+| 15 | Lecture | ESG Investing, Climate Risk, and Long-Term Stewardship | Chen, Dong & Lin (2020); Starks, Venkat & Zhu (2025) | Student presentation |
+| 16 | Presentations | Final Presentations | — | **Written reports due end of week** |
+
+: Schedule is tentative and subject to change. Lab sessions assume basic familiarity with R and `tidyverse`.
+
+## R Lab Sessions: Detailed Outlines
+
+### Lab 1 — Carhart Four-Factor Model (Week 3)
+
+**Objective:** Estimate factor model alphas and factor loadings for a cross-section of ETFs using publicly available data.
+
+**Data:** `tidyquant` (ETF prices); `frenchdata` (Fama-French 5 factors + momentum)
+
+**Skills covered:**
+
+- Downloading adjusted price data with `tidyquant`
+- Obtaining Fama-French and momentum factors with `frenchdata`
+- Computing monthly excess returns and aligning on year-month
+- Estimating CAPM, FF3, and Carhart 4-factor regressions with `broom::tidy()`
+- Interpreting alpha, factor loadings, and R² across model specifications
+- Visualizing factor loadings and alpha comparisons with `ggplot2`
+
+**Reference:** Lecture Note 1; Carhart (1997); Wermers (2011, Section 3)
+
+### Lab 2 — DGTW Characteristic-Adjusted Returns (Week 5)
+
+**Objective:** Implement the Daniel, Grinblatt, Titman & Wermers (1997) characteristic-adjusted return benchmark and decompose fund performance into stock-selection and style components.
+
+**Data:** `tidyquant` (stock prices and characteristics); `frenchdata` (size/BM breakpoints)
+
+**Skills covered:**
+
+- Constructing size × book-to-market × momentum benchmark portfolios from public data
+- Computing the DGTW Characteristic Selectivity (CS) and Characteristic Timing (CT) measures
+- Calculating fund-level flow and turnover ratio from return and TNA data
+- Approximating Active Share from ETF holdings available via `tidyquant`
+
+**Reference:** Lecture Note 2; Daniel et al. (1997); Wermers (2000)
+
+### Lab 3 — Bootstrap Inference for Luck vs. Skill (Week 9)
+
+**Objective:** Replicate the bootstrap simulation logic of Fama & French (2010) to test whether the cross-sectional alpha distribution is consistent with a zero-skill null hypothesis.
+
+**Data:** CRSP mutual fund monthly net returns (or ETF proxies from Lab 1)
+
+**Skills covered:**
+
+- Estimating Carhart alphas for a panel of funds using `group_by()` + `broom::tidy()`
+- Implementing joint monthly block bootstrap resampling (preserving cross-fund correlation structure)
+- Comparing actual vs. simulated alpha percentiles across the distribution
+- Visualizing the luck vs. skill decomposition with density plots and percentile bands
+
+**Reference:** Lecture Note 3; Fama & French (2010, Section III and Appendix)
+
+### Lab 4 — Holdings-Based Measures: Active Share, Churn Ratio, and Window Dressing (Week 11)
+
+**Objective:** Use CRSP Mutual Fund Holdings to compute three widely-used measures of fund trading behavior and portfolio activeness.
+
+**Data:** CRSP Mutual Fund Holdings (quarterly stock-level positions); CRSP monthly stock returns
+
+**Skills covered:**
+
+- Loading and cleaning CRSP mutual fund holdings data in R
+- Computing **Active Share** (Cremers & Petajisto 2009): fraction of portfolio holdings that differ from a benchmark index
+- Computing the **Churn Ratio** (Gaspar, Massa & Matos 2005): a holdings-based measure of portfolio turnover that captures short-term trading intensity
+- Constructing a **Window Dressing Index** (Agarwal, Gay & Ling 2014): detecting quarter-end inflation of recent winners and dumping of recent losers in disclosed holdings
+- Merging holdings data with CRSP return data using `wfundno` / `permno` links
+- Summarizing and visualizing cross-fund distributions of each measure over time
+
+**Reference:** Lecture Note 4; Cremers & Petajisto (2009); Agarwal, Gay & Ling (2014); Gaspar, Massa & Matos (2006)
+
+### Lab 5 — Institutional Ownership and Common Ownership Measures (Week 14)
+
+**Objective:** Construct firm-level institutional ownership and common ownership measures from holdings data, and run panel regressions relating ownership to firm outcomes.
+
+**Data:** CRSP Mutual Fund Holdings (or 13F proxy); CRSP/Compustat merged panel
+
+**Skills covered:**
+
+- Aggregating fund-level holdings to firm-level institutional ownership (IO) percentage
+- Computing ownership concentration: Herfindahl-Hirschman Index (HHI) of fund ownership per firm
+- Constructing the modified HHI (MHHI delta) of common ownership following Azar et al. (2018)
+- Merging ownership data with stock return and accounting data for panel analysis
+- Running firm-level panel regressions with two-way (firm + year) fixed effects using `fixest::feols()`
+- Interpreting coefficient magnitudes and standard error clustering choices
+
+**Reference:** Lecture Note 5; Appel et al. (2016); Azar et al. (2018)
+
+## Reading List
+
+### I. Overview and Types of Institutional Investors
+
+Bebchuk, L. A., Cohen, A., & Hirst, S. (2017). The agency problems of institutional investors. *Journal of Economic Perspectives*, *31*(3), 89–112.
+
+Bushee, B. J. (1998). The influence of institutional investors on myopic R&D investment behavior. *The Accounting Review*, *73*(3), 305–333.
+
+Bushee, B. J. (2001). Do institutional investors prefer near-term earnings over long-run value? *Contemporary Accounting Research*, *18*(2), 207–246.
+
+Ferreira, M. A., & Matos, P. (2008). The colors of investors' money: The role of institutional investors around the world. *Journal of Financial Economics*, *88*(3), 499–533.
+
+Gompers, P. A., & Metrick, A. (2001). Institutional investors and equity prices. *Quarterly Journal of Economics*, *116*(1), 229–259.
+
+Huang, R. D., & Shiu, C. Y. (2009). Local effects of foreign ownership in an emerging financial market: Evidence from qualified foreign institutional investors in Taiwan. *Financial Management*, *38*(3), 567-602. *(Taiwan context)*
+
+### II. Fund Performance Measurement and Evaluation
+
+Berk, J. B., & Van Binsbergen, J. H. (2015). Measuring skill in the mutual fund industry. *Journal of Financial Economics*, *118*(1), 1–20.
+
+Bollen, N. P., & Busse, J. A. (2005). Short-term persistence in mutual fund performance. *Review of Financial Studies*, *18*(2), 569–597.
+
+Carhart, M. M. (1997). On persistence in mutual fund performance. *Journal of Finance*, *52*(1), 57–82.
+
+Cremers, K. M., & Petajisto, A. (2009). How active is your fund manager? A new measure that predicts performance. *Review of Financial Studies*, *22*(9), 3329–3365.
+
+Daniel, K., Grinblatt, M., Titman, S., & Wermers, R. (1997). Measuring mutual fund performance with characteristic-based benchmarks. *Journal of Finance*, *52*(3), 1035–1058.
+
+Fama, E. F., & French, K. R. (2010). Luck versus skill in the cross-section of mutual fund returns. *Journal of Finance*, *65*(5), 1915–1947.
+
+Wermers, R. (2000). Mutual fund performance: An empirical decomposition into stock-picking talent, style, transactions costs, and expenses. *Journal of Finance*, *55*(4), 1655–1703.
+
+Wermers, R. (2011). Performance measurement of mutual funds, hedge funds, and institutional accounts. *Annual Review of Financial Economics*, *3*, 537–574.
+
+### III. Fund Holdings, Trading Behavior, and Activeness
+
+Agarwal, V., Gay, G. D., & Ling, L. (2014). Window dressing in mutual funds. *Review of Financial Studies*, *27*(11), 3133–3170.
+
+Lou, D. (2012). A flow-based explanation for return predictability. *Review of Financial Studies*, *25*(12), 3457-3489.
+
+Gaspar, J. M., Massa, M., & Matos, P. (2005). Shareholder investment horizons and the market for corporate control. *Journal of Financial Economics*, *76*(1), 135–165. *(Churn ratio methodology)*
+
+Kacperczyk, M., Sialm, C., & Zheng, L. (2005). On the industry concentration of actively managed equity mutual funds. *Journal of Finance*, *60*(4), 1983–2011.
+
+Kacperczyk, M., Sialm, C., & Zheng, L. (2008). Unobserved actions of mutual funds. *Review of Financial Studies*, *21*(6), 2379–2416.
+
+Wermers, R. (1999). Mutual fund herding and the impact on stock prices. *Journal of Finance*, *54*(2), 581–622.
+
+### IV. Agency Problems and Incentives in Fund Management
+
+Bhattacharya, U., Lee, J. H., & Pool, V. K. (2013). Conflicting family values in mutual fund families. *Journal of Finance*, *68*(1), 173–200.
+
+Brown, K. C., Harlow, W. V., & Starks, L. T. (1996). Of tournaments and temptations: An analysis of managerial incentives in the mutual fund industry. *Journal of Finance*, *51*(1), 85–110.
+
+Gaspar, J. M., Massa, M., & Matos, P. (2006). Favoritism in mutual fund families? Evidence on strategic cross-fund subsidization. *Journal of Finance*, *61*(1), 73–104.
+
+Kempf, A., Ruenzi, S., & Thiele, T. (2009). Employment risk, compensation incentives, and managerial risk taking: Evidence from the mutual fund industry. *Journal of Financial Economics*, *92*(1), 92–108.
+
+Sirri, E. R., & Tufano, P. (1998). Costly search and mutual fund flows. *Journal of Finance*, *53*(5), 1589–1622.
+
+### V. Behavioral Biases of Investors
+
+Agarwal, V., Jiang, L., & Wen, Q. (2022). Why do mutual funds hold lottery stocks?. *Journal of Financial and Quantitative Analysis*, *57*(3), 825-856.
+
+Barber, B. M., Odean, T., & Zheng, L. (2005). Out of sight, out of mind: The effects of expenses on mutual fund flows. *Journal of Business*, *78*(6), 2095–2119.
+
+Ben-David, I., Franzoni, F., Kim, B., & Moussawi, R. (2021). Competition for attention in the ETF space. *Review of Financial Studies*, *35*(9), 4382–4427.
+
+Frazzini, A., & Lamont, O. A. (2008). Dumb money: Mutual fund flows and the cross-section of stock returns. *Journal of Financial Economics*, *88*(2), 299–322.
+
+### VI. Institutional Monitoring, Voting, and Engagement
+
+Chen, X., Harford, J., & Li, K. (2007). Monitoring: Which institutions matter? *Journal of Financial Economics*, *86*(2), 279–305.
+
+Chung, K. H., & Zhang, H. (2011). Corporate governance and institutional ownership. *Journal of Financial and Quantitative Analysis*, *46*(1), 247–273.
+
+Gillan, S. L., & Starks, L. T. (2000). Corporate governance proposals and shareholder activism: The role of institutional investors. *Journal of Financial Economics*, *57*(2), 275–305.
+
+Iliev, P., & Lowry, M. (2015). Are mutual funds active voters? *Review of Financial Studies*, *28*(2), 446–485.
+
+Matvos, G., & Ostrovsky, M. (2010). Heterogeneity and peer effects in mutual fund proxy voting. *Journal of Financial Economics*, *98*(1), 90–112.
+
+### VII. Passive Investing and Common Ownership
+
+Appel, I. R., Gormley, T. A., & Keim, D. B. (2016). Passive investors, not passive owners. *Journal of Financial Economics*, *121*(1), 111–141.
+
+Azar, J., Schmalz, M. C., & Tecu, I. (2018). Anticompetitive effects of common ownership. *Journal of Finance*, *73*(4), 1513–1565.
+
+Bebchuk, L., & Hirst, S. (2019). The specter of the giant three. *Boston University Law Review*, *99*(3), 721–741.
+
+He, J., & Huang, J. (2017). Product market competition in a world of cross-ownership: Evidence from institutional blockholdings. *Review of Financial Studies*, *30*(8), 2674–2718.
+
+Heath, D., Macciocchi, D., Michaely, R., & Ringgenberg, M. C. (2022). Do index funds monitor? *Review of Financial Studies*, *35*(1), 91–131.
+
+Lewellen, J., & Lowry, M. (2021). Does common ownership really increase firm coordination? *Journal of Financial Economics*, *141*(1), 322–344.
+
+Massa, M., Schumacher, D., & Wang, Y. (2021). Who is afraid of BlackRock? *Review of Financial Studies*, *34*(4), 1987–2044.
+
+### VIII. ESG Investing, Climate Risk, and Long-Term Stewardship
+
+Chen, T., Dong, H., & Lin, C. (2020). Institutional shareholders and corporate social responsibility. *Journal of Financial Economics*, *135*(2), 483–504.
+
+Dyck, A., Lins, K. V., Roth, L., & Wagner, H. F. (2019). Do institutional investors drive corporate social responsibility? International evidence. *Journal of Financial Economics*, *131*(3), 693–714.
+
+Hwang, C. Y., Titman, S., & Wang, Y. (2022). Investor tastes, corporate behavior, and stock returns: An analysis of corporate social responsibility. *Management Science*, *68*(10), 7131–7152.
+
+Kim, S., & Yoon, A. (2023). Analyzing active fund managers' commitment to ESG: Evidence from the United Nations Principles for Responsible Investment. *Management Science*, *69*(2), 741–758.
+
+Krueger, P., Sautner, Z., & Starks, L. T. (2020). The importance of climate risks for institutional investors. *Review of Financial Studies*, *33*(3), 1067–1111.
+
+Starks, L. T., Venkat, P., & Zhu (2025). Corporate ESG profiles and investor horizons. *Journal of Finance*, *81*(2), 603-642.

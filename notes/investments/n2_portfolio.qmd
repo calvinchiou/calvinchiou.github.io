@@ -1,5 +1,5 @@
 ---
-title: "R Note 2 - Portfolio Formation using R"
+title: "R Note 2 - Portfolio Formation"
 author: 
   - name: "Asst. Prof. Calvin J. Chiou"
     email: jjchiou@nccu.edu.tw
@@ -17,11 +17,51 @@ format:
 editor: visual
 ---
 
-## Course Information
+```{=html}
+<style>
+.back-button {
+  position: fixed;
+  top: 70px;
+  left: 20px;
+  z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background-color: #f8f9fa;
+  color: #234E70;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  font-size: 0.85em;
+  font-family: system-ui, -apple-system, sans-serif;
+  text-decoration: none;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  transition: all 0.15s ease;
+}
+.back-button:hover {
+  background-color: #234E70;
+  color: white;
+  border-color: #234E70;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+.back-button:active {
+  transform: translateY(1px);
+}
+@media (max-width: 768px) {
+  .back-button {
+    top: 60px;
+    left: 10px;
+    padding: 6px 10px;
+    font-size: 0.8em;
+  }
+}
+</style>
 
-- **Course Name:** Investments \| 000351051
-
-- **Semester:** Spring 2025
+<a href="/teaching.html" class="back-button" title="Back to course page">
+  &larr; Back to Course
+</a>
+```
 
 ## 1. Fetching Stock Data
 
@@ -61,7 +101,8 @@ initial_positions <- prices |>
   mutate(shares = floor(budget_per_stock / adjusted)) |> 
   select(symbol, shares)
 
-datatable(initial_positions)
+datatable(initial_positions) |> 
+  formatRound(columns = c("shares"), digits = 0)
 ```
 
 ## 3. Portfolio Valuation and Return Calculation
@@ -180,7 +221,8 @@ returns_wide <- individual_ret |>
   pivot_wider(names_from = symbol, values_from = continuous_return)
 # Calculate correlation matrix
 cor_matrix <- cor(returns_wide[, -1], use = "pairwise.complete.obs")
-datatable(cor_matrix)
+datatable(cor_matrix) |> 
+  formatRound(columns = 1:4, digits = 4)
 # Compute covariance matrix
 cov_matrix <- (volatilities %*% t(volatilities)) * cor_matrix
 # Calculate portfolio volatility
@@ -279,4 +321,4 @@ hchart(combined_portfolios_long, "line", hcaes(x = date, y = Value, group = Port
 
 ------------------------------------------------------------------------
 
-Happy coding! 🚀 This version will be continuously updated.
+Happy coding! 🚀
