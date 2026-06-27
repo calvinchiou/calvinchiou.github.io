@@ -33,7 +33,13 @@ editor: source
 
 **Office Hours:** By appointment
 
-**Email:** [`\texttt{jjchiou@nccu.edu.tw}`{=latex}](mailto:jjchiou@nccu.edu.tw)
+::: {.content-visible when-format="pdf"}
+**Email:** `\texttt{jjchiou@nccu.edu.tw}`{=latex}
+:::
+
+::: {.content-visible when-format="html"}
+**Email:** [jjchiou\@nccu.edu.tw](mailto:jjchiou@nccu.edu.tw)
+:::
 
 ------------------------------------------------------------------------
 
