@@ -12,7 +12,8 @@ format:
     toc-location: right
     number-sections: true
     self-contained: true
-    # title-block-banner: true
+    highlight-style: github
+    title-block-banner: true
 editor: visual
 ---
 

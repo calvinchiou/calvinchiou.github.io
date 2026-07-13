@@ -6,7 +6,14 @@ author:
     affiliations: 
     - name: "National Chengchi University (NCCU)"
 
-format: html
+format: 
+  html: 
+    toc: true
+    toc-depth: 3
+    toc-location: right
+    number-sections: false
+    self-contained: true
+    highlight-style: github
 editor: visual
 bibliography: references.bib
 ---
@@ -20,6 +27,12 @@ library(DT)
 library(moments)   # for skewness()
 library(broom)
 ```
+
+## Course Information
+
+- **Course Name:** Investments \| 000351051
+
+- **Semester:** Spring 2026
 
 ## Introduction
 

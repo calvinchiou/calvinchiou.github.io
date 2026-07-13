@@ -6,7 +6,14 @@ author:
     affiliations: 
     - name: "National Chengchi University (NCCU)"
 
-format: html
+format: 
+  html: 
+    toc: true
+    toc-depth: 3
+    toc-location: right
+    number-sections: false
+    self-contained: true
+    highlight-style: github
 editor: visual
 ---
 
@@ -62,7 +69,7 @@ datatable(stock_data) |>
   formatRound(columns = c("open","high","low","close","adjusted"), digits = 2)
 ```
 
-## **2. Data Preparation**
+## 2. Data Preparation
 
 Next, we will prepare the data by calculating daily returns for both the stock and the market index. `tq_transmute()` is used to manipulate stock data by creating a new variable, `stock_return`. Stock (or market) returns are calculated as the difference between the current and the past return divided by the past return. Because we are looking at daily data, the past return refers to the return that occurred on the previous trading day. `na.omit()` is used to drop observations with missing values.
 
@@ -89,7 +96,7 @@ datatable(returns_data) |>
   formatRound(columns = c("stock_return","market_return"), digits = 4)
 ```
 
-### **3. Visualize Stock Prices**
+## 3. Visualize Stock Prices
 
 We will visualize the stock prices of Apple using **`ggplot2`** with a nice theme.
 
@@ -134,7 +141,7 @@ highchart() |>
   hc_add_theme(hc_theme_smpl())
 ```
 
-## **4. Regression Analysis**
+## 4. Regression Analysis
 
 The market model is a statistical model that describes the relationship between the returns of a stock and the returns of the overall market.[^2] It is a simple linear regression model that can be expressed as follows:
 
@@ -166,7 +173,7 @@ summary(model)
 
 The **`lm()`** function in R is used to perform the linear regression, where **`stock_return`** is regressed on **`market_return`**. The summary of the regression model provides us with the estimated coefficients for alpha and beta, along with statistical measures that help evaluate the model's fit.
 
-## **Systematic Risk**
+### Systematic Risk
 
 The beta coefficient is the slope of the regression line. We can extract it from the regression model.
 
@@ -184,7 +191,7 @@ cat("The estimated beta coefficient for",
 
 The estimated beta coefficient tells us how sensitive the stock's return is to the market's return. For instance, if the beta is 1.66, it means that if the market return increases by 1%, the stock's return is expected to increase by 1.66%, indicating higher volatility relative to the market.
 
-## Idiosyncratic Risk
+### Idiosyncratic Risk
 
 Idiosyncratic (unsystematic) volatility represents the portion of the stock's volatility that is not explained by market movements. It can be estimated by taking the standard deviation of the residuals from the market model. The residuals ($\epsilon$) represent the differences between the observed stock returns and the returns predicted by the market model.
 
@@ -200,6 +207,6 @@ cat("The estimated idiosyncratic risk for",
     round(idiosyncratic_volatility, 2))
 ```
 
-## **5. Conclusion**
+## 5. Conclusion
 
 In this document, we downloaded stock and market index prices, calculated their daily returns, and performed a regression analysis to estimate the beta coefficient. We also estimated the idiosyncratic volatility by calculating the standard deviation of the residuals from the market model. The beta coefficient helps us understand the stock's systematic risk in relation to the overall market, while idiosyncratic volatility measures the stock-specific risk not explained by market movements.

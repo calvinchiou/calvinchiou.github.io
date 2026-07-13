@@ -31,8 +31,21 @@
       "/notes/investments/n1_introduction.html",
       "/notes/investments/n2_portfolio.html",
       "/notes/investments/n3_beta.html",
+      "/notes/investments/n3_factor_model.html",
       "/notes/investments/n4_strategy.html",
-      "/notes/investments/n5_behavioral.html"
+      "/notes/investments/n5_behavioral.html",
+      "/notes/investments/n6_optimization.html"
+    ]
+  },
+  {
+    "listing": "/mocc.html",
+    "items": [
+      "/mocc/week1_r_basics.html",
+      "/mocc/week2_tvm.html",
+      "/mocc/week3_returns.html",
+      "/mocc/week4_portfolio.html",
+      "/mocc/week5_beta.html",
+      "/mocc/week6_strategy.html"
     ]
   }
 ]

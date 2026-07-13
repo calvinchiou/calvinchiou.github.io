@@ -1,0 +1,303 @@
+---
+title: "Input-Output Exposure Dashboard"
+subtitle: "BEA Use Table — Industry Exposure Measures (T001, T005–T008)"
+format:
+  dashboard:
+    orientation: rows
+    nav-buttons: [github]
+    # theme: cosmo
+    scrolling: true
+    title-block-banner: true
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r setup}
+library(tidyverse)
+library(highcharter)
+library(scales)
+
+df <- read_csv("data/io_exposures.csv")
+
+# Keep only "real" commodity/industry rows (drop value-added & final-use
+# aggregate rows whose code starts with V or F, and rows with no label)
+io <- df |>
+  filter(!str_starts(industry_naics, "[A-Z]"),
+         !is.na(t_row_label),
+         t_row_label != "NA") |>
+  select(year, industry_naics, t_row_label,
+         T001, T005, T006, T007, T008, omega_mfg, omega_import) |>
+  mutate(year = as.integer(year))
+
+t_vars <- c("T001", "T005", "T006", "T007", "T008")
+
+# Human-readable labels for the five exposure measures.
+# Edit these to match your exact BEA definitions.
+t_labels <- c(
+  T001 = "T001 — Total Intermediate Inputs",
+  T005 = "T005 — Total Industry Output",
+  T006 = "T006 — Total Commodity Output",
+  T007 = "T007 — Total Final Uses",
+  T008 = "T008 — Total Use of Commodities"
+)
+
+years <- sort(unique(io$year))
+latest_year <- max(years)
+
+io_long <- io |>
+  pivot_longer(cols = all_of(t_vars), names_to = "measure", values_to = "value") |>
+  mutate(measure_label = t_labels[measure])
+```
+
+```{=html}
+<style>
+.value-box-value {
+  font-size: 1.4rem !important;
+}
+</style>
+```
+
+# Overview
+
+## Row {height="20%"}
+
+```{r}
+#| component: valuebox
+#| title: !expr paste("Industries covered (", latest_year, ")")
+#| class: small-number
+list(
+  icon = "grid-3x3-gap",
+  color = "primary",
+  value = scales::comma(io |> filter(year == latest_year) |> nrow())
+)
+```
+
+```{r}
+#| component: valuebox
+#| title: !expr paste("Total T001 (", latest_year, ", $mil)")
+#| class: small-number
+list(
+  icon = "bar-chart",
+  color = "info",
+  value = scales::comma(sum(io$T001[io$year == latest_year], na.rm = TRUE))
+)
+```
+
+```{r}
+#| component: valuebox
+#| title: !expr paste("Total T006 (", latest_year, ", $mil)")
+#| class: small-number
+list(
+  icon = "boxes",
+  color = "success",
+  value = scales::comma(sum(io$T006[io$year == latest_year], na.rm = TRUE))
+)
+```
+
+```{r}
+#| component: valuebox
+#| title: "Years covered"
+#| class: small-number
+list(
+  icon = "calendar3",
+  color = "secondary",
+  value = paste(range(years), collapse = "–")
+)
+```
+
+## Row {height="80%"}
+
+### Column {width="55%"}
+
+```{r}
+#| title: Top 15 industries by T001 — Total Intermediate Inputs
+top15 <- io |>
+  filter(year == latest_year) |>
+  slice_max(order_by = T001, n = 15) |>
+  arrange(desc(T001))
+
+hchart(top15, "bar", hcaes(x = t_row_label, y = T001), name = "T001") |>
+  hc_xAxis(title = list(text = NULL)) |>
+  hc_yAxis(title = list(text = "USD (millions)")) |>
+  hc_title(text = paste("Top 15 industries by T001 —", latest_year)) |>
+  hc_tooltip(valueDecimals = 0, valuePrefix = "$") |>
+  hc_add_theme(hc_theme_google())
+```
+
+```{r}
+#| title: Top 15 industries by T008 — Total Use of Commodities
+top15 <- io |>
+  filter(year == latest_year) |>
+  slice_max(order_by = T008, n = 15) |>
+  arrange(desc(T008))
+
+hchart(top15, "bar", hcaes(x = t_row_label, y = T008), name = "T008") |>
+  hc_xAxis(title = list(text = NULL)) |>
+  hc_yAxis(title = list(text = "USD (millions)")) |>
+  hc_title(text = paste("Top 15 industries by T008 —", latest_year)) |>
+  hc_tooltip(valueDecimals = 0, valuePrefix = "$") |>
+  hc_add_theme(hc_theme_google())
+```
+
+### Column {width="45%"}
+
+```{r}
+#| title: Aggregate trend of T001–T008 across years
+agg <- io_long |>
+  group_by(year, measure, measure_label) |>
+  summarise(total = sum(value, na.rm = TRUE), .groups = "drop")
+
+hchart(agg, "area", hcaes(x = year, y = total, group = measure_label)) |>
+  hc_xAxis(title = list(text = "Year"), categories = years) |>
+  hc_yAxis(title = list(text = "USD (millions)")) |>
+  hc_title(text = "Sum across all industries, by year") |>
+  hc_tooltip(valueDecimals = 0, valuePrefix = "$", shared = TRUE) |>
+  hc_add_theme(hc_theme_google())
+```
+
+```{r}
+#| title: Distribution of T001–T008 (latest year)
+
+dist_data <- io |> filter(year == latest_year)
+
+# Use a common set of breaks across all five variables so bins line up
+all_vals <- dist_data |>
+  select(all_of(t_vars)) |>
+  unlist() |>
+  na.omit()
+
+breaks <- pretty(all_vals, n = 20)
+
+hist_df <- map_dfr(t_vars, function(v) {
+  h <- hist(dist_data[[v]], breaks = breaks, plot = FALSE)
+  tibble(
+    measure = v,
+    measure_label = t_labels[v],
+    bin_mid = h$mids,
+    count = h$counts
+  )
+})
+
+hchart(hist_df, "area", hcaes(x = bin_mid, y = count, group = measure_label),
+       step = "center") |>
+  hc_xAxis(title = list(text = "USD (millions)")) |>
+  hc_yAxis(title = list(text = "Number of industries")) |>
+  hc_title(text = paste("Distribution of T001–T008 —", latest_year)) |>
+  hc_tooltip(shared = FALSE, valueDecimals = 0) |>
+  hc_add_theme(hc_theme_google())
+```
+
+# Ranking
+
+## Row
+
+Ranking of industries — choose the tab for each exposure measure
+
+```{r}
+panels <- map(t_vars, function(v) {
+  d <- io |>
+    filter(year == latest_year) |>
+    slice_max(order_by = .data[[v]], n = 15, with_ties = FALSE) |>
+    arrange(desc(.data[[v]]))
+
+  hchart(d, "bar", hcaes(x = t_row_label, y = .data[[v]]), name = v) |>
+    hc_xAxis(title = list(text = NULL)) |>
+    hc_yAxis(title = list(text = "USD (millions)")) |>
+    hc_title(text = paste0(t_labels[v], " — ", latest_year)) |>
+    hc_tooltip(valueDecimals = 0, valuePrefix = "$") |>
+    hc_add_theme(hc_theme_google())
+})
+```
+
+::: panel-tabset
+```{r}
+#| output: asis
+for (i in seq_along(t_vars)) {
+  cat("## ", t_vars[i], "\n\n")
+  print(htmltools::tagList(panels[[i]]))
+  cat("\n\n")
+}
+```
+:::
+
+## Row {height="60%"}
+
+Trends by Industry
+
+```{r}
+panels_trend <- map(t_vars, function(v) {
+  top_ind <- io |>
+    filter(year == latest_year) |>
+    slice_max(order_by = .data[[v]], n = 10) |>
+    pull(t_row_label)
+
+  trend_df <- io |>
+    filter(t_row_label %in% top_ind)
+  
+  hchart(trend_df, "line", hcaes(x = year, y = .data[[v]], group = t_row_label)) |>
+    hc_xAxis(title = list(text = "Year"), categories = years) |>
+    hc_yAxis(title = list(text = paste(t_labels[v], "(USD millions)"))) |>
+    hc_title(text = paste(t_labels[v], "Top 10 industries", sep = " - ")) |>
+    hc_tooltip(valueDecimals = 0, valuePrefix = "$") |>
+    hc_legend(enabled = TRUE) |> 
+    hc_add_theme(hc_theme_google())
+  })
+
+```
+
+::: panel-tabset
+```{r}
+#| output: asis
+for (i in seq_along(t_vars)) {
+    cat("## ", t_vars[i], "\n\n")
+    print(htmltools::tagList(panels_trend[[i]]))
+    cat("\n\n")
+}
+```
+:::
+
+## Row {height="40%"}
+
+```{r}
+#| title: Manufacturing-input exposure (omega_mfg) vs. T001
+highchart() |>
+  hc_add_series(
+    io |> filter(year == 2007), type = "scatter",
+    hcaes(x = omega_mfg*100, y = T001), name = "2007"
+  ) |> 
+  hc_add_series(
+    io |> filter(year == 2012), type = "scatter",
+    hcaes(x = omega_mfg*100, y = T001), name = "2012"
+  ) |> 
+  hc_add_series(
+    io |> filter(year == 2017), type = "scatter",
+    hcaes(x = omega_mfg*100, y = T001), name = "2017"
+  ) |> 
+  hc_xAxis(title = list(text = "omega_mfg (share of manufacturing inputs)"),
+           labels = list(format = "{value:,.0f}%")) |>
+  hc_yAxis(title = list(text = "T001 (USD millions)")) |>
+  hc_title(text = "Manufacturing-input exposure vs. T001") |>
+  hc_tooltip(pointFormat = "<b>{point.name}</b><br>omega_mfg: {point.x:.02f}%<br>T001: ${point.y:.02f}") |>
+  hc_add_theme(hc_theme_google())
+```
+
+# Data Table
+
+```{r}
+#| title: Underlying data (latest year)
+io |>
+  arrange(industry_naics, year) |>
+  DT::datatable(
+    rownames = FALSE,
+    filter = "top",
+    options = list(pageLength = 15, scrollX = TRUE),
+    colnames = c("NAICS", "Industry", 
+                 "T001 — Total Intermediate Inputs", "T005 — Total Industry Output", 
+                 "T006 — Total Commodity Output", "T007 — Total Final Uses", "T008 — Total Use of Commodities",
+                 "Omega (mfg)", "Omega (import)")
+  ) |>
+  DT::formatCurrency(columns = t_vars, currency = "$", digits = 0) |>
+  DT::formatPercentage(columns = c("omega_mfg", "omega_import"), digits = 1)
+```

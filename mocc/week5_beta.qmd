@@ -1,0 +1,294 @@
+---
+title: "Week 5: Risk, Beta, and the Market Model"
+subtitle: "Financial Calculation with R"
+author: "Calvin J. Chiou | 邱健嘉"
+institute: "National Chengchi University"
+format:
+  revealjs:
+    theme: serif
+    transition: slide
+    slide-number: c/t
+    progress: true
+    footer: "Week 5 · Risk & Beta"
+    chalkboard: false
+    code-fold: false
+    code-line-numbers: false
+    code-overflow: wrap
+    highlight-style: github
+    embed-resources: true
+    logo: images/logo_en.png
+    fig-align: center
+    width: 1280
+    height: 720
+knitr:
+  opts_chunk:
+    echo: true
+    # eval: false
+    message: false
+    warning: false
+    fig-align: center
+    out-width: "80%"
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+```{=html}
+<style>
+.reveal { font-size: 30px; }
+.reveal section h2 { color: #234E70; }
+.reveal .footer { font-size: 0.55em; opacity: 0.75; }
+.reveal .slide-number { font-size: 0.6em; }
+.reveal pre code { font-size: 0.78em; line-height: 1.25; }
+.reveal table { font-size: 0.85em; }
+.reveal table.dataTable {font-size: 0.75em !important; }
+.reveal .dataTables_wrapper {font-size: 0.75em !important; }
+</style>
+```
+
+```{r, eval=TRUE, echo=FALSE}
+#| label: "load"
+library(tidyquant)
+library(tidyverse)
+library(highcharter)
+library(ggplot2)
+library(ggthemes)
+library(DT)
+```
+
+# Two Kinds of Risk
+
+## Last week we measured volatility. This week we *decompose* it.
+
+A stock's total volatility $\sigma_i$ has two ingredients:
+
+- **Systematic risk:** co-moves with the market. Cannot be diversified
+  away.
+- **Idiosyncratic risk:** stock-specific. Vanishes in a well-diversified
+  portfolio.
+
+The **market model** is the simplest tool to separate the two. And it
+gives us a single number that captures systematic risk: $\beta$.
+
+# 1. The Market Model
+
+## A linear regression of stock on market
+
+::: {.callout-note title="Market model"}
+$$R_{i,t} = \alpha_i + \beta_i\, R_{m,t} + \varepsilon_{i,t}$$
+:::
+
+- $R_{i,t}$: stock $i$'s return on day $t$.
+- $R_{m,t}$: the market's return on day $t$.
+- $\alpha_i$: intercept --- average performance unrelated to the market.
+- $\beta_i$: slope --- the sensitivity of the stock to the market.
+- $\varepsilon_{i,t}$: residual --- the part the market cannot explain.
+
+In R, this is a one-line call to `lm()`.
+
+## What does $\beta$ mean?
+
+$$\beta_i = \frac{\mathrm{Cov}(R_i,\,R_m)}{\mathrm{Var}(R_m)}$$
+
+- $\beta > 1$: stock amplifies market moves --- more cyclical.
+- $\beta = 1$: stock moves with the market on average.
+- $0 < \beta < 1$: stock moves with the market but less than 1-for-1 ---
+  defensive.
+- $\beta < 0$: stock moves *against* the market --- rare; gold and some
+  hedges.
+
+For tech stocks like NVDA we typically see $\beta > 1$; for utilities
+and consumer staples, $\beta < 1$.
+
+# 2. Estimating $\beta$ in R
+
+## The data
+
+```{r}
+stock_ticker  <- "NVDA"
+market_ticker <- "^GSPC"   # S&P 500
+start_date    <- "2020-01-01"
+end_date      <- "2026-01-01"
+
+stock_data  <- tq_get(stock_ticker,  from = start_date, to = end_date)
+market_data <- tq_get(market_ticker, from = start_date, to = end_date)
+```
+
+Three years of daily data is a typical estimation window.
+
+## Computing daily returns
+
+```{r}
+stock_returns <- stock_data |>
+  tq_transmute(select     = adjusted,
+               mutate_fun = periodReturn,
+               period     = "daily",
+               col_rename = "stock_return")
+
+market_returns <- market_data |>
+  tq_transmute(select     = adjusted,
+               mutate_fun = periodReturn,
+               period     = "daily",
+               col_rename = "market_return")
+
+returns <- left_join(stock_returns, market_returns,
+                     by = "date") |>
+  na.omit()
+```
+
+`tq_transmute()` with `periodReturn` is the tidyquant shorthand for the
+discrete-return formula from Week 3.
+
+## Running the regression
+
+```{r}
+model <- lm(stock_return ~ market_return, data = returns)
+summary(model)
+```
+
+What to look for in the output:
+
+- **Estimate** for `market_return`: this is $\hat\beta$.
+- **Estimate** for `(Intercept)`: this is $\hat\alpha$.
+- **Pr(\>\|t\|)**: is $\beta$ statistically distinguishable from 0?
+- **Multiple R-squared**: fraction of variance explained by the market.
+
+## Extracting $\hat\beta$ cleanly
+
+```{r}
+library(broom)
+
+beta_hat <- tidy(model) |>
+  filter(term == "market_return") |>
+  pull(estimate)
+
+cat("Estimated beta for", stock_ticker, "=",
+    round(beta_hat, 2), "\n")
+```
+
+For NVDA over 2020--2022, this comes out around 1.6 --- NVDA tended to
+move about 1.6% for every 1% move in the S&P 500.
+
+# 3. Visualizing the Regression
+
+## A scatter plot with the fitted line
+
+```{r}
+#| code-fold: true
+returns$fit <- predict(model)
+
+highchart(width = 1280) |>
+  hc_title(text = "NVDA vs. S&P 500 --- Linear Fit") |>
+  hc_xAxis(title = list(text = "Market Return")) |>
+  hc_yAxis(title = list(text = "Stock Return")) |>
+  hc_add_series(data = returns, type = "scatter",
+                hcaes(x = market_return, y = stock_return),
+                name = "Daily Returns") |>
+  hc_add_series(data = returns[order(returns$market_return), ],
+                type = "line",
+                hcaes(x = market_return, y = fit),
+                name = "Fitted line") |> 
+  hc_tooltip(valueDecimals = 2)
+```
+
+The *slope* of that line is your eyeball estimate of $\beta$.
+
+# 4. Idiosyncratic Risk
+
+## What the regression *can't* explain
+
+The residuals
+$\hat\varepsilon_{i,t} = R_{i,t} - \hat{\alpha} - \hat\beta\, R_{m,t}$
+are the stock-specific portion of returns.
+
+::: {.callout-note title="Idiosyncratic volatility"}
+$$\sigma_{\varepsilon,i} = \mathrm{sd}\!\left(\hat\varepsilon_{i,t}\right)$$
+:::
+
+```{r}
+residuals_i <- resid(model)
+idio_vol    <- sd(residuals_i)
+cat("Idiosyncratic volatility:",
+    round(idio_vol, 4), "\n")
+```
+
+## Decomposition of variance
+
+In population:
+
+$$\underbrace{\sigma_i^2}_{\text{total}}
+\;=\;
+\underbrace{\beta_i^2\, \sigma_m^2}_{\text{systematic}}
+\;+\;
+\underbrace{\sigma_{\varepsilon,i}^2}_{\text{idiosyncratic}}.$$
+
+```{r}
+sigma_total <- sd(returns$stock_return)
+sigma_mkt   <- sd(returns$market_return)
+sys_part    <- beta_hat^2 * sigma_mkt^2
+idio_part   <- idio_vol^2
+
+c(total_var = sigma_total^2,
+  systematic = sys_part,
+  idiosyncratic = idio_part)
+```
+
+`systematic + idiosyncratic` should approximately equal `total_var` ---
+the analysis-of-variance identity behind the market model.
+
+# 5. Why $\beta$ Matters
+
+## $\beta$ is what the CAPM prices
+
+The Capital Asset Pricing Model (Sharpe, 1964) says expected excess
+return depends only on $\beta$:
+
+::: {.callout-note title="CAPM"}
+$$E[R_i] - R_f = \beta_i \,\bigl(E[R_m] - R_f\bigr)$$
+:::
+
+- High-$\beta$ stocks should earn higher expected returns.
+- Idiosyncratic risk should *not* be priced --- you can diversify it
+  away.
+
+The empirical evidence is mixed (the "low-beta anomaly"), but $\beta$
+remains the single most-cited measure of a stock's market risk.
+
+## Course connections
+
+What we built this week will be the foundation for two later ideas
+you'll meet if you continue:
+
+- **Cumulative abnormal returns (CAR)** in event studies. The market
+  model predicts a stock's "normal" return; whatever the stock does
+  *above and beyond* that prediction around an event date is the
+  *abnormal return*.
+- **Multi-factor models** (Fama-French, Carhart). We replace the single
+  market return with several factor portfolios. The R syntax barely
+  changes: `lm(R_i ~ MKT + SMB + HML)`.
+
+## What this week covered
+
+1.  Decomposed total risk into systematic and idiosyncratic parts.
+2.  Estimated $\beta$ with one call to `lm()`.
+3.  Extracted and interpreted `summary(model)` and `tidy(model)`.
+4.  Computed idiosyncratic volatility from residuals.
+5.  Connected $\beta$ to the CAPM and to multi-factor extensions.
+
+**Next week:** we use everything we've learned to design, run, and
+benchmark a trading strategy.
+
+## Exercise
+
+1.  Estimate $\beta$ for AAPL, KO (Coca-Cola), and TSLA against the S&P
+    500 over 2020--2022. Rank them. Which is the most market-sensitive?
+2.  Estimate $\beta$ for 2330.TW (TSMC) against `^TWII` (TAIEX) over the
+    same window.
+3.  For each stock, report $\beta$, $\sigma_{\varepsilon}$, and the
+    $R^2$ of the regression.
+4.  Plot the four scatter plots side-by-side and comment on which
+    stock's returns are best explained by its respective market index.
+
+::: {style="text-align:center"}
+Thank you!
+:::

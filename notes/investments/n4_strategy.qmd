@@ -6,7 +6,14 @@ author:
     affiliations: 
     - name: "National Chengchi University (NCCU)"
 
-format: html
+format: 
+  html: 
+    toc: true
+    toc-depth: 3
+    toc-location: right
+    number-sections: false
+    self-contained: true
+    highlight-style: github
 editor: visual
 ---
 
@@ -15,62 +22,63 @@ library(tidyquant)
 library(dplyr)
 library(lubridate)
 library(highcharter)
+library(TTR)
 ```
 
-## Introduction
+## Course Information
 
-This document demonstrates a simple quantitative strategy applied to the Taiwan 50 ETF (symbol: `0050.TW`), one of the most actively traded ETFs representing large-cap stocks in Taiwan. The aim is twofold:
+- **Course Name:** Investments \| 000351051
 
-1.  **Strategy Simulation**: To implement a basic moving average crossover strategy over the period from **January 1, 2023 to April 30, 2024**, simulating a full-investment trading strategy with daily price data.
-2.  **Benchmarking**: To examine the relative performance of the trading strategy, we measure buy-and-hold returns based on TWSE Capitalization Weighted Stock Index (symbol: `^TWII`).[^1]
+- **Semester:** Spring 2026
 
-[^1]: TWSE stands for Taiwan Stock Exchange. Quote of the index can refer to [Yahoo.Finance](https://finance.yahoo.com/quote/%5ETWII/).
+# Introduction
 
-Through this analysis, we seek to understand how systematic market movements explain the performance of 0050.TW and evaluate whether a naive technical strategy offers meaningful results in the context of Taiwan's equity market.
+This document demonstrates several quantitative strategies applied to the Taiwan 50 ETF (symbol: `0050.TW`), one of the most actively traded ETFs representing large-cap stocks in Taiwan. We cover four approaches:
 
-## **1. Retrieve Historical Price Data**
+1.  **Moving Average (MA) Crossover** — a trend-following strategy based on short- vs. long-term moving averages.
+2.  **RSI Strategy** — a mean-reversion strategy using the Relative Strength Index.
+3.  **Bollinger Bands Strategy** — a volatility-based mean-reversion strategy.
+4.  **Dollar-Cost Averaging (DCA)** — a passive strategy that invests a fixed amount of NT\$20,000 each month, regardless of market conditions.
 
-We begin by retrieving daily adjusted price data for the ETF 0050.TW. This serves as the basis for both the trading simulation and return calculations.
+All strategies start with the same initial capital of NT\$1,000,000 over the period **January 1, 2023 to January 1, 2026**. A buy-and-hold 0050.TW position serves as the common benchmark throughout.
+
+------------------------------------------------------------------------
+
+## 1. Retrieve Historical Price Data
+
+We begin by retrieving daily adjusted price data for 0050.TW. This single dataset drives all four strategies.
 
 ```{r}
 etf_data <- tq_get("0050.TW",
                    from = "2023-01-01",
-                   to = "2024-04-30")
-
+                   to   = "2026-01-01")
 head(etf_data)
 ```
 
-## **2. Calculate Moving Averages**
+------------------------------------------------------------------------
 
-We compute two simple moving averages:
+## 2. Moving Average (MA) Crossover Strategy
 
-- **MA20**: Short-term (20-day) average
+The MA crossover is the baseline strategy. We use a short-term MA20 and a long-term MA50 to generate buy/sell signals.
 
-- **MA50**: Long-term (50-day) average
-
-These are commonly used in technical trading strategies to identify trend changes.
+### **2.1. Calculate Moving Averages**
 
 ```{r}
-# Calculate Moving-Average Indicators
 etf_ma <- etf_data |> 
   mutate(
     MA20 = SMA(adjusted, n = 20),
     MA50 = SMA(adjusted, n = 50)
-  ) |> 
-  na.omit()
+  )
 head(etf_ma)
 ```
 
-## 3. Generate Trading Signals
+### **2.2. Generate Trading Signals**
 
-We generate buy and sell signals:
-
-- **Buy** when MA20 crosses **above** MA50
-
-- **Sell** when MA20 crosses **below** MA50
+- **Buy** when MA20 crosses **above** MA50 (golden cross)
+- **Sell** when MA20 crosses **below** MA50 (death cross)
 
 ```{r}
-etf_signals <- etf_ma |> 
+etf_ma_signals <- etf_ma |> 
   mutate(
     signal = case_when(
       lag(MA20) < lag(MA50) & MA20 >= MA50 ~ "buy",
@@ -79,204 +87,585 @@ etf_signals <- etf_ma |>
     )
   )
 
-etf_signals |> filter(!is.na(signal))
+etf_ma_signals |> 
+  filter(!is.na(signal)) |> 
+  select(date, adjusted, MA20, MA50, signal)
 ```
 
-## **4. Simulate Trading Strategy**
-
-We simulate an all-in/all-out strategy using an initial capital of NT\$1,000,000. The strategy takes full positions based on the generated signals and tracks the portfolio value over time.
+### **2.3. Simulate the MA Strategy**
 
 ```{r}
-capital <- 1000000
+capital  <- 1000000
 position <- 0
-cash <- capital
-portfolio <- data.frame()
+cash     <- capital
+portfolio_ma <- data.frame()
 
-for (i in 1:nrow(etf_signals)) {
-  date_i <- etf_signals$date[i]
-  price_i <- etf_signals$adjusted[i]
-  signal <- etf_signals$signal[i]
+for (i in seq_len(nrow(etf_ma_signals))) {
+  date_i  <- etf_ma_signals$date[i]
+  price_i <- etf_ma_signals$adjusted[i]
+  sig     <- etf_ma_signals$signal[i]
 
-  if (!is.na(signal)) {
-    if (signal == "buy") {
-      position <- floor(cash / price_i)
-      cash <- cash - position * price_i
-    } else if (signal == "sell") {
-      cash <- cash + position * price_i
+  if (!is.na(sig)) {
+    if (sig == "buy") {
+      position_new <- floor(cash / price_i)
+      position <- position + position_new
+      cash     <- cash - position_new * price_i
+    } else if (sig == "sell") {
+      cash     <- cash + position * price_i
       position <- 0
-    } 
+    }
   }
   total_value <- cash + position * price_i
-  portfolio <- bind_rows(portfolio, 
-                         data.frame(date = date_i, 
-                                    price = price_i, 
-                                    position, 
-                                    cash, 
-                                    total_value))
+  portfolio_ma <- bind_rows(portfolio_ma,
+                   data.frame(date = date_i, price = price_i,
+                              position, cash, total_value))
 }
+
+final_ma  <- tail(portfolio_ma$total_value, 1)
+return_ma <- (final_ma - capital) / capital * 100
+cat("MA Strategy — Final Value: NT$", round(final_ma, 0),
+    "| Total Return:", round(return_ma, 2), "%\n")
 ```
 
-## **5. Plot Portfolio Performance**
-
-We plot the evolution of total portfolio value to visualize how the trading strategy performed over time.
+### **2.4. Visualize MA Indicators and Signals**
 
 ```{r}
+#| code-fold: true
+# Mark buy/sell dates for flag annotation
+buy_signals  <- etf_ma_signals |> filter(signal == "buy")
+sell_signals <- etf_ma_signals |> filter(signal == "sell")
+
+highchart(type = "stock") |>
+  hc_title(text = "0050.TW — MA Crossover Signals") |>
+  hc_add_series(etf_ma, type = "line", hcaes(x = date, y = adjusted),
+                name = "0050 Price", color = "#234E70") |>
+  hc_add_series(etf_ma, type = "line", hcaes(x = date, y = MA20),
+                name = "MA20", color = "#E07A5F", dashStyle = "ShortDash") |>
+  hc_add_series(etf_ma, type = "line", hcaes(x = date, y = MA50),
+                name = "MA50", color = "#3D405B", dashStyle = "ShortDot") |>
+  hc_add_series(buy_signals,  type = "scatter", hcaes(x = date, y = adjusted),
+                name = "Buy",  color = "green",  marker = list(symbol = "triangle",   size = 8)) |>
+  hc_add_series(sell_signals, type = "scatter", hcaes(x = date, y = adjusted),
+                name = "Sell", color = "red",    marker = list(symbol = "triangle-down", size = 8)) |>
+  hc_tooltip(valueDecimals = 2, shared = FALSE) |>
+  hc_legend(enabled = T, align = "center", verticalAlign = "bottom") |>
+  hc_add_theme(hc_theme_smpl())
+```
+
+------------------------------------------------------------------------
+
+## 3. RSI Strategy
+
+The **Relative Strength Index (RSI)** measures the speed and change of recent price movements on a scale from 0 to 100. Unlike the MA crossover, which is a trend-following rule, RSI is a **mean-reversion** indicator: extreme readings suggest the asset is overbought or oversold and likely to reverse.
+
+$$RSI = 100 - \frac{100}{1 + RS}, \quad RS = \frac{\text{Average Gain (14 days)}}{\text{Average Loss (14 days)}}$$
+
+The standard thresholds are:
+
+- **RSI \< 30** → oversold → **Buy**
+- **RSI \> 70** → overbought → **Sell**
+
+### **3.1. Compute RSI**
+
+```{r}
+etf_rsi <- etf_data |> 
+  mutate(RSI = RSI(adjusted, n = 14))
+head(etf_rsi)
+```
+
+### **3.2. Generate RSI Signals**
+
+We enter a position when RSI drops below 30 and exit when it rises above 70.
+
+```{r}
+etf_rsi_signals <- etf_rsi |> 
+  mutate(
+    signal = case_when(
+      lag(RSI) >= 30 & RSI < 30  ~ "buy",   # crosses into oversold
+      lag(RSI) <= 70 & RSI > 70  ~ "sell",  # crosses into overbought
+      TRUE ~ NA_character_
+    )
+  )
+
+etf_rsi_signals |> 
+  filter(!is.na(signal)) |> 
+  select(date, adjusted, RSI, signal)
+```
+
+### **3.3. Simulate the RSI Strategy**
+
+```{r}
+position <- 0
+cash     <- capital
+portfolio_rsi <- data.frame()
+
+for (i in seq_len(nrow(etf_rsi_signals))) {
+  date_i  <- etf_rsi_signals$date[i]
+  price_i <- etf_rsi_signals$adjusted[i]
+  sig     <- etf_rsi_signals$signal[i]
+
+  if (!is.na(sig)) {
+    if (sig == "buy") {
+      position_new <- floor(cash / price_i)
+      position <- position + position_new
+      cash     <- cash - position_new * price_i
+    } else if (sig == "sell") {
+      cash     <- cash + position * price_i
+      position <- 0
+    }
+  }
+  total_value <- cash + position * price_i
+  portfolio_rsi <- bind_rows(portfolio_rsi,
+                    data.frame(date = date_i, price = price_i,
+                               position, cash, total_value))
+}
+
+final_rsi  <- tail(portfolio_rsi$total_value, 1)
+return_rsi <- (final_rsi - capital) / capital * 100
+cat("RSI Strategy — Final Value: NT$", round(final_rsi, 0),
+    "| Total Return:", round(return_rsi, 2), "%\n")
+```
+
+### **3.4. Visualize RSI and Signals**
+
+```{r}
+#| code-fold: true
+buy_rsi  <- etf_rsi_signals |> filter(signal == "buy")
+sell_rsi <- etf_rsi_signals |> filter(signal == "sell")
+
+# Panel 1: price with buy/sell markers
+p1 <- highchart(type = "stock") |>
+  hc_title(text = "0050.TW — RSI Strategy Signals") |>
+  hc_add_series(etf_rsi, type = "line", hcaes(x = date, y = adjusted),
+                name = "0050 Price", color = "#234E70") |>
+  hc_add_series(buy_rsi,  type = "scatter", hcaes(x = date, y = adjusted),
+                name = "Buy",  color = "green", marker = list(symbol = "triangle",      size = 8)) |>
+  hc_add_series(sell_rsi, type = "scatter", hcaes(x = date, y = adjusted),
+                name = "Sell", color = "red",   marker = list(symbol = "triangle-down", size = 8)) |>
+  hc_tooltip(valueDecimals = 2) |>
+  hc_legend(enabled = T, align = "center", verticalAlign = "bottom") |>
+  hc_add_theme(hc_theme_smpl())
+
+# Panel 2: RSI oscillator with threshold bands
+p2 <- highchart() |>
+  hc_title(text = "RSI(14) — Overbought / Oversold") |>
+  hc_xAxis(type = "datetime") |>
+  hc_yAxis(min = 0, max = 100,
+           plotLines = list(
+             list(value = 70, color = "red",   dashStyle = "ShortDash", width = 1,
+                  label = list(text = "Overbought (70)", align = "right")),
+             list(value = 30, color = "green", dashStyle = "ShortDash", width = 1,
+                  label = list(text = "Oversold (30)",   align = "right"))
+           )) |>
+  hc_add_series(etf_rsi, type = "line", hcaes(x = date, y = RSI),
+                name = "RSI(14)", color = "#8B5CF6") |>
+  hc_tooltip(valueDecimals = 2) |>
+  hc_add_theme(hc_theme_smpl())
+
+p1
+p2
+```
+
+------------------------------------------------------------------------
+
+## 4. Bollinger Bands Strategy
+
+**Bollinger Bands** place an envelope around a moving average using the rolling standard deviation of prices. When prices hit the *lower band*, the market is considered locally cheap (buy); when prices hit the *upper band*, it is considered locally expensive (sell).
+
+$$\text{Upper Band} = MA_{20} + 2\,\sigma_{20}, \qquad
+\text{Lower Band} = MA_{20} - 2\,\sigma_{20}$$
+
+where $\sigma_{20}$ is the 20-day rolling standard deviation of the adjusted close.
+
+### **4.1. Compute Bollinger Bands**
+
+```{r}
+bb <- BBands(etf_data$adjusted, n = 20, sd = 2)
+
+etf_bb <- etf_data |> 
+  mutate(
+    BB_lower = bb[, "dn"],
+    BB_mid   = bb[, "mavg"],
+    BB_upper = bb[, "up"],
+    pct_b    = bb[, "pctB"]   # percent-B: 0 = lower band, 1 = upper band
+  )
+head(etf_bb)
+```
+
+### **4.2. Generate Bollinger Band Signals**
+
+We buy when price crosses *below* the lower band and sell when price crosses *above* the upper band.
+
+```{r}
+etf_bb_signals <- etf_bb |> 
+  mutate(
+    signal = case_when(
+      lag(adjusted) >= lag(BB_lower) & adjusted < BB_lower ~ "buy",
+      lag(adjusted) <= lag(BB_upper) & adjusted > BB_upper ~ "sell",
+      TRUE ~ NA_character_
+    )
+  )
+
+etf_bb_signals |> 
+  filter(!is.na(signal)) |> 
+  select(date, adjusted, BB_lower, BB_upper, signal)
+```
+
+### **4.3. Simulate the Bollinger Band Strategy**
+
+```{r}
+position <- 0
+cash     <- capital
+portfolio_bb <- data.frame()
+
+for (i in seq_len(nrow(etf_bb_signals))) {
+  date_i  <- etf_bb_signals$date[i]
+  price_i <- etf_bb_signals$adjusted[i]
+  sig     <- etf_bb_signals$signal[i]
+
+  if (!is.na(sig)) {
+    if (sig == "buy") {
+      position_new <- floor(cash / price_i)
+      position <- position + position_new
+      cash     <- cash - position_new * price_i
+    } else if (sig == "sell") {
+      cash     <- cash + position * price_i
+      position <- 0
+    }
+  }
+  total_value <- cash + position * price_i
+  portfolio_bb <- bind_rows(portfolio_bb,
+                   data.frame(date = date_i, price = price_i,
+                              position, cash, total_value))
+}
+
+final_bb  <- tail(portfolio_bb$total_value, 1)
+return_bb <- (final_bb - capital) / capital * 100
+cat("Bollinger Bands Strategy — Final Value: NT$", round(final_bb, 0),
+    "| Total Return:", round(return_bb, 2), "%\n")
+```
+
+### **4.4. Visualize Bollinger Bands and Signals**
+
+```{r}
+#| code-fold: true
+buy_bb  <- etf_bb_signals |> filter(signal == "buy")
+sell_bb <- etf_bb_signals |> filter(signal == "sell")
+
+highchart(type = "stock") |>
+  hc_title(text = "0050.TW — Bollinger Bands Strategy") |>
+  hc_add_series(etf_bb, type = "line", hcaes(x = date, y = adjusted),
+                name = "0050 Price",   color = "#234E70") |>
+  hc_add_series(etf_bb, type = "line", hcaes(x = date, y = BB_upper),
+                name = "Upper Band",   color = "#E07A5F", dashStyle = "ShortDash") |>
+  hc_add_series(etf_bb, type = "line", hcaes(x = date, y = BB_mid),
+                name = "MA20 (Middle)", color = "#9CA3AF", dashStyle = "ShortDot") |>
+  hc_add_series(etf_bb, type = "line", hcaes(x = date, y = BB_lower),
+                name = "Lower Band",   color = "#10B981", dashStyle = "ShortDash") |>
+  hc_add_series(buy_bb,  type = "scatter", hcaes(x = date, y = adjusted),
+                name = "Buy",  color = "green", marker = list(symbol = "triangle",      size = 8)) |>
+  hc_add_series(sell_bb, type = "scatter", hcaes(x = date, y = adjusted),
+                name = "Sell", color = "red",   marker = list(symbol = "triangle-down", size = 8)) |>
+  hc_tooltip(valueDecimals = 2, shared = FALSE) |>
+  hc_legend(enabled = T, align = "center", verticalAlign = "bottom") |>
+  hc_add_theme(hc_theme_smpl())
+```
+
+------------------------------------------------------------------------
+
+## 5. Dollar-Cost Averaging (DCA)
+
+The three strategies above all require market-timing decisions. Dollar-Cost Averaging (DCA) abandons timing entirely. Instead, the investor commits a **fixed amount of money** — say NT\$30,000 — on the first trading day of each month, regardless of whether the market is up or down.
+
+The key insight is that the same fixed amount buys *more shares* when prices are low and *fewer shares* when prices are high, automatically creating a form of anti-cyclical investing.
+
+### **5.1. Simulate Monthly DCA**
+
+We set aside the full NT\$1,000,000 as the cash reserve from day one and deploy NT\$30,000 on the first trading day of each month. Any undeployed cash earns no return (a conservative assumption that ignores money-market interest).
+
+```{r}
+monthly_invest <- 30000       # NT$ invested each month
+total_reserve  <- 1000000     # cash reserve (never more than this deployed in total)
+
+# Identify the first trading day of each month
+first_trading_days <- etf_data |>
+  mutate(ym = format(date, "%Y-%m")) |>
+  group_by(ym) |>
+  slice_min(date, n = 1) |>
+  ungroup() |>
+  select(date) |>
+  pull()
+
+# Simulate DCA
+cash_dca      <- total_reserve
+shares_dca    <- 0
+portfolio_dca <- data.frame()
+total_invested <- 0   # track cumulative cash deployed
+
+for (i in seq_len(nrow(etf_data))) {
+  date_i  <- etf_data$date[i]
+  price_i <- etf_data$adjusted[i]
+
+  # On the first trading day of each month, buy as many whole shares as possible
+  # with the monthly budget (if cash is still available)
+  if (date_i %in% first_trading_days && cash_dca >= monthly_invest) {
+    new_shares  <- floor(monthly_invest / price_i)
+    cost        <- new_shares * price_i
+    shares_dca  <- shares_dca + new_shares
+    cash_dca    <- cash_dca   - cost
+    total_invested <- total_invested + cost
+  }
+
+  total_value <- cash_dca + shares_dca * price_i
+  portfolio_dca <- bind_rows(portfolio_dca,
+                    data.frame(date = date_i, price = price_i,
+                               shares = shares_dca, cash = cash_dca,
+                               total_value, total_invested))
+}
+
+final_dca  <- tail(portfolio_dca$total_value, 1)
+deployed   <- tail(portfolio_dca$total_invested, 1)
+return_dca <- (final_dca - capital) / capital * 100
+cat("DCA Strategy — Final Value: NT$", round(final_dca, 0),
+    "| Total Deployed: NT$", round(deployed, 0),
+    "| Total Return:", round(return_dca, 2), "%\n")
+```
+
+### **5.2. Shares Accumulated Over Time**
+
+Because DCA buys at varying prices, shares accumulate unevenly. Let us visualize how the position builds month by month.
+
+```{r}
+#| code-fold: true
+# Monthly summary: date, shares held, price, value
+portfolio_dca_monthly <- portfolio_dca |>
+  mutate(ym = format(date, "%Y-%m")) |>
+  group_by(ym) |>
+  slice_max(date, n = 1) |>
+  ungroup()
+
 highchart() |>
-  hc_title(text = "Portfolio Value Over Time") |>
-  hc_xAxis(type = "datetime", title = list(text = "Date")) |>
-  hc_yAxis(title = list(text = "Total Value (NT$)")) |>
-  hc_add_series(data = portfolio,
-                type = "line",
+  hc_title(text = "DCA — Shares Accumulated and Portfolio Value") |>
+  hc_xAxis(type = "datetime") |>
+  hc_yAxis_multiples(
+    list(title = list(text = "Shares Held")),
+    list(title = list(text = "Portfolio Value (NT$)"), opposite = TRUE)
+  ) |>
+  hc_add_series(portfolio_dca_monthly, type = "column",
+                hcaes(x = date, y = shares),
+                name = "Shares Held", yAxis = 0, color = "#93C5FD") |>
+  hc_add_series(portfolio_dca_monthly, type = "line",
                 hcaes(x = date, y = total_value),
-                name = "Portfolio Value") |>
-  hc_tooltip(valuePrefix = "NT$", valueDecimals = 0) |> 
-  hc_add_theme(hc_theme_smpl()) |> 
-  hc_legend(enabled = FALSE)
-```
-
-## **6. Final Performance Summary**
-
-We summarize the total return of the strategy from start to end.
-
-```{r}
-final_value <- tail(portfolio$total_value, 1)
-return_pct <- (final_value - capital) / capital * 100
-
-cat("Final Value: NT$", round(final_value, 2), "\n")
-cat("Total Return: ", round(return_pct, 2), "%")
-```
-
-## **7. Retrieve Taiwan Market Index**
-
-To examine systematic risk, we retrieve the TWSE Capitalization Weighted Stock Index (`^TWII`) as a proxy for Taiwan’s stock market.
-
-```{r}
-market_data <- tq_get("^TWII", from = "2023-03-27", to = "2024-04-30") |> 
-  select(date, adjusted) |> 
-  rename(market_price = adjusted)
-head(market_data)
-```
-
-## **8. Simulate Buy-and-Hold Benchmark**
-
-We simulate how the NT\$1,000,000 investment in the TAIEX index grows by holding all shares purchased on the first day to the end.
-
-```{r}
-initial_market_price <- market_data$market_price[1]
-units_held <- floor(1000000 / initial_market_price)
-
-market_benchmark <- market_data |> 
-  mutate(
-    units = units_held,
-    benchmark_value = units * market_price
-  ) |> 
-  select(date, benchmark_value)
-```
-
-## 9. Merge Strategy and Benchmark for Comparison
-
-We combine both performance series (from 0050.TW strategy and TAIEX benchmark) into one table for plotting.
-
-```{r}
-strategy_vs_benchmark <- portfolio |> 
-  select(date, strategy_value = total_value) |> 
-  inner_join(market_benchmark, by = "date")
-head(strategy_vs_benchmark)
-```
-
-We plot both the **strategy portfolio value** and the **benchmark value** over time to visually compare performance.
-
-```{r, message=FALSE}
-highchart() |>
-  hc_title(text = "Strategy vs. Market Benchmark Performance") |>
-  hc_xAxis(type = "datetime", title = list(text = "Date")) |>
-  hc_yAxis(title = list(text = "Portfolio Value (NT$)")) |>
-  hc_add_series(data = strategy_vs_benchmark,
-                type = "line",
-                hcaes(x = date, y = strategy_value),
-                name = "0050 Strategy") |>
-  hc_add_series(data = strategy_vs_benchmark,
-                type = "line",
-                hcaes(x = date, y = benchmark_value),
-                name = "Market Benchmark (TAIEX)") |>
-  hc_tooltip(valuePrefix = "NT$", valueDecimals = 0) |>
-  hc_legend(align = "center", verticalAlign = "bottom") |>
+                name = "Portfolio Value", yAxis = 1, color = "#234E70") |>
+  hc_tooltip(shared = TRUE, valueDecimals = 0) |>
+  hc_legend(enabled = T, align = "center", verticalAlign = "bottom") |>
   hc_add_theme(hc_theme_smpl())
 ```
 
-## 10. Buy-and-Hold Strategy
+### **5.3. Average Cost Per Share**
 
-A **buy-and-hold strategy** is one of the most basic forms of passive investing. The investor purchases an asset and holds it over a specified period, regardless of market fluctuations, with the belief that long-term returns will outweigh short-term volatility.
-
-In this section, we simulate a buy-and-hold approach for `0050.TW`, starting from **March 27, 2023**. This date is chosen arbitrarily within our sample period, and we invest the full capital of **NT\$1,000,000** on that day. We then compare this strategy to:
-
-- The *moving average crossover strategy*
-
-- The *market benchmark* using the TAIEX index
+A defining feature of DCA is the *average cost per share* — the total cash deployed divided by the total shares accumulated. When prices decline mid-period, DCA buys more shares at cheaper prices, lowering the average cost.
 
 ```{r}
-# Filter data from 2023-03-27 onward
-bh_etf_data <- etf_data |> 
-  filter(date >= as.Date("2023-03-27"))
+avg_cost <- deployed / tail(portfolio_dca$shares, 1)
+last_price <- tail(etf_data$adjusted, 1)
 
-# Buy at the first available price on that day
-initial_bh_price <- bh_etf_data$adjusted[1]
-units_bh <- floor(1000000 / initial_bh_price)
-
-# Simulate holding till end
-bh_etf_hold <- bh_etf_data |> 
-  mutate(
-    units = units_bh,
-    bh_etf_value = units * adjusted
-  ) |> 
-  select(date, bh_etf_value)
-
-# Merge with previous strategy and benchmark
-strategy_comparison <- strategy_vs_benchmark |> 
-  left_join(bh_etf_hold, by = "date")
+cat("Total deployed: NT$", round(deployed, 0), "\n")
+cat("Shares accumulated:", tail(portfolio_dca$shares, 1), "\n")
+cat("Average cost per share: NT$", round(avg_cost, 2), "\n")
+cat("Final price: NT$", round(last_price, 2), "\n")
+cat("Unrealized gain per share: NT$", round(last_price - avg_cost, 2), "\n")
 ```
 
-We plot and compare all strategies (Including Buy-and-Hold 0050 from 2023-03-27).
+------------------------------------------------------------------------
 
-```{r, message=FALSE}
+## 6. Buy-and-Hold Benchmark
+
+To make the comparison fair, we need a common benchmark. We invest NT\$1,000,000 in 0050.TW on the first available date and hold to the end.
+
+```{r}
+initial_bh_price <- etf_data$adjusted[1]
+units_bh         <- floor(capital / initial_bh_price)
+cash_bh          <- capital - units_bh * initial_bh_price
+
+bh_portfolio <- etf_data |>
+  mutate(bh_value = cash_bh + units_bh * adjusted) |>
+  select(date, bh_value)
+
+final_bh  <- tail(bh_portfolio$bh_value, 1)
+return_bh <- (final_bh - capital) / capital * 100
+cat("Buy-and-Hold — Final Value: NT$", round(final_bh, 0),
+    "| Total Return:", round(return_bh, 2), "%\n")
+```
+
+------------------------------------------------------------------------
+
+## 7. Grand Strategy Comparison
+
+We now bring all five series together — the three technical strategies, DCA, and buy-and-hold — to compare them on equal footing. Because the strategies start at slightly different points (MA requires 50 days of warm-up; RSI requires 14 days; BB requires 20 days), we align all series from the **first date available in the MA strategy** to ensure a common start.
+
+```{r}
+start_common <- min(portfolio_ma$date)
+
+# Align all portfolios to the common start date
+ma_aligned  <- portfolio_ma |>
+  filter(date >= start_common) |>
+  select(date, MA_Strategy = total_value)
+
+rsi_aligned <- portfolio_rsi |>
+  filter(date >= start_common) |>
+  select(date, RSI_Strategy = total_value)
+
+bb_aligned  <- portfolio_bb |>
+  filter(date >= start_common) |>
+  select(date, BB_Strategy = total_value)
+
+dca_aligned <- portfolio_dca |>
+  filter(date >= start_common) |>
+  select(date, DCA_Strategy = total_value)
+
+bh_aligned  <- bh_portfolio |>
+  filter(date >= start_common) |>
+  select(date, BH_0050 = bh_value)
+
+# Merge all
+comparison <- ma_aligned |>
+  inner_join(rsi_aligned, by = "date") |>
+  inner_join(bb_aligned,  by = "date") |>
+  inner_join(dca_aligned, by = "date") |>
+  inner_join(bh_aligned,  by = "date")
+
+head(comparison)
+```
+
+### **7.1. Portfolio Value Comparison**
+
+```{r}
+#| code-fold: true
 highchart() |>
-  hc_title(text = "Performance Comparison of Investment Strategies") |>
-  hc_xAxis(type = "datetime", title = list(text = "Date")) |>
+  hc_title(text = "Strategy Comparison — Portfolio Value (NT$)") |>
+  hc_subtitle(text = "All strategies start with NT$1,000,000") |>
+  hc_xAxis(type = "datetime") |>
   hc_yAxis(title = list(text = "Portfolio Value (NT$)")) |>
-  hc_add_series(data = strategy_comparison,
-                type = "line",
-                hcaes(x = date, y = strategy_value),
-                name = "MA Strategy") |>
-  hc_add_series(data = strategy_comparison,
-                type = "line",
-                hcaes(x = date, y = benchmark_value),
-                name = "Market Benchmark (TAIEX)") |>
-  hc_add_series(data = strategy_comparison,
-                type = "line",
-                hcaes(x = date, y = bh_etf_value),
-                name = "0050 Buy-and-Hold (from 2023-03-27)") |>
-  hc_tooltip(valuePrefix = "NT$", valueDecimals = 0) |>
-  hc_legend(align = "center", verticalAlign = "bottom") |>
-  hc_add_theme(hc_theme_smpl())
+  hc_add_series(comparison, type = "line",
+                hcaes(x = date, y = MA_Strategy),
+                name = "MA Crossover") |>
+  hc_add_series(comparison, type = "line",
+                hcaes(x = date, y = RSI_Strategy),
+                name = "RSI") |>
+  hc_add_series(comparison, type = "line",
+                hcaes(x = date, y = BB_Strategy),
+                name = "Bollinger Bands") |>
+  hc_add_series(comparison, type = "line",
+                hcaes(x = date, y = DCA_Strategy),
+                name = "DCA") |>
+  hc_add_series(comparison, type = "line",
+                hcaes(x = date, y = BH_0050),
+                name = "Buy-and-Hold") |>
+  hc_tooltip(valuePrefix = "NT$", valueDecimals = 0, shared = TRUE) |>
+  hc_legend(enabled = T, align = "center", verticalAlign = "bottom") |>
+  hc_add_theme(hc_theme_ft())
 ```
+
+### **7.2. Performance Summary Table**
+
+```{r}
+#| code-fold: true
+# Annualized volatility: std dev of daily returns * sqrt(252)
+daily_ret <- comparison |>
+  arrange(date) |>
+  mutate(
+    r_MA  = MA_Strategy  / lag(MA_Strategy)  - 1,
+    r_RSI = RSI_Strategy / lag(RSI_Strategy) - 1,
+    r_BB  = BB_Strategy  / lag(BB_Strategy)  - 1,
+    r_DCA = DCA_Strategy / lag(DCA_Strategy) - 1,
+    r_BH  = BH_0050      / lag(BH_0050)      - 1
+  ) |>
+  na.omit()
+
+n_days   <- nrow(comparison)
+ann_days <- 252
+
+# Mean daily return (annualized) and volatility
+summary_stats <- data.frame(
+  Strategy       = c("MA Crossover", "RSI", "Bollinger Bands",
+                     "DCA", "Buy-and-Hold"),
+  Final_Value    = c(final_ma, final_rsi, final_bb, final_dca, final_bh),
+  Total_Return   = round(c(return_ma, return_rsi, return_bb, return_dca, return_bh), 2),
+  Ann_Vol        = round(c(sd(daily_ret$r_MA),  sd(daily_ret$r_RSI),
+                            sd(daily_ret$r_BB),  sd(daily_ret$r_DCA),
+                            sd(daily_ret$r_BH)) * sqrt(ann_days) * 100, 2),
+  Sharpe         = NA_real_
+)
+
+# Sharpe ratio (assume 0% risk-free rate for simplicity)
+summary_stats$Sharpe <- round(
+  c(mean(daily_ret$r_MA),  mean(daily_ret$r_RSI),
+    mean(daily_ret$r_BB),  mean(daily_ret$r_DCA),
+    mean(daily_ret$r_BH)) /
+  c(sd(daily_ret$r_MA),   sd(daily_ret$r_RSI),
+    sd(daily_ret$r_BB),   sd(daily_ret$r_DCA),
+    sd(daily_ret$r_BH)) * sqrt(ann_days), 2)
+
+summary_stats$Final_Value <- paste0("NT$", formatC(round(summary_stats$Final_Value),
+                                                    format = "d", big.mark = ","))
+
+knitr::kable(summary_stats,
+             col.names = c("Strategy", "Final Value", "Total Return (%)",
+                           "Ann. Volatility (%)", "Sharpe Ratio"),
+             align = "lrrrr",
+             caption = "Performance Summary — All Strategies")
+```
+
+------------------------------------------------------------------------
+
+## 8. Discussion: What Does This Tell Us?
+
+### 8.1. Timing strategies vs. passive accumulation
+
+The three technical strategies (MA, RSI, Bollinger Bands) all require the investor to be *out of the market* for some stretches. That idle cash earns nothing in our simulation. DCA, by contrast, is always *partially* in the market — it accumulates shares steadily, month by month.
+
+### 8.2. The DCA perspective
+
+DCA is not designed to maximize returns during a bull market — it will lag a lump-sum buy-and-hold when prices trend up monotonically. Its strength lies in **reducing the regret risk** of investing a large lump sum at a market peak. Consider two scenarios:
+
+- **Lump-sum investor** who puts in NT\$1M on January 2, 2023.
+- **DCA investor** who puts in NT\$20,000 per month from the same date.
+
+If prices fall mid-year, the DCA investor buys additional shares at the lower price, effectively lowering their average cost. The lump-sum investor is fully exposed from day one and cannot benefit from the dip.
+
+### 8.3. Risk-adjusted performance
+
+The Sharpe ratio is the classic tool for comparing strategies that carry different levels of volatility. A strategy with a lower raw return but much lower volatility can have a *higher* Sharpe ratio than a more volatile winner. Look at the summary table above for the full picture.
+
+### What we ignored
+
+All simulations above share several unrealistic assumptions that a real investor must account for:
+
+- **Transaction costs**: brokerage commissions, securities transaction taxes (0.3% in Taiwan on sales), and market impact.
+- **Slippage**: we assume trades execute at the daily close price, which is never guaranteed.
+- **Bid-ask spread**: 0050.TW is highly liquid, but the spread still exists.
+- **Opportunity cost of idle cash**: in the MA and RSI strategies, cash held between signals earns nothing.
+
+------------------------------------------------------------------------
 
 ## Alternative Strategy Designs and Student Exercise
 
-While the moving average crossover and buy-and-hold strategies are intuitive and widely used, they come with limitations. The crossover strategy may lag during fast trend reversals, and buy-and-hold ignores downside risk. Therefore, exploring alternative designs can improve robustness and risk-adjusted performance.
+### 💡 Suggested Extensions
 
-### 💡 Suggested Alternative Strategies
-
-1.  **Dual Moving Average with Stop-Loss**: Add a 10% stop-loss rule to the existing crossover logic to limit downside exposure.
-2.  **Momentum-Based Allocation**: Rebalance between 0050.TW and a risk-free proxy (e.g., Taiwan 10-year bond ETF) based on recent return momentum.
-3.  **Volatility-Adjusted Strategy**: Increase or decrease position sizes depending on realized volatility to manage risk exposure dynamically.
-4.  **Mean Reversion Strategy**: Use Bollinger Bands or RSI (Relative Strength Index) to capture short-term reversal patterns instead of trend following.
-5.  **Calendar-Based Rotation**: Invest only during historically strong months (e.g., November–April) and stay in cash otherwise (based on seasonality studies).
+1.  **RSI with MA filter**: only act on RSI signals when the price is above MA200 (trending up). This avoids buying into a falling knife.
+2.  **MACD**: the `MACD()` function in TTR computes the Moving Average Convergence/Divergence oscillator, which generates its own crossover signals.
+3.  **Stochastic Oscillator**: `stoch()` in TTR. Similar logic to RSI but tracks where a closing price sits relative to its recent high-low range.
+4.  **DCA with a Boost**: stick to NT\$20,000/month normally, but invest NT\$40,000 whenever RSI \< 30 (doubling down when the market is oversold).
+5.  **Value Averaging**: a variant of DCA where the target portfolio value grows by a fixed amount each month; you invest more when the market falls and less (or even sell) when it rises too fast.
 
 ### 🧠 Student Exercise
 
-Design your own simple trading strategy for 0050.TW using R. Your task:
+Design and backtest your own strategy for 0050.TW. Your task:
 
-1.  **Define a Trading Rule**: Based on moving averages, technical indicators, or calendar effects.
-2.  **Implement It**: Modify the simulation logic provided above using `tidyquant`, `TTR`, or your own rules.
-3.  **Benchmark It**: Compare your strategy's performance to the original moving average strategy and the buy-and-hold benchmarks.
-4.  **Visualize and Interpret**: Plot your strategy vs. the benchmark and explain why it performs better or worse.
+1.  **Define a rule**: use a technical indicator from TTR, a calendar effect, or a DCA variant.
+2.  **Implement it**: adapt one of the simulation loops above.
+3.  **Benchmark it**: compare to MA crossover, buy-and-hold, and DCA.
+4.  **Visualize**: plot all series on one highcharter chart.
+5.  **Summarize**: report final value, total return, annualized volatility, and Sharpe ratio.
+6.  **Reflect**: in one paragraph, explain *why* your strategy did better or worse, and what you would change next.

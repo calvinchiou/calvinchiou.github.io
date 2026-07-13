@@ -1,0 +1,899 @@
+---
+title: "R Note 6 - Optimal Portfolios: From Theory to Reality"
+author: 
+  - name: "Asst. Prof. Calvin J. Chiou"
+    email: jjchiou@nccu.edu.tw
+    affiliations: 
+    - name: "National Chengchi University (NCCU)"
+
+format: 
+  html: 
+    toc: true
+    toc-depth: 3
+    toc-location: right
+    number-sections: false
+    self-contained: true
+    highlight-style: github
+editor: visual
+bibliography: references.bib
+---
+
+```{r, include=FALSE}
+library(tidyquant)
+library(tidyverse)
+library(lubridate)
+library(highcharter)
+library(ggplot2)
+library(ggthemes)
+library(DT)
+library(quadprog)   # Quadratic programming for constrained optimization
+library(MASS)       # mvrnorm for simulation (note: masks dplyr::select if loaded after)
+# Re-attach dplyr functions in case MASS masks them
+select <- dplyr::select
+```
+
+## Introduction
+
+In Note 2 we formed an *equal-weighted* portfolio of four stocks. In Note 5 we sorted stocks into terciles based on lottery characteristics. Neither approach asked the most fundamental question in portfolio theory:
+
+> **What weights** $w_1, w_2, \ldots, w_N$ **should we choose to get the best risk-return trade-off?**
+
+This is the question @markowitz1952portfolio answered in 1952, and the answer earned him a Nobel Prize in 1990. The theory is mathematically beautiful: given expected returns $\boldsymbol{\mu}$ and covariance matrix $\boldsymbol{\Sigma}$, there is a unique set of *efficient* portfolios that maximize expected return for any chosen level of risk.
+
+But the theory has a famous problem when meeting real data. As we shall see, mean-variance optimization is so sensitive to estimation error in $\boldsymbol{\mu}$ and $\boldsymbol{\Sigma}$ that — *out of sample* — naive 1/N equal-weighting often beats sophisticated optimized portfolios [@demiguel2009optimal]. This finding shook the practical portfolio-construction literature and motivated a wave of robust portfolio methods.
+
+This note has six aims:
+
+1.  Build the **efficient frontier** for a small set of assets, using both simulated and real data.
+2.  Introduce the **risk-free asset** and the **tangency portfolio**, linking back to the CAPM intuition from Note 3.
+3.  Solve constrained optimization problems with `quadprog::solve.QP()`.
+4.  Demonstrate the **Markowitz curse**: optimized portfolios that look beautiful *in sample* often disappoint *out of sample*.
+5.  Replicate the @demiguel2009optimal "1/N beats optimization" finding on Taiwanese data.
+6.  Discuss **robust portfolio construction**: the global minimum variance (GMV) portfolio, shrinkage covariance estimation, and the intuition of @black1992global.
+
+## 1. The Two Building Blocks: $\boldsymbol{\mu}$ and $\boldsymbol{\Sigma}$
+
+A portfolio of $N$ assets with weights $\mathbf{w} = (w_1, \ldots, w_N)^\top$ summing to one has:
+
+::: {.callout-note title="Portfolio mean and variance"}
+$$\mu_p = \mathbf{w}^\top \boldsymbol{\mu}, \qquad
+\sigma_p^2 = \mathbf{w}^\top \boldsymbol{\Sigma} \mathbf{w}$$
+:::
+
+Everything else in this note flows from these two equations. Notice the asymmetry:
+
+- $\mu_p$ is *linear* in weights — easy.
+- $\sigma_p^2$ is *quadratic* in weights — and this is what makes optimization interesting.
+
+This is also why diversification works (Note 2 & 3): cross-asset covariances enter $\sigma_p^2$ but not $\mu_p$.
+
+## 2. Building the Efficient Frontier — Simulated Assets First
+
+Before touching real data, we build intuition with four synthetic assets whose $\boldsymbol{\mu}$ and $\boldsymbol{\Sigma}$ we *choose*. This way we know the truth and can see the frontier clearly.
+
+### 2.1 Designing the Simulated Universe
+
+```{r}
+set.seed(42)
+# Four assets with chosen monthly expected returns
+mu_sim <- c(A = 0.005,   # Defensive: low return, low risk
+            B = 0.010,
+            C = 0.015,
+            D = 0.020)   # Aggressive: high return, high risk
+
+# Volatility vector (monthly)
+sigma_sim <- c(A = 0.03, B = 0.05, C = 0.07, D = 0.10)
+
+# Correlation matrix - moderate positive correlations
+rho_sim <- matrix(c(
+  1.0, 0.3, 0.2, 0.1,
+  0.3, 1.0, 0.4, 0.2,
+  0.2, 0.4, 1.0, 0.5,
+  0.1, 0.2, 0.5, 1.0
+), nrow = 4, byrow = TRUE)
+dimnames(rho_sim) <- list(names(mu_sim), names(mu_sim))
+
+# Convert to covariance matrix: Sigma = diag(sigma) %*% rho %*% diag(sigma)
+Sigma_sim <- diag(sigma_sim) %*% rho_sim %*% diag(sigma_sim)
+dimnames(Sigma_sim) <- list(names(mu_sim), names(mu_sim))
+
+round(Sigma_sim, 5)
+```
+
+### 2.2 Plotting the Frontier by Brute Force
+
+The simplest way to *see* the efficient frontier is to generate thousands of random weight vectors, compute each portfolio's $(\sigma_p, \mu_p)$, and plot the cloud. The upper-left envelope of the cloud is the efficient frontier.
+
+```{r}
+# Helper functions
+port_mean <- function(w, mu) sum(w * mu)
+port_sd   <- function(w, Sigma) sqrt(as.numeric(t(w) %*% Sigma %*% w))
+
+# Generate random long-only weights using a Dirichlet-style trick
+n_sim <- 5000
+rand_weights <- matrix(runif(n_sim * length(mu_sim)), ncol = length(mu_sim))
+rand_weights <- rand_weights / rowSums(rand_weights)  # normalise rows to sum to 1
+
+cloud <- tibble(
+  sigma = apply(rand_weights, 1, port_sd,   Sigma = Sigma_sim),
+  mu    = apply(rand_weights, 1, port_mean, mu    = mu_sim)
+)
+
+# Individual assets, for plotting alongside the cloud
+assets <- tibble(name = names(mu_sim), mu = mu_sim, sigma = sigma_sim)
+```
+
+```{r, include=FALSE}
+ggplot(cloud, aes(x = sigma, y = mu)) +
+  geom_point(alpha = 0.15, colour = "steelblue", size = 0.6) +
+  geom_point(data = assets, aes(x = sigma, y = mu), 
+             colour = "red", size = 3) +
+  geom_text(data = assets, aes(x = sigma, y = mu, label = name),
+            hjust = -0.5, vjust = -0.2, size = 4.5) +
+  labs(title = "Random portfolios of four simulated assets",
+       subtitle = "Upper-left envelope = efficient frontier",
+       x = "Portfolio volatility (monthly)",
+       y = "Portfolio expected return (monthly)") +
+  theme_minimal(base_size = 12)
+```
+
+```{r}
+#| code-fold: true
+highchart() |> 
+  hc_title(text = "Random portfolios of four simulated assets") |> 
+  hc_subtitle(text = "Upper-left envelope = efficient frontier") |> 
+  hc_xAxis(title = list(text = "Portfolio volatility (monthly)")) |> 
+  hc_yAxis(title = list(text = "Portfolio expected return (monthly)")) |> 
+  hc_add_series(data = cloud, type = "scatter",
+                hcaes(x = sigma, y = mu),
+                name = "Random portfolios",
+                color = "rgba(70, 130, 180, 0.25)",
+                marker = list(radius = 2)) |> 
+  hc_add_series(data = assets, type = "scatter",
+                hcaes(x = sigma, y = mu),
+                name = "Assets",
+                color = "red",
+                marker = list(radius = 6),
+                dataLabels = list(enabled = TRUE,
+                                  format = "{point.name}",
+                                  align = "left",
+                                  x = 8, y = -4)) |> 
+  hc_tooltip(pointFormat = "&sigma; = {point.x:.4f}<br>&mu; = {point.y:.4f}") |> 
+  hc_legend(enabled = FALSE) |> 
+  hc_add_theme(hc_theme_smpl())
+```
+
+A few things to notice:
+
+- The four red dots are the *individual* asset $(\sigma, \mu)$ positions.
+- The blue cloud is what you get by mixing them. Most random portfolios sit *inside* the frontier — they are sub-optimal.
+- The upper-left edge of the cloud is the **efficient frontier**: portfolios that maximize $\mu_p$ for each level of $\sigma_p$.
+
+### 2.3 The Closed-Form Frontier (Two-Fund Separation)
+
+The cloud is intuitive but ugly. The textbook approach is much more elegant: given any two distinct frontier portfolios, every other frontier portfolio is a linear combination of them. So we only need to compute **two** points, and then sweep across.
+
+The cleanest two are:
+
+1.  The **global minimum variance (GMV)** portfolio: $\mathbf{w}_{GMV} = \dfrac{\boldsymbol{\Sigma}^{-1} \mathbf{1}}{\mathbf{1}^\top \boldsymbol{\Sigma}^{-1} \mathbf{1}}$
+2.  Any other efficient portfolio — for example, the one targeting return $\mu^\star = \max(\boldsymbol{\mu})$.
+
+::: {.callout-note title="GMV formula"}
+The GMV portfolio minimizes $\mathbf{w}^\top \boldsymbol{\Sigma} \mathbf{w}$ subject only to $\mathbf{w}^\top \mathbf{1} = 1$. The closed-form solution uses the inverse covariance matrix.
+:::
+
+```{r}
+ones <- rep(1, length(mu_sim))
+Sigma_inv <- solve(Sigma_sim)
+
+# Global minimum variance portfolio
+w_gmv <- (Sigma_inv %*% ones) / as.numeric(t(ones) %*% Sigma_inv %*% ones)
+w_gmv <- as.numeric(w_gmv)
+names(w_gmv) <- names(mu_sim)
+round(w_gmv, 3)
+
+cat(sprintf("GMV portfolio: mu = %.4f, sigma = %.4f\n",
+            port_mean(w_gmv, mu_sim), port_sd(w_gmv, Sigma_sim)))
+```
+
+To trace out the full frontier, we solve for the minimum-variance portfolio at every target return $\mu^\star$. This is a quadratic program:
+
+$$\min_{\mathbf{w}} \tfrac{1}{2}\, \mathbf{w}^\top \boldsymbol{\Sigma} \mathbf{w} 
+\quad \text{subject to} \quad 
+\mathbf{w}^\top \boldsymbol{\mu} = \mu^\star, \;\; \mathbf{w}^\top \mathbf{1} = 1.$$
+
+For the *unconstrained* (allow short-selling) version, the solution has a closed form. For the *long-only* version, we need a numerical solver like `quadprog::solve.QP()`.
+
+```{r}
+# Sweep target returns across a sensible range
+mu_targets <- seq(min(mu_sim), max(mu_sim), length.out = 50)
+
+# Long-only frontier via quadprog
+frontier_long_only <- map_dfr(mu_targets, function(mu_star) {
+  Dmat <- 2 * Sigma_sim
+  dvec <- rep(0, length(mu_sim))
+  # Constraints: sum(w) = 1, mu' w = mu_star, w >= 0
+  Amat <- cbind(rep(1, length(mu_sim)),    # sum to 1
+                mu_sim,                     # target return
+                diag(length(mu_sim)))       # no short-selling
+  bvec <- c(1, mu_star, rep(0, length(mu_sim)))
+  
+  sol <- tryCatch(
+    solve.QP(Dmat, dvec, Amat, bvec, meq = 2),
+    error = function(e) NULL
+  )
+  if (is.null(sol)) return(NULL)
+  
+  w <- sol$solution
+  tibble(mu_star = mu_star,
+         sigma   = port_sd(w, Sigma_sim),
+         mu      = port_mean(w, mu_sim),
+         type    = "Long-only frontier")
+})
+
+# Closed-form unconstrained (shorting allowed) frontier
+# Uses the two-fund theorem: w = lambda * Sigma^{-1} * mu + gamma * Sigma^{-1} * 1
+# Solve for (lambda, gamma) from the two constraints
+A <- as.numeric(t(ones) %*% Sigma_inv %*% ones)
+B <- as.numeric(t(ones) %*% Sigma_inv %*% mu_sim)
+C <- as.numeric(t(mu_sim) %*% Sigma_inv %*% mu_sim)
+D <- A * C - B^2
+
+frontier_unconstrained <- map_dfr(mu_targets, function(mu_star) {
+  lambda <- (A * mu_star - B) / D
+  gamma  <- (C - B * mu_star) / D
+  w <- lambda * (Sigma_inv %*% mu_sim) + gamma * (Sigma_inv %*% ones)
+  w <- as.numeric(w)
+  tibble(mu_star = mu_star,
+         sigma   = port_sd(w, Sigma_sim),
+         mu      = port_mean(w, mu_sim),
+         type    = "Unconstrained frontier")
+})
+
+frontiers <- bind_rows(frontier_long_only, frontier_unconstrained)
+
+
+```
+
+```{r, include=FALSE}
+# ggplot2 version
+ggplot() +
+  geom_point(data = cloud, aes(x = sigma, y = mu), 
+             alpha = 0.10, colour = "grey50", size = 0.5) +
+  geom_line(data = frontiers, aes(x = sigma, y = mu, colour = type),
+            linewidth = 1.1) +
+  geom_point(data = assets, aes(x = sigma, y = mu), 
+             colour = "red", size = 3) +
+  geom_text(data = assets, aes(x = sigma, y = mu, label = name),
+            hjust = -0.5, vjust = -0.2, size = 4.5) +
+  annotate("point", 
+           x = port_sd(w_gmv, Sigma_sim), 
+           y = port_mean(w_gmv, mu_sim),
+           colour = "darkgreen", size = 4, shape = 18) +
+  annotate("text",
+           x = port_sd(w_gmv, Sigma_sim),
+           y = port_mean(w_gmv, mu_sim),
+           label = " GMV", hjust = -0.2, colour = "darkgreen", size = 4) +
+  scale_colour_manual(values = c("Long-only frontier" = "#1F3A5F",
+                                 "Unconstrained frontier" = "#D9534F")) +
+  labs(title = "Efficient frontier: long-only vs. unconstrained",
+       x = "Portfolio volatility (monthly)",
+       y = "Portfolio expected return (monthly)",
+       colour = NULL) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+#| code-fold: true
+# GMV point as its own one-row tibble so we can add it as a series
+gmv_point <- tibble(sigma = port_sd(w_gmv, Sigma_sim),
+                    mu    = port_mean(w_gmv, mu_sim),
+                    name  = "GMV")
+
+highchart() |> 
+  hc_title(text = "Efficient frontier: long-only vs. unconstrained") |> 
+  hc_xAxis(title = list(text = "Portfolio volatility (monthly)")) |> 
+  hc_yAxis(title = list(text = "Portfolio expected return (monthly)")) |> 
+  hc_add_series(data = cloud, type = "scatter",
+                hcaes(x = sigma, y = mu),
+                name = "Random portfolios",
+                color = "rgba(120, 120, 120, 0.25)",
+                marker = list(radius = 1.5),
+                showInLegend = FALSE) |> 
+  hc_add_series(data = frontier_long_only, type = "line",
+                hcaes(x = sigma, y = mu),
+                name = "Long-only frontier",
+                color = "#1F3A5F",
+                lineWidth = 2.5,
+                marker = list(enabled = FALSE)) |> 
+  hc_add_series(data = frontier_unconstrained, type = "line",
+                hcaes(x = sigma, y = mu),
+                name = "Unconstrained frontier",
+                color = "#D9534F",
+                lineWidth = 2.5,
+                marker = list(enabled = FALSE)) |> 
+  hc_add_series(data = assets, type = "scatter",
+                hcaes(x = sigma, y = mu),
+                name = "Assets",
+                color = "red",
+                marker = list(radius = 6),
+                dataLabels = list(enabled = TRUE,
+                                  format = "{point.name}",
+                                  align = "left", x = 8, y = -4),
+                showInLegend = FALSE) |> 
+  hc_add_series(data = gmv_point, type = "scatter",
+                hcaes(x = sigma, y = mu),
+                name = "GMV",
+                color = "darkgreen",
+                marker = list(symbol = "diamond", radius = 7),
+                dataLabels = list(enabled = TRUE,
+                                  format = "{point.name}",
+                                  align = "left", x = 10, y = -4,
+                                  style = list(color = "darkgreen"))) |> 
+  hc_tooltip(pointFormat = "&sigma; = {point.x:.4f}<br>&mu; = {point.y:.4f}") |> 
+  hc_legend(align = "center", verticalAlign = "bottom") |> 
+  hc_add_theme(hc_theme_smpl())
+```
+
+Three observations:
+
+1.  Allowing short-selling (the red curve) *extends* the frontier — you can reach return targets that the long-only constraint blocks.
+2.  Both curves pass through the **GMV portfolio** (green diamond) at the leftmost point.
+3.  Above the GMV is the *efficient* portion of the frontier; below it is *inefficient* (same risk, lower return — never optimal).
+
+## 3. Adding a Risk-Free Asset: The Tangency Portfolio and the CML
+
+Suppose investors can also hold (or borrow at) a risk-free rate $r_f$. The opportunity set now contains all *combinations* of the risk-free asset with any risky portfolio. Geometrically: for any risky portfolio at $(\sigma, \mu)$, mixing with $r_f$ traces a straight line through $(0, r_f)$ and $(\sigma, \mu)$.
+
+The line with the **highest slope** dominates all others. That slope is the **Sharpe ratio**, and the risky portfolio that achieves it is the **tangency portfolio** — so called because the line is tangent to the efficient frontier.
+
+::: {.callout-note title="Tangency portfolio (unconstrained)"}
+$$\mathbf{w}_{\text{tan}} \propto \boldsymbol{\Sigma}^{-1} (\boldsymbol{\mu} - r_f \mathbf{1}),$$ normalized so weights sum to one.
+:::
+
+```{r}
+rf <- 0.001  # monthly risk-free rate (~1.2% annualized, roughly Taiwan T-bill territory)
+
+# Tangency portfolio
+excess <- mu_sim - rf
+w_tan <- Sigma_inv %*% excess
+w_tan <- as.numeric(w_tan / sum(w_tan))
+names(w_tan) <- names(mu_sim)
+
+tan_mu    <- port_mean(w_tan, mu_sim)
+tan_sigma <- port_sd(w_tan, Sigma_sim)
+sharpe    <- (tan_mu - rf) / tan_sigma
+
+cat(sprintf("Tangency portfolio: mu = %.4f, sigma = %.4f, Sharpe = %.3f\n",
+            tan_mu, tan_sigma, sharpe))
+round(w_tan, 3)
+```
+
+The **Capital Market Line (CML)** is the line from $(0, r_f)$ through the tangency portfolio:
+
+```{r}
+cml <- tibble(sigma = seq(0, max(frontier_unconstrained$sigma), length.out = 100)) |> 
+  mutate(mu = rf + sharpe * sigma)
+```
+
+```{r, include=FALSE}
+ggplot() +
+  geom_line(data = frontier_unconstrained, aes(x = sigma, y = mu),
+            colour = "#1F3A5F", linewidth = 1.0) +
+  geom_line(data = cml, aes(x = sigma, y = mu),
+            colour = "#D9534F", linewidth = 1.0, linetype = "dashed") +
+  geom_point(data = assets, aes(x = sigma, y = mu),
+             colour = "red", size = 3) +
+  geom_text(data = assets, aes(x = sigma, y = mu, label = name),
+            hjust = -0.5, vjust = -0.2, size = 4.5) +
+  annotate("point", x = tan_sigma, y = tan_mu,
+           colour = "darkgreen", size = 4, shape = 18) +
+  annotate("text",  x = tan_sigma, y = tan_mu,
+           label = " Tangency", hjust = -0.2, colour = "darkgreen", size = 4) +
+  annotate("point", x = 0, y = rf, colour = "black", size = 3) +
+  annotate("text",  x = 0, y = rf, label = "  Rf",
+           hjust = -0.4, colour = "black", size = 4) +
+  labs(title = "Efficient frontier + Capital Market Line",
+       subtitle = "Investors optimally hold a mix of Rf and the tangency portfolio",
+       x = "Portfolio volatility (monthly)",
+       y = "Portfolio expected return (monthly)") +
+  theme_minimal(base_size = 12)
+```
+
+```{r}
+#| code-fold: true
+tangency_point <- tibble(sigma = tan_sigma, mu = tan_mu, name = "Tangency")
+rf_point       <- tibble(sigma = 0,         mu = rf,     name = "Rf")
+
+highchart() |> 
+  hc_title(text = "Efficient frontier + Capital Market Line") |> 
+  hc_subtitle(text = "Investors optimally hold a mix of Rf and the tangency portfolio") |> 
+  hc_xAxis(title = list(text = "Portfolio volatility (monthly)")) |> 
+  hc_yAxis(title = list(text = "Portfolio expected return (monthly)")) |> 
+  hc_add_series(data = frontier_unconstrained, type = "line",
+                hcaes(x = sigma, y = mu),
+                name = "Efficient frontier",
+                color = "#1F3A5F", lineWidth = 2.5,
+                marker = list(enabled = FALSE)) |> 
+  hc_add_series(data = cml, type = "line",
+                hcaes(x = sigma, y = mu),
+                name = "Capital Market Line",
+                color = "#D9534F", lineWidth = 2.5,
+                dashStyle = "ShortDash",
+                marker = list(enabled = FALSE)) |> 
+  hc_add_series(data = assets, type = "scatter",
+                hcaes(x = sigma, y = mu),
+                name = "Assets",
+                color = "red", marker = list(radius = 6),
+                dataLabels = list(enabled = TRUE,
+                                  format = "{point.name}",
+                                  align = "left", x = 8, y = -4),
+                showInLegend = FALSE) |> 
+  hc_add_series(data = tangency_point, type = "scatter",
+                hcaes(x = sigma, y = mu),
+                name = "Tangency",
+                color = "darkgreen",
+                marker = list(symbol = "diamond", radius = 7),
+                dataLabels = list(enabled = TRUE,
+                                  format = "{point.name}",
+                                  align = "left", x = 10, y = -4,
+                                  style = list(color = "darkgreen"))) |> 
+  hc_add_series(data = rf_point, type = "scatter",
+                hcaes(x = sigma, y = mu),
+                name = "Rf",
+                color = "black", marker = list(radius = 6),
+                dataLabels = list(enabled = TRUE,
+                                  format = "{point.name}",
+                                  align = "left", x = 10, y = -4)) |> 
+  hc_tooltip(pointFormat = "&sigma; = {point.x:.4f}<br>&mu; = {point.y:.4f}") |> 
+  hc_legend(align = "center", verticalAlign = "bottom") |> 
+  hc_add_theme(hc_theme_smpl())
+```
+
+### Connection back to CAPM
+
+This is exactly the picture from Note 3. Under CAPM assumptions (all investors share $\boldsymbol{\mu}, \boldsymbol{\Sigma}$, all face the same $r_f$), every investor holds some mix of $r_f$ and the tangency portfolio. The tangency portfolio must therefore equal the **market portfolio** in equilibrium — and that is where the CAPM beta of Note 3 comes from. The two-fund separation theorem of @markowitz1952portfolio is the foundation on which @sharpe1964capital built CAPM.
+
+## 4. The Same Exercise with Real Taiwanese Data
+
+Now we replace simulated $(\boldsymbol{\mu}, \boldsymbol{\Sigma})$ with sample estimates from real Taiwanese stocks.
+
+```{r, message=FALSE, warning=FALSE}
+tickers <- c("2330.TW", "2317.TW", "2454.TW", "2412.TW", "2882.TW",
+             "1303.TW", "2891.TW", "2207.TW", "1216.TW", "3008.TW")
+
+prices <- tq_get(tickers, from = "2020-01-01", to = "2024-04-30") |> 
+  select(symbol, date, adjusted)
+
+# Monthly returns
+monthly_ret_long <- prices |> 
+  mutate(year_month = floor_date(date, "month")) |> 
+  group_by(symbol, year_month) |> 
+  summarise(month_close = last(adjusted), .groups = "drop") |> 
+  group_by(symbol) |> 
+  arrange(year_month) |> 
+  mutate(ret = month_close / lag(month_close) - 1) |> 
+  ungroup() |> 
+  drop_na(ret)
+
+# Wide format (date x symbol) for matrix-friendly computation
+ret_wide <- monthly_ret_long |> 
+  select(year_month, symbol, ret) |> 
+  pivot_wider(names_from = symbol, values_from = ret) |> 
+  drop_na() |> 
+  arrange(year_month)
+
+datatable(ret_wide) |> 
+  formatRound(columns = 2:ncol(ret_wide), digits = 4)
+```
+
+### Sample $\boldsymbol{\mu}$ and $\boldsymbol{\Sigma}$
+
+```{r}
+ret_matrix <- as.matrix(ret_wide |> select(-year_month))
+mu_hat    <- colMeans(ret_matrix)
+Sigma_hat <- cov(ret_matrix)
+
+round(mu_hat, 4)
+round(Sigma_hat, 5)
+```
+
+### Building the Sample Frontier
+
+```{r}
+n_assets <- length(mu_hat)
+ones_h   <- rep(1, n_assets)
+Sigma_hat_inv <- solve(Sigma_hat)
+
+# GMV
+w_gmv_h <- (Sigma_hat_inv %*% ones_h) / 
+           as.numeric(t(ones_h) %*% Sigma_hat_inv %*% ones_h)
+w_gmv_h <- as.numeric(w_gmv_h)
+names(w_gmv_h) <- names(mu_hat)
+
+# Tangency
+rf_monthly <- 0.001
+excess_h   <- mu_hat - rf_monthly
+w_tan_h    <- Sigma_hat_inv %*% excess_h
+w_tan_h    <- as.numeric(w_tan_h / sum(w_tan_h))
+names(w_tan_h) <- names(mu_hat)
+
+cat("GMV weights:\n");      print(round(w_gmv_h, 3))
+cat("\nTangency weights:\n"); print(round(w_tan_h, 3))
+```
+
+> **A first warning sign.** Look at the magnitudes of the tangency weights. With unconstrained (short-allowed) optimization, sample-based tangency portfolios *almost always* produce extreme weights — heavily long some stocks, heavily short others. This is not because the mathematics is wrong; it is because $\boldsymbol{\mu}$ is estimated with enormous uncertainty. We will return to this in Section 5.
+
+```{r}
+# Sample frontier via quadprog (long-only) and closed-form (unconstrained)
+mu_targets_h <- seq(min(mu_hat), max(mu_hat), length.out = 50)
+
+frontier_h_long <- map_dfr(mu_targets_h, function(mu_star) {
+  Dmat <- 2 * Sigma_hat
+  dvec <- rep(0, n_assets)
+  Amat <- cbind(rep(1, n_assets), mu_hat, diag(n_assets))
+  bvec <- c(1, mu_star, rep(0, n_assets))
+  sol <- tryCatch(solve.QP(Dmat, dvec, Amat, bvec, meq = 2), error = function(e) NULL)
+  if (is.null(sol)) return(NULL)
+  w <- sol$solution
+  tibble(sigma = port_sd(w, Sigma_hat), mu = port_mean(w, mu_hat),
+         type = "Long-only frontier")
+})
+
+A_h <- as.numeric(t(ones_h) %*% Sigma_hat_inv %*% ones_h)
+B_h <- as.numeric(t(ones_h) %*% Sigma_hat_inv %*% mu_hat)
+C_h <- as.numeric(t(mu_hat) %*% Sigma_hat_inv %*% mu_hat)
+D_h <- A_h * C_h - B_h^2
+
+frontier_h_unc <- map_dfr(mu_targets_h, function(mu_star) {
+  lambda <- (A_h * mu_star - B_h) / D_h
+  gamma  <- (C_h - B_h * mu_star) / D_h
+  w <- lambda * (Sigma_hat_inv %*% mu_hat) + gamma * (Sigma_hat_inv %*% ones_h)
+  w <- as.numeric(w)
+  tibble(sigma = port_sd(w, Sigma_hat), mu = port_mean(w, mu_hat),
+         type = "Unconstrained frontier")
+})
+
+assets_h <- tibble(name  = names(mu_hat),
+                   mu    = mu_hat,
+                   sigma = sqrt(diag(Sigma_hat)))
+```
+
+```{r, include=FALSE}
+ggplot() +
+  geom_line(data = bind_rows(frontier_h_long, frontier_h_unc),
+            aes(x = sigma, y = mu, colour = type), linewidth = 1.0) +
+  geom_point(data = assets_h, aes(x = sigma, y = mu), colour = "red", size = 2.5) +
+  geom_text(data = assets_h, aes(x = sigma, y = mu, label = name),
+            hjust = -0.2, vjust = -0.4, size = 3) +
+  annotate("point",
+           x = port_sd(w_gmv_h, Sigma_hat), y = port_mean(w_gmv_h, mu_hat),
+           colour = "darkgreen", size = 4, shape = 18) +
+  annotate("text",
+           x = port_sd(w_gmv_h, Sigma_hat), y = port_mean(w_gmv_h, mu_hat),
+           label = " GMV", hjust = -0.2, colour = "darkgreen", size = 4) +
+  scale_colour_manual(values = c("Long-only frontier" = "#1F3A5F",
+                                 "Unconstrained frontier" = "#D9534F")) +
+  labs(title = "Sample efficient frontier: 10 Taiwan large-caps (2020-2024)",
+       x = "Portfolio volatility (monthly)",
+       y = "Portfolio expected return (monthly)",
+       colour = NULL) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+#| code-fold: true
+gmv_point_h <- tibble(sigma = port_sd(w_gmv_h, Sigma_hat),
+                      mu    = port_mean(w_gmv_h, mu_hat),
+                      name  = "GMV")
+
+highchart() |> 
+  hc_title(text = "Sample efficient frontier: 10 Taiwan large-caps (2020-2024)") |> 
+  hc_xAxis(title = list(text = "Portfolio volatility (monthly)")) |> 
+  hc_yAxis(title = list(text = "Portfolio expected return (monthly)")) |> 
+  hc_add_series(data = frontier_h_long, type = "line",
+                hcaes(x = sigma, y = mu),
+                name = "Long-only frontier",
+                color = "#1F3A5F", lineWidth = 2.5,
+                marker = list(enabled = FALSE)) |> 
+  hc_add_series(data = frontier_h_unc, type = "line",
+                hcaes(x = sigma, y = mu),
+                name = "Unconstrained frontier",
+                color = "#D9534F", lineWidth = 2.5,
+                marker = list(enabled = FALSE)) |> 
+  hc_add_series(data = assets_h, type = "scatter",
+                hcaes(x = sigma, y = mu),
+                name = "Stocks",
+                color = "red", marker = list(radius = 5),
+                dataLabels = list(enabled = TRUE,
+                                  format = "{point.name}",
+                                  align = "left", x = 6, y = -4,
+                                  style = list(fontSize = "10px"))) |> 
+  hc_add_series(data = gmv_point_h, type = "scatter",
+                hcaes(x = sigma, y = mu),
+                name = "GMV",
+                color = "darkgreen",
+                marker = list(symbol = "diamond", radius = 7),
+                dataLabels = list(enabled = TRUE,
+                                  format = "{point.name}",
+                                  align = "left", x = 10, y = -4,
+                                  style = list(color = "darkgreen"))) |> 
+  hc_tooltip(pointFormat = "&sigma; = {point.x:.4f}<br>&mu; = {point.y:.4f}") |> 
+  hc_legend(align = "center", verticalAlign = "bottom") |> 
+  hc_add_theme(hc_theme_smpl())
+```
+
+## 5. The Markowitz Curse: In-Sample vs. Out-of-Sample
+
+The frontier above looks reassuring. The trouble is that the $\boldsymbol{\mu}$ and $\boldsymbol{\Sigma}$ used to build it were *estimated* from a finite sample — and small estimation errors get amplified dramatically by the optimizer. @demiguel2009optimal show that out-of-sample, a naive 1/N equal-weighted portfolio frequently beats every "optimized" alternative.
+
+We demonstrate this with a simple split-sample experiment.
+
+### 5.1 Setup: Training Window vs Test Window
+
+```{r}
+split_date <- ymd("2022-12-31")
+train_data <- ret_wide |> filter(year_month <= split_date)
+test_data  <- ret_wide |> filter(year_month >  split_date)
+
+cat(sprintf("Training months: %d | Test months: %d\n",
+            nrow(train_data), nrow(test_data)))
+
+train_mat <- as.matrix(train_data |> select(-year_month))
+test_mat  <- as.matrix(test_data  |> select(-year_month))
+
+mu_train     <- colMeans(train_mat)
+Sigma_train  <- cov(train_mat)
+Sigma_tr_inv <- solve(Sigma_train)
+```
+
+### 5.2 Four Competing Strategies
+
+We construct four portfolios using *only* the training window, then evaluate each on the test window:
+
+1.  **1/N** — equal weights, no optimization
+2.  **GMV** — global minimum variance
+3.  **Tangency (unconstrained)** — the textbook mean-variance optimal portfolio
+4.  **Tangency (long-only)** — same but with a no-shorting constraint
+
+```{r}
+ones_tr <- rep(1, length(mu_train))
+
+# 1/N
+w_naive <- rep(1 / length(mu_train), length(mu_train))
+
+# GMV
+w_gmv_tr <- as.numeric((Sigma_tr_inv %*% ones_tr) /
+                       as.numeric(t(ones_tr) %*% Sigma_tr_inv %*% ones_tr))
+
+# Tangency (unconstrained)
+excess_tr <- mu_train - rf_monthly
+w_tan_tr  <- as.numeric((Sigma_tr_inv %*% excess_tr) /
+                        sum(Sigma_tr_inv %*% excess_tr))
+
+# Tangency (long-only) - maximize Sharpe subject to w >= 0, sum(w) = 1
+# Implemented as: sweep target returns on the long-only frontier and pick max Sharpe
+mu_grid <- seq(min(mu_train), max(mu_train), length.out = 100)
+candidates <- map_dfr(mu_grid, function(mu_star) {
+  Dmat <- 2 * Sigma_train
+  dvec <- rep(0, length(mu_train))
+  Amat <- cbind(rep(1, length(mu_train)), mu_train, diag(length(mu_train)))
+  bvec <- c(1, mu_star, rep(0, length(mu_train)))
+  sol <- tryCatch(solve.QP(Dmat, dvec, Amat, bvec, meq = 2),
+                  error = function(e) NULL)
+  if (is.null(sol)) return(NULL)
+  w   <- sol$solution
+  sig <- port_sd(w, Sigma_train)
+  mu  <- port_mean(w, mu_train)
+  tibble(sharpe = (mu - rf_monthly) / sig, w = list(w))
+})
+best <- candidates |> slice_max(sharpe, n = 1)
+w_tan_lo <- best$w[[1]]
+
+# Collect all four into a matrix
+weights_all <- rbind(
+  `1/N`               = w_naive,
+  `GMV`               = w_gmv_tr,
+  `Tangency (uncon.)` = w_tan_tr,
+  `Tangency (LO)`     = w_tan_lo
+)
+colnames(weights_all) <- names(mu_train)
+
+datatable(round(weights_all, 3))
+```
+
+Already at this stage you can see the issue: the unconstrained tangency portfolio's weights are vastly more extreme than the others.
+
+### 5.3 Out-of-Sample Performance
+
+Now we apply each portfolio's weights to the *test-window* returns and compare:
+
+```{r}
+compute_oos_stats <- function(w, name, test_returns, rf = rf_monthly) {
+  port_rets <- as.numeric(test_returns %*% w)
+  tibble(
+    Strategy        = name,
+    `OOS Mean (%)`  = 100 * mean(port_rets),
+    `OOS Vol (%)`   = 100 * sd(port_rets),
+    `OOS Sharpe`    = (mean(port_rets) - rf) / sd(port_rets) * sqrt(12),
+    `Max DD (%)`    = 100 * max(cummax(cumprod(1 + port_rets)) - 
+                                cumprod(1 + port_rets)) /
+                            max(cummax(cumprod(1 + port_rets)))
+  )
+}
+
+oos_results <- bind_rows(
+  compute_oos_stats(w_naive,  "1/N",                  test_mat),
+  compute_oos_stats(w_gmv_tr, "GMV",                  test_mat),
+  compute_oos_stats(w_tan_tr, "Tangency (uncon.)",    test_mat),
+  compute_oos_stats(w_tan_lo, "Tangency (long-only)", test_mat)
+)
+
+datatable(oos_results) |> 
+  formatRound(columns = c("OOS Mean (%)","OOS Vol (%)","OOS Sharpe","Max DD (%)"),
+              digits = 3)
+```
+
+### 5.4 Cumulative Wealth Paths
+
+```{r}
+build_path <- function(w, name, test_returns) {
+  port_rets <- as.numeric(test_returns %*% w)
+  dates <- (test_data |> select(year_month))$year_month
+  tibble(year_month = dates,
+         Strategy   = name,
+         cum_value  = 1e6 * cumprod(1 + port_rets))
+}
+
+paths <- bind_rows(
+  build_path(w_naive,  "1/N",                  test_mat),
+  build_path(w_gmv_tr, "GMV",                  test_mat),
+  build_path(w_tan_tr, "Tangency (uncon.)",    test_mat),
+  build_path(w_tan_lo, "Tangency (long-only)", test_mat)
+)
+```
+
+```{r}
+#| code-fold: true
+highchart() |> 
+  hc_title(text = "Out-of-sample performance (NT$1,000,000 initial)") |> 
+  hc_subtitle(text = sprintf("Trained on data up to %s, evaluated on %d months thereafter",
+                             split_date, nrow(test_data))) |> 
+  hc_xAxis(type = "datetime", title = list(text = "Month")) |> 
+  hc_yAxis(title = list(text = "Portfolio Value (NT$)")) |> 
+  hc_add_series(data = paths |> filter(Strategy == "1/N"),
+                type = "line", hcaes(x = year_month, y = cum_value),
+                name = "1/N (naive)") |> 
+  hc_add_series(data = paths |> filter(Strategy == "GMV"),
+                type = "line", hcaes(x = year_month, y = cum_value),
+                name = "GMV") |> 
+  hc_add_series(data = paths |> filter(Strategy == "Tangency (uncon.)"),
+                type = "line", hcaes(x = year_month, y = cum_value),
+                name = "Tangency (uncon.)") |> 
+  hc_add_series(data = paths |> filter(Strategy == "Tangency (long-only)"),
+                type = "line", hcaes(x = year_month, y = cum_value),
+                name = "Tangency (LO)") |> 
+  hc_tooltip(valuePrefix = "NT$", valueDecimals = 0) |> 
+  hc_legend(align = "center", verticalAlign = "bottom") |> 
+  hc_add_theme(hc_theme_smpl())
+```
+
+### 5.5 Why Does 1/N Often Win?
+
+@demiguel2009optimal evaluate 14 mean-variance-based portfolio rules across seven empirical datasets. Their headline finding is that *none* of them consistently beats 1/N out of sample, on either Sharpe ratio, certainty equivalent, or turnover. The reason is fundamentally about **estimation error**:
+
+- $\hat{\boldsymbol{\mu}}$ from monthly data is *extremely* noisy. To estimate the equity premium to within 1% confidence requires decades of data.
+- $\hat{\boldsymbol{\Sigma}}$ is less noisy than $\hat{\boldsymbol{\mu}}$ but still has many parameters ($N(N+1)/2$) competing for limited data.
+- The optimizer **amplifies** noise: $\boldsymbol{\Sigma}^{-1}$ explodes when $\boldsymbol{\Sigma}$ is near-singular (highly correlated assets), and the tangency weights $\boldsymbol{\Sigma}^{-1}(\boldsymbol{\mu} - r_f)$ inherit *both* sources of noise.
+
+@michaud1989markowitz called this the "Markowitz optimization enigma": the procedure is mathematically a return *maximizer*, but in practice it often acts as an *error maximizer*.
+
+## 6. Robust Portfolio Construction
+
+There is a large literature on fixing this problem. We sketch three approaches and implement the simplest.
+
+### 6.1 Use GMV (Skip $\boldsymbol{\mu}$ Entirely)
+
+Notice from our results that GMV often does well out of sample. The reason: GMV only uses $\boldsymbol{\Sigma}$, sidestepping the noisiest input. As long as you trust your covariance estimate, you avoid the worst Markowitz disaster.
+
+### 6.2 Shrinkage of $\boldsymbol{\Sigma}$
+
+@ledoit2004honey proposed shrinking the sample covariance matrix toward a structured target (e.g. the constant-correlation matrix). The shrunken estimator is:
+
+$$\hat{\boldsymbol{\Sigma}}^{\text{shrunk}} = \delta\, F + (1 - \delta)\, S,$$
+
+where $S$ is the sample covariance, $F$ is the shrinkage target, and $\delta \in [0, 1]$ is chosen to minimize expected loss. A quick illustration with a simple constant-correlation target:
+
+```{r}
+# Sample covariance
+S <- Sigma_train
+
+# Target: constant-correlation matrix with average sample correlation
+sds_train <- sqrt(diag(S))
+sample_cor <- cov2cor(S)
+rho_bar <- mean(sample_cor[upper.tri(sample_cor)])
+F_target <- outer(sds_train, sds_train) *
+            (rho_bar + diag(1 - rho_bar, nrow = nrow(S)))
+
+# Pick a shrinkage intensity (in practice, calibrated via Ledoit-Wolf)
+delta <- 0.3
+Sigma_shrunk <- delta * F_target + (1 - delta) * S
+
+# Re-run GMV with the shrunken covariance
+Sigma_sh_inv <- solve(Sigma_shrunk)
+w_gmv_sh <- as.numeric((Sigma_sh_inv %*% ones_tr) /
+                       as.numeric(t(ones_tr) %*% Sigma_sh_inv %*% ones_tr))
+
+shrunk_oos <- compute_oos_stats(w_gmv_sh, "GMV (Ledoit-Wolf shrinkage)", test_mat)
+datatable(bind_rows(oos_results, shrunk_oos)) |> 
+  formatRound(c("OOS Mean (%)","OOS Vol (%)","OOS Sharpe","Max DD (%)"), digits = 3)
+```
+
+For production, use `corpcor::cov.shrink()` or the `nlshrink` package which implement the full Ledoit-Wolf calibration.
+
+### 6.3 Black-Litterman (Briefly)
+
+@black1992global proposed using market-equilibrium implied returns as a Bayesian prior on $\boldsymbol{\mu}$, blended with the investor's own subjective views. The result is a much more stable $\hat{\boldsymbol{\mu}}$ and consequently much more reasonable optimal weights. The full mechanics are beyond this note, but the conceptual takeaway is important: **start with the prior that the market is approximately right**, then update only when you have strong evidence to deviate. This is exactly the discipline that pure mean-variance optimization lacks.
+
+## 7. Putting Notes 4–6 Together
+
+We have now completed a triptych:
+
+| Note | What you do with money | Key question |
+|------------------|----------------------------------|--------------------|
+| 4 | **Timing**: when to be in or out of a single asset | Signal generation, backtesting |
+| 5 | **Selection**: which cross-section of stocks to hold | Anomaly identification, factor zoo |
+| 6 | **Optimization**: how to weight what you hold | Portfolio theory, estimation error |
+
+Each can be done independently, but the most effective investment strategies combine all three. Sophisticated quant funds might use:
+
+- factor selection (Note 5) to define a candidate universe,
+- optimized portfolio construction (Note 6) to weight that universe,
+- tactical signals (Note 4) to adjust exposure over time.
+
+## 8. Caveats
+
+1.  **Estimation windows matter.** We used 36 months for training. Longer windows give more stable estimates but may include regime changes; shorter windows are nimble but noisier. There is no universally right answer.
+
+2.  **Transaction costs.** We rebalanced once at the end of the training window. Real strategies rebalance monthly or quarterly, and the optimized portfolios from Section 5 have extremely high turnover — which would devour returns under realistic costs.
+
+3.  **Higher moments.** Markowitz assumes investors care only about $\mu$ and $\sigma^2$. Note 5 showed that real investors also care about skewness (and possibly kurtosis). Mean-variance optimization completely ignores this.
+
+4.  **Distributional assumptions.** The closed-form frontier and tangency portfolio do not strictly require normality, only that investors have mean-variance preferences. But the Sharpe ratio as a *performance measure* is hard to interpret when returns are skewed or fat-tailed.
+
+5.  **Constraints we ignored.** Real portfolios face position limits, sector exposures, leverage caps, ESG screens, and so on. Each additional constraint can be added to `solve.QP()` via the `Amat` and `bvec` arguments.
+
+## 9. Suggested Extensions
+
+1.  **Implement full Ledoit-Wolf**: use `corpcor::cov.shrink()` to get the optimal shrinkage intensity $\delta^\star$, rather than the arbitrary $\delta = 0.3$ we used.
+
+2.  **Rolling-window backtest**: repeat the Section 5 experiment with a 36-month rolling training window that walks forward through time, rebalancing the portfolio each month. This is the standard methodology in @demiguel2009optimal.
+
+3.  **Risk parity**: implement the equal-risk-contribution portfolio of @maillard2010properties. It uses only $\boldsymbol{\Sigma}$ (like GMV) but produces less concentrated weights.
+
+4.  **Resampled efficient frontier** [@michaud1998efficient]: bootstrap the historical returns, recompute the frontier each time, and average the resulting weights. This produces a more stable frontier and acts as an implicit form of regularization.
+
+5.  **Combine Notes 5 and 6**: use the Low-MAX or Low-LIDX leg from Note 5 as the asset universe, then run mean-variance or risk parity within that universe. Does the within-universe optimization add value beyond the cross-sectional selection?
+
+## 10. Student Exercise
+
+Choose a basket of at least 8 Taiwanese stocks and a sample period of at least 4 years. Then:
+
+1.  Estimate $\boldsymbol{\mu}$ and $\boldsymbol{\Sigma}$ from monthly returns over the first 60% of your sample (the *training window*).
+2.  Compute four portfolios: 1/N, GMV, tangency (unconstrained), and tangency (long-only).
+3.  Apply each portfolio's weights to the remaining 40% (the *test window*) and report mean return, volatility, Sharpe ratio, and maximum drawdown.
+4.  Re-do step 2 using a shrunken covariance estimate. Does it improve out-of-sample Sharpe?
+5.  Reflect: which strategy won, and *why*? Did your answer change once shrinkage was used?
+
+A strong answer demonstrates (a) clean code reusing the helper functions from this note, (b) honest reporting of which strategy *won* (even if it is 1/N), and (c) thoughtful interpretation in light of @demiguel2009optimal.
+
+------------------------------------------------------------------------
+
+## References {.unnumbered}
+
+::: {#refs}
+:::
+
+Happy coding! 🚀

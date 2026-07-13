@@ -5,19 +5,20 @@ author:
     email: jjchiou@nccu.edu.tw
     affiliations: 
     - name: "National Chengchi University (NCCU)"
-format: html
+format: 
+  html: 
+    toc: true
+    toc-depth: 3
+    toc-location: right
+    number-sections: false
+    self-contained: true
+    highlight-style: github
 editor: visual
 ---
 
-## Course Information
+## Introduction to R & RStudio
 
--   **Course Name:** Investments \| 000351051
-
--   **Semester:** Spring 2025
-
-# Introduction to R & RStudio
-
-Welcome to the first session of Investments! This tutorial introduces the **R programming language** and how to handle **financial data** for investment research.
+Welcome to the first session of Investments! This tutorial introduces the R programming language and how to handle financial data for investment research.
 
 ## 1. Setting Up R and RStudio
 
@@ -144,9 +145,9 @@ data |>
 
 **Key Differences:**
 
--   `%>%` allows passing arguments to functions with `.` placeholder (useful for non-standard functions).
+- `%>%` allows passing arguments to functions with `.` placeholder (useful for non-standard functions).
 
--   `|>` is optimized for performance and is recommended for base R users.
+- `|>` is optimized for performance and is recommended for base R users.
 
 ```{r}
 # An alternative example:
@@ -230,9 +231,9 @@ The `ggplot2` is a powerful tool for creating visualizations in R. It follows th
 
 ### Key Features of `ggplot2`:
 
--   Layered approach to building plots.
--   Highly customizable aesthetic mappings.
--   Supports multiple themes for different styling.
+- Layered approach to building plots.
+- Highly customizable aesthetic mappings.
+- Supports multiple themes for different styling.
 
 ### Using Themes with `ggthemes`
 

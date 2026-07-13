@@ -1,0 +1,285 @@
+---
+title: "Week 3: Calculating Returns"
+subtitle: "Financial Calculation with R"
+author: "Calvin J. Chiou | 邱健嘉"
+institute: "National Chengchi University"
+format:
+  revealjs:
+    theme: serif
+    transition: slide
+    slide-number: c/t
+    progress: true
+    footer: "Week 3 · Returns"
+    chalkboard: false
+    code-fold: false
+    code-line-numbers: false
+    code-overflow: wrap
+    highlight-style: github
+    embed-resources: true
+    logo: images/logo_en.png
+    fig-align: center
+    # fig-width: 8
+    # fig-height: 4.5
+    width: 1280
+    height: 720
+knitr:
+  opts_chunk:
+    echo: true
+    # eval: false
+    message: false
+    warning: false
+    fig-align: center
+    out-width: "80%"
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+```{=html}
+<style>
+.reveal { font-size: 30px; }
+.reveal section h2 { color: #234E70; }
+.reveal .footer { font-size: 0.55em; opacity: 0.75; }
+.reveal .slide-number { font-size: 0.6em; }
+.reveal pre code { font-size: 0.78em; line-height: 1.25; }
+.reveal table { font-size: 0.85em; }
+.reveal table.dataTable {font-size: 0.75em !important; }
+.reveal .dataTables_wrapper {font-size: 0.75em !important; }
+</style>
+```
+
+```{r, eval=TRUE, echo=FALSE}
+#| label: "load"
+library(tidyquant)
+library(tidyverse)
+library(highcharter)
+library(ggplot2)
+library(ggthemes)
+library(DT)
+```
+
+# What Is a Return?
+
+## The investor's most basic question
+
+You bought a stock at NT\$100. It's now NT\$110.
+
+**How much did you make?**
+
+Two equally valid answers:
+
+- In money: NT\$10.
+- In percentage: 10%.
+
+This week is about *percentage returns* --- and the fact that there are
+**two different definitions**, both correct, both used in practice.
+
+# 1. Discrete (Simple) Returns
+
+## Definition
+
+::: {.callout-note title="Discrete return"}
+$$R_t = \frac{P_t}{P_{t-1}} - 1 = \frac{P_t - P_{t-1}}{P_{t-1}}$$
+:::
+
+The intuitive percentage change. If $P_{t-1} = 100$ and $P_t = 110$,
+then $R_t = 10\%$.
+
+This is the version you see in newspapers, brokerage statements, and
+industry research.
+
+## Computing it in R with `dplyr`
+
+```{r}
+apple <- tq_get("AAPL", from = "2023-01-01", to = "2026-01-01")
+
+apple <- apple |>
+  arrange(date) |>
+  mutate(R_disc = adjusted / lag(adjusted) - 1)
+```
+
+`lag()` shifts the column down one row --- the previous day's price.
+
+```{r, echo=FALSE}
+datatable(data = apple |> select(date, adjusted, R_disc), 
+          height = "80%",
+          options = list(pageLength = 5)) |> 
+  formatRound(columns = c("adjusted","R_disc"), digits = 4)
+```
+
+# 2. Continuous (Log) Returns
+
+## Definition
+
+::: {.callout-note title="Continuous (log) return"}
+$$r_t = \ln\!\left(\frac{P_t}{P_{t-1}}\right) = \ln P_t - \ln P_{t-1}$$
+:::
+
+The log return is the *instantaneous-growth-rate* version of return ---
+the counterpart of continuous compounding from Week 2.
+
+For small changes, $r_t \approx R_t$. They diverge for large moves.
+
+## Discrete vs. continuous --- side by side
+
+```{r}
+apple <- apple |>
+  mutate(R_disc = adjusted / lag(adjusted) - 1,
+         r_log  = log(adjusted / lag(adjusted)))
+```
+
+For a typical daily move of $\pm 1\%$, the two are nearly identical. For
+a $+50\%$ jump, $R = 0.50$ but $r = \ln(1.5) = 0.405$.
+
+```{r, echo=FALSE}
+datatable(data = apple |> select(date, R_disc, r_log), 
+          height = "80%",
+          options = list(pageLength = 5)) |> 
+  formatRound(columns = c("R_disc","r_log"), digits = 4)
+```
+
+## When to use which?
+
+|                   | **Discrete** $R$    | **Continuous** $r$           |
+|-------------------|---------------------|------------------------------|
+| Interpretation    | Simple % change     | Log-based, continuous        |
+| Time-additive?    | **No**              | **Yes**                      |
+| Cross-section sum | **Yes** (portfolio) | No                           |
+| Where used        | Industry, reporting | Academic research, modelling |
+
+The *time-additivity* of log returns is what makes them the standard in
+econometrics: a 2-day log return is just the sum of two daily log
+returns.
+
+# 3. Time vs. Cross-section Additivity
+
+## Why log returns are time-additive
+
+Over $n$ days: $$\frac{P_T}{P_0} = \prod_{t=1}^{T}\frac{P_t}{P_{t-1}}
+\quad\Rightarrow\quad
+\ln\!\frac{P_T}{P_0} = \sum_{t=1}^{T} r_t.$$ So
+$r_{0 \to T} = r_1 + r_2 + \cdots + r_T$. **Sum them.**
+
+But the *same* formula in discrete form is:
+$$1 + R_{0 \to T} = \prod_{t=1}^{T} (1 + R_t).$$ So
+$R_{0 \to T} \ne R_1 + R_2 + \cdots + R_T$. **Compound them.**
+
+## Why discrete returns are cross-section-additive
+
+For a portfolio with weights $w_i$ summing to 1:
+
+$$R_p = \sum_{i=1}^{N} w_i\,R_i \qquad \text{(exactly)}$$ This is exact
+for discrete returns, and only approximate for log returns.
+
+**Practical rule of thumb:**
+
+- Aggregating *across stocks* at one point in time $\to$ discrete.
+- Aggregating *across time* for one stock $\to$ continuous.
+
+# 4. Multi-period Returns
+
+## Cumulative discrete return
+
+$$R_{\text{cum}} = \prod_{t=1}^{T}(1 + R_t) - 1$$
+
+```{r}
+apple <- apple |>
+  mutate(cum_R = cumprod(1 + coalesce(R_disc, 0)) - 1)
+```
+
+`cumprod()` does the running product; `coalesce(R_disc, 0)` replaces the
+first NA with 0 so the cumulative product starts from 1.
+
+## Cumulative log return
+
+$$r_{\text{cum}} = \sum_{t=1}^{T} r_t$$
+
+```{r}
+apple <- apple |>
+  mutate(cum_r = cumsum(coalesce(r_log, 0)))
+```
+
+Just `cumsum()` --- nothing more.
+
+To convert back to a discrete cumulative return:
+$R_{\text{cum}} = e^{r_{\text{cum}}} - 1$.
+
+# 5. Buy-and-Hold Return
+
+## A passive strategy in one line
+
+The simplest possible "strategy": buy on day 0, never trade. The return
+over any horizon is just the price ratio:
+
+$$R_{\text{BH}} = \frac{P_T}{P_0} - 1$$
+
+```{r}
+apple |>
+  summarise(BH_return = last(adjusted) / first(adjusted) - 1)
+```
+
+It sounds trivial --- but as we'll see in Week 6, a well-chosen
+buy-and-hold often beats more complex active strategies. Don't dismiss
+it.
+
+# 6. Visualizing Returns
+
+## A return time-series
+
+```{r}
+#| code-fold: true
+highchart(type = "stock", width = 1280) |>
+  hc_add_series(apple, type = "line",
+                hcaes(x = date, y = R_disc * 100),
+                name = "AAPL Daily Return (%)") |>
+  hc_title(text = "AAPL Daily Returns 2023") |>
+  hc_yAxis(title = list(text = "Return (%)")) |> 
+  hc_tooltip(valueDecimals = 2, valueSuffix = " %")
+```
+
+## Cumulative-return chart
+
+```{r}
+#| code-fold: true
+highchart(type = "stock", width = 1280) |>
+  hc_add_series(apple, type = "line",
+                hcaes(x = date, y = cum_R * 100),
+                name = "Cumulative Discrete Return") |>
+  hc_add_series(apple, type = "line",
+                hcaes(x = date, y = cum_r * 100),
+                name = "Cumulative Log Return") |>
+  hc_title(text = "AAPL 2023 --- Two Ways to Measure Cumulative Return") |>
+  hc_yAxis(title = list(text = "%")) |> 
+  hc_tooltip(valueDecimals = 2, valueSuffix = " %")
+```
+
+The two lines diverge slightly as returns accumulate --- the visual
+proof of compounding.
+
+## What this week covered
+
+1.  Two return definitions: discrete $R$ and continuous $r$.
+2.  Time-additivity (logs sum) vs. cross-section additivity (discrete
+    sums).
+3.  Multi-period returns: `cumprod()` and `cumsum()`.
+4.  Buy-and-hold return in one line.
+5.  Plotting return series with `highcharter`.
+
+**Next week:** we put many stocks into a single portfolio and compute
+its return *and* its volatility.
+
+## Exercise
+
+1.  Download MSFT, GOOGL, and NVDA for 2023. Compute both discrete and
+    log daily returns for each.
+2.  For NVDA, compute the cumulative 2023 return two ways (`cumprod` of
+    discrete vs. `cumsum` of log). By how much do they differ at
+    year-end?
+3.  What is the *annualized* mean daily log return for each stock?
+    (Hint: multiply daily mean by 252.)
+4.  Plot the three cumulative-return paths on one `highcharter` chart.
+    Which stock won 2023?
+
+::: {style="text-align:center"}
+Thank you!
+:::
