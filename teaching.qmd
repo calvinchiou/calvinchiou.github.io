@@ -89,6 +89,33 @@ National Chengchi University · Materials in preparation
 
 R lecture notes
 
+| Note | Topic |
+|:--:|----|
+| [Note 0](notes/inst_investor/lecture01_fund_performance.html) | Introduction |
+|  |  |
+|  |  |
+|  |  |
+
+</summary>
+
+</details>
+
+<details>
+
+<summary style="font-size:0.85rem; color:#6c757d; cursor:pointer; margin-top:0.5rem;">
+
+Slides
+
+|                         Note                          | Topic          |
+|:-----------------------------------------------------:|----------------|
+| [Slides 00](notes/inst_investor/00_introduction.html) | Introduction   |
+|    [Slides 01](notes/inst_investor/01_agency.html)    | Agency Problem |
+|                                                       |                |
+|                                                       |                |
+|                                                       |                |
+|                                                       |                |
+|                                                       |                |
+
 </summary>
 
 </details>

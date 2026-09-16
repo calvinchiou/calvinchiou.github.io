@@ -1,0 +1,662 @@
+---
+title: "Lecture 1: Measuring Fund Performance"
+subtitle: "Institutional Investors"
+author: "Calvin J. Chiou"
+institution: "National Chengchi University"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    code-tools: true
+    theme: cosmo
+    highlight-style: github
+    embed-resources: true   # one standalone .html, no _files/ folder
+  pdf:
+    toc: true
+    number-sections: true
+execute:
+  warning: false
+  message: false
+  cache: true
+bibliography: references.bib
+---
+
+## Overview
+
+How do we know whether a fund manager adds value? This lecture introduces the canonical **returns-based** framework for fund performance evaluation, following the survey by @wermers2011. The central takeaway from Wermers: the **Carhart (1997) four-factor model is the baseline model** for evaluating actively managed equity portfolios.
+
+We will:
+
+1.  Motivate the need for multi-factor performance models
+2.  Build from CAPM to Fama-French 3-factor to Carhart 4-factor, step by step
+3.  Download price data for 10 popular US ETFs using `tidyquant`
+4.  Obtain factor returns directly from **Kenneth French's Data Library** using the `frenchdata` package
+5.  Estimate and interpret Carhart alphas and factor loadings
+
+------------------------------------------------------------------------
+
+## 1. Motivation: Why Not Just Compare Raw Returns?
+
+A fund that returned 15% last year sounds impressive—until you learn it was a small-cap value fund during a year when small-cap value stocks returned 18%. The fund actually *destroyed* value relative to the passive alternative.
+
+@wermers2011 states the core principle clearly: "Managers should be rewarded for bets not easily replicated by uninformed investors." In other words, we need to control for the passive risk factors that investors can access cheaply, and only then can we attribute the residual—*alpha*—to manager skill.
+
+### The Evolution of Baseline Models
+
+| Year         | Model                | Factors Controlled                |
+|--------------|----------------------|-----------------------------------|
+| @jensen1968  | CAPM (1-factor)      | Market (systematic) risk          |
+| @fama1993    | Fama-French 3-factor | Market + Size (SMB) + Value (HML) |
+| @carhart1997 | 4-factor             | FF3 + Momentum (UMD)              |
+
+: Evolution of performance benchmarks
+
+@wermers2011 (Section 3.1) notes that a regression of a diversified long-only portfolio on the Carhart model typically yields $R^2 > 90\%$, meaning nearly all return variation is explained by these four systematic factors. This is precisely why it serves as the *baseline*: it leaves little room for data mining.
+
+------------------------------------------------------------------------
+
+## 2. Setup
+
+```{r}
+#| label: setup
+
+library(tidyverse)
+library(tidyquant)
+library(frenchdata)   # Kenneth French's Data Library
+library(broom)
+library(gt)
+library(scales)
+```
+
+------------------------------------------------------------------------
+
+## 3. The Ten US ETFs
+
+We use ten ETFs spanning broad market, style (size/value), sector, and active strategies. This cross-section lets students observe how factor loadings vary systematically across fund types—a key pedagogical goal.
+
+| Ticker | Name                       | Category         | Expected Factor Tilt |
+|--------|----------------------------|------------------|----------------------|
+| SPY    | SPDR S&P 500               | Broad market     | β ≈ 1, others ≈ 0    |
+| QQQ    | Invesco Nasdaq-100         | Tech/growth      | Negative HML         |
+| IWM    | iShares Russell 2000       | Small cap        | Positive SMB         |
+| VTV    | Vanguard Value             | Large-cap value  | Positive HML         |
+| VUG    | Vanguard Growth            | Large-cap growth | Negative HML         |
+| ARKK   | ARK Innovation             | Active growth    | High β, negative HML |
+| XLE    | Energy Select SPDR         | Energy sector    | Positive HML (value) |
+| XLF    | Financial Select SPDR      | Financial sector | High β               |
+| VNQ    | Vanguard Real Estate       | REITs            | Positive HML         |
+| IWD    | iShares Russell 1000 Value | Large-cap value  | Positive HML         |
+
+: Ten US ETFs used in this lecture
+
+```{r}
+#| label: define-etfs
+
+etf_tickers <- c(
+  "SPY",   # S&P 500
+  "QQQ",   # Nasdaq-100
+  "IWM",   # Russell 2000
+  "VTV",   # Vanguard Value
+  "VUG",   # Vanguard Growth
+  "ARKK",  # ARK Innovation (active)
+  "XLE",   # Energy sector
+  "XLF",   # Financials sector
+  "VNQ",   # Real estate
+  "IWD"    # Russell 1000 Value
+)
+
+etf_labels <- tibble(
+  symbol   = etf_tickers,
+  name     = c("S&P 500", "Nasdaq-100", "Russell 2000",
+               "Vanguard Value", "Vanguard Growth", "ARK Innovation",
+               "Energy Sector", "Financials Sector",
+               "Real Estate (REIT)", "Russell 1000 Value"),
+  category = c("Broad market", "Tech/Growth", "Small cap",
+               "Large value", "Large growth", "Active growth",
+               "Sector", "Sector", "REIT", "Large value")
+)
+```
+
+### Download ETF Price Data
+
+```{r}
+#| label: download-prices
+
+start_date <- "2015-01-01"
+end_date   <- "2024-12-31"
+
+prices_raw <- tq_get(
+  etf_tickers,
+  from = start_date,
+  to   = end_date,
+  get  = "stock.prices"
+)
+
+# Quick check
+prices_raw |>
+  select(symbol, date, adjusted) |>
+  slice_head(n = 5)
+```
+
+### Compute Monthly Returns
+
+The Carhart model is estimated on **monthly** returns—the same frequency as the French factor data.
+
+```{r}
+#| label: monthly-returns
+
+returns_monthly <- prices_raw |>
+  group_by(symbol) |>
+  tq_transmute(
+    select     = adjusted,
+    mutate_fun = periodReturn,
+    period     = "monthly",
+    type       = "arithmetic",   # simple returns to match French data convention
+    col_rename = "ret"
+  ) |>
+  ungroup() |>
+  left_join(etf_labels, by = "symbol")
+```
+
+------------------------------------------------------------------------
+
+## 4. Kenneth French's Factor Data
+
+Kenneth French maintains a publicly accessible data library at [mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html). The `frenchdata` package downloads and parses these files directly.
+
+### The Four Factors
+
+The Carhart model uses four factors:
+
+$$R_{i,t} - R_{f,t} = \alpha_i + \beta_i \cdot RMRF_t + s_i \cdot SMB_t + h_i \cdot HML_t + u_i \cdot UMD_t + \varepsilon_{i,t}
+\tag{1}$$
+
+| Factor | Full name | Economic rationale |
+|----|----|----|
+| $RMRF$ | Market excess return | Compensation for bearing systematic risk |
+| $SMB$ | Small-minus-big | Size premium: small stocks earn higher returns on average [@fama1993] |
+| $HML$ | High-minus-low | Value premium: high book-to-market (cheap) stocks outperform growth stocks [@fama1993] |
+| $UMD$ | Up-minus-down (momentum) | Past winners continue to outperform past losers [@jegadeesh1993; @carhart1997] |
+
+: Carhart four-factor model components
+
+### Download and Prepare Factor Data
+
+```{r}
+#| label: download-factors
+
+# Fama-French 3 factors: Mkt-RF, SMB, HML, RF (monthly)
+ff3_raw <- download_french_data("Fama/French 3 Factors")
+
+# Momentum factor: UMD (monthly)
+mom_raw <- download_french_data("Momentum Factor (Mom)")
+
+# Extract monthly tables and convert from % to decimal
+ff3_monthly <- ff3_raw$subsets$data[[1]] |>
+  mutate(
+    date   = lubridate::ym(date),          # "YYYYMM" → date
+    across(c(`Mkt-RF`, SMB, HML, RF), ~ . / 100)
+  ) |>
+  rename(RMRF = `Mkt-RF`) |>
+  filter(date >= as.Date(start_date), date <= as.Date(end_date))
+
+mom_monthly <- mom_raw$subsets$data[[1]] |>
+  mutate(
+    date = lubridate::ym(date),
+    Mom  = Mom / 100
+  ) |>
+  rename(UMD = Mom) |>
+  filter(date >= as.Date(start_date), date <= as.Date(end_date))
+
+# Combine into a single factor tibble
+factors <- ff3_monthly |>
+  left_join(mom_monthly, by = "date")
+
+factors |> slice_head(n = 6)
+```
+
+### Align Dates and Compute Excess Returns
+
+French data uses end-of-month dates; `tq_transmute()` returns the last trading day of each month. We align on year-month.
+
+```{r}
+#| label: excess-returns
+
+# Standardize ETF returns to year-month for merging
+returns_ym <- returns_monthly |>
+  mutate(ym = lubridate::floor_date(date, "month")) |>
+  select(symbol, name, category, ym, ret)
+
+factors_ym <- factors |>
+  mutate(ym = lubridate::floor_date(date, "month")) |>
+  select(ym, RMRF, SMB, HML, UMD, RF)
+
+# Merge and compute excess return
+data_merged <- returns_ym |>
+  left_join(factors_ym, by = "ym") |>
+  mutate(excess_ret = ret - RF) |>
+  filter(!is.na(RMRF))   # drop months outside factor data range
+```
+
+------------------------------------------------------------------------
+
+## 5. Cumulative Return Plot
+
+```{r}
+#| label: fig-cumret
+#| fig-cap: "Cumulative simple returns of 10 US ETFs (2015–2024)"
+#| fig-height: 5
+
+data_merged |>
+  group_by(symbol, name) |>
+  arrange(ym) |>
+  mutate(cum_ret = cumprod(1 + ret) - 1) |>
+  ggplot(aes(x = ym, y = cum_ret, color = name)) +
+  geom_line(linewidth = 0.6) +
+  labs(
+    title = "Cumulative Returns",
+    x = NULL, y = "Cumulative Return",
+    color = NULL
+  ) +
+  scale_y_continuous(labels = percent_format()) +
+  theme_minimal() +
+  theme(legend.position = "bottom",
+        legend.text = element_text(size = 7)) +
+  guides(color = guide_legend(nrow = 3))
+```
+
+------------------------------------------------------------------------
+
+## 6. Step 1 — CAPM / Jensen's Alpha (Single Factor)
+
+Before moving to Carhart, we start with the **CAPM** as a baseline. @jensen1968 showed that fund performance can be measured as the regression intercept $\alpha$ from:
+
+$$R_{i,t} - R_{f,t} = \alpha_i + \beta_i \cdot RMRF_t + \varepsilon_{i,t}
+\tag{2}$$
+
+$\alpha > 0$ means the fund earned more than its CAPM-implied expected return.
+
+```{r}
+#| label: capm
+
+capm_results <- data_merged |>
+  group_by(symbol, name) |>
+  do(tidy(lm(excess_ret ~ RMRF, data = .))) |>
+  select(symbol, name, term, estimate, std.error, statistic, p.value) |>
+  filter(term %in% c("(Intercept)", "RMRF")) |>
+  mutate(term = recode(term, "(Intercept)" = "alpha", "RMRF" = "beta_mkt")) |>
+  pivot_wider(
+    names_from  = term,
+    values_from = c(estimate, std.error, statistic, p.value),
+    names_glue  = "{term}_{.value}"
+  ) |>
+  mutate(alpha_ann = alpha_estimate * 12) |>
+  ungroup()
+
+capm_results |>
+  arrange(desc(alpha_ann)) |>
+  select(name, alpha_ann, beta_mkt_estimate, alpha_statistic, alpha_p.value) |>
+  gt() |>
+  fmt_number(columns = c(alpha_ann, beta_mkt_estimate, alpha_statistic), decimals = 3) |>
+  fmt(columns = alpha_p.value, fns = \(x) sprintf("%.3f", x)) |>
+  cols_label(
+    name              = "ETF",
+    alpha_ann         = "Alpha (Ann.)",
+    beta_mkt_estimate = "Beta",
+    alpha_statistic   = "t(α)",
+    alpha_p.value     = "p(α)"
+  ) |>
+  tab_header(
+    title    = "CAPM / Jensen's Alpha",
+    subtitle = "Monthly excess returns regressed on market factor only"
+  )
+```
+
+**Limitation of CAPM alpha**: If IWM (small cap) has $\alpha > 0$ in the CAPM, it might simply be capturing the *size premium* that any investor could access by buying small stocks passively—not manager skill. This is why we need additional factors.
+
+------------------------------------------------------------------------
+
+## 7. Step 2 — Fama-French 3-Factor Model
+
+@fama1993 document that two additional risk factors—size (SMB) and value (HML)—explain cross-sectional variation in average returns beyond the market. Adding these factors purges the CAPM alpha of style-related biases:
+
+$$R_{i,t} - R_{f,t} = \alpha_i + \beta_i \cdot RMRF_t + s_i \cdot SMB_t + h_i \cdot HML_t + \varepsilon_{i,t}
+\tag{3}$$
+
+```{r}
+#| label: ff3
+ff3_results <- data_merged |>
+  group_by(symbol, name) |>
+  do(tidy(lm(excess_ret ~ RMRF + SMB + HML, data = .))) |>
+  filter(term %in% c("(Intercept)", "RMRF", "SMB", "HML")) |>
+  mutate(term = recode(term,
+    "(Intercept)" = "alpha", "RMRF" = "b_mkt",
+    "SMB" = "b_smb", "HML" = "b_hml"
+  )) |>
+  pivot_wider(
+    names_from  = term,
+    values_from = c(estimate, std.error, statistic, p.value),
+    names_glue  = "{term}_{.value}"
+  ) |>
+  mutate(alpha_ann = alpha_estimate * 12) |>
+  ungroup()
+
+ff3_results |>
+  arrange(desc(alpha_ann)) |>
+  select(name, alpha_ann, alpha_statistic, b_mkt_estimate,
+         b_smb_estimate, b_hml_estimate) |>
+  gt() |>
+  fmt_number(columns = where(is.numeric), decimals = 3) |>
+  cols_label(
+    name             = "ETF",
+    alpha_ann        = "Alpha (Ann.)",
+    alpha_statistic  = "t(α)",
+    b_mkt_estimate   = "β(MKT)",
+    b_smb_estimate   = "β(SMB)",
+    b_hml_estimate   = "β(HML)"
+  ) |>
+  tab_header(
+    title    = "Fama-French 3-Factor Model",
+    subtitle = "Controlling for market, size, and value"
+  )
+```
+
+Notice how alpha estimates change relative to CAPM—this is the style-correction at work. IWM's alpha shrinks once we control for SMB; VTV's alpha changes once we control for HML.
+
+------------------------------------------------------------------------
+
+## 8. Step 3 — Carhart 4-Factor Model (Baseline)
+
+@carhart1997 adds the **momentum factor** (UMD) to the Fama-French model. Stocks that have outperformed over the prior 12 months tend to continue outperforming over the next few months [@jegadeesh1993]. If a fund merely holds past winners, its FF3 alpha is overstated—Carhart strips this out.
+
+$$\boxed{R_{i,t} - R_{f,t} = \alpha_i + \beta_i \cdot RMRF_t + s_i \cdot SMB_t + h_i \cdot HML_t + u_i \cdot UMD_t + \varepsilon_{i,t}}
+\tag{4}$$
+
+As @wermers2011 (p. 542) states: *"The returns-based model most widely used among academics in analyzing equity managers is the four-factor model of Carhart (1997)."*
+
+```{r}
+#| label: carhart
+
+carhart_results <- data_merged |>
+  group_by(symbol, name) |>
+  do({
+    fit <- lm(excess_ret ~ RMRF + SMB + HML + UMD, data = .)
+    bind_cols(
+      tidy(fit)  |> select(term, estimate, std.error, statistic, p.value),
+      glance(fit)|> select(r.squared, adj.r.squared) |> slice(1)
+    )
+  }) |>
+  filter(term %in% c("(Intercept)", "RMRF", "SMB", "HML", "UMD")) |>
+  mutate(term = recode(term,
+    "(Intercept)" = "alpha", "RMRF" = "b_mkt",
+    "SMB" = "b_smb", "HML" = "b_hml", "UMD" = "b_umd"
+  )) |>
+  pivot_wider(
+    names_from  = term,
+    values_from = c(estimate, std.error, statistic, p.value),
+    names_glue  = "{term}_{.value}"
+  ) |>
+  mutate(alpha_ann = alpha_estimate * 12) |>
+  ungroup()
+
+carhart_results |>
+  arrange(desc(alpha_ann)) |>
+  select(name,
+         alpha_ann, alpha_statistic, alpha_p.value,
+         b_mkt_estimate, b_smb_estimate,
+         b_hml_estimate, b_umd_estimate,
+         r.squared) |>
+  gt() |>
+  fmt_number(columns = c(alpha_ann, alpha_statistic,
+                          b_mkt_estimate, b_smb_estimate,
+                          b_hml_estimate, b_umd_estimate,
+                          r.squared),
+             decimals = 3) |>
+  fmt(columns = alpha_p.value, fns = \(x) sprintf("%.3f", x)) |>
+  cols_label(
+    name             = "ETF",
+    alpha_ann        = "α (Ann.)",
+    alpha_statistic  = "t(α)",
+    alpha_p.value    = "p(α)",
+    b_mkt_estimate   = "β(MKT)",
+    b_smb_estimate   = "β(SMB)",
+    b_hml_estimate   = "β(HML)",
+    b_umd_estimate   = "β(UMD)",
+    r.squared        = "R²"
+  ) |>
+  tab_header(
+    title    = "Carhart Four-Factor Model",
+    subtitle = "Wermers (2011) baseline model — sorted by annualized alpha"
+  ) |>
+  tab_style(
+    style     = cell_fill(color = "#f0f4ff"),
+    locations = cells_body(rows = alpha_p.value < 0.10)
+  )
+```
+
+### Interpreting the Results
+
+**Factor loadings** tell us about passive style exposures:
+
+- $\beta(MKT) > 1$: more market-sensitive than the index (e.g., ARKK)
+- $\beta(SMB) > 0$: tilts toward small-cap stocks (e.g., IWM)
+- $\beta(HML) > 0$: value tilt (e.g., IWD, VTV, XLE); $\beta(HML) < 0$: growth tilt (e.g., QQQ, VUG)
+- $\beta(UMD) > 0$: momentum tilt; $< 0$: contrarian or mean-reverting strategy
+
+**Alpha** after controlling for all four factors measures what is *not* explained by these passive risk exposures. For passive index ETFs, we expect:
+
+$$\alpha \approx 0 - \text{expense ratio}$$
+
+A passive ETF like SPY should produce $\alpha \approx -0.09\%$/year (its expense ratio) once we properly control for all factors.
+
+------------------------------------------------------------------------
+
+## 9. Comparing Alpha Across the Three Models
+
+A key lesson: alpha estimates are *model-dependent*. Adding factors changes (and usually shrinks) alpha.
+
+```{r}
+#| label: tbl-alpha-comparison
+#| tbl-cap: "Alpha (annualized) across three models"
+
+alpha_compare <- capm_results |>
+  select(name, capm_alpha = alpha_ann) |>
+  left_join(
+    ff3_results |> select(name, ff3_alpha = alpha_ann),
+    by = "name"
+  ) |>
+  left_join(
+    carhart_results |> select(name, carhart_alpha = alpha_ann),
+    by = "name"
+  ) |>
+  arrange(desc(carhart_alpha))
+
+alpha_compare |>
+  gt() |>
+  fmt_number(columns = c(capm_alpha, ff3_alpha, carhart_alpha), decimals = 3) |>
+  cols_label(
+    name           = "ETF",
+    capm_alpha     = "CAPM α",
+    ff3_alpha      = "FF3 α",
+    carhart_alpha  = "Carhart α"
+  ) |>
+  tab_header(
+    title    = "Alpha Comparison Across Models",
+    subtitle = "Annualized; adding factors changes—usually shrinks—measured alpha"
+  ) |>
+  tab_spanner(
+    label   = "Annualized Alpha",
+    columns = c(capm_alpha, ff3_alpha, carhart_alpha)
+  ) |>
+  data_color(
+    columns = carhart_alpha,
+    fn      = scales::col_numeric(
+      palette = c("tomato", "white", "steelblue"),
+      domain  = NULL
+    )
+  )
+```
+
+------------------------------------------------------------------------
+
+## 10. Visualizing Factor Loadings
+
+```{r}
+#| label: fig-loadings
+#| fig-cap: "Carhart factor loadings across 10 US ETFs"
+#| fig-height: 5
+
+loadings_long <- carhart_results |>
+  select(name, b_mkt_estimate, b_smb_estimate,
+         b_hml_estimate, b_umd_estimate) |>
+  pivot_longer(
+    cols      = -name,
+    names_to  = "factor",
+    values_to = "loading"
+  ) |>
+  mutate(factor = recode(factor,
+    "b_mkt_estimate" = "MKT",
+    "b_smb_estimate" = "SMB",
+    "b_hml_estimate" = "HML",
+    "b_umd_estimate" = "UMD"
+  ))
+
+loadings_long |>
+  ggplot(aes(x = loading, y = fct_reorder(name, loading),
+             fill = factor)) +
+  geom_col(show.legend = FALSE) +
+  geom_vline(xintercept = 0, linewidth = 0.4) +
+  facet_wrap(~factor, scales = "free_x", nrow = 1) +
+  labs(
+    title = "Carhart Factor Loadings",
+    x = "Loading", y = NULL
+  ) +
+  theme_minimal() +
+  theme(axis.text.y = element_text(size = 7))
+```
+
+------------------------------------------------------------------------
+
+## 11. R² as a Diagnostic
+
+@wermers2011 notes that managed long-only portfolios typically have $R^2 > 90\%$ under the Carhart model, precisely because these four factors capture most passive variation. Low $R^2$ signals idiosyncratic strategies not captured by the standard factors.
+
+```{r}
+#| label: fig-r2
+#| fig-cap: "R² from Carhart model — how much return variation is explained by the four factors?"
+#| fig-height: 3.5
+
+carhart_results |>
+  select(name, r.squared) |>
+  ggplot(aes(x = r.squared, y = fct_reorder(name, r.squared))) +
+  geom_col(fill = "steelblue") +
+  geom_text(aes(label = percent(r.squared, accuracy = 0.1)),
+            hjust = -0.1, size = 3) +
+  scale_x_continuous(labels = percent_format(), limits = c(0, 1.05)) +
+  labs(title = "R² from Carhart 4-Factor Model",
+       x = "R-squared", y = NULL) +
+  theme_minimal()
+```
+
+::: callout-note
+**ARKK** typically has a lower R² than passive ETFs—consistent with its active, concentrated strategy in disruptive-technology stocks. @wermers2011 discusses this in the context of hedge funds (Section 6.3): funds with lower R² tend to take more idiosyncratic bets, which may or may not translate into outperformance.
+:::
+
+------------------------------------------------------------------------
+
+## 12. What Alpha Means for Passive ETFs
+
+For **passive index ETFs** like SPY and IWM, alpha should be:
+
+$$\alpha \approx -\text{expense ratio} \approx 0$$
+
+Why? If markets are competitive and these factors are the right benchmark, a well-implemented passive fund should have zero alpha before costs. Any measured positive alpha from a passive fund is a red flag—it may indicate **benchmark misspecification**.
+
+For **actively managed** funds like ARKK, we are genuinely asking: did the manager add value beyond passive factor exposure? The answer is in $\hat{\alpha}$ and its $t$-statistic.
+
+::: callout-important
+**A positive (or negative) alpha that is statistically insignificant should be interpreted cautiously.** With 10 years of monthly data (T ≈ 120), the power to detect even a 2% annual alpha at conventional significance levels is limited. @wermers2011 (Section 3.3) discusses how the Kosowski et al. (2006) bootstrap method addresses this problem for large cross-sections of funds.
+:::
+
+------------------------------------------------------------------------
+
+## 13. Summary Statistics
+
+```{r}
+#| label: tbl-summary
+#| tbl-cap: "Fund performance summary: annualized statistics"
+
+summary_tbl <- data_merged |>
+  group_by(symbol, name, category) |>
+  summarise(
+    ann_ret    = (prod(1 + ret))^(12 / n()) - 1,
+    ann_vol    = sd(ret) * sqrt(12),
+    sharpe     = (mean(ret - RF) / sd(ret)) * sqrt(12),
+    .groups    = "drop"
+  ) |>
+  left_join(
+    carhart_results |>
+      select(name, alpha_ann, b_mkt_estimate, r.squared),
+    by = "name"
+  ) |>
+  arrange(desc(sharpe))
+
+summary_tbl |>
+  select(name, category, ann_ret, ann_vol, sharpe, alpha_ann, b_mkt_estimate, r.squared) |>
+  gt() |>
+  fmt_percent(columns = c(ann_ret, ann_vol), decimals = 1) |>
+  fmt_number(columns = c(sharpe, alpha_ann, b_mkt_estimate, r.squared), decimals = 3) |>
+  cols_label(
+    name             = "ETF",
+    category         = "Category",
+    ann_ret          = "Ann. Return",
+    ann_vol          = "Ann. Vol.",
+    sharpe           = "Sharpe",
+    alpha_ann        = "Carhart α",
+    b_mkt_estimate   = "Beta",
+    r.squared        = "R²"
+  ) |>
+  tab_header(
+    title    = "Performance Summary",
+    subtitle = paste("Sample:", start_date, "to", end_date)
+  )
+```
+
+------------------------------------------------------------------------
+
+## 14. Key Takeaways
+
+1.  **The Carhart four-factor model is the academic standard** for evaluating equity fund performance [@wermers2011]. It controls for market, size, value, and momentum exposures—the four main dimensions of passive strategy that any uninformed investor can exploit.
+
+2.  **Alpha is model-dependent.** CAPM alpha, FF3 alpha, and Carhart alpha can differ substantially. A fund that looks good in CAPM may simply be loading on the size or value premium, which requires no skill.
+
+3.  **For passive ETFs,** $\alpha \approx 0$. The expense ratio creates a small negative alpha. Any significant positive alpha from a passive ETF signals factor model misspecification.
+
+4.  **Factor loadings reveal investment style.** Negative HML loading → growth/tech; Positive SMB → small cap; Positive UMD → momentum strategy.
+
+5.  **R² near or above 90% is expected** for diversified long-only portfolios. Low R² (like ARKK) indicates concentrated, idiosyncratic bets—which may or may not reflect skill [@wermers2011, Section 3.3].
+
+6.  **Statistical power is limited** with 10 years of monthly data. A 2% annual alpha may not be detectable at the 5% level with only 120 observations.
+
+------------------------------------------------------------------------
+
+## Discussion Questions
+
+1.  SPY tracks the S&P 500. Theoretically, what should its Carhart alpha be? If you find a positive alpha, what are three possible explanations?
+
+2.  IWM (Russell 2000) will have a large positive SMB loading. Does this mean IWM *outperforms*? Or that it merely *holds small stocks*? What is the difference?
+
+3.  ARKK is actively managed. Suppose its Carhart alpha is positive but statistically insignificant ($p = 0.15$). How should an investor interpret this?
+
+4.  Compare the CAPM alpha and Carhart alpha of QQQ. Why do they differ? What factor explains most of the difference?
+
+5.  @wermers2011 writes that the Carhart model regression of a managed portfolio typically yields $R^2 > 90\%$. Which ETF in our sample has the lowest R²? Why does this make intuitive sense given that fund's investment strategy?
+
+------------------------------------------------------------------------
+
+## References
+
+::: {#refs}
+:::

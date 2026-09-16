@@ -1,0 +1,388 @@
+---
+title: "Introduction"
+subtitle: "Institutional Investors: Theory and Evidence"
+author: "Calvin J. Chiou (邱健嘉)"
+institute: "Department of Finance · National Chengchi University"
+date: "2026-09-10"
+format:
+  revealjs:
+    theme: [serif, custom.scss]
+    slide-number: true
+    progress: true
+    history: true
+    transition: fade
+    transition-speed: fast
+    embed-resources: true
+    incremental: false
+    toc: false
+    logo: "nccu_logo.png"
+    footer: "Institutional Investors · Slides 00 · NCCU Finance"
+    width: 1280
+    height: 720
+    margin: 0.08
+    #highlight-style: github
+    #code-block-background: true
+execute:
+  echo: false
+---
+
+# Course Overview {background-color="#2c3e6b"}
+
+## At a Glance
+
+::::: columns
+::: {.column width="50%"}
+**Logistics**
+
+|                |                          |
+|----------------|--------------------------|
+| **Code**       | TBA                      |
+| **Day / Time** | Thursday 16:10–18:00     |
+| **Credits**    | 2                        |
+| **Weeks**      | 16                       |
+| **Office**     | Commerce Building 261233 |
+| **Email**      | jjchiou\@nccu.edu.tw     |
+:::
+
+::: {.column width="50%"}
+**What this course is about**
+
+- Role of institutional investors in financial markets
+- Mutual funds · Pension funds · Insurance companies
+- Fund performance, agency problems, governance
+- ESG investing and long-term stewardship
+- Empirical methods applied to real data in **R**
+:::
+:::::
+
+## What Makes This Course Distinctive
+
+::: incremental
+- Combines **theory** with **hands-on empirical work**
+- Five **R lab sessions** integrated into the seminar
+- Labs use **CRSP Mutual Fund data** and **Kenneth French's** public factor library
+- Lab notes distributed as runnable **Quarto `.qmd`** files — you can reproduce everything on your own machine
+- Readings drawn from **JF, JFE, RFS, MS, JFQA** — the core empirical finance journals
+:::
+
+# Learning Objectives {background-color="#2c3e6b"}
+
+## By the End of This Course, You Will Be Able To... {.smaller}
+
+::: incremental
+1.  **Identify** the major types of institutional investors and their structural incentives
+2.  **Analyze** how institutional investors affect corporate governance, firm behavior, and market prices
+3.  **Critically evaluate** empirical research on investor strategies, performance, and market impact
+4.  **Recognize** identification challenges in this literature and how leading papers address them
+5.  **Implement** core fund measures in R — factor alphas, DGTW benchmarks, active share, churn ratio, window dressing
+6.  **Develop and present** an original research idea or literature review in this domain
+:::
+
+# Course Format {background-color="#2c3e6b"}
+
+## Three Modes of Instruction
+
+:::::: columns
+::: {.column width="33%"}
+### 📖 Lecture & Discussion
+
+*\~50% of class time*
+
+- Instructor introduces the week's topic
+- Key papers reviewed and contextualized
+- Open research questions framed
+:::
+
+::: {.column width="33%"}
+### 🎤 Student Presentations
+
+*\~30% of class time*
+
+- Students present assigned or self-selected papers
+- 20–25 min presentation + 10 min Q&A
+- Two presentations per student
+:::
+
+::: {.column width="33%"}
+### 💻 R Labs
+
+*\~20% of class time*
+
+- Five instructor-led sessions
+- Implement measures from the readings
+- Runnable `.qmd` notes provided
+:::
+::::::
+
+## Software and Data
+
+::::: columns
+::: {.column width="55%"}
+**R Stack**
+
+``` r
+# Install before Week 2
+pkgs <- c(
+  "tidyverse", "tidyquant",
+  "frenchdata", "broom",
+  "gt", "scales", "slider",
+  "fixest"
+)
+install.packages(pkgs)
+```
+
+Installation guide on Moodle.
+:::
+
+::: {.column width="45%"}
+**Data Sources**
+
+| Labs | Data              |
+|------|-------------------|
+| 1–3  | Public (no login) |
+| 4–5  | CRSP MF Holdings  |
+
+- Kenneth French's factor library
+- ETF prices via `tidyquant`
+- CRSP Mutual Fund Holdings distributed by instructor
+:::
+:::::
+
+# Assessment {background-color="#2c3e6b"}
+
+## Grading {.smaller}
+
+::::: columns
+::: {.column width="48%"}
+| Component            | Weight |
+|----------------------|--------|
+| Class Participation  | 20%    |
+| Paper Presentations  | 30%    |
+| Final Written Report | 20%    |
+| Final Presentation   | 30%    |
+:::
+
+::: {.column width="52%"}
+**Paper Presentations**
+
+- Two presentations per student
+- Summarize question, data, method, findings
+- Situate within course literature
+- Raise ≥ 2 discussion questions
+- Slides required (PDF or PPTX)
+
+**Final Report Options**
+
+- Literature review & synthesis (≥ 10 papers)
+- Research proposal with identification strategy
+- Replication & extension of an existing paper
+:::
+:::::
+
+## Key Deadlines
+
+| Milestone                                | When           |
+|------------------------------------------|----------------|
+| Presentation slots assigned              | Week 1         |
+| R setup confirmed                        | Before Week 2  |
+| Topic proposal (1 paragraph, via Moodle) | End of Week 8  |
+| Final in-class presentation              | Weeks 15–16    |
+| Final written report (≤ 10 pages)        | End of Week 16 |
+
+# Course Schedule {background-color="#2c3e6b"}
+
+## Schedule Overview {.smaller}
+
+| Week | Date   | Topic                                        |   Type    |
+|------|--------|----------------------------------------------|:---------:|
+| 1    | Sep 10 | Course Overview and Motivation               |  Lecture  |
+| 2    | Sep 17 | Types of Institutional Investors             |  Lecture  |
+| 3    | Sep 24 | Fund Performance I: Carhart 4-Factor         | **Lab 1** |
+| 4    | Oct 1  | Luck vs. Skill Debate                        |  Lecture  |
+| 5    | Oct 8  | Fund Performance II: DGTW                    | **Lab 2** |
+| 6    | Oct 15 | Benchmarking, Style Drift, Active Share      |  Lecture  |
+| 7    | Oct 22 | Tournament Behavior and Fund Flows           |  Lecture  |
+| 8    | Oct 29 | Manager Incentives and Fund Family Conflicts |  Lecture  |
+
+## Schedule Overview (cont.) {.smaller}
+
+| Week | Date | Topic | Type |
+|-----------------|-----------------|---------------------|:---------------:|
+| 9 | Nov 5 | Fund Performance III: Bootstrap Inference | **Lab 3** |
+| 10 | **Nov 12** | Fund Holdings and Trading Behavior | Lecture |
+| 11 | Nov 19 | Holdings Measures: Active Share, Churn, Window Dressing | **Lab 4** |
+| 12 | Nov 26 | Career Concerns and Behavioral Biases | Lecture |
+| 13 | Dec 3 | Institutional Monitoring, Voting, Engagement | Lecture |
+| 14 | Dec 10 | Institutional and Common Ownership Measures | **Lab 5** |
+| 15 | Dec 17 | ESG Investing and Long-Term Stewardship | Lecture |
+| 16 | Dec 24 | Final Presentations | Presentations |
+
+## Weeks 1–2: Setting the Stage {.smaller}
+
+**Week 1 — Course Overview and Motivation**
+
+- Why do institutional investors matter?
+- Bebchuk, Cohen & Hirst (2017, *JEP*) — agency problems of institutional investors
+- Presentation slots assigned; R setup check
+
+**Week 2 — Types of Institutional Investors**
+
+- Mutual funds, pension funds, insurance companies, sovereign wealth funds
+- Asset concentration trends in the US and internationally
+- Taiwan and Asian institutional investor landscape
+- Gompers & Metrick (2001, *QJE*); Ferreira & Matos (2008, *JFE*)
+
+## Weeks 3–5: Measuring Fund Performance {.smaller}
+
+**Week 3 · \[Lab 1\] — Carhart Four-Factor Model**
+
+Download factor data → compute excess returns → estimate CAPM / FF3 / Carhart 4-factor in R
+
+**Week 4 — Luck vs. Skill Debate**
+
+- Do mutual fund managers have genuine skill?
+- Fama & French (2010, *JF*); Berk & van Binsbergen (2015, *JFE*)
+
+**Week 5 · \[Lab 2\] — DGTW Characteristic-Adjusted Returns**
+
+- Characteristic Selectivity (CS) and Characteristic Timing (CT) components
+- Fund flow, turnover ratio, active share approximation in R
+- Daniel, Grinblatt, Titman & Wermers (1997, *JF*); Wermers (2000, *JF*)
+
+## Weeks 6–8: Active Management and Agency {.smaller}
+
+**Week 6 — Benchmarking, Style Drift, and Active Share**
+
+- Is your fund manager actually active?
+- Cremers & Petajisto (2009, *RFS*); Bollen & Busse (2005, *RFS*)
+
+**Week 7 — Tournament Behavior, Risk Shifting, and Fund Flows**
+
+- Mid-year risk shifting; flow-performance relationship
+- Brown, Harlow & Starks (1996, *JF*); Sirri & Tufano (1998, *JF*)
+
+**Week 8 — Manager Incentives and Fund Family Conflicts**
+
+- Cross-fund subsidization; career concerns
+- Gaspar, Massa & Matos (2006, *JF*); Bhattacharya, Lee & Pool (2013, *JF*)
+- **⚠ Topic proposals due end of Week 8**
+
+## Weeks 9–11: Bootstrap, Holdings, and Trading {.smaller}
+
+**Week 9 · \[Lab 3\] — Bootstrap Inference for Luck vs. Skill**
+
+- Joint block bootstrap resampling
+- Actual vs. simulated alpha distribution across funds
+- Replicates Fama & French (2010, *JF*, Section III)
+
+**Week 10 — TBA (lectured by Dr. Jarvinia Hsieh)**
+
+- I will attend a conference in Japan.
+- Jar is expected to present a research topic regarding institutional investors.
+- Online (via Zoom or Google Meet).
+- Everyone should be present and be surveyed afterwards.
+
+**Week 11 · \[Lab 4\] — Active Share, Churn Ratio, Window Dressing**
+
+- Three holdings-based measures from CRSP Mutual Fund Holdings
+- Cremers & Petajisto (2009); Agarwal, Gay & Ling (2014, *RFS*)
+
+## Weeks 12–14: Governance and Ownership {.smaller}
+
+**Week 12 — Career Concerns and Behavioral Biases**
+
+- Employment risk and manager risk-taking
+- Kempf, Ruenzi & Thiele (2009, *JFE*); Frazzini & Lamont (2008, *JFE*)
+
+**Week 13 — Institutional Monitoring, Voting, and Engagement**
+
+- Which institutions are active monitors?
+- How do mutual funds vote? Are they active voters?
+- Gillan & Starks (2000, *JFE*); Iliev & Lowry (2015, *RFS*)
+
+**Week 14 · \[Lab 5\] — Institutional and Common Ownership Measures**
+
+- IO concentration (HHI), MHHI delta (Azar et al. 2018)
+- Panel regressions with `fixest::feols()`
+- Appel et al. (2016, *JFE*); Azar, Schmalz & Tecu (2018, *JF*)
+
+## Weeks 15–16: ESG and Wrap-Up
+
+**Week 15 — ESG Investing, Climate Risk, and Long-Term Stewardship**
+
+- Do institutional investors drive CSR?
+- Climate risk as a financial risk
+- Chen, Dong & Lin (2020, *JFE*); Starks, Venkat & Zhu (2025, *JF*)
+
+**Week 16 — Final Presentations**
+
+- All students present their final reports
+- Written reports due by end of week
+
+# R Lab Sessions {background-color="#2c3e6b"}
+
+## Five Labs, Tightly Linked to Theory {.smaller}
+
+| Lab | Week | What You'll Build |
+|------------------------|------------------------|------------------------|
+| **Lab 1** | 3 | Carhart 4-factor alpha for a set of ETFs |
+| **Lab 2** | 5 | DGTW CS and CT components; fund-level flow and turnover |
+| **Lab 3** | 9 | Bootstrap alpha distribution (Fama-French 2010 replication) |
+| **Lab 4** | 11 | Active Share, Churn Ratio, Window Dressing Index from CRSP Holdings |
+| **Lab 5** | 14 | Institutional ownership HHI; MHHI common ownership; `feols()` panel regressions |
+
+Each lab comes with a self-contained `.qmd` note distributed on Moodle before the session.
+
+## Lab 4 in Detail: Holdings-Based Measures
+
+Three measures, one data source: **CRSP Mutual Fund Holdings**
+
+::: incremental
+- **Active Share** *(Cremers & Petajisto 2009)*\
+  Fraction of the portfolio that differs from a benchmark index
+
+- **Churn Ratio** *(Gaspar, Massa & Matos 2005)*\
+  Holdings-based turnover capturing short-term trading intensity
+
+- **Window Dressing Index** *(Agarwal, Gay & Ling 2014)*\
+  Quarter-end inflation of winners + dumping of recent losers in disclosed holdings
+:::
+
+. . .
+
+Key practical step: merging holdings on `wfundno` / `permno` linkage table
+
+# Ready to Start? {background-color="#2c3e6b"}
+
+## Before Week 2 — Checklist
+
+::: incremental
+- [ ] Install **R ≥ 4.3** and **RStudio** (or Positron)
+- [ ] Run the package check script from Moodle
+- [ ] Confirm `tidyverse`, `tidyquant`, `frenchdata`, `fixest` all load without errors
+- [ ] Read Bebchuk, Cohen & Hirst (2017, *JEP*) — the course's opening frame
+- [ ] Think about which weeks you'd like to present
+:::
+
+. . .
+
+**Full syllabus and reading list on Moodle.**\
+Questions? [jjchiou\@nccu.edu.tw](mailto:jjchiou@nccu.edu.tw)
+
+------------------------------------------------------------------------
+
+:::: columns
+::: {.column width="100%"}
+<br><br>
+
+### Institutional Investors: Theory and Evidence
+
+**Calvin J. Chiou (邱健嘉)**\
+Department of Finance · National Chengchi University\
+Fall AY114
+
+<br>
+
+*See you next Thursday.*
+:::
+::::

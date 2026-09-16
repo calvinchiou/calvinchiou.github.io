@@ -1,0 +1,7 @@
+/*-- scss:defaults --*/
+
+// reveal.js's base font size is 40px, and nearly every other size
+// (headings, tables, code, etc.) is set in em units relative to this,
+// so lowering this one variable shrinks the whole deck proportionally.
+// Tune this single number up or down to taste.
+$presentation-font-size-root: 30px;

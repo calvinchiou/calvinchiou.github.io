@@ -1,0 +1,502 @@
+---
+title: "01: The Landscape and the Agency Problem"
+subtitle: "Institutional Investors: Theory and Evidence"
+author: "Calvin J. Chiou (邱健嘉)"
+institute: "Department of Finance · National Chengchi University"
+date: "2026-09-17"
+format:
+  revealjs:
+    theme: [serif, custom.scss]
+    slide-number: true
+    progress: true
+    history: true
+    transition: fade
+    transition-speed: fast
+    toc: false
+    embed-resources: true
+    logo: "nccu_logo.png"
+    footer: "Institutional Investors · Slides 01 · NCCU Finance"
+    width: 1280
+    height: 720
+    margin: 0.08
+execute:
+  echo: false
+---
+
+# Welcome {.center}
+
+## Hi — a bit about me
+
+- Assistant Professor, Department of Finance, NCCU
+- Research: mutual funds, institutional ownership, corporate governance, ESG
+- I use R for almost everything — data, analysis, this slide deck
+- Office hours: by appointment — please reach out, I respond quickly
+
+. . .
+
+**What I hope you take away from this course:**
+
+> A clear picture of how institutional investors behave, why it matters for markets and firms, and the practical skills to study it yourself.
+
+## A question to start
+
+. . .
+
+*You have NT\$5 million to invest.*
+
+. . .
+
+Do you pick individual stocks yourself?
+
+. . .
+
+Probably not. You hand it to a **professional fund manager**.
+
+. . .
+
+Now multiply that by millions of people doing the same thing.
+
+. . .
+
+**That is what this course is about** — what happens when enormous pools of capital are managed by a relatively small group of professional institutions.
+
+------------------------------------------------------------------------
+
+What share of the US stock market do institutions own today?
+
+. . .
+
+::::: columns
+::: {.column width="50%"}
+**1950**
+
+Mostly individual retail investors.
+
+Institutions held just **6.1%** of outstanding US corporate equity (Tonello & Rabimov, 2010).
+:::
+
+::: {.column width="50%"}
+**2016**
+
+Institutions held **63%** of outstanding US public corporate equity (Federal Reserve Flow of Funds, 2016).
+
+In Taiwan, foreign institutional investors alone account for a significant fraction of daily trading volume.
+:::
+:::::
+
+. . .
+
+The shift from retail to institutional ownership is one of the defining structural changes in modern financial markets — and it is still accelerating.
+
+# Part 1 · The Landscape {background-color="#3b3b6b"}
+
+## Who counts as an institutional investor?
+
+Any organization that pools money from individuals or other entities and invests it on their behalf.
+
+. . .
+
+::::: columns
+::: {.column width="50%"}
+**The big categories**
+
+- Mutual funds (共同基金)
+- Pension funds (退休基金)
+- Insurance companies (壽險)
+- Sovereign wealth funds (主權基金)
+- Endowments (大學基金)
+- ETFs (exchange-traded funds)
+:::
+
+::: {.column width="50%"}
+**What they share**
+
+- Manage *other people's money*
+- Subject to regulation and disclosure rules
+- Have mandates, constraints, and benchmarks
+- Their decisions move markets
+:::
+:::::
+
+## Scale: just how big are we talking?
+
+The five largest asset managers in the world:
+
+| Manager                      | AUM (approx.)    |
+|------------------------------|------------------|
+| BlackRock                    | \~\$10 trillion  |
+| Vanguard                     | \~\$8 trillion   |
+| Fidelity                     | \~\$4.5 trillion |
+| State Street Global Advisors | \~\$4 trillion   |
+| JPMorgan Asset Management    | \~\$3 trillion   |
+
+. . .
+
+Taiwan's GDP is roughly **\$800 billion**.
+
+BlackRock alone manages more than **12 times** Taiwan's annual GDP.
+
+## The cast of players, briefly
+
+::::: columns
+::: {.column width="50%"}
+**This course's focus**
+
+- **Mutual funds** — best available data (CRSP Mutual Fund Database), the richest literature, and the clearest agency problems
+- The **"Big Three"** (BlackRock, Vanguard, State Street) — dominate index investing and are simultaneously the largest shareholders in most S&P 500 firms
+:::
+
+::: {.column width="50%"}
+**Also on stage**
+
+- **Pension funds** — long horizons, tend to be more engaged (CalPERS, GPIF, Bureau of Labor Funds)
+- **Insurance companies** — fixed-income tilt, regulated equity holdings
+- **In Taiwan** — foreign institutional investors (外資) dominate large-cap trading; the Bureau of Labor Funds (勞動基金) is the major domestic player
+:::
+:::::
+
+. . .
+
+We will dig into ownership patterns and the evidence on how these types differ **next week**.
+
+# Part 2 · Why Does It Matter? {background-color="#3b3b6b"}
+
+## Three reasons this is not a boring topic
+
+. . .
+
+**① Institutions affect stock prices**
+
+When large institutions buy or sell, prices move. Their portfolio decisions create and destroy the price signals that guide capital allocation in the economy.
+
+. . .
+
+**② Institutions govern corporations**
+
+As major shareholders, they vote on boards, executive pay, and mergers. Whether they use this power effectively — or not — shapes how companies behave.
+
+. . .
+
+**③ Institutions face their own agency problems**
+
+The fund manager is paid to act in your interest. But they have their own career concerns, fee incentives, and performance pressures. Do these distort their decisions?
+
+## The agency problem — the course's central tension
+
+You hire a fund manager to maximize your wealth.
+
+. . .
+
+But the manager cares about:
+
+::: incremental
+- Their **fee** (often a percentage of AUM, not performance)
+- Their **career** (avoiding underperformance that gets them fired)
+- Their **bonus** (calendar-year performance)
+- Looking good at **quarter-end** (window dressing)
+:::
+
+. . .
+
+These incentives do **not** perfectly align with yours.
+
+. . .
+
+This tension — between the *principal* (you) and the *agent* (the manager) — runs through almost every paper we read this semester.
+
+## Today's motivating paper
+
+**Bebchuk, Cohen & Hirst (2017)**\
+*"The Agency Problems of Institutional Investors"*\
+*Journal of Economic Perspectives*
+
+. . .
+
+This is an accessible, well-written piece — a good entry point.
+
+The core argument:
+
+> Institutional investors are not simply "*investor-principals*" who solve agency problems at the firm level. They are themselves *agents* — with their own principals (their investors) and their own incentive distortions.
+
+. . .
+
+We will return to specific arguments from this paper throughout the semester.
+
+## Two agency problems, not one
+
+. . .
+
+**Problem 1 — the classic one (Berle & Means, 1932)**
+
+Ownership is dispersed across many small shareholders. Each is "rationally apathetic" — too small to bother monitoring — so managers are left relatively unconstrained: *"management control."*
+
+. . .
+
+**Problem 2 — Bebchuk, Cohen & Hirst's contribution**
+
+Institutional investors were supposed to fix Problem 1 by concentrating ownership. But an investment manager invests *other people's money*. So a second, nested agency problem appears: the fund manager (agent) vs. the fund's own beneficial investors (principals).
+
+## The concentration numbers behind the paper
+
+Largest 20 US corporations by market cap, June 2016 — average ownership by:
+
+| Holder group                     | Mean  | Median |
+|----------------------------------|-------|--------|
+| Largest 5 institutional holders  | 20.8% | 19.8%  |
+| Largest 20 institutional holders | 33.4% | 32.9%  |
+| Largest 50 institutional holders | 44.2% | 44.2%  |
+
+. . .
+
+Compare this to Berle & Means (1932): the largest 20 shareholders of the 200 largest US corporations in 1930 held a mean of just **10.55%**.
+
+. . .
+
+Today's largest 20 institutional holders alone own **more than three times** that. Shareholders are no longer atomistic — the question is no longer *can* institutions influence firms, but *will they, and in whose interest?*
+
+## Three structural drivers of underinvestment in stewardship
+
+*(Bebchuk, Cohen & Hirst, 2017)*
+
+::: incremental
+**① Capture only a small fraction of the benefit**
+
+Investment managers bear the full cost of stewardship (monitoring, engagement, proxy fights) but earn fees calculated as a small percentage of assets under management — so they keep only a sliver of any value increase they help create.
+
+**② Limits of competition — especially for index funds**
+
+Performance is judged relative to a benchmark or to rival funds tracking the *same* index. Raising a portfolio company's value also lifts the benchmark, so it buys no competitive edge. A classic collective-action problem: everyone in the index fund would benefit from more stewardship spending, but no single fund can raise fees to pay for it without investors defecting to a cheaper rival tracking the same index.
+
+**③ Private costs from opposing corporate managers**
+
+Many fund families also sell services — 401(k) administration, cash management — to the very corporations they invest in, creating pressure to vote with management. Crossing the 5% ownership threshold with intent to influence control also triggers costly Schedule 13D disclosure, discouraging active engagement by the largest holders.
+:::
+
+## The arithmetic of underinvestment
+
+A stewardship activity costs $C$ and raises portfolio value by $\Delta V$.
+
+. . .
+
+- **No-agency benchmark**: undertake it whenever $C < \Delta V$
+- **Investment manager** who captures a fee share $\alpha$ of the gain: undertakes it only when $C < \alpha \times \Delta V$
+
+. . .
+
+Everything in between — $\alpha \Delta V < C < \Delta V$ — is value-creating stewardship that never happens.
+
+## The arithmetic, with real numbers
+
+A \$1 billion equity stake; stewardship could raise its value by 0.1%, or **\$1,000,000**.
+
+. . .
+
+| Manager type | Fee share captured | Willing to spend up to |
+|----|----|----|
+| No-agency benchmark | 100% | \$1,000,000 |
+| Index fund (avg. fee ≈ 0.12%) | 0.12% | \~\$1,200 |
+| Active mutual fund (avg. fee ≈ 0.79%) | 0.79% | \~\$7,900 |
+| Activist hedge fund ("2 and 20") | \~20% | \~\$200,000 |
+
+. . .
+
+**Same \$1 million of value on the table. Wildly different willingness to go get it.**
+
+## Governance passivity, in staff counts
+
+- **Vanguard**: \~15 staff for voting and stewardship, covering **13,000** portfolio companies
+- **BlackRock**: \~24 staff, **14,000** portfolio companies
+- **State Street Global Advisors**: fewer than 10 staff, **9,000** portfolio companies
+
+*(Krouse, Benoit & McGinty, 2016)*
+
+. . .
+
+Less than **one person-workday per company per year**, on average — even though each of these managers holds a meaningful stake in most of them.
+
+## The "giant three" problem
+
+Bebchuk & Hirst (2019) extend this to a specific concern:
+
+. . .
+
+BlackRock, Vanguard, and State Street together hold **20–25% of S&P 500 companies**.
+
+. . .
+
+Their fee income is proportional to **AUM**, not to how well they monitor portfolio companies.
+
+The return on investing in better corporate governance is tiny relative to the cost for a fund that already holds every company in the index.
+
+. . .
+
+**Result:** the institutions with the most power to discipline corporate management may have the least incentive to do so.
+
+## Why activist hedge funds are different
+
+::: incremental
+- **"2 and 20"** fee structure → managers capture \~20% of any value increase they create, an order of magnitude more than a mutual fund's fee-based cut
+- **Concentrated portfolios** (sometimes as few as 10 positions) → one successful engagement can meaningfully move the fund's own performance
+- **Not registered investment companies**, and don't sell 401(k) or cash-management services to corporations → far less exposure to the private costs that make mutual funds reluctant to antagonize management
+- Willing to run **costly proxy contests** (\~\$10 million on average, Gantchev 2013) that mutual fund families almost never initiate
+:::
+
+## …but hedge fund activism is not a full solution
+
+::: incremental
+- Only pursue targets where the expected value increase is large — engagements are typically associated with average abnormal returns **above 5%**, just to clear the cost and fee hurdle
+- Need the support of other institutional investors (mutual funds, index funds) to actually win — or credibly threaten — a proxy fight
+- If mutual funds are expected to side with management anyway, activist hedge funds have little leverage — the two problems are **linked**, not independent
+:::
+
+## What the paper recommends
+
+::: incremental
+- More **disclosure**: how investment managers vote, and their business ties to portfolio companies
+- Rethink **mutual fund fee rules** that block managers from charging for dedicated stewardship
+- The trade-off from the rise of **index investing**: lower costs for investors, but weaker incentives to monitor
+- Their conclusion: modern corporations suffer not from **too much** shareholder intervention, but from **too little** — little basis for weakening shareholder rights out of fear of "activist" institutions
+:::
+
+## Some big open questions
+
+These are the kinds of questions this course prepares you to investigate:
+
+::: incremental
+- Do active fund managers actually beat passive benchmarks, after fees?
+- Does institutional ownership improve firm performance — or does it just reflect good firms attracting institutional attention?
+- When institutions become large shareholders simultaneously across competitors, do they soften competitive pressure?
+- Can ESG-focused funds actually influence firm behavior, or is it mostly marketing?
+- Why do fund managers disclose certain trades at quarter-end that look very different from the rest of the year?
+- Would more disclosure — of proxy votes, of business ties to portfolio companies — actually change how institutions behave?
+:::
+
+# Part 3 · Getting Set Up in R {background-color="#3b3b6b"}
+
+## Why R?
+
+You might already know Python, Excel, Stata, or SAS.
+
+We use R because:
+
+::: incremental
+- The academic finance literature increasingly publishes in R (and Python)
+- `tidyverse` + `tidyquant` + `frenchdata` gives you a clean pipeline from raw data to publication-quality output
+- Quarto (`.qmd`) lets you write your report and run your analysis in the same document
+- The CRSP Mutual Fund Holdings data we use in later labs is easiest to work with in R
+- I can actually help you debug it
+:::
+
+## The R stack for this course
+
+``` r
+# Run this before Week 2
+install.packages(c(
+  "tidyverse",    # data wrangling and visualization
+  "tidyquant",    # financial data download and analysis
+  "frenchdata",   # Kenneth French's factor library
+  "broom",        # tidy model output
+  "gt",           # publication-quality tables
+  "scales",       # number formatting
+  "slider",       # rolling window calculations
+  "fixest"        # fast panel regressions with fixed effects
+))
+```
+
+. . .
+
+A setup guide and package check script are on Moodle. Run the check script and email me if anything fails — before Week 2.
+
+## Public data vs. CRSP data
+
+::::: columns
+::: {.column width="50%"}
+**Public data only** — no accounts needed
+
+- ETF prices via `tidyquant::tq_get()`
+- Factor returns via `frenchdata`
+
+You can run these at home immediately.
+:::
+
+::: {.column width="50%"}
+**CRSP Mutual Fund Holdings**
+
+I will distribute the data files via Moodle before the relevant labs.
+
+These are the real datasets used in published papers — the same ones you would use in your own research.
+:::
+:::::
+
+## Lecture notes format
+
+All lecture notes — including this slide deck — are written in **R Quarto** (`.qmd`).
+
+. . .
+
+What this means for you:
+
+- Every `.qmd` file I distribute is **fully runnable** — open it in RStudio, click Render, and it reproduces all analysis and output
+- You can modify my code and run your own versions
+
+. . .
+
+If you have never used Quarto before, don't worry. The learning curve is gentle, and the payoff is high.
+
+# Wrapping Up Week 1 {background-color="#3b3b6b"}
+
+## What we covered today
+
+::: incremental
+- Who institutional investors are, and how concentrated their ownership has become
+- Two nested agency problems: managers vs. dispersed shareholders (Berle & Means), and investment managers vs. their own beneficial investors (Bebchuk, Cohen & Hirst 2017)
+- Three structural drivers of underinvestment in stewardship — and why index funds are especially exposed
+- Why activist hedge funds behave differently, and why they can't fully substitute for institutional stewardship
+:::
+
+## Before Week 2 — your to-do list
+
+::: incremental
+- [ ] Install R ≥ 4.3 and RStudio (or Positron)
+- [ ] Run the package check script from Moodle — email me if anything fails
+- [ ] Read **Bebchuk, Cohen & Hirst (2017)** — full paper, not just the abstract. It's in JEP so it's written to be accessible. Should take about an hour.
+:::
+
+## Week 2 preview
+
+**Topic:** Types of Institutional Investors and Asset Concentration Trends
+
+**Readings:**
+
+- Gompers & Metrick (2001, *QJE*) — how institutional demand affects stock prices
+- Ferreira & Matos (2008, *JFE*) — institutional ownership around the world
+
+We will also talk about the Taiwan institutional investor landscape in more detail.
+
+------------------------------------------------------------------------
+
+## References {.smaller}
+
+- Bebchuk, L. A., Cohen, A., & Hirst, S. (2017). The agency problems of institutional investors. *Journal of Economic Perspectives*, 31(3), 89–112.
+- Bebchuk, L., & Hirst, S. (2019). The specter of the giant three. *Boston University Law Review*, 99(3), 721–741.
+- Berle, A. A., & Means, G. C. (1932). *The Modern Corporation and Private Property*. Macmillan.
+- Board of Governors of the Federal Reserve System. (2016). *Financial Accounts of the United States: Flow of Funds, Balance Sheets, and Integrated Macroeconomic Accounts, Z.1*.
+- Gantchev, N. (2013). The costs of shareholder activism: Evidence from a sequential decision model. *Journal of Financial Economics*, 107(3), 610–631.
+- Krouse, S., Benoit, D., & McGinty, T. (2016, October 24). Meet the new corporate power brokers: Passive investors. *Wall Street Journal*.
+- Tonello, M., & Rabimov, S. R. (2010). *The 2010 Institutional Investment Report: Trends in Asset Allocation and Portfolio Composition*. The Conference Board.
+
+------------------------------------------------------------------------
+
+<br><br>
+
+### Questions?
+
+<br>
+
+**Calvin J. Chiou**\
+jjchiou\@nccu.edu.tw\
+Office: Commerce Building 261233
+
+<br>
+
+*See you next Thursday.*
