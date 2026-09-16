@@ -89,14 +89,14 @@ National Chengchi University · Materials in preparation
 
 R lecture notes
 
-| Note | Topic |
-|:--:|----|
-| [Note 0](notes/inst_investor/lecture01_fund_performance.html) | Introduction |
-|  |  |
-|  |  |
-|  |  |
-
 </summary>
+
+| Note | Topic |
+|:----------------------------------:|------------------------------------|
+| [Note 0](notes/inst_investor/lecture01_fund_performance.html) | Measuring Fund Performance |
+|  |  |
+|  |  |
+|  |  |
 
 </details>
 
@@ -105,6 +105,8 @@ R lecture notes
 <summary style="font-size:0.85rem; color:#6c757d; cursor:pointer; margin-top:0.5rem;">
 
 Slides
+
+</summary>
 
 |                         Note                          | Topic          |
 |:-----------------------------------------------------:|----------------|
@@ -115,8 +117,6 @@ Slides
 |                                                       |                |
 |                                                       |                |
 |                                                       |                |
-
-</summary>
 
 </details>
 :::::

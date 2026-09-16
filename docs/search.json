@@ -3476,7 +3476,7 @@
     "href": "teaching.html#courses",
     "title": "Teaching",
     "section": "Courses",
-    "text": "Courses\n\n\n\nInvestments undergrad\n\n\nNational Chengchi University · Course 351051 · English (EMI)\n\nTopics: Portfolio Theory · Asset Pricing · Factor Models · Trading Strategy · Behavioral Finance · Portfolio Optimization\n\n\nR lecture notes\n\n\n\n\nNote\nTopic\n\n\n\n\nNote 1\nIntroduction to R & Financial Data Handling\n\n\nNote 2\nPortfolio Formation\n\n\nNote 3\nFactor Model Estimation\n\n\nNote 4\nTrading Strategies\n\n\nNote 5\nBehavrioal Finance & Lottery-like Stock Anamoly\n\n\nNote 6\nPortfolio Optimization (coming soon)\n\n\nAppendix A\nggplot2 Theme Gallery\n\n\nAppendix B\nhighcharter Theme Gallery\n\n\n\n\n\n\n\n\n\nFinancial Management undergrad\n\n\nNational Chengchi University · Course 347051 · English (EMI)\n\nTopics: Capital Budgeting · Capital Structure · Valuation · Free Cash Flow\n\n\n\n\n\nInstitutional Investors: Theory and Evidence graduate\n\n\nNational Chengchi University · Materials in preparation\n\nTopics: Mutual Funds · Hedge Funds · Pension Funds · Delegated Asset Management · Fund Performance · Institutional Trading\n\n\nR lecture notes\n\n\n\nNote\nTopic\n\n\n\n\nNote 0\nIntroduction\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSlides\n\n\n\nNote\nTopic\n\n\n\n\nSlides 00\nIntroduction\n\n\nSlides 01\nAgency Problem\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSeminar on Corporate Finance PhD\n\n\nNational Chengchi University · English (EMI)\n\nTopics: Capital Structure · Payout Policy · M&A · Corporate Governance · Empirical Methods"
+    "text": "Courses\n\n\n\nInvestments undergrad\n\n\nNational Chengchi University · Course 351051 · English (EMI)\n\nTopics: Portfolio Theory · Asset Pricing · Factor Models · Trading Strategy · Behavioral Finance · Portfolio Optimization\n\n\nR lecture notes\n\n\n\n\nNote\nTopic\n\n\n\n\nNote 1\nIntroduction to R & Financial Data Handling\n\n\nNote 2\nPortfolio Formation\n\n\nNote 3\nFactor Model Estimation\n\n\nNote 4\nTrading Strategies\n\n\nNote 5\nBehavrioal Finance & Lottery-like Stock Anamoly\n\n\nNote 6\nPortfolio Optimization (coming soon)\n\n\nAppendix A\nggplot2 Theme Gallery\n\n\nAppendix B\nhighcharter Theme Gallery\n\n\n\n\n\n\n\n\n\nFinancial Management undergrad\n\n\nNational Chengchi University · Course 347051 · English (EMI)\n\nTopics: Capital Budgeting · Capital Structure · Valuation · Free Cash Flow\n\n\n\n\n\nInstitutional Investors: Theory and Evidence graduate\n\n\nNational Chengchi University · Materials in preparation\n\nTopics: Mutual Funds · Hedge Funds · Pension Funds · Delegated Asset Management · Fund Performance · Institutional Trading\n\n\nR lecture notes\n\n\n\n\nNote\nTopic\n\n\n\n\nNote 0\nMeasuring Fund Performance\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSlides\n\n\n\n\nNote\nTopic\n\n\n\n\nSlides 00\nIntroduction\n\n\nSlides 01\nAgency Problem\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSeminar on Corporate Finance PhD\n\n\nNational Chengchi University · English (EMI)\n\nTopics: Capital Structure · Payout Policy · M&A · Corporate Governance · Empirical Methods"
   },
   {
     "objectID": "notes/investments/n3_factor_model.html",
@@ -4366,5 +4366,33 @@
     "title": "When the Watchdog Leaves, the Empire Shrinks: Local Media Closures and Corporate Investment",
     "section": "Conference",
     "text": "Conference\n\nJAAF Conference, Nagoya, Japan, 2026 (accepted)"
+  },
+  {
+    "objectID": "posts_hidden/NPI.html",
+    "href": "posts_hidden/NPI.html",
+    "title": "Product Disclosure following Seasoned Equity Offerings",
+    "section": "",
+    "text": "This study highlights the significance of product disclosure (PD) following seasoned equity offerings (SEOs) in indicating potential failure risks within the uncertain landscape of the innovation process. Employing a news-based dataset, we observe a substantial increase in PD relating to innovation progress post-SEO, in contrast to disclosures concerning new product introductions. Moreover, we find a negative association between post-issue operating performance and progress-type PD. These findings imply a tendency in equity markets to underestimate the failure risks associated with product innovation. The robustness of our results is maintained even after controlling for endogeneity concerns."
+  },
+  {
+    "objectID": "posts_hidden/NPI.html#abstract",
+    "href": "posts_hidden/NPI.html#abstract",
+    "title": "Product Disclosure following Seasoned Equity Offerings",
+    "section": "",
+    "text": "This study highlights the significance of product disclosure (PD) following seasoned equity offerings (SEOs) in indicating potential failure risks within the uncertain landscape of the innovation process. Employing a news-based dataset, we observe a substantial increase in PD relating to innovation progress post-SEO, in contrast to disclosures concerning new product introductions. Moreover, we find a negative association between post-issue operating performance and progress-type PD. These findings imply a tendency in equity markets to underestimate the failure risks associated with product innovation. The robustness of our results is maintained even after controlling for endogeneity concerns."
+  },
+  {
+    "objectID": "posts_hidden/NPI.html#keywords",
+    "href": "posts_hidden/NPI.html#keywords",
+    "title": "Product Disclosure following Seasoned Equity Offerings",
+    "section": "Keywords",
+    "text": "Keywords\nSeasoned equity offerings, corporate innovation, product disclosure, investment financing"
+  },
+  {
+    "objectID": "posts_hidden/NPI.html#seminars",
+    "href": "posts_hidden/NPI.html#seminars",
+    "title": "Product Disclosure following Seasoned Equity Offerings",
+    "section": "Seminars",
+    "text": "Seminars\nNational Chengchi University, National Central University"
   }
 ]

@@ -77,7 +77,7 @@ library(scales)
 We use ten ETFs spanning broad market, style (size/value), sector, and active strategies. This cross-section lets students observe how factor loadings vary systematically across fund types—a key pedagogical goal.
 
 | Ticker | Name                       | Category         | Expected Factor Tilt |
-|--------|----------------------------|------------------|----------------------|
+|----------------|------------------------|----------------|------------------|
 | SPY    | SPDR S&P 500               | Broad market     | β ≈ 1, others ≈ 0    |
 | QQQ    | Invesco Nasdaq-100         | Tech/growth      | Negative HML         |
 | IWM    | iShares Russell 2000       | Small cap        | Positive SMB         |
@@ -174,7 +174,7 @@ $$R_{i,t} - R_{f,t} = \alpha_i + \beta_i \cdot RMRF_t + s_i \cdot SMB_t + h_i \c
 \tag{1}$$
 
 | Factor | Full name | Economic rationale |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | $RMRF$ | Market excess return | Compensation for bearing systematic risk |
 | $SMB$ | Small-minus-big | Size premium: small stocks earn higher returns on average [@fama1993] |
 | $HML$ | High-minus-low | Value premium: high book-to-market (cheap) stocks outperform growth stocks [@fama1993] |
