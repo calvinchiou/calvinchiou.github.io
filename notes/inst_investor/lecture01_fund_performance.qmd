@@ -9,13 +9,10 @@ format:
     toc: true
     toc-depth: 3
     code-fold: true
-    code-tools: true
+    # code-tools: true
     theme: cosmo
     highlight-style: github
-    embed-resources: true   # one standalone .html, no _files/ folder
-  pdf:
-    toc: true
-    number-sections: true
+    self-contained: true
 execute:
   warning: false
   message: false
@@ -34,6 +31,7 @@ We will:
 3.  Download price data for 10 popular US ETFs using `tidyquant`
 4.  Obtain factor returns directly from **Kenneth French's Data Library** using the `frenchdata` package
 5.  Estimate and interpret Carhart alphas and factor loadings
+6.  Visualize the results with interactive `highcharter` charts
 
 ------------------------------------------------------------------------
 
@@ -68,6 +66,10 @@ library(frenchdata)   # Kenneth French's Data Library
 library(broom)
 library(gt)
 library(scales)
+library(highcharter)  # interactive charts (replaces ggplot2 for all figures)
+
+# Optional: apply one of your own highcharter themes to every chart, e.g.
+# options(highcharter.theme = hc_theme_smpl())
 ```
 
 ------------------------------------------------------------------------
@@ -77,7 +79,7 @@ library(scales)
 We use ten ETFs spanning broad market, style (size/value), sector, and active strategies. This cross-section lets students observe how factor loadings vary systematically across fund types—a key pedagogical goal.
 
 | Ticker | Name                       | Category         | Expected Factor Tilt |
-|----------------|------------------------|----------------|------------------|
+|-----------------|---------------------|-----------------|-----------------|
 | SPY    | SPDR S&P 500               | Broad market     | β ≈ 1, others ≈ 0    |
 | QQQ    | Invesco Nasdaq-100         | Tech/growth      | Negative HML         |
 | IWM    | iShares Russell 2000       | Small cap        | Positive SMB         |
@@ -244,27 +246,33 @@ data_merged <- returns_ym |>
 
 ## 5. Cumulative Return Plot
 
+The chart is interactive: hover to compare all ETFs at a given month, click a legend entry to hide or show a series, and drag across the plot to zoom in on a sub-period.
+
 ```{r}
 #| label: fig-cumret
 #| fig-cap: "Cumulative simple returns of 10 US ETFs (2015–2024)"
-#| fig-height: 5
 
-data_merged |>
+cumret_df <- data_merged |>
+  arrange(symbol, ym) |>
   group_by(symbol, name) |>
-  arrange(ym) |>
-  mutate(cum_ret = cumprod(1 + ret) - 1) |>
-  ggplot(aes(x = ym, y = cum_ret, color = name)) +
-  geom_line(linewidth = 0.6) +
-  labs(
-    title = "Cumulative Returns",
-    x = NULL, y = "Cumulative Return",
-    color = NULL
-  ) +
-  scale_y_continuous(labels = percent_format()) +
-  theme_minimal() +
-  theme(legend.position = "bottom",
-        legend.text = element_text(size = 7)) +
-  guides(color = guide_legend(nrow = 3))
+  mutate(cum_ret_pct = (cumprod(1 + ret) - 1) * 100) |>   # in percent
+  ungroup()
+
+hchart(cumret_df, "line",
+       hcaes(x = ym, y = cum_ret_pct, group = name)) |>
+  hc_chart(zoomType = "x", height = 480) |>
+  hc_title(text = "Cumulative Returns") |>
+  hc_xAxis(title = list(text = NULL)) |>
+  hc_yAxis(title  = list(text = "Cumulative return"),
+           labels = list(format = "{value}%")) |>
+  hc_tooltip(shared = TRUE, sort = TRUE,
+             valueDecimals = 1, valueSuffix = "%") |>
+  hc_plotOptions(series = list(lineWidth = 1.6,
+                               marker    = list(enabled = FALSE))) |>
+  hc_legend(layout = "horizontal", align = "center",
+            verticalAlign = "bottom",
+            itemStyle = list(fontSize = "11px")) |> 
+  hc_add_theme(hc_theme_economist())
 ```
 
 ------------------------------------------------------------------------
@@ -280,11 +288,28 @@ $\alpha > 0$ means the fund earned more than its CAPM-implied expected return.
 
 ```{r}
 #| label: capm
+#| tbl-cap: "CAPM / Jensen's alpha with statistical significance"
+
+# Helper: significance stars from a p-value
+sig_stars <- function(p) {
+  case_when(
+    p < 0.01 ~ "***",
+    p < 0.05 ~ "**",
+    p < 0.10 ~ "*",
+    TRUE     ~ ""
+  )
+}
 
 capm_results <- data_merged |>
   group_by(symbol, name) |>
-  do(tidy(lm(excess_ret ~ RMRF, data = .))) |>
-  select(symbol, name, term, estimate, std.error, statistic, p.value) |>
+  do({
+    fit <- lm(excess_ret ~ RMRF, data = .)
+    bind_cols(
+      tidy(fit)  |> select(term, estimate, std.error, statistic, p.value),
+      glance(fit)|> select(r.squared, adj.r.squared) |> slice(1)
+    )
+  }) |>
+  select(symbol, name, term, estimate, std.error, statistic, p.value, r.squared) |>
   filter(term %in% c("(Intercept)", "RMRF")) |>
   mutate(term = recode(term, "(Intercept)" = "alpha", "RMRF" = "beta_mkt")) |>
   pivot_wider(
@@ -292,25 +317,55 @@ capm_results <- data_merged |>
     values_from = c(estimate, std.error, statistic, p.value),
     names_glue  = "{term}_{.value}"
   ) |>
-  mutate(alpha_ann = alpha_estimate * 12) |>
-  ungroup()
+  ungroup() |>
+  mutate(
+    alpha_ann      = alpha_estimate * 12,                 # annualized alpha
+    alpha_stars    = sig_stars(alpha_p.value),            # new: stars for alpha
+    beta_mkt_stars = sig_stars(beta_mkt_p.value)          # new: stars for beta
+  )
 
 capm_results |>
   arrange(desc(alpha_ann)) |>
-  select(name, alpha_ann, beta_mkt_estimate, alpha_statistic, alpha_p.value) |>
+  select(name,
+         alpha_ann, alpha_stars, alpha_statistic, alpha_p.value,
+         beta_mkt_estimate, beta_mkt_stars, beta_mkt_statistic,
+         # kept (hidden by the merges below) so downstream chunks still work
+         alpha_estimate, r.squared) |>
   gt() |>
-  fmt_number(columns = c(alpha_ann, beta_mkt_estimate, alpha_statistic), decimals = 3) |>
+  # numeric formatting
+  fmt_number(
+    columns  = c(alpha_ann, alpha_statistic, beta_mkt_estimate, beta_mkt_statistic, r.squared),
+    decimals = 3
+  ) |>
   fmt(columns = alpha_p.value, fns = \(x) sprintf("%.3f", x)) |>
+  # attach stars to the coefficient they belong to, e.g. "0.042**"
+  cols_merge(columns = c(alpha_ann, alpha_stars),       pattern = "{1}{2}") |>
+  cols_merge(columns = c(beta_mkt_estimate, beta_mkt_stars), pattern = "{1}{2}") |>
+  cols_hide(alpha_estimate) |>
   cols_label(
-    name              = "ETF",
-    alpha_ann         = "Alpha (Ann.)",
-    beta_mkt_estimate = "Beta",
-    alpha_statistic   = "t(α)",
-    alpha_p.value     = "p(α)"
+    name               = "ETF",
+    alpha_ann          = "α (Ann.)",
+    alpha_statistic    = "t(α)",
+    alpha_p.value      = "p(α)",
+    beta_mkt_estimate  = "Beta",
+    beta_mkt_statistic = "t(β)",
+    r.squared        = "R²"
+  ) |>
+  cols_align(align = "right", columns = -name) |>
+  # shade rows where alpha is significant at the 10% level
+  tab_style(
+    style     = cell_fill(color = "#f0f4ff"),
+    locations = cells_body(rows = alpha_p.value < 0.10)
   ) |>
   tab_header(
     title    = "CAPM / Jensen's Alpha",
     subtitle = "Monthly excess returns regressed on market factor only"
+  ) |>
+  tab_source_note(
+    "Significance: *** p < 0.01, ** p < 0.05, * p < 0.10 (two-sided; OLS standard errors). Shaded rows: alpha significant at the 10% level."
+  ) |>
+  tab_source_note(
+    "Stars on annualized alpha come from the monthly alpha t-test; multiplying by 12 changes the scale but not the t-statistic or p-value."
   )
 ```
 
@@ -329,11 +384,17 @@ $$R_{i,t} - R_{f,t} = \alpha_i + \beta_i \cdot RMRF_t + s_i \cdot SMB_t + h_i \c
 #| label: ff3
 ff3_results <- data_merged |>
   group_by(symbol, name) |>
-  do(tidy(lm(excess_ret ~ RMRF + SMB + HML, data = .))) |>
+  do({
+    fit <- lm(excess_ret ~ RMRF + SMB + HML, data = .)
+    bind_cols(
+      tidy(fit)  |> select(term, estimate, std.error, statistic, p.value),
+      glance(fit)|> select(r.squared, adj.r.squared) |> slice(1)
+    )
+  }) |>
   filter(term %in% c("(Intercept)", "RMRF", "SMB", "HML")) |>
   mutate(term = recode(term,
-    "(Intercept)" = "alpha", "RMRF" = "b_mkt",
-    "SMB" = "b_smb", "HML" = "b_hml"
+                       "(Intercept)" = "alpha", "RMRF" = "b_mkt",
+                       "SMB" = "b_smb", "HML" = "b_hml"
   )) |>
   pivot_wider(
     names_from  = term,
@@ -345,21 +406,27 @@ ff3_results <- data_merged |>
 
 ff3_results |>
   arrange(desc(alpha_ann)) |>
-  select(name, alpha_ann, alpha_statistic, b_mkt_estimate,
-         b_smb_estimate, b_hml_estimate) |>
+  select(name, alpha_ann, alpha_statistic, alpha_p.value,
+         b_mkt_estimate, b_smb_estimate, b_hml_estimate, r.squared) |>
   gt() |>
   fmt_number(columns = where(is.numeric), decimals = 3) |>
   cols_label(
     name             = "ETF",
-    alpha_ann        = "Alpha (Ann.)",
+    alpha_ann        = "α (Ann.)",
     alpha_statistic  = "t(α)",
+    alpha_p.value    = "p(α)",
     b_mkt_estimate   = "β(MKT)",
     b_smb_estimate   = "β(SMB)",
-    b_hml_estimate   = "β(HML)"
+    b_hml_estimate   = "β(HML)",
+    r.squared        = "R²"
   ) |>
   tab_header(
     title    = "Fama-French 3-Factor Model",
     subtitle = "Controlling for market, size, and value"
+  ) |>
+  tab_style(
+    style     = cell_fill(color = "#f0f4ff"),
+    locations = cells_body(rows = alpha_p.value < 0.10)
   )
 ```
 
@@ -503,10 +570,11 @@ alpha_compare |>
 
 ## 10. Visualizing Factor Loadings
 
+`highcharter` has no direct equivalent of `facet_wrap()`, so we build one bar chart per factor and arrange the four panels in a grid with `hw_grid()`. All panels use the same ETF ordering (by median loading across the four factors), so you can read across a row to compare one ETF's exposures.
+
 ```{r}
 #| label: fig-loadings
 #| fig-cap: "Carhart factor loadings across 10 US ETFs"
-#| fig-height: 5
 
 loadings_long <- carhart_results |>
   select(name, b_mkt_estimate, b_smb_estimate,
@@ -523,18 +591,37 @@ loadings_long <- carhart_results |>
     "b_umd_estimate" = "UMD"
   ))
 
-loadings_long |>
-  ggplot(aes(x = loading, y = fct_reorder(name, loading),
-             fill = factor)) +
-  geom_col(show.legend = FALSE) +
-  geom_vline(xintercept = 0, linewidth = 0.4) +
-  facet_wrap(~factor, scales = "free_x", nrow = 1) +
-  labs(
-    title = "Carhart Factor Loadings",
-    x = "Loading", y = NULL
-  ) +
-  theme_minimal() +
-  theme(axis.text.y = element_text(size = 7))
+# One common ETF order for all panels (highest median loading at the top)
+etf_order <- loadings_long |>
+  group_by(name) |>
+  summarise(med = median(loading), .groups = "drop") |>
+  arrange(desc(med)) |>
+  pull(name)
+
+factor_cols <- c(MKT = "#4E79A7", SMB = "#F28E2B",
+                 HML = "#59A14F", UMD = "#B07AA1")
+
+loading_chart <- function(fac) {
+  d <- loadings_long |>
+    filter(factor == fac) |>
+    arrange(match(name, etf_order))
+
+  highchart() |>
+    hc_chart(type = "bar", height = 340) |>
+    hc_title(text = paste("Loading on", fac)) |>
+    hc_xAxis(categories = etf_order,
+             labels = list(style = list(fontSize = "10px"))) |>
+    hc_yAxis(title = list(text = NULL),
+             plotLines = list(list(value = 0, width = 1,
+                                   color = "#333333", zIndex = 3))) |>
+    hc_add_series(name = fac, data = round(d$loading, 4),
+                  color = factor_cols[[fac]]) |>
+    hc_legend(enabled = FALSE) |>
+    hc_tooltip(pointFormat = "Loading: <b>{point.y:.3f}</b>")
+}
+
+charts <- map(c("MKT", "SMB", "HML", "UMD"), loading_chart)
+do.call(hw_grid, c(charts, list(ncol = 2)))
 ```
 
 ------------------------------------------------------------------------
@@ -546,18 +633,24 @@ loadings_long |>
 ```{r}
 #| label: fig-r2
 #| fig-cap: "R² from Carhart model — how much return variation is explained by the four factors?"
-#| fig-height: 3.5
 
-carhart_results |>
+r2_df <- carhart_results |>
   select(name, r.squared) |>
-  ggplot(aes(x = r.squared, y = fct_reorder(name, r.squared))) +
-  geom_col(fill = "steelblue") +
-  geom_text(aes(label = percent(r.squared, accuracy = 0.1)),
-            hjust = -0.1, size = 3) +
-  scale_x_continuous(labels = percent_format(), limits = c(0, 1.05)) +
-  labs(title = "R² from Carhart 4-Factor Model",
-       x = "R-squared", y = NULL) +
-  theme_minimal()
+  arrange(desc(r.squared))     # highest R² at the top of the bar chart
+
+highchart() |>
+  hc_chart(type = "bar", height = 380) |>
+  hc_title(text = "R² from Carhart 4-Factor Model") |>
+  hc_xAxis(categories = r2_df$name) |>
+  hc_yAxis(min = 0, max = 105, tickInterval = 20, endOnTick = FALSE,
+           title  = list(text = "R-squared"),
+           labels = list(format = "{value}%")) |>
+  hc_add_series(name = "R²",
+                data = round(r2_df$r.squared * 100, 1),
+                color = "#4682B4",
+                dataLabels = list(enabled = TRUE, format = "{y:.1f}%")) |>
+  hc_legend(enabled = FALSE) |>
+  hc_tooltip(pointFormat = "R²: <b>{point.y:.1f}%</b>")
 ```
 
 ::: callout-note

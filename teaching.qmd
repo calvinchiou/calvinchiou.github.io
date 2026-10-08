@@ -43,7 +43,7 @@ R lecture notes
 </summary>
 
 | Note | Topic |
-|:-------------------------------:|---------------------------------------|
+|:--:|----|
 | [Note 1](notes/investments/n1_introduction.html) | Introduction to R & Financial Data Handling |
 | [Note 2](notes/investments/n2_portfolio.html) | Portfolio Formation |
 | [Note 3](notes/investments/n3_factor_model.html) | Factor Model Estimation |
@@ -92,7 +92,7 @@ R lecture notes
 </summary>
 
 | Note | Topic |
-|:----------------------------------:|------------------------------------|
+|:--:|----|
 | [Note 0](notes/inst_investor/lecture01_fund_performance.html) | Measuring Fund Performance |
 |  |  |
 |  |  |

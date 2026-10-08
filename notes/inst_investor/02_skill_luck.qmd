@@ -1,0 +1,736 @@
+---
+title: "02: Skill, Luck, and the Value of Active Management"
+subtitle: "Institutional Investors"
+author: "Calvin J. Chiou (邱健嘉)"
+institute: "Department of Finance · National Chengchi University"
+date: "2026-10-02"
+format:
+  revealjs:
+    theme: [serif, custom.scss]
+    slide-number: true
+    progress: true
+    history: true
+    transition: fade
+    transition-speed: fast
+    toc: false
+    embed-resources: true
+    footer: "Institutional Investors · Slides 02 · NCCU Finance"
+    width: 1280
+    height: 720
+    margin: 0.08
+execute:
+  echo: false
+---
+
+# Where We Left Off {.center}
+
+## Last week: the Carhart four-factor model
+
+We established that alpha — the regression intercept in
+
+$$R_{i,t} - R_{f,t} = \alpha_i + \beta_i \cdot RMRF_t + s_i \cdot SMB_t + h_i \cdot HML_t + u_i \cdot UMD_t + \varepsilon_{i,t}$$
+
+is the **standard academic measure** of fund performance.
+
+. . .
+
+We ended with a question:
+
+> Even a well-estimated alpha could be **luck**. With thousands of funds, some will show large positive alphas by chance alone. How do we tell the two apart?
+
+## Today's papers
+
+| Paper | Question |
+|----|----|
+| Fama & French (*JF* 2010) | Bootstrap methodology for distinguishing luck from skill in the cross-section |
+| Berk & van Binsbergen (*JFE* 2015) | Dollar value added as the correct measure of skill |
+| Andrikogiannopoulou & Papakonstantinou (*RFS* 2019) | Can the standard tests even detect skill when it is there? |
+
+## Today's roadmap
+
+::: incremental
+1.  The **luck-vs.-skill problem** — why standard t-tests fail
+2.  **Equilibrium accounting** — what we know before looking at any fund
+3.  **Bootstrap simulation** — the Fama & French (2010) approach
+4.  **FDR critique** — Andrikogiannopoulou & Papakonstantinou (2019)
+5.  **Value added** — why Berk & van Binsbergen (2015) reframe the question
+6.  **The Berk-Green model** — the equilibrium connecting all three
+7.  Synthesis and discussion
+:::
+
+------------------------------------------------------------------------
+
+# Part 1 · The Luck-vs.-Skill Problem {background-color="#3b3b6b"}
+
+## The core statistical challenge
+
+Every estimated alpha contains two components:
+
+$$\underbrace{\hat{\alpha}_i}_{\text{what we observe}} = \underbrace{\alpha_i}_{\text{true skill}} + \underbrace{\text{noise}}_{\text{estimation error}}$$
+
+. . .
+
+With thousands of funds, many will have extreme $\hat\alpha$ **purely by chance** — even if every manager has zero true skill.
+
+## Why standard t-tests are insufficient
+
+The average standard error of a monthly alpha estimate: **0.28% per month** (≈ 3.4% annualized).
+
+. . .
+
+Suppose a manager has a genuine annual alpha of **+2%**. With 10 years of monthly data:
+
+$$t = \frac{\hat{\alpha}}{\hat{\sigma}/\sqrt{T}} = \frac{2\%/12}{3.4\%/\sqrt{120}} \approx 0.63$$
+
+. . .
+
+Far below the conventional threshold of 2.0. **A skilled manager looks statistically indistinguishable from an unskilled one** at realistic sample sizes.
+
+## The multiple comparisons problem
+
+With 3,000 funds tested at the 5% level, we expect **150 false positives** even if no fund has skill.
+
+. . .
+
+Standard approach: look at the fund's own t-statistic.
+
+**Problem**: comparing one fund's alpha to a normal distribution ignores the fact that we are looking at the best fund in a very large sample.
+
+. . .
+
+We need a method that correctly accounts for how extreme the best t-statistics should be under the null of no skill.
+
+------------------------------------------------------------------------
+
+# Part 2 · Equilibrium Accounting {background-color="#3b3b6b"}
+
+## Sharpe's Arithmetic
+
+The aggregate of all investors holds the **market portfolio**.
+
+$$\underbrace{\text{passive}}_{\alpha = 0} + \underbrace{\text{active}}_{\alpha = ?} = \underbrace{\text{market}}_{\alpha = 0}$$
+
+. . .
+
+If passive investors have zero alpha by construction, then **active investors in aggregate must also have zero alpha — before costs.**
+
+*(Sharpe 1991)*
+
+## The negative-sum game
+
+Before costs:
+
+$$\alpha_{\text{active, aggregate}} = 0$$
+
+After costs:
+
+$$\alpha_{\text{active, aggregate}}^{\text{net}} = -\underbrace{\text{expense ratio}}_{\approx 1\%/\text{year}} < 0$$
+
+. . .
+
+**Active management is a zero-sum game before fees and a negative-sum game after fees.**
+
+This is accounting, not an empirical claim.
+
+## Aggregate evidence: Fama & French (2010)
+
+Value-weighted portfolio of all active U.S. equity funds, 1984–2006:
+
+| Measure                      | Four-factor α (ann.) | t-stat |
+|------------------------------|----------------------|--------|
+| Net (investors receive)      | −1.00%               | −3.02  |
+| Gross (before expense ratio) | −0.05%               | −0.15  |
+
+. . .
+
+Net alpha ≈ −expense ratio. Gross alpha ≈ 0.
+
+**Consistent with equilibrium accounting: in aggregate, active managers neither add nor destroy value before fees. But they definitely do after fees.**
+
+## What the aggregate tells us
+
+::: incremental
+- The aggregate result does **not** imply every manager lacks skill
+- It is consistent with: skilled and unskilled managers coexist, and roughly **cancel each other out** in aggregate
+- The interesting question is in the **cross-section**: how much do individual managers differ?
+- That requires a different methodology
+:::
+
+------------------------------------------------------------------------
+
+# Part 3 · Bootstrap Simulation {background-color="#3b3b6b"}
+
+## The Fama & French (2010) approach
+
+**Goal**: construct the distribution of t(α) that we would observe **if no fund had any skill**, then compare it to the actual distribution.
+
+. . .
+
+If the actual right tail is fatter than the simulated right tail, that is evidence of genuine skill.
+
+## Step 1 — Impose zero true alpha
+
+For each fund $i$, subtract its estimated alpha from its returns:
+
+$$r_{i,t}^* = r_{i,t} - \hat{\alpha}_i$$
+
+The population $\{r_{i,t}^*\}$ has the same time-series and cross-sectional properties as actual fund returns — but **true alpha is zero by construction**.
+
+## Step 2 — Joint monthly resampling
+
+Draw a random sample of months (with replacement). Apply the **same draw to all funds simultaneously**.
+
+. . .
+
+Why jointly? This preserves:
+
+- The **cross-correlation** of fund returns (funds hold similar stocks)
+- The **joint distribution** of factor returns and fund residuals
+
+*This is the key methodological departure from Kosowski et al. (2006), who simulate each fund independently.*
+
+## Steps 3–5 — Estimate, repeat, compare
+
+**Step 3**: Run the four-factor regression on each fund using the simulated months. Record t(α).
+
+**Step 4**: Repeat 10,000 times to build the full null distribution.
+
+**Step 5**: Compare actual t(α) percentiles to the simulated percentiles.
+
+. . .
+
+| If actual right tail \> simulated | → **evidence of skill**              |
+|-----------------------------------|--------------------------------------|
+| If actual left tail \< simulated  | → **evidence of unskilled managers** |
+
+## Results: net returns (investors' perspective)
+
+::: incremental
+- Below the **80th percentile**: actual t(α) beats simulated in **\< 1%** of simulation runs
+- At the **90th percentile**: 90% of simulations *beat* the actual t(α)
+- Only at the **97th–99th percentile**: results approach the simulated null
+
+**Interpretation**: most funds do not have sufficient skill to cover costs. A fund at the 90th percentile of historical t(α) is consistent with luck, not skill.
+:::
+
+## Results: gross returns (before fees)
+
+When expense ratios are added back:
+
+- **Left tail** more extreme than simulated → truly unskilled managers reducing expected returns
+- **Right tail** fatter than simulated above the \~60th percentile → genuinely skilled managers
+
+. . .
+
+Fama & French estimate the cross-sectional dispersion of true alpha:
+
+$$\sigma(\alpha^{\text{true}}) \approx 1.25\% \text{ per year}$$
+
+. . .
+
+Only **\~16%** of funds have true gross alpha \> 1.25%/year. Only **\~2.4%** exceed 2.5%/year.
+
+## The CDF picture
+
+```         
+Cumulative % of funds
+
+100 |          Actual (gross)
+    |       ╱────────────────────
+ 80 |    ╱╱    ← skill in right tail
+    |  ╱╱  Simulated (null)
+ 60 |╱╱─────────────────────────
+    |╲
+ 40 |  ╲╲  ← poor performance in
+    |    ╲╲   left tail (actual
+ 20 |      ╲╲ more extreme)
+    |
+  0 +─────────────────────────────
+       -4   -2    0    2    4
+            t(α)
+```
+
+*Left tail: actual \< simulated (negative skill). Right tail: actual \> simulated (positive skill). Crossover near the 60th–70th percentile.*
+
+## Why joint sampling matters
+
+Fama & French replicate the Kosowski et al. (2006) period (1975–2002) using **their own joint-sampling approach**:
+
+| Test | \% of simulations where right tail exceeds actual |
+|----|----|
+| Kosowski et al. (independent sampling) | \> 99% (strong skill evidence) |
+| Fama & French (joint sampling) | 68–82% (weak to moderate) |
+
+. . .
+
+Failure to account for cross-fund correlation inflates the apparent evidence of skill.
+
+------------------------------------------------------------------------
+
+# Part 4 · The Power Problem {background-color="#3b3b6b"}
+
+## A prior question: can the tests detect skill?
+
+Andrikogiannopoulou & Papakonstantinou (2019) ask a different question:
+
+> *Suppose skill genuinely exists — and is as large as Fama & French estimate. Would the standard tests be able to detect it?*
+
+. . .
+
+Their answer is deeply uncomfortable: **often no**.
+
+## The False Discovery Rate (FDR) methodology
+
+A common alternative to the bootstrap: the **FDR estimator** (Barras, Scaillet & Wermers 2010).
+
+The key quantity is the proportion of funds with **zero true alpha**, denoted $\pi^0$.
+
+The estimator:
+
+$$\hat\pi^0 = \frac{\#\{p_i > \lambda\}}{N(1 - \lambda)} \tag{2}$$
+
+where $p_i$ is the two-sided p-value for fund $i$'s alpha and $\lambda$ is a tuning parameter (typically 0.5).
+
+. . .
+
+BSW (2010) report $\hat\pi^0 \approx 75\%$ — three-quarters of funds have zero true alpha.
+
+## The logic behind the estimator
+
+If most fund p-values are large (near 1), that suggests most funds are consistent with zero alpha.
+
+$$\hat\pi^0 = \frac{\#\{p_i > \lambda\}}{N(1-\lambda)}$$
+
+. . .
+
+The denominator $N(1-\lambda)$ is the expected number of large p-values if **every** fund has zero alpha.
+
+The numerator counts actual large p-values.
+
+**If the ratio is high, most funds look like they have zero alpha.**
+
+## The problem: this confuses zero alpha with low power
+
+A fund with **genuine alpha of ±1%** will still have a large p-value most of the time when $T$ is short.
+
+. . .
+
+Therefore $\hat\pi^0$ does not distinguish between:
+
+1.  The fund **truly has zero alpha**, or
+2.  The fund **has non-zero alpha but the test lacks power to detect it**
+
+Both cases produce large p-values. The estimator counts both as zero-alpha funds.
+
+## The magnitude of the bias
+
+Andrikogiannopoulou & Papakonstantinou simulate fund returns with known true alpha distributions — calibrated to Fama & French's own estimates — and ask how well the FDR recovers $\pi^0$.
+
+. . .
+
+| True $|\alpha|$ | \% misclassified as zero-alpha | $T$ needed to avoid |
+|-----------------|--------------------------------|---------------------|
+| ±1% per year    | **\~90%**                      | Implausibly long    |
+| ±2% per year    | **\~65%**                      | \> 200 years        |
+| ±3.5% per year  | **\~30%**                      | \~380 months        |
+
+## A striking calibration
+
+Under a data-generating process where **only 1% of funds truly have zero alpha** (consistent with Fama & French's estimate of $\sigma = 1.25\%$):
+
+. . .
+
+The FDR estimator reports $\hat\pi^0 \approx 70\%$.
+
+. . .
+
+**An estimator that says "70% of funds have zero alpha" regardless of whether 1% or 75% actually do is not measuring what it claims to measure.**
+
+## Why the bias is always upward
+
+The factor $\frac{1}{1-\lambda}$ amplifies every underpowered test result.
+
+. . .
+
+Whenever a fund has non-zero alpha but a large p-value (which happens most of the time when $T$ is small), it inflates the numerator of $\hat\pi^0$.
+
+The bias cannot go downward: underpowered tests **always** make $\hat\pi^0$ too large.
+
+## Power comes from $T$, not $N$
+
+Adding more funds $N$ does not help at all — the bias operates fund-by-fund, and averages to the same wrong answer.
+
+. . .
+
+Only lengthening $T$ (each fund's return history) helps — and convergence is **extremely slow**.
+
+Even 200 years of monthly data is insufficient to correctly identify funds with ±1% annual alpha.
+
+. . .
+
+**Implication**: Any study that reports FDR estimates with typical CRSP mutual fund sample lengths (80–120 months) should be read with extreme caution.
+
+## The methodological warning
+
+::: incremental
+- "Low power" is not a caveat to be noted and set aside
+- It can **reverse the economic conclusion**: a finding of "75% of funds have zero alpha" may be a finding about our instruments, not our managers
+- This applies beyond mutual funds: any setting with short panels and small true effects
+- The Fama-French bootstrap is **not** immune, but is substantially more robust — it tests the entire cross-section rather than fund-by-fund p-values
+:::
+
+------------------------------------------------------------------------
+
+# Part 5 · Value Added — A Different Framing {background-color="#3b3b6b"}
+
+## Berk & van Binsbergen (2015): the question
+
+Rather than ask "does alpha exist?", they ask:
+
+> *How much dollar value does the average mutual fund extract from financial markets?*
+
+. . .
+
+This turns out to be a fundamentally different question — and leads to a different answer.
+
+## Why alpha is the wrong measure of skill
+
+Under standard neoclassical assumptions (rational investors, competitive markets, managers optimizing):
+
+. . .
+
+**Net alpha** → driven to zero by investor competition. Every fund that attracts capital until expected net alpha = 0. $$\alpha^{\text{net}} = 0 \quad \text{in equilibrium}$$
+
+. . .
+
+**Gross alpha** → equals the fee the manager charges. $$\alpha^{\text{gross}} = \alpha^{\text{net}} + f_i = 0 + f_i = f_i$$
+
+Gross alpha is a **choice variable**, not a skill measure.
+
+## The value-added measure
+
+The correct measure: multiply the benchmark-adjusted gross return by AUM.
+
+$$\boxed{V_{i,t} = q_{i,t-1} \cdot \bigl(R_{i,t}^{\text{gross}} - R_{i,t}^{\text{benchmark}}\bigr)}$$
+
+Managerial skill: $S_i = \mathbb{E}[V_{i,t}]$
+
+. . .
+
+**Peter Lynch illustration**:
+
+| Period                   | Monthly gross α | Average AUM | Monthly value added |
+|--------------------------|-----------------|-------------|---------------------|
+| First 5 years (Magellan) | 2.00%           | \$40M       | \$800K              |
+| Last 5 years             | 0.20%           | \$10B       | **\$20M**           |
+
+Alpha *fell* by 90%; value added *rose* 25-fold.
+
+## Why not gross alpha?
+
+::::: columns
+::: {.column width="50%"}
+**Gross alpha fails unless** all funds have the same AUM.
+
+Under decreasing returns to scale, at the optimum: $$\alpha^{\text{gross}}_i = \frac{a_i^2}{4 q_i b_i}$$
+
+Cross-sectional correlation between gross alpha and value added: **23%** ($R^2 = 5\%$).
+:::
+
+::: {.column width="50%"}
+**Value added always measures skill:** $$q_i \cdot \alpha^{\text{gross}}_i = \frac{a_i^2}{4 b_i} = S_i \checkmark$$
+
+AUM varies enormously; fees vary little. Therefore **AUM**, not gross alpha, is where skill shows up.
+:::
+:::::
+
+## The right benchmark: Vanguard, not FFC
+
+FFC factors are **not tradable passive alternatives** for most of the sample:
+
+| Factor | α vs. Vanguard | t-stat |
+|--------|----------------|--------|
+| Market | 2 bp/month     | 0.83   |
+| SMB    | 22 bp/month    | 2.80   |
+| HML    | 35 bp/month    | 3.37   |
+| UMD    | 70 bp/month    | 3.38   |
+
+. . .
+
+Using FFC as the benchmark overstates the hurdle rate — especially in the 1970s and 80s when small-cap and value index funds didn't exist.
+
+Berk & van Binsbergen use actual **Vanguard index funds** available to investors at each date.
+
+## Main result: average fund adds positive value
+
+| Statistic                    | Value (Y2000 \$/month) |
+|------------------------------|------------------------|
+| Time-weighted mean           | +\$270,000             |
+| t-statistic                  | 5.74                   |
+| Annual equivalent            | **+\$3.2 million**     |
+| Median fund                  | −\$20,000              |
+| \% with positive value added | 43%                    |
+
+. . .
+
+Most funds destroy value. The *average* is positive because **skilled managers control most of the capital**.
+
+## The distribution of skill
+
+```         
+         % of funds
+    30 |    ■
+       |   ■■■
+    20 |  ■■■■■
+       | ■■■■■■■
+    10 |■■■■■■■■■■■
+       |■■■■■■■■■■■■■■
+     0 +──────────────────────
+         -3M   0   +1M  +7M
+           Value Added ($/month)
+
+Median: -$20K     Mean: +$270K
+```
+
+*Right-skewed: a minority of large, skilled funds drives the positive average.*
+
+## Persistence of value added: up to 10 years
+
+Fama & French found alpha persistence largely unpredictable beyond 1 year.
+
+. . .
+
+Berk & van Binsbergen sort funds on the **Skill Ratio** (t-statistic of past value added) and track future value added:
+
+- Top decile **consistently beats** bottom decile at every horizon 3–10 years out
+- Null rejected at 95% confidence at most horizons (non-parametric binomial test)
+- Top decile controls \~**25% of total AUM** — investors are rewarding skill
+
+## Investors can identify skill
+
+A surprising finding:
+
+**Current compensation** (AUM × fee) predicts future value added **better than past value added does**.
+
+. . .
+
+::::: columns
+::: {.column width="60%"}
+Since fee rates vary little across funds, *investors* — through their capital allocation — determine compensation.
+
+This means investors are correctly inferring managerial quality and directing capital accordingly.
+:::
+
+::: {.column width="40%"}
+*This contradicts the "dumb money" narrative of investors chasing past returns.*
+:::
+:::::
+
+## Where does the value go?
+
+$$V_{i,t} = \underbrace{q_{i,t-1} \cdot f_{i,t-1}}_{\text{fees (managers)}} + \underbrace{q_{i,t-1} \cdot \varepsilon_{i,t}}_{\text{return to investors}}$$
+
+. . .
+
+Net alpha to investors ≈ **zero** — consistent with Fama & French.
+
+**Managers capture all economic rents through fees.** Skilled managers charge higher effective fees (through larger AUM, not higher fee rates) and investors pay willingly because expected net alpha is zero.
+
+. . .
+
+About **half** of total value added comes from diversification services; the other half from stock selection and market timing.
+
+------------------------------------------------------------------------
+
+# Part 6 · The Berk-Green Equilibrium {background-color="#3b3b6b"}
+
+## Berk & Green (2004): the theoretical backbone
+
+A competitive model of the mutual fund industry with:
+
+::: incremental
+- Fund managers endowed with permanent skill (positive gross alpha on first dollar)
+- **Decreasing returns to scale**: alpha falls as AUM grows
+- **Rational investors**: flow capital to funds with positive expected alpha
+- **Equilibrium**: capital flows until every fund's expected net alpha = 0
+:::
+
+## The model's predictions
+
+| Prediction | FF (2010) | BvB (2015) |
+|----|----|----|
+| Zero net alpha in aggregate | **Violated**: aggregate ≈ −1%/year | Not directly tested |
+| Zero net alpha per fund | Largely confirmed | Confirmed: investors earn ≈ 0 |
+| Investors identify skill | Not tested | **Confirmed**: compensation predicts VA |
+| Skill is rewarded with AUM | Not tested | **Confirmed**: top decile controls 25% of AUM |
+| Persistence in alpha | Consistent with zero | Skill ratio persists 10 years |
+
+## Reconciling Fama-French and Berk-van Binsbergen
+
+Both are right. They measure different things.
+
+::::: columns
+::: {.column width="50%"}
+**Fama & French**
+
+- Return-based measure
+- Net alpha ≈ −expense ratio
+- Few funds cover costs
+- Skill rare or undetectable
+:::
+
+::: {.column width="50%"}
+**Berk & van Binsbergen**
+
+- Dollar-value measure
+- Average value added = +\$3.2M/year
+- Skill widespread and persistent
+- Investors identify it
+:::
+:::::
+
+. . .
+
+**The resolution**: Skill exists and is measurable in dollars. Competition drives the *return* to investors to zero. Rents flow to managers, not investors.
+
+------------------------------------------------------------------------
+
+# Part 7 · Synthesis {background-color="#3b3b6b"}
+
+## Three papers, one coherent story
+
+```         
+Alpha-based tests (FF 2010)
+  → Net alpha ≈ −fees; skill detectable only in extreme tails
+  → But: bootstrap needs joint sampling to avoid false positives
+
+  ↓ challenged by
+
+Power critique (AP 2019)
+  → FDR overstates π⁰ because it confuses low power with zero skill
+  → Even FF's bootstrap has limited power at realistic T
+
+  ↓ reframed by
+
+Dollar value-added (BvB 2015)
+  → Switch from return to dollars: avg fund adds $3.2M/year
+  → Skill is widespread; investors allocate rationally
+  → Net return ≈ 0: rents captured by managers, not investors
+```
+
+## Implications for performance evaluation
+
+::: incremental
+1.  **Do not rely on alpha alone.** Only the extreme right tail (≥97th percentile) of the t(α) distribution provides reliable signal.
+
+2.  **Mind the benchmark.** FFC factors embed hindsight bias. Traded alternatives (Vanguard index funds) are more appropriate.
+
+3.  **Think in dollars, not percentages.** A \$10B fund with 0.2% alpha adds more value than a \$1M fund with 10% alpha.
+
+4.  **Persistence in value added lasts a decade.** It is short in alpha because rational flows compete away the alpha — not because skill disappears.
+
+5.  **Net alpha ≈ 0 for the best funds.** There is no free lunch. Skilled managers capture their own rents through AUM.
+:::
+
+## Implications for research methodology
+
+::: incremental
+6.  **Report power simulations before reporting FDR estimates.** A table showing $\hat\pi^0$ at varying $T$ is not optional.
+
+7.  **Joint resampling is mandatory** in bootstrap studies of fund performance. Independent sampling inflates evidence of skill.
+
+8.  **Low power is not just a caveat.** In the AP (2019) calibration, an estimator tuned to detect skill reports "75% zero-alpha funds" when only 1% truly have zero alpha. That is a structural failure.
+:::
+
+------------------------------------------------------------------------
+
+# Discussion {background-color="#3b3b6b"}
+
+## Discussion questions
+
+::: incremental
+1.  Fama & French find VW net alpha ≈ −1%/year. Is this evidence that managers *lack* skill, or that *investors* rationally drive net alpha to zero? How would you distinguish these empirically?
+
+2.  Berk & van Binsbergen argue gross alpha equals the fee the manager charges. Does this mean a fund charging 2% is more skilled than one charging 0.5%? What does the theory actually predict?
+
+3.  The FF bootstrap jointly samples months for all funds. Why does this matter? What happens if months are sampled independently?
+
+4.  FFC factors have large positive alpha relative to Vanguard funds (especially HML and UMD). What does this imply about alpha estimates from the 1970s and 80s?
+
+5.  Suppose a manager has true annual alpha of 2% on \$100M. Under Berk-Green, what happens to alpha and AUM over time? Is this consistent with BvB's 10-year persistence finding?
+:::
+
+## Discussion questions (continued)
+
+::: incremental
+6.  Write down the assumption behind the FDR equation (2) in words. When does it fail? Why is the bias in $\hat\pi^0$ always upward?
+
+7.  AP (2019) show that adding more funds $N$ does not help, but increasing $T$ does. Explain the asymmetry. Does the Fama-French bootstrap suffer from the same problem?
+
+8.  You are refereeing a paper that applies FDR to 3,000 hedge funds with an average of 48 monthly observations each. What simulation would you ask the authors to run before believing their estimated proportions?
+
+9.  The median fund has negative value added. The average is positive. What does this asymmetry tell you about the structure of the industry and the distribution of managerial talent?
+:::
+
+------------------------------------------------------------------------
+
+# Wrapping Up {background-color="#3b3b6b"}
+
+## What we covered today
+
+::: incremental
+- **Equilibrium accounting** constrains aggregate active performance: zero before costs, negative after
+- **Bootstrap simulation** (FF 2010) is the correct tool for cross-sectional inference; joint monthly resampling is essential
+- **FDR critique** (AP 2019): the standard alternative confuses zero alpha with low statistical power; the bias is large, upward, and irreducible without implausibly long samples
+- **Value added** (BvB 2015): switching from alpha to dollars reveals widespread skill, 10-year persistence, and rational investor behavior
+- **The Berk-Green equilibrium** ties everything together: managers are skilled, but competition drives net returns to investors toward zero
+:::
+
+## The bottom line for investors
+
+. . .
+
+**Skill exists.** The average fund adds \$3.2M/year in dollar terms. Value added persists 10 years. Investors identify it.
+
+. . .
+
+**But investors do not capture it.** Competition drives net alpha to approximately zero. Managers extract all rents through fees and AUM growth.
+
+. . .
+
+> For the typical investor, active management costs about 1% per year and returns approximately zero alpha. The beneficiary is the manager, not you.
+
+## Coming up next
+
+**Readings for Week 4:**
+
+::: incremental
+- Active Share (Cremers & Petajisto, *RFS* 2009) — How much does a fund deviate from its benchmark, and does it matter?
+- R Lab: computing Active Share from holdings data
+:::
+
+## References {.smaller}
+
+- Andrikogiannopoulou, A., & Papakonstantinou, F. (2019). Reassessing false discoveries in mutual fund performance: Skill, luck, or insufficient data? *Review of Financial Studies*, 32(5), 2095–2137.
+- Barras, L., Scaillet, O., & Wermers, R. (2010). False discoveries in mutual fund performance: Measuring luck in estimated alphas. *Journal of Finance*, 65(1), 179–216.
+- Berk, J. B., & Green, R. C. (2004). Mutual fund flows and performance in rational markets. *Journal of Political Economy*, 112(6), 1269–1295.
+- Berk, J. B., & van Binsbergen, J. H. (2015). Measuring skill in the mutual fund industry. *Journal of Financial Economics*, 118(1), 1–20.
+- Fama, E. F., & French, K. R. (2010). Luck versus skill in the cross-section of mutual fund returns. *Journal of Finance*, 65(5), 1915–1947.
+- Kosowski, R., Timmermann, A., Wermers, R., & White, H. (2006). Can mutual fund "stars" really pick stocks? *Journal of Finance*, 61(6), 2551–2595.
+- Sharpe, W. F. (1991). The arithmetic of active management. *Financial Analysts Journal*, 47(1), 7–9.
+
+------------------------------------------------------------------------
+
+<br><br>
+
+### Questions?
+
+<br>
+
+**Calvin J. Chiou**\
+jjchiou\@nccu.edu.tw\
+Office: Commerce Building 261233
+
+<br>
+
+*See you next Thursday.*

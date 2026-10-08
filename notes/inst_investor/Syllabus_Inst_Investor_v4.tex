@@ -1,0 +1,867 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\PassOptionsToPackage{space}{xeCJK}
+%
+\documentclass[
+  12pt,
+  letterpaper,
+  DIV=11,
+  numbers=noendperiod]{scrartcl}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \setsansfont[]{Century Schoolbook}
+  \ifXeTeX
+    \usepackage{xeCJK}
+    \setCJKmainfont[]{Songti TC}
+  \fi
+  \ifLuaTeX
+    \usepackage[]{luatexja-fontspec}
+    \setmainjfont[]{Songti TC}
+  \fi
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+
+\usepackage{longtable,booktabs,array}
+\newcounter{none} % for unnumbered tables
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+
+
+\KOMAoption{captions}{tableheading}
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Institutional Investors: Theory and Evidence},
+  pdfauthor={Calvin J. Chiou},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Institutional Investors: Theory and Evidence}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Fall AY115 \textbar{} NCCU College of Commerce}
+\author{}
+\date{}
+\begin{document}
+\maketitle
+
+\renewcommand*\contentsname{Table of contents}
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+
+\subsection{Course Information}\label{course-information}
+
+\textbf{Course Code:} 357854001
+
+\textbf{Time and Venue:} Thursday 16:10--18:00, Venue TBA
+
+\textbf{Lecturer:} Asst. Prof.~Calvin J. Chiou (邱健嘉)
+
+\textbf{Office:} Commerce Building 261233
+
+\textbf{Office Hours:} By appointment
+
+\textbf{Email:} \texttt{jjchiou@nccu.edu.tw}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Course Description}\label{course-description}
+
+This course explores the economic role and strategic behavior of
+institutional investors in financial markets and corporate governance.
+We cover different types of institutional investors (e.g., mutual funds,
+pension funds, and insurance companies) examining their investment
+objectives and constraints, and their influence on firm policies, market
+efficiency, and ESG practices. Special attention is given to the Taiwan
+and broader Asian institutional investor landscape to connect theory to
+the local context.
+
+A distinguishing feature of this course is its integration of empirical
+methods with theory. Five sessions include instructor-led R labs in
+which students implement fund performance measures, holdings-based
+analyses, and factor model regressions directly in R using CRSP mutual
+fund data and Kenneth French's public factor library. Lecture notes for
+these sessions are distributed as R Quarto documents that students can
+run and extend independently.
+
+\subsection{Learning Objectives}\label{learning-objectives}
+
+By the end of the course, students will be able to:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Identify and distinguish the major types of institutional investors
+  and their structural incentives.
+\item
+  Analyze how institutional investors affect corporate governance, firm
+  behavior, and market prices.
+\item
+  Critically evaluate empirical research on institutional investor
+  strategies, performance, and market impact.
+\item
+  Recognize the key identification challenges in this literature and
+  discuss how leading papers address them.
+\item
+  Implement core fund performance and holdings-based measures in R,
+  including factor model alphas, DGTW benchmarks, active share, churn
+  ratio, and window dressing indices.
+\item
+  Develop and present an original research idea or critical literature
+  review in the institutional investor domain.
+\end{enumerate}
+
+\subsection{Course Materials}\label{course-materials}
+
+\textbf{Academic papers:} Readings are drawn from published and working
+papers across top finance journals including the \emph{Journal of
+Finance} (JF), \emph{Journal of Financial Economics} (JFE), \emph{Review
+of Financial Studies} (RFS), \emph{Management Science} (MS),
+\emph{Journal of Financial and Quantitative Analysis} (JFQA), and
+\emph{Review of Finance} (RF). A complete reading list is provided at
+the end of this syllabus.
+
+\textbf{R lecture notes:} Empirical lab sessions are accompanied by
+\texttt{.qmd} lecture notes distributed via Moodle. Students should have
+R (≥ 4.3) and RStudio (or Positron) installed.
+
+\subsection{Course Format}\label{course-format}
+
+This is a graduate research seminar combining three modes of
+instruction:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Lecture and discussion} (\textasciitilde50\%): The instructor
+  introduces the week's topic, reviews key papers, and frames open
+  research questions.
+\item
+  \textbf{Student presentations} (\textasciitilde30\%): Students present
+  assigned papers from the asset management literature.
+\item
+  \textbf{Empirical R labs} (\textasciitilde20\%): Five instructor-led
+  sessions demonstrating how to implement measures from the readings in
+  R. Lab notes are distributed on the instructor's website.
+\end{itemize}
+
+Active participation is expected. Students are encouraged to read at
+least the abstract, introduction, and conclusion of all assigned papers
+before class.
+
+\subsection{Software and Computing}\label{software-and-computing}
+
+All empirical work in this course uses \textbf{R} via \textbf{RStudio}
+or \textbf{Positron}. Lecture notes are written in \textbf{R Quarto} and
+are self-contained: they load data, run all analyses, and produce
+formatted output. Labs 1--3 require no proprietary data access. Labs
+4--5 use CRSP Mutual Fund Holdings; data files will be publicly
+available or distributed by the instructor via Moodle.
+
+Students are expected to have R and the required packages installed
+before Week 2.
+
+\subsection{Assessment}\label{assessment}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Component & Weight \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Class Participation \& Discussion & 20\% \\
+Paper Presentations & 30\% \\
+Final Written Report & 20\% \\
+Final Presentation & 30\% \\
+\end{longtable}
+}
+
+\subsubsection{Paper Presentations}\label{paper-presentations}
+
+Each student will present \textbf{two papers} during the semester (or
+one extended presentation covering a topic area). Presentation slots are
+allocated during Week 1. Each presentation should:
+
+\begin{itemize}
+\tightlist
+\item
+  Summarize the research question, data, methodology, and main findings.
+\item
+  Situate the paper within the broader literature covered in the course.
+\item
+  Raise at least two discussion questions for the class.
+\item
+  Be approximately \textbf{20--25 minutes}, followed by 10 minutes of
+  Q\&A.
+\end{itemize}
+
+Presentations may be individual or in pairs (to be confirmed based on
+enrollment). Slides are required.
+
+\subsubsection{Final Report and
+Presentation}\label{final-report-and-presentation}
+
+\textbf{Each student} completes a final report demonstrating their
+ability to engage with the institutional investor literature. The report
+should focus on a specific topic and take one of the following forms:
+
+\begin{itemize}
+\tightlist
+\item
+  A \textbf{literature review and synthesis} of a focused sub-topic
+  (minimum 10 papers).
+\item
+  A \textbf{preliminary} \textbf{research project} with a clearly stated
+  question, data strategy, expected contribution, and empirical results.
+\item
+  A \textbf{replication and extension} of an existing empirical paper,
+  optionally using the R methods introduced in the lab sessions.
+\end{itemize}
+
+\textbf{Key deadlines:}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7660}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2340}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Milestone
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Deadline
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Topic proposal (1 paragraph via Moodle or email) & End of Week 8 \\
+Final written report (≤ 10 double-spaced pages, excl. references) & End
+of Week 17 \\
+Final in-class presentation (20--30 min) & Weeks 15--16 \\
+\end{longtable}
+}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Course Schedule}\label{course-schedule}
+
+Weeks marked \textbf{{[}Lab{]}} include an instructor-led R session in
+the second half of class. Lab notes (\texttt{.qmd}) are distributed on
+Moodle before each lab week. Theory lecture and paper discussion occupy
+the first half of the session.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.0532}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1064}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2872}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.3723}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1809}}@{}}
+\caption{Schedule is tentative and subject to change. Lab sessions
+assume basic familiarity with R and
+\protect\texttt{tidyverse}.}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Week
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Type
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Topic
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Key Readings
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Notes
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Week
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Type
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Topic
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Key Readings
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Notes
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & Lecture & Course Overview and Motivation & Bebchuk, Cohen \& Hirst
+(2017) & Presentation slots assigned; R setup check \\
+2 & Lecture & Types of Institutional Investors and Asset Concentration
+Trends & Gompers \& Metrick (2001); Ferreira \& Matos (2008) &
+Taiwan/Asian context \\
+3 & \textbf{{[}Lab 1{]}} & Measuring Fund Performance I: Carhart
+Four-Factor Model & Carhart (1997); Wermers (2011) & \emph{Lab: factor
+model estimation} \\
+4 & Lecture & Fund Performance and the Luck vs.~Skill Debate & Fama \&
+French (2010); Berk \& van Binsbergen (2015) & Student presentation \\
+5 & \textbf{{[}Lab 2{]}} & Measuring Fund Performance II: DGTW
+Characteristic-Adjusted Returns & Daniel et al.~(1997); Wermers (2000) &
+\emph{Lab: constructing size × BM × momentum benchmarks} \\
+6 & Lecture & Benchmarking, Style Drift, and Active Share & Bollen \&
+Busse (2005); Cremers \& Petajisto (2009) & Student presentation \\
+7 & Lecture & Tournament Behavior, Risk Shifting, and Fund Flows & Brown
+et al.~(1996); Sirri \& Tufano (1998) & Student presentation \\
+8 & Lecture & Manager Incentives and Fund Family Conflicts & Gaspar et
+al.~(2006); Bhattacharya et al.~(2013) & \textbf{Topic proposals due};
+student presentation \\
+9 & \textbf{{[}Lab 3{]}} & Measuring Fund Performance III: Bootstrap
+Inference for Luck vs.~Skill & Fama \& French (2010) & \emph{Lab: joint
+block bootstrap; actual vs.~simulated alpha distribution in R} \\
+10 & Lecture & Fund Holdings and Trading Behavior & Kacperczyk, Sialm \&
+Zheng (2005); Wermers (1999) & Student presentation \\
+11 & \textbf{{[}Lab 4{]}} & Holdings-Based Measures: Active Share, Churn
+Ratio, and Window Dressing & Cremers \& Petajisto (2009); Agarwal, Gay
+\& Ling (2014) & \emph{Lab: computing active share, churn ratio, and
+window dressing} \\
+12 & Lecture & Career Concerns, Performance Manipulation, and Behavioral
+Biases & Kempf et al.~(2009); Frazzini \& Lamont (2008) & Student
+presentation \\
+13 & Lecture & Institutional Monitoring, Voting, and Proxy Engagement &
+Gillan \& Starks (2000); Iliev \& Lowry (2015) & Student presentation \\
+14 & \textbf{{[}Lab 5{]}} & Holdings-Based Analysis: Institutional
+Ownership and Common Ownership Measures & Appel et al.~(2016); Azar et
+al.~(2018) & \emph{Lab: ownership concentration, MHHI common
+ownership} \\
+15 & Lecture & ESG Investing, Climate Risk, and Long-Term Stewardship &
+Chen, Dong \& Lin (2020); Starks, Venkat \& Zhu (2025) & Student
+presentation \\
+16 & Presentations & Final Presentations & --- & \textbf{Written reports
+due end of week} \\
+\end{longtable}
+
+\subsection{R Lab Sessions: Detailed
+Outlines}\label{r-lab-sessions-detailed-outlines}
+
+\subsubsection{Lab 1 --- Carhart Four-Factor Model (Week
+3)}\label{lab-1-carhart-four-factor-model-week-3}
+
+\textbf{Objective:} Estimate factor model alphas and factor loadings for
+a cross-section of ETFs using publicly available data.
+
+\textbf{Data:} \texttt{tidyquant} (ETF prices); \texttt{frenchdata}
+(Fama-French 5 factors + momentum)
+
+\textbf{Skills covered:}
+
+\begin{itemize}
+\tightlist
+\item
+  Downloading adjusted price data with \texttt{tidyquant}
+\item
+  Obtaining Fama-French and momentum factors with \texttt{frenchdata}
+\item
+  Computing monthly excess returns and aligning on year-month
+\item
+  Estimating CAPM, FF3, and Carhart 4-factor regressions with
+  \texttt{broom::tidy()}
+\item
+  Interpreting alpha, factor loadings, and R² across model
+  specifications
+\item
+  Visualizing factor loadings and alpha comparisons with
+  \texttt{ggplot2}
+\end{itemize}
+
+\textbf{Reference:} Lecture Note 1; Carhart (1997); Wermers (2011,
+Section 3)
+
+\subsubsection{Lab 2 --- DGTW Characteristic-Adjusted Returns (Week
+5)}\label{lab-2-dgtw-characteristic-adjusted-returns-week-5}
+
+\textbf{Objective:} Implement the Daniel, Grinblatt, Titman \& Wermers
+(1997) characteristic-adjusted return benchmark and decompose fund
+performance into stock-selection and style components.
+
+\textbf{Data:} \texttt{tidyquant} (stock prices and characteristics);
+\texttt{frenchdata} (size/BM breakpoints)
+
+\textbf{Skills covered:}
+
+\begin{itemize}
+\tightlist
+\item
+  Constructing size × book-to-market × momentum benchmark portfolios
+  from public data
+\item
+  Computing the DGTW Characteristic Selectivity (CS) and Characteristic
+  Timing (CT) measures
+\item
+  Calculating fund-level flow and turnover ratio from return and TNA
+  data
+\item
+  Approximating Active Share from ETF holdings available via
+  \texttt{tidyquant}
+\end{itemize}
+
+\textbf{Reference:} Lecture Note 2; Daniel et al.~(1997); Wermers (2000)
+
+\subsubsection{Lab 3 --- Bootstrap Inference for Luck vs.~Skill (Week
+9)}\label{lab-3-bootstrap-inference-for-luck-vs.-skill-week-9}
+
+\textbf{Objective:} Replicate the bootstrap simulation logic of Fama \&
+French (2010) to test whether the cross-sectional alpha distribution is
+consistent with a zero-skill null hypothesis.
+
+\textbf{Data:} CRSP mutual fund monthly net returns (or ETF proxies from
+Lab 1)
+
+\textbf{Skills covered:}
+
+\begin{itemize}
+\tightlist
+\item
+  Estimating Carhart alphas for a panel of funds using
+  \texttt{group\_by()} + \texttt{broom::tidy()}
+\item
+  Implementing joint monthly block bootstrap resampling (preserving
+  cross-fund correlation structure)
+\item
+  Comparing actual vs.~simulated alpha percentiles across the
+  distribution
+\item
+  Visualizing the luck vs.~skill decomposition with density plots and
+  percentile bands
+\end{itemize}
+
+\textbf{Reference:} Lecture Note 3; Fama \& French (2010, Section III
+and Appendix)
+
+\subsubsection{Lab 4 --- Holdings-Based Measures: Active Share, Churn
+Ratio, and Window Dressing (Week
+11)}\label{lab-4-holdings-based-measures-active-share-churn-ratio-and-window-dressing-week-11}
+
+\textbf{Objective:} Use CRSP Mutual Fund Holdings to compute three
+widely-used measures of fund trading behavior and portfolio activeness.
+
+\textbf{Data:} CRSP Mutual Fund Holdings (quarterly stock-level
+positions); CRSP monthly stock returns
+
+\textbf{Skills covered:}
+
+\begin{itemize}
+\tightlist
+\item
+  Loading and cleaning CRSP mutual fund holdings data in R
+\item
+  Computing \textbf{Active Share} (Cremers \& Petajisto 2009): fraction
+  of portfolio holdings that differ from a benchmark index
+\item
+  Computing the \textbf{Churn Ratio} (Gaspar, Massa \& Matos 2005): a
+  holdings-based measure of portfolio turnover that captures short-term
+  trading intensity
+\item
+  Constructing a \textbf{Window Dressing Index} (Agarwal, Gay \& Ling
+  2014): detecting quarter-end inflation of recent winners and dumping
+  of recent losers in disclosed holdings
+\item
+  Merging holdings data with CRSP return data using \texttt{wfundno} /
+  \texttt{permno} links
+\item
+  Summarizing and visualizing cross-fund distributions of each measure
+  over time
+\end{itemize}
+
+\textbf{Reference:} Lecture Note 4; Cremers \& Petajisto (2009);
+Agarwal, Gay \& Ling (2014); Gaspar, Massa \& Matos (2006)
+
+\subsubsection{Lab 5 --- Institutional Ownership and Common Ownership
+Measures (Week
+14)}\label{lab-5-institutional-ownership-and-common-ownership-measures-week-14}
+
+\textbf{Objective:} Construct firm-level institutional ownership and
+common ownership measures from holdings data, and run panel regressions
+relating ownership to firm outcomes.
+
+\textbf{Data:} CRSP Mutual Fund Holdings (or 13F proxy); CRSP/Compustat
+merged panel
+
+\textbf{Skills covered:}
+
+\begin{itemize}
+\tightlist
+\item
+  Aggregating fund-level holdings to firm-level institutional ownership
+  (IO) percentage
+\item
+  Computing ownership concentration: Herfindahl-Hirschman Index (HHI) of
+  fund ownership per firm
+\item
+  Constructing the modified HHI (MHHI delta) of common ownership
+  following Azar et al.~(2018)
+\item
+  Merging ownership data with stock return and accounting data for panel
+  analysis
+\item
+  Running firm-level panel regressions with two-way (firm + year) fixed
+  effects using \texttt{fixest::feols()}
+\item
+  Interpreting coefficient magnitudes and standard error clustering
+  choices
+\end{itemize}
+
+\textbf{Reference:} Lecture Note 5; Appel et al.~(2016); Azar et
+al.~(2018)
+
+\subsection{Reading List}\label{reading-list}
+
+\subsubsection{I. Overview and Types of Institutional
+Investors}\label{i.-overview-and-types-of-institutional-investors}
+
+Bebchuk, L. A., Cohen, A., \& Hirst, S. (2017). The agency problems of
+institutional investors. \emph{Journal of Economic Perspectives},
+\emph{31}(3), 89--112.
+
+Bushee, B. J. (1998). The influence of institutional investors on myopic
+R\&D investment behavior. \emph{The Accounting Review}, \emph{73}(3),
+305--333.
+
+Bushee, B. J. (2001). Do institutional investors prefer near-term
+earnings over long-run value? \emph{Contemporary Accounting Research},
+\emph{18}(2), 207--246.
+
+Ferreira, M. A., \& Matos, P. (2008). The colors of investors' money:
+The role of institutional investors around the world. \emph{Journal of
+Financial Economics}, \emph{88}(3), 499--533.
+
+Gompers, P. A., \& Metrick, A. (2001). Institutional investors and
+equity prices. \emph{Quarterly Journal of Economics}, \emph{116}(1),
+229--259.
+
+Huang, R. D., \& Shiu, C. Y. (2009). Local effects of foreign ownership
+in an emerging financial market: Evidence from qualified foreign
+institutional investors in Taiwan. \emph{Financial Management},
+\emph{38}(3), 567-602. \emph{(Taiwan context)}
+
+\subsubsection{II. Fund Performance Measurement and
+Evaluation}\label{ii.-fund-performance-measurement-and-evaluation}
+
+Berk, J. B., \& Van Binsbergen, J. H. (2015). Measuring skill in the
+mutual fund industry. \emph{Journal of Financial Economics},
+\emph{118}(1), 1--20.
+
+Bollen, N. P., \& Busse, J. A. (2005). Short-term persistence in mutual
+fund performance. \emph{Review of Financial Studies}, \emph{18}(2),
+569--597.
+
+Carhart, M. M. (1997). On persistence in mutual fund performance.
+\emph{Journal of Finance}, \emph{52}(1), 57--82.
+
+Cremers, K. M., \& Petajisto, A. (2009). How active is your fund
+manager? A new measure that predicts performance. \emph{Review of
+Financial Studies}, \emph{22}(9), 3329--3365.
+
+Daniel, K., Grinblatt, M., Titman, S., \& Wermers, R. (1997). Measuring
+mutual fund performance with characteristic-based benchmarks.
+\emph{Journal of Finance}, \emph{52}(3), 1035--1058.
+
+Fama, E. F., \& French, K. R. (2010). Luck versus skill in the
+cross-section of mutual fund returns. \emph{Journal of Finance},
+\emph{65}(5), 1915--1947.
+
+Wermers, R. (2000). Mutual fund performance: An empirical decomposition
+into stock-picking talent, style, transactions costs, and expenses.
+\emph{Journal of Finance}, \emph{55}(4), 1655--1703.
+
+Wermers, R. (2011). Performance measurement of mutual funds, hedge
+funds, and institutional accounts. \emph{Annual Review of Financial
+Economics}, \emph{3}, 537--574.
+
+\subsubsection{III. Fund Holdings, Trading Behavior, and
+Activeness}\label{iii.-fund-holdings-trading-behavior-and-activeness}
+
+Agarwal, V., Gay, G. D., \& Ling, L. (2014). Window dressing in mutual
+funds. \emph{Review of Financial Studies}, \emph{27}(11), 3133--3170.
+
+Lou, D. (2012). A flow-based explanation for return predictability.
+\emph{Review of Financial Studies}, \emph{25}(12), 3457-3489.
+
+Gaspar, J. M., Massa, M., \& Matos, P. (2005). Shareholder investment
+horizons and the market for corporate control. \emph{Journal of
+Financial Economics}, \emph{76}(1), 135--165. \emph{(Churn ratio
+methodology)}
+
+Kacperczyk, M., Sialm, C., \& Zheng, L. (2005). On the industry
+concentration of actively managed equity mutual funds. \emph{Journal of
+Finance}, \emph{60}(4), 1983--2011.
+
+Kacperczyk, M., Sialm, C., \& Zheng, L. (2008). Unobserved actions of
+mutual funds. \emph{Review of Financial Studies}, \emph{21}(6),
+2379--2416.
+
+Wermers, R. (1999). Mutual fund herding and the impact on stock prices.
+\emph{Journal of Finance}, \emph{54}(2), 581--622.
+
+\subsubsection{IV. Agency Problems and Incentives in Fund
+Management}\label{iv.-agency-problems-and-incentives-in-fund-management}
+
+Bhattacharya, U., Lee, J. H., \& Pool, V. K. (2013). Conflicting family
+values in mutual fund families. \emph{Journal of Finance}, \emph{68}(1),
+173--200.
+
+Brown, K. C., Harlow, W. V., \& Starks, L. T. (1996). Of tournaments and
+temptations: An analysis of managerial incentives in the mutual fund
+industry. \emph{Journal of Finance}, \emph{51}(1), 85--110.
+
+Gaspar, J. M., Massa, M., \& Matos, P. (2006). Favoritism in mutual fund
+families? Evidence on strategic cross-fund subsidization. \emph{Journal
+of Finance}, \emph{61}(1), 73--104.
+
+Kempf, A., Ruenzi, S., \& Thiele, T. (2009). Employment risk,
+compensation incentives, and managerial risk taking: Evidence from the
+mutual fund industry. \emph{Journal of Financial Economics},
+\emph{92}(1), 92--108.
+
+Sirri, E. R., \& Tufano, P. (1998). Costly search and mutual fund flows.
+\emph{Journal of Finance}, \emph{53}(5), 1589--1622.
+
+\subsubsection{V. Behavioral Biases of
+Investors}\label{v.-behavioral-biases-of-investors}
+
+Agarwal, V., Jiang, L., \& Wen, Q. (2022). Why do mutual funds hold
+lottery stocks?. \emph{Journal of Financial and Quantitative Analysis},
+\emph{57}(3), 825-856.
+
+Barber, B. M., Odean, T., \& Zheng, L. (2005). Out of sight, out of
+mind: The effects of expenses on mutual fund flows. \emph{Journal of
+Business}, \emph{78}(6), 2095--2119.
+
+Ben-David, I., Franzoni, F., Kim, B., \& Moussawi, R. (2021).
+Competition for attention in the ETF space. \emph{Review of Financial
+Studies}, \emph{35}(9), 4382--4427.
+
+Frazzini, A., \& Lamont, O. A. (2008). Dumb money: Mutual fund flows and
+the cross-section of stock returns. \emph{Journal of Financial
+Economics}, \emph{88}(2), 299--322.
+
+\subsubsection{VI. Institutional Monitoring, Voting, and
+Engagement}\label{vi.-institutional-monitoring-voting-and-engagement}
+
+Chen, X., Harford, J., \& Li, K. (2007). Monitoring: Which institutions
+matter? \emph{Journal of Financial Economics}, \emph{86}(2), 279--305.
+
+Chung, K. H., \& Zhang, H. (2011). Corporate governance and
+institutional ownership. \emph{Journal of Financial and Quantitative
+Analysis}, \emph{46}(1), 247--273.
+
+Gillan, S. L., \& Starks, L. T. (2000). Corporate governance proposals
+and shareholder activism: The role of institutional investors.
+\emph{Journal of Financial Economics}, \emph{57}(2), 275--305.
+
+Iliev, P., \& Lowry, M. (2015). Are mutual funds active voters?
+\emph{Review of Financial Studies}, \emph{28}(2), 446--485.
+
+Matvos, G., \& Ostrovsky, M. (2010). Heterogeneity and peer effects in
+mutual fund proxy voting. \emph{Journal of Financial Economics},
+\emph{98}(1), 90--112.
+
+\subsubsection{VII. Passive Investing and Common
+Ownership}\label{vii.-passive-investing-and-common-ownership}
+
+Appel, I. R., Gormley, T. A., \& Keim, D. B. (2016). Passive investors,
+not passive owners. \emph{Journal of Financial Economics},
+\emph{121}(1), 111--141.
+
+Azar, J., Schmalz, M. C., \& Tecu, I. (2018). Anticompetitive effects of
+common ownership. \emph{Journal of Finance}, \emph{73}(4), 1513--1565.
+
+Bebchuk, L., \& Hirst, S. (2019). The specter of the giant three.
+\emph{Boston University Law Review}, \emph{99}(3), 721--741.
+
+He, J., \& Huang, J. (2017). Product market competition in a world of
+cross-ownership: Evidence from institutional blockholdings. \emph{Review
+of Financial Studies}, \emph{30}(8), 2674--2718.
+
+Heath, D., Macciocchi, D., Michaely, R., \& Ringgenberg, M. C. (2022).
+Do index funds monitor? \emph{Review of Financial Studies},
+\emph{35}(1), 91--131.
+
+Lewellen, J., \& Lowry, M. (2021). Does common ownership really increase
+firm coordination? \emph{Journal of Financial Economics}, \emph{141}(1),
+322--344.
+
+Massa, M., Schumacher, D., \& Wang, Y. (2021). Who is afraid of
+BlackRock? \emph{Review of Financial Studies}, \emph{34}(4), 1987--2044.
+
+\subsubsection{VIII. ESG Investing, Climate Risk, and Long-Term
+Stewardship}\label{viii.-esg-investing-climate-risk-and-long-term-stewardship}
+
+Chen, T., Dong, H., \& Lin, C. (2020). Institutional shareholders and
+corporate social responsibility. \emph{Journal of Financial Economics},
+\emph{135}(2), 483--504.
+
+Dyck, A., Lins, K. V., Roth, L., \& Wagner, H. F. (2019). Do
+institutional investors drive corporate social responsibility?
+International evidence. \emph{Journal of Financial Economics},
+\emph{131}(3), 693--714.
+
+Hwang, C. Y., Titman, S., \& Wang, Y. (2022). Investor tastes, corporate
+behavior, and stock returns: An analysis of corporate social
+responsibility. \emph{Management Science}, \emph{68}(10), 7131--7152.
+
+Kim, S., \& Yoon, A. (2023). Analyzing active fund managers' commitment
+to ESG: Evidence from the United Nations Principles for Responsible
+Investment. \emph{Management Science}, \emph{69}(2), 741--758.
+
+Krueger, P., Sautner, Z., \& Starks, L. T. (2020). The importance of
+climate risks for institutional investors. \emph{Review of Financial
+Studies}, \emph{33}(3), 1067--1111.
+
+Starks, L. T., Venkat, P., \& Zhu (2025). Corporate ESG profiles and
+investor horizons. \emph{Journal of Finance}, \emph{81}(2), 603-642.
+
+
+
+
+\end{document}
