@@ -130,7 +130,7 @@ datatable(portfolio) |>
 Returns in finance can be calculated using either discrete or continuous methods. Both approaches measure investment performance but have different interpretations and applications. Here presents the key difference between these two:
 
 | Feature | Discrete Returns | Continuous Returns |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | **Formula** |  |  |
 | $$R_t=P_t/P_{t-1}-1$$ |  |  |
 | $$R_t=ln(P_t/P_{t-1})$$ |  |  |

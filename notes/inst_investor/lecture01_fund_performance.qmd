@@ -10,7 +10,7 @@ format:
     toc-depth: 3
     code-fold: true
     # code-tools: true
-    theme: cosmo
+    # theme: cosmo
     highlight-style: github
     self-contained: true
 execute:
@@ -79,7 +79,7 @@ library(highcharter)  # interactive charts (replaces ggplot2 for all figures)
 We use ten ETFs spanning broad market, style (size/value), sector, and active strategies. This cross-section lets students observe how factor loadings vary systematically across fund types—a key pedagogical goal.
 
 | Ticker | Name                       | Category         | Expected Factor Tilt |
-|-----------------|---------------------|-----------------|-----------------|
+|-----------------|--------------------|-----------------|-----------------|
 | SPY    | SPDR S&P 500               | Broad market     | β ≈ 1, others ≈ 0    |
 | QQQ    | Invesco Nasdaq-100         | Tech/growth      | Negative HML         |
 | IWM    | iShares Russell 2000       | Small cap        | Positive SMB         |
@@ -573,8 +573,7 @@ alpha_compare |>
 `highcharter` has no direct equivalent of `facet_wrap()`, so we build one bar chart per factor and arrange the four panels in a grid with `hw_grid()`. All panels use the same ETF ordering (by median loading across the four factors), so you can read across a row to compare one ETF's exposures.
 
 ```{r}
-#| label: fig-loadings
-#| fig-cap: "Carhart factor loadings across 10 US ETFs"
+#| label: loadings-data
 
 loadings_long <- carhart_results |>
   select(name, b_mkt_estimate, b_smb_estimate,
@@ -585,43 +584,106 @@ loadings_long <- carhart_results |>
     values_to = "loading"
   ) |>
   mutate(factor = recode(factor,
-    "b_mkt_estimate" = "MKT",
-    "b_smb_estimate" = "SMB",
-    "b_hml_estimate" = "HML",
-    "b_umd_estimate" = "UMD"
+                         "b_mkt_estimate" = "MKT",
+                         "b_smb_estimate" = "SMB",
+                         "b_hml_estimate" = "HML",
+                         "b_umd_estimate" = "UMD"
   ))
 
-# One common ETF order for all panels (highest median loading at the top)
+# One common ETF order for all four charts (highest median loading at the top)
 etf_order <- loadings_long |>
   group_by(name) |>
   summarise(med = median(loading), .groups = "drop") |>
   arrange(desc(med)) |>
   pull(name)
+```
 
-factor_cols <- c(MKT = "#4E79A7", SMB = "#F28E2B",
-                 HML = "#59A14F", UMD = "#B07AA1")
+### Market (MKT)
 
-loading_chart <- function(fac) {
-  d <- loadings_long |>
-    filter(factor == fac) |>
-    arrange(match(name, etf_order))
+```{r}
+#| label: loadings-mkt
 
-  highchart() |>
-    hc_chart(type = "bar", height = 340) |>
-    hc_title(text = paste("Loading on", fac)) |>
-    hc_xAxis(categories = etf_order,
-             labels = list(style = list(fontSize = "10px"))) |>
-    hc_yAxis(title = list(text = NULL),
-             plotLines = list(list(value = 0, width = 1,
-                                   color = "#333333", zIndex = 3))) |>
-    hc_add_series(name = fac, data = round(d$loading, 4),
-                  color = factor_cols[[fac]]) |>
-    hc_legend(enabled = FALSE) |>
-    hc_tooltip(pointFormat = "Loading: <b>{point.y:.3f}</b>")
-}
+d_mkt <- loadings_long |>
+  filter(factor == "MKT") |>
+  arrange(match(name, etf_order))
 
-charts <- map(c("MKT", "SMB", "HML", "UMD"), loading_chart)
-do.call(hw_grid, c(charts, list(ncol = 2)))
+highchart() |>
+  hc_chart(type = "bar", height = 360) |>
+  hc_title(text = "Carhart Loadings: Market (MKT)") |>
+  hc_xAxis(categories = etf_order) |>
+  hc_yAxis(title = list(text = "Loading"),
+           plotLines = list(list(value = 0, width = 1,
+                                 color = "#333333", zIndex = 3))) |>
+  hc_add_series(name = "MKT", data = round(d_mkt$loading, 4),
+                color = "#4E79A7") |>
+  hc_legend(enabled = FALSE) |>
+  hc_tooltip(pointFormat = "Loading: <b>{point.y:.3f}</b>")
+```
+
+### Size (SMB)
+
+```{r}
+#| label: loadings-smb
+
+d_smb <- loadings_long |>
+  filter(factor == "SMB") |>
+  arrange(match(name, etf_order))
+
+highchart() |>
+  hc_chart(type = "bar", height = 360) |>
+  hc_title(text = "Carhart Loadings: Size (SMB)") |>
+  hc_xAxis(categories = etf_order) |>
+  hc_yAxis(title = list(text = "Loading"),
+           plotLines = list(list(value = 0, width = 1,
+                                 color = "#333333", zIndex = 3))) |>
+  hc_add_series(name = "SMB", data = round(d_smb$loading, 4),
+                color = "#F28E2B") |>
+  hc_legend(enabled = FALSE) |>
+  hc_tooltip(pointFormat = "Loading: <b>{point.y:.3f}</b>")
+```
+
+### Value (HML)
+
+```{r}
+#| label: loadings-hml
+
+d_hml <- loadings_long |>
+  filter(factor == "HML") |>
+  arrange(match(name, etf_order))
+
+highchart() |>
+  hc_chart(type = "bar", height = 360) |>
+  hc_title(text = "Carhart Loadings: Value (HML)") |>
+  hc_xAxis(categories = etf_order) |>
+  hc_yAxis(title = list(text = "Loading"),
+           plotLines = list(list(value = 0, width = 1,
+                                 color = "#333333", zIndex = 3))) |>
+  hc_add_series(name = "HML", data = round(d_hml$loading, 4),
+                color = "#59A14F") |>
+  hc_legend(enabled = FALSE) |>
+  hc_tooltip(pointFormat = "Loading: <b>{point.y:.3f}</b>")
+```
+
+### Momentum (UMD)
+
+```{r}
+#| label: loadings-umd
+
+d_umd <- loadings_long |>
+  filter(factor == "UMD") |>
+  arrange(match(name, etf_order))
+
+highchart() |>
+  hc_chart(type = "bar", height = 360) |>
+  hc_title(text = "Carhart Loadings: Momentum (UMD)") |>
+  hc_xAxis(categories = etf_order) |>
+  hc_yAxis(title = list(text = "Loading"),
+           plotLines = list(list(value = 0, width = 1,
+                                 color = "#333333", zIndex = 3))) |>
+  hc_add_series(name = "UMD", data = round(d_umd$loading, 4),
+                color = "#B07AA1") |>
+  hc_legend(enabled = FALSE) |>
+  hc_tooltip(pointFormat = "Loading: <b>{point.y:.3f}</b>")
 ```
 
 ------------------------------------------------------------------------

@@ -1,0 +1,20 @@
+% LaTeX settings for JJChiou-CV.qmd
+% Compile with XeLaTeX. Keep res.cls in the same directory as the QMD file.
+
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\usepackage{marvosym}
+\usepackage{academicons}
+\usepackage[hidelinks,unicode]{hyperref}
+
+\setCJKmainfont{Songti TC}
+\setlength{\textwidth}{5.2in}
+
+% Reusable two-column lines for CV entries.
+\newcommand{\cvline}[2]{#1\hfill #2\\}
+\newcommand{\cvheading}[2]{{\sl #1}\hfill #2\\}
+
+% Keep a heading and its first following line together when possible.
+\makeatletter
+\@secpenalty=-500
+\makeatother

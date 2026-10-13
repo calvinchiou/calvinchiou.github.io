@@ -1,0 +1,167 @@
+---
+format:
+  pdf:
+    documentclass: res
+    classoption: margin
+    pdf-engine: xelatex
+    include-in-header:
+      - cv-preamble.tex
+    keep-tex: true
+number-sections: false
+lang: en
+---
+
+```{=latex}
+% Name and contact block
+\moveleft.5\hoffset\centerline{\huge \scshape Calvin Jian-Jia Chiou 邱健嘉}
+\moveleft.5\hoffset\centerline{\scshape NCCU Commerce}
+\moveleft.5\hoffset\centerline{\Letter\ \href{mailto:jjchiou@nccu.edu.tw}{jjchiou\textrm{@}nccu.edu.tw}}
+\moveleft.5\hoffset\centerline{%
+  \href{https://orcid.org/0000-0002-4961-1545}{\aiOrcid}\enspace
+  \href{https://calvinchiou.github.io/}{\Mundus}\enspace
+  \href{https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=2893284}{\aiSSRN}\enspace
+  \href{https://scholar.google.com.tw/citations?user=WvORrXMAAAAJ&hl=en}{\aiGoogleScholar}%
+}
+
+\moveleft\hoffset\vbox{\hrule width\resumewidth height .2pt}
+{\raggedleft\hspace*{-0.5\hoffset}{\small \sl Last Updated: \today}\par}
+
+\begin{resume}
+```
+
+# Academic Appointments
+
+*National Chengchi University,* \hfill Taipei, Taiwan\
+Assistant Professor of Finance \hfill 2024--Present
+
+# Education
+
+*Nanyang Technological University,* \hfill Singapore\
+Ph.D. in Finance \hfill 2019--2024
+
+*National University of Singapore,* \hfill Singapore\
+Visiting Doctoral Student, Department of Finance \hfill 2019
+
+# Research \newline Interests
+
+Empirical Corporate Finance, Corporate Governance, Institutional Investors, Behavioral Finance
+
+# Publications
+
+**Corporate social performance, retail investor trading, and stock price crash risk** (with Chang Chan and Chin-En Wu)\
+*Finance Research Letters*, 2026, Vol. 101, 110055 (SSCI)
+
+**Greenwashing and its impact on corporate operating performance** (with Wen-Chyan Ke, Pei-Ru Lo, and Chang Chan)\
+*Review of Securities and Futures Markets*, 2025, Vol. 37(3), 63--103 (TSSCI)
+
+**The impact of environmental performance on financial outcomes: Evidence from Taiwan** (with Tsung-Hsuan Li, Chang Chan, and Chun-Kuei Hsieh)\
+*Journal of Financial Studies*, 2025, Vol. 33(1), 51--107 (TSSCI)
+
+**A taxonomy of individual liquidity provision: Evidence from the Taiwan Stock Exchange** (with Xiaozhou Zhou and Chang Chan)\
+*Finance Research Letters*, 2022, Vol. 50, 103246 (SSCI)
+
+**The impact of mandatory corporate social responsibility reporting on liquidity and risk** (with Chang Chan, Chao-Hung Huang, and Wen-Chyan Ke)\
+*Journal of Accounting Review*, 2021, Vol. 72, 35--82 (TSSCI)
+
+# Working \newline Papers
+
+**Common Ownership Networks and Board Gender Diversity** (single-authored)\
+Conferences: AFAANZ 2025, INFORMS Annual Meeting 2024, Sydney Banking and Financial Stability Conference 2024, Frontiers in Accounting and Finance International Conference 2024, TFA 2024
+
+**Selective ties: Common ownership and the restructuring of board interlocks** (with Zheng Yang and Chia-Wei Huang)\
+Conferences: TFA 2025, FeAT 2025, Three Asian Countries Finance Conference 2026
+
+**When black swan and green swan come together: Exploring ESG engagement in United States airline industry during the Covid-19 pandemic** (with Hui-Chieh Chen and Yueh-Neng Lin)\
+Conferences: TFA 2023, JAAF Conference 2026 (scheduled)\
+*R&R at Journal of Accounting, Auditing, and Finance (NSTC Accounting A-tier1)*
+
+**When the watchdog leaves, the empire shrinks: Local media closures and corporate investment** (with Yunju Cha and Chin-En Wu)\
+Conferences: JAAF Conference 2026 (scheduled)\
+*R&R at Journal of Accounting, Auditing, and Finance (NSTC Accounting A-tier1)*
+
+**Sustainable Fund Ownership to Corporate Financial Performance** (with Wen-Chyan Ke, Yi-Tong Lin, and Chang Chan)\
+*R&R at Journal of Financial Studies (TSSCI)*
+
+**Does Limited Attention Drive Currency Momentum?** (with Yin-Feng Gau)\
+Conferences: TFA 2017, AsianFA, TSC Thesis Symposium
+
+**Clearing Frequency and Volatility: Evidence from the Taiwan Stock Market** (with Chang Chan)\
+Conferences: TFA 2016
+
+# Work in \newline Progress
+
+**Racial matching and analyst forecast bias** (with Chen-Ting (Chris) Lien and Po-Yu Liu)\
+*Under submission*
+
+**Reversal exposure from shorting leveraged and inverse ETFs** (with Chen-Ting (Chris) Lien and Po-Yu Liu)
+
+**Do interlocking directors mitigate hold-ups along the supply chain?** (with Chin-En Wu)\
+Conferences: TFA 2026, FeAT 2026\
+*Under submission*
+
+# Research Grants
+
+**Principal Investigator.** "Rising institutional investors: Evidence on M&As, AI investment, and employee welfare" *NSTC, Taiwan*, 2026--2028. Total award: NT\$1,654,000
+
+**Co-Principal Investigator** (Principal Investigator: [Hao-Chang Sung](https://busadm.ccu.edu.tw/p/405-1248-31599,c3236.php?Lang=zh-tw)). "The impact of external oversight on the effectiveness of executive compensation clawback enforcement: Theoretical and empirical evidence." *NSTC, Taiwan*, 2025--2027. Total award: NT\$1,758,000
+
+**Principal Investigator.** "Interwoven influence: Essays on board interlocks in corporate governance." *National Science and Technology Council (NSTC), Taiwan*, 2024--2026. Total award: NT\$1,378,000
+
+# Awards and \newline Honors
+
+*Excellent Undergraduate English-taught Course Award*, NCCU \hfill 2025\
+*Fubon Best Paper Award*, TFA \hfill 2024\
+*Taiwan Government Scholarship to Study Abroad (GSSA)* \hfill 2022--2023\
+*NTU Research Scholarship* \hfill 2019--2023\
+*Best Paper Award*, TSC Thesis Symposium \hfill 2017\
+*Shanghai Commercial & Savings Bank Scholarship* \hfill 2017
+
+# Presentations
+
+Three Asian Countries Finance Conference \hfill 2026\
+AsianFA, TFA, FeAT, AFAANZ \hfill 2025\
+INFORMS Annual Meeting, Sydney Banking and Financial Stability Conference, \hfill 2024\
+Frontier in Accounting and Finance International Conference, TFA,\
+Chang Gung University, National Central University, National Taiwan University\
+National Kaohsiung University of Science and Technology \hfill 2023\
+National Central University, National Taipei University \hfill 2022\
+Cross Country Perspectives in Finance (CCPF), TFA \hfill 2021\
+TSC Thesis Symposium \hfill 2017
+
+# Professional \newline Services
+
+*Journal Referee*: **SSCI**: British Accounting Review, Pacific-Basin Finance Journal, Finance Research Letters, Emerging Markets Finance and Trade\
+**TSSCI**: Corporate Management Review, NTU Management Review, Journal of Social Sciences and Philosophy, Journal of Management and Business Research, Review of Securities and Futures Markets\
+*Conference Referee*: AFAANZ 2026, FMA Asia 2026\
+*Organizing Committee*: AsianFA Annual Meeting 2025
+
+# Professional \newline Development
+
+Off-site to UT Austin (OUTA) EMI Faculty Training Program \hfill Jul 2025\
+Texas Global, UT Austin, and NTNU Resource Center for EMI
+
+# Teaching \newline Experience
+
+*National Chengchi University:* \hfill 2024--Present\
+Instructor of record; all courses taught in English
+
+**Doctoral:** Seminar on Corporate Finance\
+**Master's:** Institutional Investors: Theory and Evidence\
+**Undergraduate:** Financial Management\
+**Undergraduate:** Investments\
+**Online Course (MOOC)**: Financial Calculation with R \hfill forthcoming 2026
+
+*National Central University:* \hfill 2017\
+Workshop instructor: Text mining and web scraping with R
+
+# Programming
+
+R, Python, Stata, SAS, \LaTeX
+
+# Language
+
+English (fluent), Mandarin (native)
+
+```{=latex}
+\end{resume}
+```
