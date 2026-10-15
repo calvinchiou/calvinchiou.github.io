@@ -3476,7 +3476,7 @@
     "href": "teaching.html#courses",
     "title": "Teaching",
     "section": "Courses",
-    "text": "Courses\n\n\n\nInvestments undergrad\n\n\nNational Chengchi University · Course 351051 · English (EMI)\n\nTopics: Portfolio Theory · Asset Pricing · Factor Models · Trading Strategy · Behavioral Finance · Portfolio Optimization\n\n\nR lecture notes\n\n\n\n\nNote\nTopic\n\n\n\n\nNote 1\nIntroduction to R & Financial Data Handling\n\n\nNote 2\nPortfolio Formation\n\n\nNote 3\nFactor Model Estimation\n\n\nNote 4\nTrading Strategies\n\n\nNote 5\nBehavrioal Finance & Lottery-like Stock Anamoly\n\n\nNote 6\nPortfolio Optimization (coming soon)\n\n\nAppendix A\nggplot2 Theme Gallery\n\n\nAppendix B\nhighcharter Theme Gallery\n\n\n\n\n\n\n\n\n\nFinancial Management undergrad\n\n\nNational Chengchi University · Course 347051 · English (EMI)\n\nTopics: Capital Budgeting · Capital Structure · Valuation · Free Cash Flow\n\n\n\n\n\nInstitutional Investors: Theory and Evidence master’s\n\n\nNational Chengchi University · Materials in preparation\n\nTopics: Mutual Funds · Hedge Funds · Pension Funds · Delegated Asset Management · Fund Performance · Institutional Trading\n\n\nR lecture notes\n\n\n\n\nNote\nTopic\n\n\n\n\nNote 0\nMeasuring Fund Performance\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSlides\n\n\n\n\nNote\nTopic\n\n\n\n\nSlides 00\nIntroduction\n\n\nSlides 01\nAgency Problem\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSeminar on Corporate Finance doctoral\n\n\nNational Chengchi University · English (EMI)\n\nTopics: Capital Structure · Payout Policy · M&A · Corporate Governance · Empirical Methods"
+    "text": "Courses\n\n\n\nInvestments undergrad\n\n\nNational Chengchi University · Course 351051 · English (EMI)\n\nTopics: Portfolio Theory · Asset Pricing · Factor Models · Trading Strategy · Behavioral Finance · Portfolio Optimization\n\n\nR lecture notes\n\n\n\n\nNote\nTopic\n\n\n\n\nNote 1\nIntroduction to R & Financial Data Handling\n\n\nNote 2\nPortfolio Formation\n\n\nNote 3\nFactor Model Estimation\n\n\nNote 4\nTrading Strategies\n\n\nNote 5\nBehavrioal Finance & Lottery-like Stock Anamoly\n\n\nNote 6\nPortfolio Optimization (coming soon)\n\n\nAppendix A\nggplot2 Theme Gallery\n\n\nAppendix B\nhighcharter Theme Gallery\n\n\n\n\n\n\n\n\n\nFinancial Management undergrad\n\n\nNational Chengchi University · Course 347051 · English (EMI)\n\nTopics: Capital Budgeting · Capital Structure · Valuation · Free Cash Flow\n\n\n\n\n\nInstitutional Investors: Theory and Evidence master’s\n\n\nNational Chengchi University · Materials in preparation\n\nTopics: Mutual Funds · Hedge Funds · Pension Funds · Delegated Asset Management · Fund Performance · Institutional Trading\n\n\nR lecture notes\n\n\n\n\nNote\nTopic\n\n\n\n\nNote 1\nMeasuring Fund Performance\n\n\nNote 2\nFund Performance, Skill, and Luck\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSlides\n\n\n\n\nNote\nTopic\n\n\n\n\nSlides 00\nIntroduction\n\n\nSlides 01\nAgency Problem\n\n\nSlides 02\nFund Performance: Skill or Luck\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSeminar on Corporate Finance doctoral\n\n\nNational Chengchi University · English (EMI)\n\nTopics: Capital Structure · Payout Policy · M&A · Corporate Governance · Empirical Methods"
   },
   {
     "objectID": "notes/investments/n3_factor_model.html",
@@ -4399,78 +4399,78 @@
     "objectID": "notes/inst_investor/02_skill_luck.html#last-week-the-carhart-four-factor-model",
     "href": "notes/inst_investor/02_skill_luck.html#last-week-the-carhart-four-factor-model",
     "title": "02: Skill, Luck, and the Value of Active Management",
-    "section": "",
-    "text": "We established that alpha — the regression intercept in\n\\[R_{i,t} - R_{f,t} = \\alpha_i + \\beta_i \\cdot RMRF_t + s_i \\cdot SMB_t + h_i \\cdot HML_t + u_i \\cdot UMD_t + \\varepsilon_{i,t}\\]\nis the standard academic measure of fund performance.\n. . .\nWe ended with a question:\n\nEven a well-estimated alpha could be luck. With thousands of funds, some will show large positive alphas by chance alone. How do we tell the two apart?"
+    "section": "Last week: the Carhart four-factor model",
+    "text": "Last week: the Carhart four-factor model\nWe established that alpha — the regression intercept in\n\\[R_{i,t} - R_{f,t} = \\alpha_i + \\beta_i \\cdot RMRF_t + s_i \\cdot SMB_t + h_i \\cdot HML_t + u_i \\cdot UMD_t + \\varepsilon_{i,t}\\]\nis the standard academic measure of fund performance.\n\nWe ended with a question:\n\nEven a well-estimated alpha could be luck. With thousands of funds, some will show large positive alphas by chance alone. How do we tell the two apart?"
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#todays-papers",
     "href": "notes/inst_investor/02_skill_luck.html#todays-papers",
     "title": "02: Skill, Luck, and the Value of Active Management",
-    "section": "",
-    "text": "Paper\nQuestion\n\n\n\n\nFama & French (JF 2010)\nBootstrap methodology for distinguishing luck from skill in the cross-section\n\n\nBerk & van Binsbergen (JFE 2015)\nDollar value added as the correct measure of skill\n\n\nAndrikogiannopoulou & Papakonstantinou (RFS 2019)\nCan the standard tests even detect skill when it is there?"
+    "section": "Today’s papers",
+    "text": "Today’s papers\n\n\n\n\n\n\n\nPaper\nQuestion\n\n\n\n\nFama & French (JF 2010)\nBootstrap methodology for distinguishing luck from skill in the cross-section\n\n\nBerk & van Binsbergen (JFE 2015)\nDollar value added as the correct measure of skill\n\n\nAndrikogiannopoulou & Papakonstantinou (RFS 2019)\nCan the standard tests even detect skill when it is there?"
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#todays-roadmap",
     "href": "notes/inst_investor/02_skill_luck.html#todays-roadmap",
     "title": "02: Skill, Luck, and the Value of Active Management",
-    "section": "",
-    "text": "The luck-vs.-skill problem — why standard t-tests fail\nEquilibrium accounting — what we know before looking at any fund\nBootstrap simulation — the Fama & French (2010) approach\nFDR critique — Andrikogiannopoulou & Papakonstantinou (2019)\nValue added — why Berk & van Binsbergen (2015) reframe the question\nThe Berk-Green model — the equilibrium connecting all three\nSynthesis and discussion"
+    "section": "Today’s roadmap",
+    "text": "Today’s roadmap\n\nThe luck-vs.-skill problem — why standard t-tests fail\nEquilibrium accounting — what we know before looking at any fund\nBootstrap simulation — the Fama & French (2010) approach\nFDR critique — Andrikogiannopoulou & Papakonstantinou (2019)\nValue added — why Berk & van Binsbergen (2015) reframe the question\nThe Berk-Green model — the equilibrium connecting all three\nSynthesis and discussion"
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#the-core-statistical-challenge",
     "href": "notes/inst_investor/02_skill_luck.html#the-core-statistical-challenge",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "The core statistical challenge",
-    "text": "The core statistical challenge\nEvery estimated alpha contains two components:\n\\[\\underbrace{\\hat{\\alpha}_i}_{\\text{what we observe}} = \\underbrace{\\alpha_i}_{\\text{true skill}} + \\underbrace{\\text{noise}}_{\\text{estimation error}}\\]\n. . .\nWith thousands of funds, many will have extreme \\(\\hat\\alpha\\) purely by chance — even if every manager has zero true skill."
+    "text": "The core statistical challenge\nEvery estimated alpha contains two components:\n\\[\\underbrace{\\hat{\\alpha}_i}_{\\text{what we observe}} = \\underbrace{\\alpha_i}_{\\text{true skill}} + \\underbrace{\\text{noise}}_{\\text{estimation error}}\\]\n\nWith thousands of funds, many will have extreme \\(\\hat\\alpha\\) purely by chance — even if every manager has zero true skill."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#why-standard-t-tests-are-insufficient",
     "href": "notes/inst_investor/02_skill_luck.html#why-standard-t-tests-are-insufficient",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "Why standard t-tests are insufficient",
-    "text": "Why standard t-tests are insufficient\nThe average standard error of a monthly alpha estimate: 0.28% per month (≈ 3.4% annualized).\n. . .\nSuppose a manager has a genuine annual alpha of +2%. With 10 years of monthly data:\n\\[t = \\frac{\\hat{\\alpha}}{\\hat{\\sigma}/\\sqrt{T}} = \\frac{2\\%/12}{3.4\\%/\\sqrt{120}} \\approx 0.63\\]\n. . .\nFar below the conventional threshold of 2.0. A skilled manager looks statistically indistinguishable from an unskilled one at realistic sample sizes."
+    "text": "Why standard t-tests are insufficient\nThe average standard error of a monthly alpha estimate: 0.28% per month (≈ 3.4% annualized).\n\nSuppose a manager has a genuine annual alpha of +2%. With 10 years of monthly data:\n\\[t = \\frac{\\hat{\\alpha}}{\\hat{\\sigma}/\\sqrt{T}} = \\frac{2\\%/12}{3.4\\%/\\sqrt{120}} \\approx 0.63\\]\n\n\nFar below the conventional threshold of 2.0. A skilled manager looks statistically indistinguishable from an unskilled one at realistic sample sizes."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#the-multiple-comparisons-problem",
     "href": "notes/inst_investor/02_skill_luck.html#the-multiple-comparisons-problem",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "The multiple comparisons problem",
-    "text": "The multiple comparisons problem\nWith 3,000 funds tested at the 5% level, we expect 150 false positives even if no fund has skill.\n. . .\nStandard approach: look at the fund’s own t-statistic.\nProblem: comparing one fund’s alpha to a normal distribution ignores the fact that we are looking at the best fund in a very large sample.\n. . .\nWe need a method that correctly accounts for how extreme the best t-statistics should be under the null of no skill."
+    "text": "The multiple comparisons problem\nWith 3,000 funds tested at the 5% level, we expect 150 false positives even if no fund has skill.\n\nStandard approach: look at the fund’s own t-statistic.\nProblem: comparing one fund’s alpha to a normal distribution ignores the fact that we are looking at the best fund in a very large sample.\n\n\nWe need a method that correctly accounts for how extreme the best t-statistics should be under the null of no skill."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#sharpes-arithmetic",
     "href": "notes/inst_investor/02_skill_luck.html#sharpes-arithmetic",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "Sharpe’s Arithmetic",
-    "text": "Sharpe’s Arithmetic\nThe aggregate of all investors holds the market portfolio.\n\\[\\underbrace{\\text{passive}}_{\\alpha = 0} + \\underbrace{\\text{active}}_{\\alpha = ?} = \\underbrace{\\text{market}}_{\\alpha = 0}\\]\n. . .\nIf passive investors have zero alpha by construction, then active investors in aggregate must also have zero alpha — before costs.\n(Sharpe 1991)"
+    "text": "Sharpe’s Arithmetic\nThe aggregate of all investors holds the market portfolio.\n\\[\\underbrace{\\text{passive}}_{\\alpha = 0} + \\underbrace{\\text{active}}_{\\alpha = ?} = \\underbrace{\\text{market}}_{\\alpha = 0}\\]\n\nIf passive investors have zero alpha by construction, then active investors in aggregate must also have zero alpha — before costs.\n(Sharpe 1991)"
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#the-negative-sum-game",
     "href": "notes/inst_investor/02_skill_luck.html#the-negative-sum-game",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "The negative-sum game",
-    "text": "The negative-sum game\nBefore costs:\n\\[\\alpha_{\\text{active, aggregate}} = 0\\]\nAfter costs:\n\\[\\alpha_{\\text{active, aggregate}}^{\\text{net}} = -\\underbrace{\\text{expense ratio}}_{\\approx 1\\%/\\text{year}} &lt; 0\\]\n. . .\nActive management is a zero-sum game before fees and a negative-sum game after fees.\nThis is accounting, not an empirical claim."
+    "text": "The negative-sum game\nBefore costs:\n\\[\\alpha_{\\text{active, aggregate}} = 0\\]\nAfter costs:\n\\[\\alpha_{\\text{active, aggregate}}^{\\text{net}} = -\\underbrace{\\text{expense ratio}}_{\\approx 1\\%/\\text{year}} &lt; 0\\]\n\nActive management is a zero-sum game before fees and a negative-sum game after fees.\nThis is accounting, not an empirical claim."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#aggregate-evidence-fama-french-2010",
     "href": "notes/inst_investor/02_skill_luck.html#aggregate-evidence-fama-french-2010",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "Aggregate evidence: Fama & French (2010)",
-    "text": "Aggregate evidence: Fama & French (2010)\nValue-weighted portfolio of all active U.S. equity funds, 1984–2006:\n\n\n\nMeasure\nFour-factor α (ann.)\nt-stat\n\n\n\n\nNet (investors receive)\n−1.00%\n−3.02\n\n\nGross (before expense ratio)\n−0.05%\n−0.15\n\n\n\n. . .\nNet alpha ≈ −expense ratio. Gross alpha ≈ 0.\nConsistent with equilibrium accounting: in aggregate, active managers neither add nor destroy value before fees. But they definitely do after fees."
+    "text": "Aggregate evidence: Fama & French (2010)\nValue-weighted portfolio of all active U.S. equity funds, 1984–2006:\n\n\n\nMeasure\nFour-factor α (ann.)\nt-stat\n\n\n\n\nNet (investors receive)\n−1.00%\n−3.02\n\n\nGross (before expense ratio)\n−0.05%\n−0.15\n\n\n\n\nNet alpha ≈ −expense ratio. Gross alpha ≈ 0.\nConsistent with equilibrium accounting: in aggregate, active managers neither add nor destroy value before fees. But they definitely do after fees."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#what-the-aggregate-tells-us",
     "href": "notes/inst_investor/02_skill_luck.html#what-the-aggregate-tells-us",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "What the aggregate tells us",
-    "text": "What the aggregate tells us\n\n\nThe aggregate result does not imply every manager lacks skill\nIt is consistent with: skilled and unskilled managers coexist, and roughly cancel each other out in aggregate\nThe interesting question is in the cross-section: how much do individual managers differ?\nThat requires a different methodology"
+    "text": "What the aggregate tells us\n\nThe aggregate result does not imply every manager lacks skill\nIt is consistent with: skilled and unskilled managers coexist, and roughly cancel each other out in aggregate\nThe interesting question is in the cross-section: how much do individual managers differ?\nThat requires a different methodology"
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#the-fama-french-2010-approach",
     "href": "notes/inst_investor/02_skill_luck.html#the-fama-french-2010-approach",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "The Fama & French (2010) approach",
-    "text": "The Fama & French (2010) approach\nGoal: construct the distribution of t(α) that we would observe if no fund had any skill, then compare it to the actual distribution.\n. . .\nIf the actual right tail is fatter than the simulated right tail, that is evidence of genuine skill."
+    "text": "The Fama & French (2010) approach\nGoal: construct the distribution of t(α) that we would observe if no fund had any skill, then compare it to the actual distribution.\n\nIf the actual right tail is fatter than the simulated right tail, that is evidence of genuine skill."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#step-1-impose-zero-true-alpha",
@@ -4484,28 +4484,28 @@
     "href": "notes/inst_investor/02_skill_luck.html#step-2-joint-monthly-resampling",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "Step 2 — Joint monthly resampling",
-    "text": "Step 2 — Joint monthly resampling\nDraw a random sample of months (with replacement). Apply the same draw to all funds simultaneously.\n. . .\nWhy jointly? This preserves:\n\nThe cross-correlation of fund returns (funds hold similar stocks)\nThe joint distribution of factor returns and fund residuals\n\nThis is the key methodological departure from Kosowski et al. (2006), who simulate each fund independently."
+    "text": "Step 2 — Joint monthly resampling\nDraw a random sample of months (with replacement). Apply the same draw to all funds simultaneously.\n\nWhy jointly? This preserves:\n\nThe cross-correlation of fund returns (funds hold similar stocks)\nThe joint distribution of factor returns and fund residuals\n\nThis is the key methodological departure from Kosowski et al. (2006), who simulate each fund independently."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#steps-35-estimate-repeat-compare",
     "href": "notes/inst_investor/02_skill_luck.html#steps-35-estimate-repeat-compare",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "Steps 3–5 — Estimate, repeat, compare",
-    "text": "Steps 3–5 — Estimate, repeat, compare\nStep 3: Run the four-factor regression on each fund using the simulated months. Record t(α).\nStep 4: Repeat 10,000 times to build the full null distribution.\nStep 5: Compare actual t(α) percentiles to the simulated percentiles.\n. . .\n\n\n\n\n\n\n\nIf actual right tail &gt; simulated\n→ evidence of skill\n\n\n\n\nIf actual left tail &lt; simulated\n→ evidence of unskilled managers"
+    "text": "Steps 3–5 — Estimate, repeat, compare\nStep 3: Run the four-factor regression on each fund using the simulated months. Record t(α).\nStep 4: Repeat 10,000 times to build the full null distribution.\nStep 5: Compare actual t(α) percentiles to the simulated percentiles.\n\n\n\n\n\n\n\n\nIf actual right tail &gt; simulated\n→ evidence of skill\n\n\n\n\nIf actual left tail &lt; simulated\n→ evidence of unskilled managers"
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#results-net-returns-investors-perspective",
     "href": "notes/inst_investor/02_skill_luck.html#results-net-returns-investors-perspective",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "Results: net returns (investors’ perspective)",
-    "text": "Results: net returns (investors’ perspective)\n\n\nBelow the 80th percentile: actual t(α) beats simulated in &lt; 1% of simulation runs\nAt the 90th percentile: 90% of simulations beat the actual t(α)\nOnly at the 97th–99th percentile: results approach the simulated null\n\nInterpretation: most funds do not have sufficient skill to cover costs. A fund at the 90th percentile of historical t(α) is consistent with luck, not skill."
+    "text": "Results: net returns (investors’ perspective)\n\nBelow the 80th percentile: actual t(α) beats simulated in &lt; 1% of simulation runs\nAt the 90th percentile: 90% of simulations beat the actual t(α)\nOnly at the 97th–99th percentile: results approach the simulated null\n\nInterpretation: most funds do not have sufficient skill to cover costs. A fund at the 90th percentile of historical t(α) is consistent with luck, not skill."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#results-gross-returns-before-fees",
     "href": "notes/inst_investor/02_skill_luck.html#results-gross-returns-before-fees",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "Results: gross returns (before fees)",
-    "text": "Results: gross returns (before fees)\nWhen expense ratios are added back:\n\nLeft tail more extreme than simulated → truly unskilled managers reducing expected returns\nRight tail fatter than simulated above the ~60th percentile → genuinely skilled managers\n\n. . .\nFama & French estimate the cross-sectional dispersion of true alpha:\n\\[\\sigma(\\alpha^{\\text{true}}) \\approx 1.25\\% \\text{ per year}\\]\n. . .\nOnly ~16% of funds have true gross alpha &gt; 1.25%/year. Only ~2.4% exceed 2.5%/year."
+    "text": "Results: gross returns (before fees)\nWhen expense ratios are added back:\n\nLeft tail more extreme than simulated → truly unskilled managers reducing expected returns\nRight tail fatter than simulated above the ~60th percentile → genuinely skilled managers\n\n\nFama & French estimate the cross-sectional dispersion of true alpha:\n\\[\\sigma(\\alpha^{\\text{true}}) \\approx 1.25\\% \\text{ per year}\\]\n\n\nOnly ~16% of funds have true gross alpha &gt; 1.25%/year. Only ~2.4% exceed 2.5%/year."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#the-cdf-picture",
@@ -4519,91 +4519,91 @@
     "href": "notes/inst_investor/02_skill_luck.html#why-joint-sampling-matters",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "Why joint sampling matters",
-    "text": "Why joint sampling matters\nFama & French replicate the Kosowski et al. (2006) period (1975–2002) using their own joint-sampling approach:\n\n\n\n\n\n\n\nTest\n% of simulations where right tail exceeds actual\n\n\n\n\nKosowski et al. (independent sampling)\n&gt; 99% (strong skill evidence)\n\n\nFama & French (joint sampling)\n68–82% (weak to moderate)\n\n\n\n. . .\nFailure to account for cross-fund correlation inflates the apparent evidence of skill."
+    "text": "Why joint sampling matters\nFama & French replicate the Kosowski et al. (2006) period (1975–2002) using their own joint-sampling approach:\n\n\n\n\n\n\n\nTest\n% of simulations where right tail exceeds actual\n\n\n\n\nKosowski et al. (independent sampling)\n&gt; 99% (strong skill evidence)\n\n\nFama & French (joint sampling)\n68–82% (weak to moderate)\n\n\n\n\nFailure to account for cross-fund correlation inflates the apparent evidence of skill."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#a-prior-question-can-the-tests-detect-skill",
     "href": "notes/inst_investor/02_skill_luck.html#a-prior-question-can-the-tests-detect-skill",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "A prior question: can the tests detect skill?",
-    "text": "A prior question: can the tests detect skill?\nAndrikogiannopoulou & Papakonstantinou (2019) ask a different question:\n\nSuppose skill genuinely exists — and is as large as Fama & French estimate. Would the standard tests be able to detect it?\n\n. . .\nTheir answer is deeply uncomfortable: often no."
+    "text": "A prior question: can the tests detect skill?\nAndrikogiannopoulou & Papakonstantinou (2019) ask a different question:\n\nSuppose skill genuinely exists — and is as large as Fama & French estimate. Would the standard tests be able to detect it?\n\n\nTheir answer is deeply uncomfortable: often no."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#the-false-discovery-rate-fdr-methodology",
     "href": "notes/inst_investor/02_skill_luck.html#the-false-discovery-rate-fdr-methodology",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "The False Discovery Rate (FDR) methodology",
-    "text": "The False Discovery Rate (FDR) methodology\nA common alternative to the bootstrap: the FDR estimator (Barras, Scaillet & Wermers 2010).\nThe key quantity is the proportion of funds with zero true alpha, denoted \\(\\pi^0\\).\nThe estimator:\n\\[\\hat\\pi^0 = \\frac{\\#\\{p_i &gt; \\lambda\\}}{N(1 - \\lambda)} \\tag{2}\\]\nwhere \\(p_i\\) is the two-sided p-value for fund \\(i\\)’s alpha and \\(\\lambda\\) is a tuning parameter (typically 0.5).\n. . .\nBSW (2010) report \\(\\hat\\pi^0 \\approx 75\\%\\) — three-quarters of funds have zero true alpha."
+    "text": "The False Discovery Rate (FDR) methodology\nA common alternative to the bootstrap: the FDR estimator (Barras, Scaillet & Wermers 2010).\nThe key quantity is the proportion of funds with zero true alpha, denoted \\(\\pi^0\\).\nThe estimator:\n\\[\\hat\\pi^0 = \\frac{\\#\\{p_i &gt; \\lambda\\}}{N(1 - \\lambda)} \\tag{2}\\]\nwhere \\(p_i\\) is the two-sided p-value for fund \\(i\\)’s alpha and \\(\\lambda\\) is a tuning parameter (typically 0.5).\n\nBSW (2010) report \\(\\hat\\pi^0 \\approx 75\\%\\) — three-quarters of funds have zero true alpha."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#the-logic-behind-the-estimator",
     "href": "notes/inst_investor/02_skill_luck.html#the-logic-behind-the-estimator",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "The logic behind the estimator",
-    "text": "The logic behind the estimator\nIf most fund p-values are large (near 1), that suggests most funds are consistent with zero alpha.\n\\[\\hat\\pi^0 = \\frac{\\#\\{p_i &gt; \\lambda\\}}{N(1-\\lambda)}\\]\n. . .\nThe denominator \\(N(1-\\lambda)\\) is the expected number of large p-values if every fund has zero alpha.\nThe numerator counts actual large p-values.\nIf the ratio is high, most funds look like they have zero alpha."
+    "text": "The logic behind the estimator\nIf most fund p-values are large (near 1), that suggests most funds are consistent with zero alpha.\n\\[\\hat\\pi^0 = \\frac{\\#\\{p_i &gt; \\lambda\\}}{N(1-\\lambda)}\\]\n\nThe denominator \\(N(1-\\lambda)\\) is the expected number of large p-values if every fund has zero alpha.\nThe numerator counts actual large p-values.\nIf the ratio is high, most funds look like they have zero alpha."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#the-problem-this-confuses-zero-alpha-with-low-power",
     "href": "notes/inst_investor/02_skill_luck.html#the-problem-this-confuses-zero-alpha-with-low-power",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "The problem: this confuses zero alpha with low power",
-    "text": "The problem: this confuses zero alpha with low power\nA fund with genuine alpha of ±1% will still have a large p-value most of the time when \\(T\\) is short.\n. . .\nTherefore \\(\\hat\\pi^0\\) does not distinguish between:\n\nThe fund truly has zero alpha, or\nThe fund has non-zero alpha but the test lacks power to detect it\n\nBoth cases produce large p-values. The estimator counts both as zero-alpha funds."
+    "text": "The problem: this confuses zero alpha with low power\nA fund with genuine alpha of ±1% will still have a large p-value most of the time when \\(T\\) is short.\n\nTherefore \\(\\hat\\pi^0\\) does not distinguish between:\n\nThe fund truly has zero alpha, or\nThe fund has non-zero alpha but the test lacks power to detect it\n\nBoth cases produce large p-values. The estimator counts both as zero-alpha funds."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#the-magnitude-of-the-bias",
     "href": "notes/inst_investor/02_skill_luck.html#the-magnitude-of-the-bias",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "The magnitude of the bias",
-    "text": "The magnitude of the bias\nAndrikogiannopoulou & Papakonstantinou simulate fund returns with known true alpha distributions — calibrated to Fama & French’s own estimates — and ask how well the FDR recovers \\(\\pi^0\\).\n. . .\n\n\n\n\n\n\n\n\nTrue \\(|\\alpha|\\)\n% misclassified as zero-alpha\n\\(T\\) needed to avoid\n\n\n\n\n±1% per year\n~90%\nImplausibly long\n\n\n±2% per year\n~65%\n&gt; 200 years\n\n\n±3.5% per year\n~30%\n~380 months"
+    "text": "The magnitude of the bias\nAndrikogiannopoulou & Papakonstantinou simulate fund returns with known true alpha distributions — calibrated to Fama & French’s own estimates — and ask how well the FDR recovers \\(\\pi^0\\).\n\n\n\n\n\n\n\n\n\nTrue \\(|\\alpha|\\)\n% misclassified as zero-alpha\n\\(T\\) needed to avoid\n\n\n\n\n±1% per year\n~90%\nImplausibly long\n\n\n±2% per year\n~65%\n&gt; 200 years\n\n\n±3.5% per year\n~30%\n~380 months"
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#a-striking-calibration",
     "href": "notes/inst_investor/02_skill_luck.html#a-striking-calibration",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "A striking calibration",
-    "text": "A striking calibration\nUnder a data-generating process where only 1% of funds truly have zero alpha (consistent with Fama & French’s estimate of \\(\\sigma = 1.25\\%\\)):\n. . .\nThe FDR estimator reports \\(\\hat\\pi^0 \\approx 70\\%\\).\n. . .\nAn estimator that says “70% of funds have zero alpha” regardless of whether 1% or 75% actually do is not measuring what it claims to measure."
+    "text": "A striking calibration\nUnder a data-generating process where only 1% of funds truly have zero alpha (consistent with Fama & French’s estimate of \\(\\sigma = 1.25\\%\\)):\n\nThe FDR estimator reports \\(\\hat\\pi^0 \\approx 70\\%\\).\n\n\nAn estimator that says “70% of funds have zero alpha” regardless of whether 1% or 75% actually do is not measuring what it claims to measure."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#why-the-bias-is-always-upward",
     "href": "notes/inst_investor/02_skill_luck.html#why-the-bias-is-always-upward",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "Why the bias is always upward",
-    "text": "Why the bias is always upward\nThe factor \\(\\frac{1}{1-\\lambda}\\) amplifies every underpowered test result.\n. . .\nWhenever a fund has non-zero alpha but a large p-value (which happens most of the time when \\(T\\) is small), it inflates the numerator of \\(\\hat\\pi^0\\).\nThe bias cannot go downward: underpowered tests always make \\(\\hat\\pi^0\\) too large."
+    "text": "Why the bias is always upward\nThe factor \\(\\frac{1}{1-\\lambda}\\) amplifies every underpowered test result.\n\nWhenever a fund has non-zero alpha but a large p-value (which happens most of the time when \\(T\\) is small), it inflates the numerator of \\(\\hat\\pi^0\\).\nThe bias cannot go downward: underpowered tests always make \\(\\hat\\pi^0\\) too large."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#power-comes-from-t-not-n",
     "href": "notes/inst_investor/02_skill_luck.html#power-comes-from-t-not-n",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "Power comes from \\(T\\), not \\(N\\)",
-    "text": "Power comes from \\(T\\), not \\(N\\)\nAdding more funds \\(N\\) does not help at all — the bias operates fund-by-fund, and averages to the same wrong answer.\n. . .\nOnly lengthening \\(T\\) (each fund’s return history) helps — and convergence is extremely slow.\nEven 200 years of monthly data is insufficient to correctly identify funds with ±1% annual alpha.\n. . .\nImplication: Any study that reports FDR estimates with typical CRSP mutual fund sample lengths (80–120 months) should be read with extreme caution."
+    "text": "Power comes from \\(T\\), not \\(N\\)\nAdding more funds \\(N\\) does not help at all — the bias operates fund-by-fund, and averages to the same wrong answer.\n\nOnly lengthening \\(T\\) (each fund’s return history) helps — and convergence is extremely slow.\nEven 200 years of monthly data is insufficient to correctly identify funds with ±1% annual alpha.\n\n\nImplication: Any study that reports FDR estimates with typical CRSP mutual fund sample lengths (80–120 months) should be read with extreme caution."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#the-methodological-warning",
     "href": "notes/inst_investor/02_skill_luck.html#the-methodological-warning",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "The methodological warning",
-    "text": "The methodological warning\n\n\n“Low power” is not a caveat to be noted and set aside\nIt can reverse the economic conclusion: a finding of “75% of funds have zero alpha” may be a finding about our instruments, not our managers\nThis applies beyond mutual funds: any setting with short panels and small true effects\nThe Fama-French bootstrap is not immune, but is substantially more robust — it tests the entire cross-section rather than fund-by-fund p-values"
+    "text": "The methodological warning\n\n“Low power” is not a caveat to be noted and set aside\nIt can reverse the economic conclusion: a finding of “75% of funds have zero alpha” may be a finding about our instruments, not our managers\nThis applies beyond mutual funds: any setting with short panels and small true effects\nThe Fama-French bootstrap is not immune, but is substantially more robust — it tests the entire cross-section rather than fund-by-fund p-values"
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#berk-van-binsbergen-2015-the-question",
     "href": "notes/inst_investor/02_skill_luck.html#berk-van-binsbergen-2015-the-question",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "Berk & van Binsbergen (2015): the question",
-    "text": "Berk & van Binsbergen (2015): the question\nRather than ask “does alpha exist?”, they ask:\n\nHow much dollar value does the average mutual fund extract from financial markets?\n\n. . .\nThis turns out to be a fundamentally different question — and leads to a different answer."
+    "text": "Berk & van Binsbergen (2015): the question\nRather than ask “does alpha exist?”, they ask:\n\nHow much dollar value does the average mutual fund extract from financial markets?\n\n\nThis turns out to be a fundamentally different question — and leads to a different answer."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#why-alpha-is-the-wrong-measure-of-skill",
     "href": "notes/inst_investor/02_skill_luck.html#why-alpha-is-the-wrong-measure-of-skill",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "Why alpha is the wrong measure of skill",
-    "text": "Why alpha is the wrong measure of skill\nUnder standard neoclassical assumptions (rational investors, competitive markets, managers optimizing):\n. . .\nNet alpha → driven to zero by investor competition. Every fund that attracts capital until expected net alpha = 0. \\[\\alpha^{\\text{net}} = 0 \\quad \\text{in equilibrium}\\]\n. . .\nGross alpha → equals the fee the manager charges. \\[\\alpha^{\\text{gross}} = \\alpha^{\\text{net}} + f_i = 0 + f_i = f_i\\]\nGross alpha is a choice variable, not a skill measure."
+    "text": "Why alpha is the wrong measure of skill\nUnder standard neoclassical assumptions (rational investors, competitive markets, managers optimizing):\n\nNet alpha → driven to zero by investor competition. Every fund that attracts capital until expected net alpha = 0. \\[\\alpha^{\\text{net}} = 0 \\quad \\text{in equilibrium}\\]\n\n\nGross alpha → equals the fee the manager charges. \\[\\alpha^{\\text{gross}} = \\alpha^{\\text{net}} + f_i = 0 + f_i = f_i\\]\nGross alpha is a choice variable, not a skill measure."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#the-value-added-measure",
     "href": "notes/inst_investor/02_skill_luck.html#the-value-added-measure",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "The value-added measure",
-    "text": "The value-added measure\nThe correct measure: multiply the benchmark-adjusted gross return by AUM.\n\\[\\boxed{V_{i,t} = q_{i,t-1} \\cdot \\bigl(R_{i,t}^{\\text{gross}} - R_{i,t}^{\\text{benchmark}}\\bigr)}\\]\nManagerial skill: \\(S_i = \\mathbb{E}[V_{i,t}]\\)\n. . .\nPeter Lynch illustration:\n\n\n\n\n\n\n\n\n\nPeriod\nMonthly gross α\nAverage AUM\nMonthly value added\n\n\n\n\nFirst 5 years (Magellan)\n2.00%\n$40M\n$800K\n\n\nLast 5 years\n0.20%\n$10B\n$20M\n\n\n\nAlpha fell by 90%; value added rose 25-fold."
+    "text": "The value-added measure\nThe correct measure: multiply the benchmark-adjusted gross return by AUM.\n\\[\\boxed{V_{i,t} = q_{i,t-1} \\cdot \\bigl(R_{i,t}^{\\text{gross}} - R_{i,t}^{\\text{benchmark}}\\bigr)}\\]\nManagerial skill: \\(S_i = \\mathbb{E}[V_{i,t}]\\)\n\nPeter Lynch illustration:\n\n\n\n\n\n\n\n\n\nPeriod\nMonthly gross α\nAverage AUM\nMonthly value added\n\n\n\n\nFirst 5 years (Magellan)\n2.00%\n$40M\n$800K\n\n\nLast 5 years\n0.20%\n$10B\n$20M\n\n\n\nAlpha fell by 90%; value added rose 25-fold."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#why-not-gross-alpha",
@@ -4617,14 +4617,14 @@
     "href": "notes/inst_investor/02_skill_luck.html#the-right-benchmark-vanguard-not-ffc",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "The right benchmark: Vanguard, not FFC",
-    "text": "The right benchmark: Vanguard, not FFC\nFFC factors are not tradable passive alternatives for most of the sample:\n\n\n\nFactor\nα vs. Vanguard\nt-stat\n\n\n\n\nMarket\n2 bp/month\n0.83\n\n\nSMB\n22 bp/month\n2.80\n\n\nHML\n35 bp/month\n3.37\n\n\nUMD\n70 bp/month\n3.38\n\n\n\n. . .\nUsing FFC as the benchmark overstates the hurdle rate — especially in the 1970s and 80s when small-cap and value index funds didn’t exist.\nBerk & van Binsbergen use actual Vanguard index funds available to investors at each date."
+    "text": "The right benchmark: Vanguard, not FFC\nFFC factors are not tradable passive alternatives for most of the sample:\n\n\n\nFactor\nα vs. Vanguard\nt-stat\n\n\n\n\nMarket\n2 bp/month\n0.83\n\n\nSMB\n22 bp/month\n2.80\n\n\nHML\n35 bp/month\n3.37\n\n\nUMD\n70 bp/month\n3.38\n\n\n\n\nUsing FFC as the benchmark overstates the hurdle rate — especially in the 1970s and 80s when small-cap and value index funds didn’t exist.\nBerk & van Binsbergen use actual Vanguard index funds available to investors at each date."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#main-result-average-fund-adds-positive-value",
     "href": "notes/inst_investor/02_skill_luck.html#main-result-average-fund-adds-positive-value",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "Main result: average fund adds positive value",
-    "text": "Main result: average fund adds positive value\n\n\n\nStatistic\nValue (Y2000 $/month)\n\n\n\n\nTime-weighted mean\n+$270,000\n\n\nt-statistic\n5.74\n\n\nAnnual equivalent\n+$3.2 million\n\n\nMedian fund\n−$20,000\n\n\n% with positive value added\n43%\n\n\n\n. . .\nMost funds destroy value. The average is positive because skilled managers control most of the capital."
+    "text": "Main result: average fund adds positive value\n\n\n\nStatistic\nValue (Y2000 $/month)\n\n\n\n\nTime-weighted mean\n+$270,000\n\n\nt-statistic\n5.74\n\n\nAnnual equivalent\n+$3.2 million\n\n\nMedian fund\n−$20,000\n\n\n% with positive value added\n43%\n\n\n\n\nMost funds destroy value. The average is positive because skilled managers control most of the capital."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#the-distribution-of-skill",
@@ -4638,28 +4638,28 @@
     "href": "notes/inst_investor/02_skill_luck.html#persistence-of-value-added-up-to-10-years",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "Persistence of value added: up to 10 years",
-    "text": "Persistence of value added: up to 10 years\nFama & French found alpha persistence largely unpredictable beyond 1 year.\n. . .\nBerk & van Binsbergen sort funds on the Skill Ratio (t-statistic of past value added) and track future value added:\n\nTop decile consistently beats bottom decile at every horizon 3–10 years out\nNull rejected at 95% confidence at most horizons (non-parametric binomial test)\nTop decile controls ~25% of total AUM — investors are rewarding skill"
+    "text": "Persistence of value added: up to 10 years\nFama & French found alpha persistence largely unpredictable beyond 1 year.\n\nBerk & van Binsbergen sort funds on the Skill Ratio (t-statistic of past value added) and track future value added:\n\nTop decile consistently beats bottom decile at every horizon 3–10 years out\nNull rejected at 95% confidence at most horizons (non-parametric binomial test)\nTop decile controls ~25% of total AUM — investors are rewarding skill"
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#investors-can-identify-skill",
     "href": "notes/inst_investor/02_skill_luck.html#investors-can-identify-skill",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "Investors can identify skill",
-    "text": "Investors can identify skill\nA surprising finding:\nCurrent compensation (AUM × fee) predicts future value added better than past value added does.\n. . .\n\n\nSince fee rates vary little across funds, investors — through their capital allocation — determine compensation.\nThis means investors are correctly inferring managerial quality and directing capital accordingly.\n\nThis contradicts the “dumb money” narrative of investors chasing past returns."
+    "text": "Investors can identify skill\nA surprising finding:\nCurrent compensation (AUM × fee) predicts future value added better than past value added does.\n\n\n\nSince fee rates vary little across funds, investors — through their capital allocation — determine compensation.\nThis means investors are correctly inferring managerial quality and directing capital accordingly.\n\nThis contradicts the “dumb money” narrative of investors chasing past returns."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#where-does-the-value-go",
     "href": "notes/inst_investor/02_skill_luck.html#where-does-the-value-go",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "Where does the value go?",
-    "text": "Where does the value go?\n\\[V_{i,t} = \\underbrace{q_{i,t-1} \\cdot f_{i,t-1}}_{\\text{fees (managers)}} + \\underbrace{q_{i,t-1} \\cdot \\varepsilon_{i,t}}_{\\text{return to investors}}\\]\n. . .\nNet alpha to investors ≈ zero — consistent with Fama & French.\nManagers capture all economic rents through fees. Skilled managers charge higher effective fees (through larger AUM, not higher fee rates) and investors pay willingly because expected net alpha is zero.\n. . .\nAbout half of total value added comes from diversification services; the other half from stock selection and market timing."
+    "text": "Where does the value go?\n\\[V_{i,t} = \\underbrace{q_{i,t-1} \\cdot f_{i,t-1}}_{\\text{fees (managers)}} + \\underbrace{q_{i,t-1} \\cdot \\varepsilon_{i,t}}_{\\text{return to investors}}\\]\n\nNet alpha to investors ≈ zero — consistent with Fama & French.\nManagers capture all economic rents through fees. Skilled managers charge higher effective fees (through larger AUM, not higher fee rates) and investors pay willingly because expected net alpha is zero.\n\n\nAbout half of total value added comes from diversification services; the other half from stock selection and market timing."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#berk-green-2004-the-theoretical-backbone",
     "href": "notes/inst_investor/02_skill_luck.html#berk-green-2004-the-theoretical-backbone",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "Berk & Green (2004): the theoretical backbone",
-    "text": "Berk & Green (2004): the theoretical backbone\nA competitive model of the mutual fund industry with:\n\n\nFund managers endowed with permanent skill (positive gross alpha on first dollar)\nDecreasing returns to scale: alpha falls as AUM grows\nRational investors: flow capital to funds with positive expected alpha\nEquilibrium: capital flows until every fund’s expected net alpha = 0"
+    "text": "Berk & Green (2004): the theoretical backbone\nA competitive model of the mutual fund industry with:\n\nFund managers endowed with permanent skill (positive gross alpha on first dollar)\nDecreasing returns to scale: alpha falls as AUM grows\nRational investors: flow capital to funds with positive expected alpha\nEquilibrium: capital flows until every fund’s expected net alpha = 0"
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#the-models-predictions",
@@ -4673,7 +4673,7 @@
     "href": "notes/inst_investor/02_skill_luck.html#reconciling-fama-french-and-berk-van-binsbergen",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "Reconciling Fama-French and Berk-van Binsbergen",
-    "text": "Reconciling Fama-French and Berk-van Binsbergen\nBoth are right. They measure different things.\n\n\nFama & French\n\nReturn-based measure\nNet alpha ≈ −expense ratio\nFew funds cover costs\nSkill rare or undetectable\n\n\nBerk & van Binsbergen\n\nDollar-value measure\nAverage value added = +$3.2M/year\nSkill widespread and persistent\nInvestors identify it\n\n\n\n. . .\nThe resolution: Skill exists and is measurable in dollars. Competition drives the return to investors to zero. Rents flow to managers, not investors."
+    "text": "Reconciling Fama-French and Berk-van Binsbergen\nBoth are right. They measure different things.\n\n\nFama & French\n\nReturn-based measure\nNet alpha ≈ −expense ratio\nFew funds cover costs\nSkill rare or undetectable\n\n\nBerk & van Binsbergen\n\nDollar-value measure\nAverage value added = +$3.2M/year\nSkill widespread and persistent\nInvestors identify it\n\n\n\nThe resolution: Skill exists and is measurable in dollars. Competition drives the return to investors to zero. Rents flow to managers, not investors."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#three-papers-one-coherent-story",
@@ -4687,56 +4687,56 @@
     "href": "notes/inst_investor/02_skill_luck.html#implications-for-performance-evaluation",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "Implications for performance evaluation",
-    "text": "Implications for performance evaluation\n\n\nDo not rely on alpha alone. Only the extreme right tail (≥97th percentile) of the t(α) distribution provides reliable signal.\nMind the benchmark. FFC factors embed hindsight bias. Traded alternatives (Vanguard index funds) are more appropriate.\nThink in dollars, not percentages. A $10B fund with 0.2% alpha adds more value than a $1M fund with 10% alpha.\nPersistence in value added lasts a decade. It is short in alpha because rational flows compete away the alpha — not because skill disappears.\nNet alpha ≈ 0 for the best funds. There is no free lunch. Skilled managers capture their own rents through AUM."
+    "text": "Implications for performance evaluation\n\nDo not rely on alpha alone. Only the extreme right tail (≥97th percentile) of the t(α) distribution provides reliable signal.\nMind the benchmark. FFC factors embed hindsight bias. Traded alternatives (Vanguard index funds) are more appropriate.\nThink in dollars, not percentages. A $10B fund with 0.2% alpha adds more value than a $1M fund with 10% alpha.\nPersistence in value added lasts a decade. It is short in alpha because rational flows compete away the alpha — not because skill disappears.\nNet alpha ≈ 0 for the best funds. There is no free lunch. Skilled managers capture their own rents through AUM."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#implications-for-research-methodology",
     "href": "notes/inst_investor/02_skill_luck.html#implications-for-research-methodology",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "Implications for research methodology",
-    "text": "Implications for research methodology\n\n\nReport power simulations before reporting FDR estimates. A table showing \\(\\hat\\pi^0\\) at varying \\(T\\) is not optional.\nJoint resampling is mandatory in bootstrap studies of fund performance. Independent sampling inflates evidence of skill.\nLow power is not just a caveat. In the AP (2019) calibration, an estimator tuned to detect skill reports “75% zero-alpha funds” when only 1% truly have zero alpha. That is a structural failure."
+    "text": "Implications for research methodology\n\nReport power simulations before reporting FDR estimates. A table showing \\(\\hat\\pi^0\\) at varying \\(T\\) is not optional.\nJoint resampling is mandatory in bootstrap studies of fund performance. Independent sampling inflates evidence of skill.\nLow power is not just a caveat. In the AP (2019) calibration, an estimator tuned to detect skill reports “75% zero-alpha funds” when only 1% truly have zero alpha. That is a structural failure."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#discussion-questions",
     "href": "notes/inst_investor/02_skill_luck.html#discussion-questions",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "Discussion questions",
-    "text": "Discussion questions\n\n\nFama & French find VW net alpha ≈ −1%/year. Is this evidence that managers lack skill, or that investors rationally drive net alpha to zero? How would you distinguish these empirically?\nBerk & van Binsbergen argue gross alpha equals the fee the manager charges. Does this mean a fund charging 2% is more skilled than one charging 0.5%? What does the theory actually predict?\nThe FF bootstrap jointly samples months for all funds. Why does this matter? What happens if months are sampled independently?\nFFC factors have large positive alpha relative to Vanguard funds (especially HML and UMD). What does this imply about alpha estimates from the 1970s and 80s?\nSuppose a manager has true annual alpha of 2% on $100M. Under Berk-Green, what happens to alpha and AUM over time? Is this consistent with BvB’s 10-year persistence finding?"
+    "text": "Discussion questions\n\nFama & French find VW net alpha ≈ −1%/year. Is this evidence that managers lack skill, or that investors rationally drive net alpha to zero? How would you distinguish these empirically?\nBerk & van Binsbergen argue gross alpha equals the fee the manager charges. Does this mean a fund charging 2% is more skilled than one charging 0.5%? What does the theory actually predict?\nThe FF bootstrap jointly samples months for all funds. Why does this matter? What happens if months are sampled independently?\nFFC factors have large positive alpha relative to Vanguard funds (especially HML and UMD). What does this imply about alpha estimates from the 1970s and 80s?\nSuppose a manager has true annual alpha of 2% on $100M. Under Berk-Green, what happens to alpha and AUM over time? Is this consistent with BvB’s 10-year persistence finding?"
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#discussion-questions-continued",
     "href": "notes/inst_investor/02_skill_luck.html#discussion-questions-continued",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "Discussion questions (continued)",
-    "text": "Discussion questions (continued)\n\n\nWrite down the assumption behind the FDR equation (2) in words. When does it fail? Why is the bias in \\(\\hat\\pi^0\\) always upward?\nAP (2019) show that adding more funds \\(N\\) does not help, but increasing \\(T\\) does. Explain the asymmetry. Does the Fama-French bootstrap suffer from the same problem?\nYou are refereeing a paper that applies FDR to 3,000 hedge funds with an average of 48 monthly observations each. What simulation would you ask the authors to run before believing their estimated proportions?\nThe median fund has negative value added. The average is positive. What does this asymmetry tell you about the structure of the industry and the distribution of managerial talent?"
+    "text": "Discussion questions (continued)\n\nWrite down the assumption behind the FDR equation (2) in words. When does it fail? Why is the bias in \\(\\hat\\pi^0\\) always upward?\nAP (2019) show that adding more funds \\(N\\) does not help, but increasing \\(T\\) does. Explain the asymmetry. Does the Fama-French bootstrap suffer from the same problem?\nYou are refereeing a paper that applies FDR to 3,000 hedge funds with an average of 48 monthly observations each. What simulation would you ask the authors to run before believing their estimated proportions?\nThe median fund has negative value added. The average is positive. What does this asymmetry tell you about the structure of the industry and the distribution of managerial talent?"
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#what-we-covered-today",
     "href": "notes/inst_investor/02_skill_luck.html#what-we-covered-today",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "What we covered today",
-    "text": "What we covered today\n\n\nEquilibrium accounting constrains aggregate active performance: zero before costs, negative after\nBootstrap simulation (FF 2010) is the correct tool for cross-sectional inference; joint monthly resampling is essential\nFDR critique (AP 2019): the standard alternative confuses zero alpha with low statistical power; the bias is large, upward, and irreducible without implausibly long samples\nValue added (BvB 2015): switching from alpha to dollars reveals widespread skill, 10-year persistence, and rational investor behavior\nThe Berk-Green equilibrium ties everything together: managers are skilled, but competition drives net returns to investors toward zero"
+    "text": "What we covered today\n\nEquilibrium accounting constrains aggregate active performance: zero before costs, negative after\nBootstrap simulation (FF 2010) is the correct tool for cross-sectional inference; joint monthly resampling is essential\nFDR critique (AP 2019): the standard alternative confuses zero alpha with low statistical power; the bias is large, upward, and irreducible without implausibly long samples\nValue added (BvB 2015): switching from alpha to dollars reveals widespread skill, 10-year persistence, and rational investor behavior\nThe Berk-Green equilibrium ties everything together: managers are skilled, but competition drives net returns to investors toward zero"
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#the-bottom-line-for-investors",
     "href": "notes/inst_investor/02_skill_luck.html#the-bottom-line-for-investors",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "The bottom line for investors",
-    "text": "The bottom line for investors\n. . .\nSkill exists. The average fund adds $3.2M/year in dollar terms. Value added persists 10 years. Investors identify it.\n. . .\nBut investors do not capture it. Competition drives net alpha to approximately zero. Managers extract all rents through fees and AUM growth.\n. . .\n\nFor the typical investor, active management costs about 1% per year and returns approximately zero alpha. The beneficiary is the manager, not you."
+    "text": "The bottom line for investors\n\nSkill exists. The average fund adds $3.2M/year in dollar terms. Value added persists 10 years. Investors identify it.\n\n\nBut investors do not capture it. Competition drives net alpha to approximately zero. Managers extract all rents through fees and AUM growth.\n\n\n\nFor the typical investor, active management costs about 1% per year and returns approximately zero alpha. The beneficiary is the manager, not you."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#coming-up-next",
     "href": "notes/inst_investor/02_skill_luck.html#coming-up-next",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "Coming up next",
-    "text": "Coming up next\nReadings for Week 4:\n\n\nActive Share (Cremers & Petajisto, RFS 2009) — How much does a fund deviate from its benchmark, and does it matter?\nR Lab: computing Active Share from holdings data"
+    "text": "Coming up next\nReadings for Week 4:\n\nActive Share (Cremers & Petajisto, RFS 2009) — How much does a fund deviate from its benchmark, and does it matter?\nR Lab: computing Active Share from holdings data"
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html#references",
     "href": "notes/inst_investor/02_skill_luck.html#references",
     "title": "02: Skill, Luck, and the Value of Active Management",
     "section": "References",
-    "text": "References\n\nAndrikogiannopoulou, A., & Papakonstantinou, F. (2019). Reassessing false discoveries in mutual fund performance: Skill, luck, or insufficient data? Review of Financial Studies, 32(5), 2095–2137.\nBarras, L., Scaillet, O., & Wermers, R. (2010). False discoveries in mutual fund performance: Measuring luck in estimated alphas. Journal of Finance, 65(1), 179–216.\nBerk, J. B., & Green, R. C. (2004). Mutual fund flows and performance in rational markets. Journal of Political Economy, 112(6), 1269–1295.\nBerk, J. B., & van Binsbergen, J. H. (2015). Measuring skill in the mutual fund industry. Journal of Financial Economics, 118(1), 1–20.\nFama, E. F., & French, K. R. (2010). Luck versus skill in the cross-section of mutual fund returns. Journal of Finance, 65(5), 1915–1947.\nKosowski, R., Timmermann, A., Wermers, R., & White, H. (2006). Can mutual fund “stars” really pick stocks? Journal of Finance, 61(6), 2551–2595.\nSharpe, W. F. (1991). The arithmetic of active management. Financial Analysts Journal, 47(1), 7–9.\n\n\n\n\nQuestions?\n\nCalvin J. Chiou\njjchiou@nccu.edu.tw\nOffice: Commerce Building 261233\n\nSee you next Thursday."
+    "text": "References\n\nAndrikogiannopoulou, A., & Papakonstantinou, F. (2019). Reassessing false discoveries in mutual fund performance: Skill, luck, or insufficient data? Review of Financial Studies, 32(5), 2095–2137.\nBarras, L., Scaillet, O., & Wermers, R. (2010). False discoveries in mutual fund performance: Measuring luck in estimated alphas. Journal of Finance, 65(1), 179–216.\nBerk, J. B., & Green, R. C. (2004). Mutual fund flows and performance in rational markets. Journal of Political Economy, 112(6), 1269–1295.\nBerk, J. B., & van Binsbergen, J. H. (2015). Measuring skill in the mutual fund industry. Journal of Financial Economics, 118(1), 1–20.\nFama, E. F., & French, K. R. (2010). Luck versus skill in the cross-section of mutual fund returns. Journal of Finance, 65(5), 1915–1947.\nKosowski, R., Timmermann, A., Wermers, R., & White, H. (2006). Can mutual fund “stars” really pick stocks? Journal of Finance, 61(6), 2551–2595.\nSharpe, W. F. (1991). The arithmetic of active management. Financial Analysts Journal, 47(1), 7–9."
   },
   {
     "objectID": "notes/inst_investor/02_skill_luck.html",

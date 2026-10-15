@@ -92,9 +92,9 @@ R lecture notes
 </summary>
 
 | Note | Topic |
-|:----------------------------------:|------------------------------------|
-| [Note 0](notes/inst_investor/lecture01_fund_performance.html) | Measuring Fund Performance |
-|  |  |
+|:---------------:|-------------------------------------------------------|
+| [Note 1](notes/inst_investor/lecture01_fund_performance.html) | Measuring Fund Performance |
+| [Note 2](notes/inst_investor/lecture02_skill_evaluation.html) | Fund Performance, Skill, and Luck |
 |  |  |
 |  |  |
 
@@ -108,15 +108,15 @@ Slides
 
 </summary>
 
-|                         Note                          | Topic          |
-|:-----------------------------------------------------:|----------------|
-| [Slides 00](notes/inst_investor/00_introduction.html) | Introduction   |
-|    [Slides 01](notes/inst_investor/01_agency.html)    | Agency Problem |
-|                                                       |                |
-|                                                       |                |
-|                                                       |                |
-|                                                       |                |
-|                                                       |                |
+| Note | Topic |
+|:---------------:|-------------------------------------------------------|
+| [Slides 00](notes/inst_investor/00_introduction.html) | Introduction |
+| [Slides 01](notes/inst_investor/01_agency.html) | Agency Problem |
+| [Slides 02](notes/inst_investor/02_skill_luck.html) | Fund Performance: Skill or Luck |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
 
 </details>
 :::::
