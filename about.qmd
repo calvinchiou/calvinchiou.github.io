@@ -7,7 +7,7 @@ about:
 
 <lord-icon src='https://cdn.lordicon.com/shcfcebj.json' trigger='loop' state='hover-nodding' delay='1500' colors='primary:#121331,secondary:#3080e8' style='width:60px;height:60px'></lord-icon>
 
-[Download my CV (PDF in a new tab ↗)](files/CV_calvinchiou.pdf){target="_blank" rel="noopener"}
+[Download my CV (PDF in a new tab ↗)](resume/JJChiou-CV.pdf){target="_blank" rel="noopener"}
 
 ## Employment
 
@@ -15,13 +15,13 @@ National Chengchi University \| Assistant Professor \| Feb 2024 - present
 
 ## Research Interests
 
-Innovation, Institutional Investors, Corporate Governance, Empirical Corporate Finance, Behavioral Finance
+Empirical Corporate Finance, Corporate Governance, Institutional Investors, Behavioral Finance
 
 ## Education
 
-PhD in Finance \| Nanyang Technological University \| 2019-2024
+PhD in Finance \| Nanyang Technological University \| 2019--2024
 
-- Visiting Researcher \| National University of Singapore \| 2019
+- Visiting Doctoral Student \| National University of Singapore \| 2019
 
 MS in Finance \| National Central University \| Taiwan \| 2017
 
@@ -29,23 +29,23 @@ BBA in Finance and Cooperative Management \| National Taipei University \| Taiwa
 
 ## Grants
 
-Off-Site to UT Austin EMI Professional Development Program, *National Taiwan Normal University & UT Austin* \| 2025
-
 Grants for New Faculty Members to Apply to NSTC Academic Research, *NCCU* \| 2024
 
-Co-Principal Investigator (with [Hao-Chang Sung](https://busadm.ccu.edu.tw/p/405-1248-31599,c3236.php?Lang=zh-tw)). "The Impact of External Oversight on the Effectiveness of Executive Compensation Clawback Enforcement: Theoretical and Empirical Evidence." *National Science and Technology Council (NSTC)*, 2025-2027, \$NTD 1,758,000
+**Principal Investigator.** "Rising institutional investors: Evidence on M&As, AI investment, and employee welfare" *NSTC, Taiwan*, Total award: NT\$1,654,000 \| 2026--2028
 
-Principal Investigator. "Interwoven Influence: Essays on Board Interlocks in Corporate Governance." *National Science and Technology Council (NSTC)*, 2024-2026, \$NTD 1,378,000
+**Co-Principal Investigator** (Principal Investigator: [Hao-Chang Sung](https://busadm.ccu.edu.tw/p/405-1248-31599,c3236.php?Lang=zh-tw)). "The impact of external oversight on the effectiveness of executive compensation clawback enforcement: Theoretical and empirical evidence." *NSTC, Taiwan*. Total award: NT\$1,758,000 \| 2025--2027
+
+**Principal Investigator.** "Interwoven influence: Essays on board interlocks in corporate governance." *National Science and Technology Council (NSTC), Taiwan*. Total award: NT\$1,378,000 \| 2024--2026
 
 ## Awards and Honors
 
 Fubon Best Paper Award \| 2024
 
-Excellent Undergraduate English-taught Course Award, NCCU \| 2024
+Excellent Undergraduate English-taught Course Award, NCCU \| 2025
 
-Taiwanese Government Scholarship to Study Abroad \| 2022 - 2023
+Taiwanese Government Scholarship to Study Abroad \| 2022--2023
 
-NTU Research Scholarship \| 2019 - 2023
+NTU Research Scholarship \| 2019--2023
 
 Best Paper Award, TSC Thesis Symposium \| 2017
 
@@ -53,11 +53,15 @@ Shanghai Commercial & Savings Bank Scholarship \| 2017
 
 ## Professional Services
 
-**Journal Referee**: *Pacific-Basin Finance Journal(x3), British Accounting Review, Finance Research Letters(x2), Emerging Markets Finance and Trade(x2), Review of Securities and Futures Markets, Journal of Social Sciences and Philosophy, Journal of Management and Business Research*
+**Journal Referee**: *Pacific-Basin Finance Journal, British Accounting Review, Finance Research Letters, Emerging Markets Finance and Trade,* Corporate Management Review, NTU Management Review, Journal of Social Sciences and Philosophy, Journal of Management and Business Research, Review of Securities and Futures Markets
 
-**Conference Referee**: *AFAANZ*
+**Conference Referee**: *AFAANZ 2026, FMA Asia 2026*
+
+**Organizing Committee**: AsianFA Annual Meeting 2025
 
 ## Presentations
+
+2026: Three Asian Countries Finance Conference, JAAF Conference (scheduled)
 
 2025: International Conference of TFA[^1], International Conference for FeAT[^2], AsianFA Annual Conference, AFAANZ Annual Conference, Annual Conference for Taiwan Econometric Society (scheduled), National Chengchi University
 
@@ -79,7 +83,9 @@ Shanghai Commercial & Savings Bank Scholarship \| 2017
 
 ($^*$ Presented by Coauthor, $^\dagger$ Discussant)
 
-## Selected Certificates
+## Professional Development
+
+Off-site to UT Austin (OUTA) EMI Faculty Training Program, Texas Global, UT Austin, and NTNU Resource Center for EMI \| July 2025
 
 Data Analysis with R Specialization, Duke University \| [Coursera](https://www.coursera.org/account/accomplishments/specialization/certificate/HZ6WHJQG3TSW)
 
