@@ -114,7 +114,7 @@ reverse the economic conclusion.
 complementary questions:
 
 | Question | Fama & French (2010) | Berk & van Binsbergen (2015) |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | Unit of analysis | Return to investors | Dollar value extracted from markets |
 | Measure of skill | Net / gross alpha | Value added = AUM × gross excess return |
 | Key finding | Few funds cover costs | Average fund adds \$3.2M/year |
@@ -405,7 +405,7 @@ performed beautifully. @andrikogiannopoulou2019 show why: the simulation
 was run under conditions far more favorable than the real data.
 
 | BSW simulation assumption | Reality in mutual fund data |
-|------------------------------------|------------------------------------|
+|----|----|
 | Nonzero alphas at −3.2% and +3.8% per year | Large share of funds have alphas between 1% and 2.5% |
 | $T = 384$ months per fund (the *maximum* in the data) | Median 150, mean 180 observations per fund |
 | $N = 1{,}400$ funds, balanced panel | 2,076 funds, unbalanced panel |
@@ -614,7 +614,7 @@ predictions of the model:
 This model has three testable predictions that the papers address:
 
 | Prediction | Fama & French (2010) | Berk & van Binsbergen (2015) | Andrikogiannopoulou & Papakonstantinou (2019) |
-|------------------|------------------|------------------|------------------|
+|----|----|----|----|
 | Zero net alpha in aggregate | **Rejected**: aggregate net alpha ≈ −1%/year | Not directly tested; focus on value added | Not tested directly |
 | Investors identify and reward skill | Not examined | **Confirmed**: current compensation predicts future value added | Not examined |
 | Most individual funds have zero alpha | Consistent with bootstrap evidence | Not the right question | **Cannot be inferred from FDR estimates**: the estimator would report this regardless |
@@ -727,7 +727,7 @@ Papakonstantinou say we may not be able to tell. Who is right?
 All three are right—they are answering different questions:
 
 | Dimension | Fama & French (2010) | Berk & van Binsbergen (2015) | Andrikogiannopoulou & Papakonstantinou (2019) |
-|------------------|------------------|------------------|------------------|
+|----|----|----|----|
 | Skill exists? | Modest evidence (gross returns only) | Yes—average fund adds \$3.2M/year | Unanswerable from FDR estimates |
 | Do investors benefit? | No—net returns are negative | No—net alpha ≈ 0 (rents captured by managers) | Not addressed |
 | Can investors identify skilled funds? | Not examined | Yes—compensation predicts future value added | Not addressed |
