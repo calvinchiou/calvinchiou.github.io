@@ -1,0 +1,2020 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Calvin J. Chiou">
+
+<title>Slides 03: Fund Classification and Style Drift | Calvin J. Chiou – Calvin Chiou | NCCU College of Commerce</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../..//img/nccu_logo.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-c4e1171eb4281116019c604a711c5128.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-c4e1171eb4281116019c604a711c5128.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-c4e1171eb4281116019c604a711c5128.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-5ee54f147c9f84e72822dfcee5184c5a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-3eb4f9b8ce5d88945fe3cf70b2a5188a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-5ee54f147c9f84e72822dfcee5184c5a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/quarto-contrib/fontawesome6-1.2.0/all.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/fontawesome6-1.2.0/latex-fontsize.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8KXQZ8LK16"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-8KXQZ8LK16', { 'anonymize_ip': true});
+</script>
+<link href="../../site_libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet">
+<script src="../../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="../../site_libs/jquery-3.5.1/jquery.min.js"></script>
+<script src="../../site_libs/proj4js-2.3.15/proj4.js"></script>
+<link href="../../site_libs/highcharts-9.3.1/css/motion.css" rel="stylesheet">
+<script src="../../site_libs/highcharts-9.3.1/highcharts.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/highcharts-3d.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/highcharts-more.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/stock.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/map.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/data.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/exporting.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/offline-exporting.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/drilldown.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/item-series.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/overlapping-datalabels.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/annotations.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/export-data.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/funnel.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/heatmap.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/treemap.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/sankey.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/dependency-wheel.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/organization.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/solid-gauge.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/streamgraph.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/sunburst.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/vector.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/wordcloud.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/xrange.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/tilemap.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/venn.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/gantt.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/timeline.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/parallel-coordinates.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/bullet.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/coloraxis.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/dumbbell.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/lollipop.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/series-label.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/plugins/motion.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/custom/reset.js"></script>
+<script src="../../site_libs/highcharts-9.3.1/modules/boost.js"></script>
+<script src="../../site_libs/highchart-binding-0.9.5/highchart.js"></script>
+<script src="https://cdn.lordicon.com/lordicon.js"></script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../img/nccu_logo.png" alt="" class="navbar-logo light-content">
+    <img src="../../img/nccu_logo.png" alt="" class="navbar-logo dark-content">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../research.html"> 
+<span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../teaching.html"> 
+<span class="menu-text">Teaching</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../resources.html"> 
+<span class="menu-text">Resources</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/calvinchiou1992/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/calvinchiou"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:jjchiou@nccu.edu.tw"> <i class="bi bi-envelope" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://scholar.google.com.tw/citations?user=WvORrXMAAAAJ&amp;hl=en"> 
+<span class="menu-text"><i class="ai  ai-google-scholar"></i></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#before-any-regression" id="toc-before-any-regression" class="nav-link active" data-scroll-target="#before-any-regression">Before Any Regression</a>
+  <ul class="collapse">
+  <li><a href="#todays-question" id="toc-todays-question" class="nav-link" data-scroll-target="#todays-question">Today’s question</a></li>
+  <li><a href="#plan-for-the-hour" id="toc-plan-for-the-hour" class="nav-link" data-scroll-target="#plan-for-the-hour">Plan for the hour</a></li>
+  </ul></li>
+  <li><a href="#part-1-cleaning-the-sample" id="toc-part-1-cleaning-the-sample" class="nav-link" data-scroll-target="#part-1-cleaning-the-sample">Part 1 · Cleaning the Sample</a>
+  <ul class="collapse">
+  <li><a href="#a-fund-in-crsp-is-not-one-row" id="toc-a-fund-in-crsp-is-not-one-row" class="nav-link" data-scroll-target="#a-fund-in-crsp-is-not-one-row">A “fund” in CRSP is not one row</a></li>
+  <li><a href="#why-each-filter-exists" id="toc-why-each-filter-exists" class="nav-link" data-scroll-target="#why-each-filter-exists">Why each filter exists</a></li>
+  <li><a href="#incubation-how-zero-skill-becomes-skill" id="toc-incubation-how-zero-skill-becomes-skill" class="nav-link" data-scroll-target="#incubation-how-zero-skill-becomes-skill">Incubation: how zero skill becomes “skill”</a></li>
+  <li><a href="#the-window-is-a-design-choice" id="toc-the-window-is-a-design-choice" class="nav-link" data-scroll-target="#the-window-is-a-design-choice">The window is a design choice</a></li>
+  </ul></li>
+  <li><a href="#part-2-classifying-funds" id="toc-part-2-classifying-funds" class="nav-link" data-scroll-target="#part-2-classifying-funds">Part 2 · Classifying Funds</a>
+  <ul class="collapse">
+  <li><a href="#why-classification-is-not-a-detail" id="toc-why-classification-is-not-a-detail" class="nav-link" data-scroll-target="#why-classification-is-not-a-detail">Why classification is not a detail</a></li>
+  <li><a href="#three-published-recipes" id="toc-three-published-recipes" class="nav-link" data-scroll-target="#three-published-recipes">Three published recipes</a></li>
+  <li><a href="#where-the-recipes-disagree" id="toc-where-the-recipes-disagree" class="nav-link" data-scroll-target="#where-the-recipes-disagree">Where the recipes disagree</a></li>
+  <li><a href="#names-are-data-dirty-data" id="toc-names-are-data-dirty-data" class="nav-link" data-scroll-target="#names-are-data-dirty-data">Names are data — dirty data</a></li>
+  </ul></li>
+  <li><a href="#part-3-style-and-style-drift" id="toc-part-3-style-and-style-drift" class="nav-link" data-scroll-target="#part-3-style-and-style-drift">Part 3 · Style and Style Drift</a>
+  <ul class="collapse">
+  <li><a href="#three-ways-to-know-a-funds-style" id="toc-three-ways-to-know-a-funds-style" class="nav-link" data-scroll-target="#three-ways-to-know-a-funds-style">Three ways to know a fund’s style</a></li>
+  <li><a href="#why-researchers-care-about-drift" id="toc-why-researchers-care-about-drift" class="nav-link" data-scroll-target="#why-researchers-care-about-drift">Why researchers care about drift</a></li>
+  <li><a href="#the-source-paper" id="toc-the-source-paper" class="nav-link" data-scroll-target="#the-source-paper">The source paper</a></li>
+  <li><a href="#finding-1-funds-hug-the-market" id="toc-finding-1-funds-hug-the-market" class="nav-link" data-scroll-target="#finding-1-funds-hug-the-market">Finding 1 · Funds hug the market</a></li>
+  <li><a href="#finding-2-styles-persist-but-not-tightly" id="toc-finding-2-styles-persist-but-not-tightly" class="nav-link" data-scroll-target="#finding-2-styles-persist-but-not-tightly">Finding 2 · Styles persist, but not tightly</a></li>
+  <li><a href="#finding-3-losers-change-style" id="toc-finding-3-losers-change-style" class="nav-link" data-scroll-target="#finding-3-losers-change-style">Finding 3 · Losers change style</a></li>
+  <li><a href="#is-that-drift-active-a-quick-argument" id="toc-is-that-drift-active-a-quick-argument" class="nav-link" data-scroll-target="#is-that-drift-active-a-quick-argument">Is that drift <em>active</em>? A quick argument</a></li>
+  <li><a href="#finding-4-style-adjusted-performance" id="toc-finding-4-style-adjusted-performance" class="nav-link" data-scroll-target="#finding-4-style-adjusted-performance">Finding 4 · Style-adjusted performance</a></li>
+  <li><a href="#finding-5-which-style-measure-predicts-better" id="toc-finding-5-which-style-measure-predicts-better" class="nav-link" data-scroll-target="#finding-5-which-style-measure-predicts-better">Finding 5 · Which style measure predicts better?</a></li>
+  <li><a href="#why-loadings-lag-a-fund-we-control" id="toc-why-loadings-lag-a-fund-we-control" class="nav-link" data-scroll-target="#why-loadings-lag-a-fund-we-control">Why loadings lag: a fund we control</a></li>
+  <li><a href="#a-referees-view-of-ccl-2002" id="toc-a-referees-view-of-ccl-2002" class="nav-link" data-scroll-target="#a-referees-view-of-ccl-2002">A referee’s view of CCL (2002)</a></li>
+  </ul></li>
+  <li><a href="#wrapping-up" id="toc-wrapping-up" class="nav-link" data-scroll-target="#wrapping-up">Wrapping Up</a>
+  <ul class="collapse">
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key takeaways</a></li>
+  <li><a href="#discussion-questions" id="toc-discussion-questions" class="nav-link" data-scroll-target="#discussion-questions">Discussion questions</a></li>
+  <li><a href="#coming-up" id="toc-coming-up" class="nav-link" data-scroll-target="#coming-up">Coming up</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a>
+  <ul class="collapse">
+  <li><a href="#questions" id="toc-questions" class="nav-link" data-scroll-target="#questions">Questions?</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="03_style_drift.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Slides 03: Fund Classification and Style Drift</h1>
+<p class="subtitle lead">Institutional Investors</p>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Calvin J. Chiou (邱健嘉) </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Department of Finance · National Chengchi University
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">Invalid Date</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="before-any-regression" class="level1 center">
+<h1 class="center">Before Any Regression</h1>
+<section id="todays-question" class="level2">
+<h2 class="anchored" data-anchor-id="todays-question">Today’s question</h2>
+<p>. . .</p>
+<p><em>Every mutual fund paper starts with a sentence like: “Our sample consists of actively managed U.S. domestic equity funds.”</em></p>
+<p>. . .</p>
+<p>Three decisions hide inside that sentence:</p>
+<div class="incremental">
+<ol class="incremental" type="1">
+<li><strong>Which rows are funds?</strong> — share classes, incubation, tiny funds</li>
+<li><strong>Which funds are “active domestic equity”?</strong> — classification recipes</li>
+<li><strong>Does a fund stay the same kind of fund?</strong> — style and style drift</li>
+</ol>
+</div>
+<p>. . .</p>
+<p>Today’s empirical anchor for (3): <span class="citation" data-cites="chan2002">Chan et al. (<a href="#ref-chan2002" role="doc-biblioref">2002</a>)</span>, <em>Review of Financial Studies</em>.</p>
+<div class="notes">
+<p>~3 min. Lectures 1–2 assumed we already know the sample. Today we open that box. Parts 1–2 are the front end (~25 min); Part 3 is the paper (~25 min); 5 min to wrap.</p>
+</div>
+</section>
+<section id="plan-for-the-hour" class="level2">
+<h2 class="anchored" data-anchor-id="plan-for-the-hour">Plan for the hour</h2>
+<table class="caption-top table">
+<caption>The full code for every step is in the Lecture 3 handout.</caption>
+<thead>
+<tr class="header">
+<th>Part</th>
+<th>Topic</th>
+<th>Minutes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Cleaning the CRSP sample: units, filters, incubation</td>
+<td>12</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Classifying funds: active, index, ETF</td>
+<td>13</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Style drift: <span class="citation" data-cites="chan2002">Chan et al. (<a href="#ref-chan2002" role="doc-biblioref">2002</a>)</span></td>
+<td>25</td>
+</tr>
+<tr class="even">
+<td>—</td>
+<td>Takeaways and discussion</td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="part-1-cleaning-the-sample" class="level1" data-background-color="#3b3b6b">
+<h1 data-background-color="#3b3b6b">Part 1 · Cleaning the Sample</h1>
+<section id="a-fund-in-crsp-is-not-one-row" class="level2">
+<h2 class="anchored" data-anchor-id="a-fund-in-crsp-is-not-one-row">A “fund” in CRSP is not one row</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Identifier</th>
+<th>Level</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>crsp_fundno</code></td>
+<td>Share class</td>
+<td>Fees, loads, TNA differ by class</td>
+</tr>
+<tr class="even">
+<td><code>crsp_cl_grp</code></td>
+<td>Class group</td>
+<td>CRSP’s grouping of a fund’s classes</td>
+</tr>
+<tr class="odd">
+<td><code>crsp_portno</code></td>
+<td>Portfolio</td>
+<td>Links to holdings; not always populated</td>
+</tr>
+<tr class="even">
+<td><code>wficn</code></td>
+<td>Fund</td>
+<td>MFLINKS link to Thomson Reuters holdings</td>
+</tr>
+</tbody>
+</table>
+<p>. . .</p>
+<p>A fund with four share classes counted as four funds is <strong>four votes</strong> in every cross-section and every skill test.</p>
+<p>. . .</p>
+<p><strong>Fix</strong> <span class="citation" data-cites="doshi2015 back2018 dannhauser2026">(<a href="#ref-doshi2015" role="doc-biblioref">Doshi et al. 2015</a>; <a href="#ref-back2018" role="doc-biblioref">Back et al. 2018</a>; <a href="#ref-dannhauser2026" role="doc-biblioref">Dannhauser and Pontiff 2026</a>)</span>: aggregate to the fund. Sum TNA; age = <strong>oldest</strong> class; fees and other characteristics <strong>TNA-weighted</strong>.</p>
+</section>
+<section id="why-each-filter-exists" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="why-each-filter-exists">Why each filter exists</h2>
+<table class="caption-top table">
+<caption>Filters in the three papers we follow</caption>
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Filter</th>
+<th>Typical rule</th>
+<th>Bias it removes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Incubation</td>
+<td>Drop first 18 months <span class="citation" data-cites="doshi2015">(<a href="#ref-doshi2015" role="doc-biblioref">Doshi et al. 2015</a>)</span> to 3 years <span class="citation" data-cites="dannhauser2026">(<a href="#ref-dannhauser2026" role="doc-biblioref">Dannhauser and Pontiff 2026</a>)</span></td>
+<td>Backfilled private track records <span class="citation" data-cites="evans2010">(<a href="#ref-evans2010" role="doc-biblioref">Evans 2010</a>)</span></td>
+</tr>
+<tr class="even">
+<td>Small funds</td>
+<td>TNA &lt; $15 million</td>
+<td>Noisy, upward-biased small-fund returns <span class="citation" data-cites="elton2001">(<a href="#ref-elton2001" role="doc-biblioref">Elton et al. 2001</a>)</span></td>
+</tr>
+<tr class="odd">
+<td>Equity share</td>
+<td>≥ 80% in equity <span class="citation" data-cites="kacperczyk2008">(<a href="#ref-kacperczyk2008" role="doc-biblioref">Kacperczyk et al. 2008</a>)</span></td>
+<td>Codes ≠ what the fund holds</td>
+</tr>
+<tr class="even">
+<td>Holdings</td>
+<td>&gt; 10 stocks</td>
+<td>Holdings measures meaningless</td>
+</tr>
+<tr class="odd">
+<td>Mandate</td>
+<td>Drop target-date <span class="citation" data-cites="parker2023">(<a href="#ref-parker2023" role="doc-biblioref">Parker et al. 2023</a>)</span>, ETNs, leveraged/inverse</td>
+<td>Not comparable products</td>
+</tr>
+</tbody>
+</table>
+<p>. . .</p>
+<p>Filters are not housekeeping. Each one is an <strong>identification assumption</strong> about which funds belong in the population.</p>
+</section>
+<section id="incubation-how-zero-skill-becomes-skill" class="level2">
+<h2 class="anchored" data-anchor-id="incubation-how-zero-skill-becomes-skill">Incubation: how zero skill becomes “skill”</h2>
+<p>A family seeds several funds privately, then opens <strong>only the winners</strong> to the public; the private record is backfilled <span class="citation" data-cites="evans2010">(<a href="#ref-evans2010" role="doc-biblioref">Evans 2010</a>)</span>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="highchart html-widget html-fill-item" id="htmlwidget-d2246db19a6a80b0c536" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-d2246db19a6a80b0c536">{"x":{"hc_opts":{"chart":{"reflow":true,"height":380},"title":{"text":"True alpha = 0 for every fund"},"yAxis":{"title":{"text":"Mean cumulative abnormal return (%)"},"type":"linear","labels":{"format":"{value}%"}},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0,"showInLegend":true,"lineWidth":2,"marker":{"enabled":false}},"treemap":{"layoutAlgorithm":"squarified"},"scatter":{"marker":{"symbol":"circle"}}},"series":[{"name":"Incubated, then opened","data":[{"age":1,"mean_cum":0.4013352977731588,"x":1,"y":0.4013352977731588},{"age":2,"mean_cum":0.7616112609141272,"x":2,"y":0.7616112609141272},{"age":3,"mean_cum":0.9083553755775711,"x":3,"y":0.9083553755775711},{"age":4,"mean_cum":1.279259858672185,"x":4,"y":1.279259858672185},{"age":5,"mean_cum":1.512584170491462,"x":5,"y":1.512584170491462},{"age":6,"mean_cum":1.804444187389343,"x":6,"y":1.804444187389343},{"age":7,"mean_cum":2.068306461335857,"x":7,"y":2.068306461335857},{"age":8,"mean_cum":2.396975948457376,"x":8,"y":2.396975948457376},{"age":9,"mean_cum":2.672406474166745,"x":9,"y":2.672406474166745},{"age":10,"mean_cum":3.028799418792238,"x":10,"y":3.028799418792238},{"age":11,"mean_cum":3.381140943944382,"x":11,"y":3.381140943944382},{"age":12,"mean_cum":3.751034465527856,"x":12,"y":3.751034465527856},{"age":13,"mean_cum":4.191508103398772,"x":13,"y":4.191508103398772},{"age":14,"mean_cum":4.686018663572971,"x":14,"y":4.686018663572971},{"age":15,"mean_cum":5.056714966546656,"x":15,"y":5.056714966546656},{"age":16,"mean_cum":5.413835544995747,"x":16,"y":5.413835544995747},{"age":17,"mean_cum":5.824965256087168,"x":17,"y":5.824965256087168},{"age":18,"mean_cum":6.207459208973025,"x":18,"y":6.207459208973025},{"age":19,"mean_cum":6.549197060973403,"x":19,"y":6.549197060973403},{"age":20,"mean_cum":6.948381778644511,"x":20,"y":6.948381778644511},{"age":21,"mean_cum":7.291220466835267,"x":21,"y":7.291220466835267},{"age":22,"mean_cum":7.789871969328213,"x":22,"y":7.789871969328213},{"age":23,"mean_cum":8.175693724929529,"x":23,"y":8.175693724929529},{"age":24,"mean_cum":8.414737418587388,"x":24,"y":8.414737418587388},{"age":25,"mean_cum":8.976603741777833,"x":25,"y":8.976603741777833},{"age":26,"mean_cum":9.344902813873066,"x":26,"y":9.344902813873066},{"age":27,"mean_cum":9.693970001233499,"x":27,"y":9.693970001233499},{"age":28,"mean_cum":10.06492924219167,"x":28,"y":10.06492924219167},{"age":29,"mean_cum":10.4247083702272,"x":29,"y":10.4247083702272},{"age":30,"mean_cum":10.59956043333576,"x":30,"y":10.59956043333576},{"age":31,"mean_cum":10.93024837154768,"x":31,"y":10.93024837154768},{"age":32,"mean_cum":11.22501933381264,"x":32,"y":11.22501933381264},{"age":33,"mean_cum":11.6792292608336,"x":33,"y":11.6792292608336},{"age":34,"mean_cum":12.01085635423325,"x":34,"y":12.01085635423325},{"age":35,"mean_cum":12.38775319515456,"x":35,"y":12.38775319515456},{"age":36,"mean_cum":12.77595077440666,"x":36,"y":12.77595077440666},{"age":37,"mean_cum":12.7043285841091,"x":37,"y":12.7043285841091},{"age":38,"mean_cum":12.73736728076116,"x":38,"y":12.73736728076116},{"age":39,"mean_cum":12.76774168622113,"x":39,"y":12.76774168622113},{"age":40,"mean_cum":12.68240834599833,"x":40,"y":12.68240834599833},{"age":41,"mean_cum":12.7054466220655,"x":41,"y":12.7054466220655},{"age":42,"mean_cum":12.6962068583369,"x":42,"y":12.6962068583369},{"age":43,"mean_cum":12.69687035480497,"x":43,"y":12.69687035480497},{"age":44,"mean_cum":12.72820415938585,"x":44,"y":12.72820415938585},{"age":45,"mean_cum":12.61836515939946,"x":45,"y":12.61836515939946},{"age":46,"mean_cum":12.6074930243509,"x":46,"y":12.6074930243509},{"age":47,"mean_cum":12.71428058380607,"x":47,"y":12.71428058380607},{"age":48,"mean_cum":12.75582181060854,"x":48,"y":12.75582181060854},{"age":49,"mean_cum":12.75411010830311,"x":49,"y":12.75411010830311},{"age":50,"mean_cum":12.61033453594161,"x":50,"y":12.61033453594161},{"age":51,"mean_cum":12.65546446783942,"x":51,"y":12.65546446783942},{"age":52,"mean_cum":12.6204157032015,"x":52,"y":12.6204157032015},{"age":53,"mean_cum":12.72736311938313,"x":53,"y":12.72736311938313},{"age":54,"mean_cum":12.75563259625907,"x":54,"y":12.75563259625907},{"age":55,"mean_cum":12.74168436591077,"x":55,"y":12.74168436591077},{"age":56,"mean_cum":12.75537262521133,"x":56,"y":12.75537262521133},{"age":57,"mean_cum":12.78890253498819,"x":57,"y":12.78890253498819},{"age":58,"mean_cum":12.95324071701974,"x":58,"y":12.95324071701974},{"age":59,"mean_cum":12.94491005446669,"x":59,"y":12.94491005446669},{"age":60,"mean_cum":12.99745217629235,"x":60,"y":12.99745217629235},{"age":61,"mean_cum":13.05997933465094,"x":61,"y":13.05997933465094},{"age":62,"mean_cum":12.90352539096751,"x":62,"y":12.90352539096751},{"age":63,"mean_cum":12.89410545308768,"x":63,"y":12.89410545308768},{"age":64,"mean_cum":12.80611365085981,"x":64,"y":12.80611365085981},{"age":65,"mean_cum":12.83667697188756,"x":65,"y":12.83667697188756},{"age":66,"mean_cum":12.95582647304909,"x":66,"y":12.95582647304909},{"age":67,"mean_cum":13.01163391512735,"x":67,"y":13.01163391512735},{"age":68,"mean_cum":13.00986745991034,"x":68,"y":13.00986745991034},{"age":69,"mean_cum":13.10827022927404,"x":69,"y":13.10827022927404},{"age":70,"mean_cum":13.02117677639182,"x":70,"y":13.02117677639182},{"age":71,"mean_cum":13.14839643591128,"x":71,"y":13.14839643591128},{"age":72,"mean_cum":13.199719506152,"x":72,"y":13.199719506152},{"age":73,"mean_cum":13.18041514689695,"x":73,"y":13.18041514689695},{"age":74,"mean_cum":13.34706016812572,"x":74,"y":13.34706016812572},{"age":75,"mean_cum":13.37962229910159,"x":75,"y":13.37962229910159},{"age":76,"mean_cum":13.54926835242886,"x":76,"y":13.54926835242886},{"age":77,"mean_cum":13.69621631003063,"x":77,"y":13.69621631003063},{"age":78,"mean_cum":13.60821401301464,"x":78,"y":13.60821401301464},{"age":79,"mean_cum":13.60113665105775,"x":79,"y":13.60113665105775},{"age":80,"mean_cum":13.71015910879886,"x":80,"y":13.71015910879886},{"age":81,"mean_cum":13.62708031274373,"x":81,"y":13.62708031274373},{"age":82,"mean_cum":13.60388736792765,"x":82,"y":13.60388736792765},{"age":83,"mean_cum":13.56535823127091,"x":83,"y":13.56535823127091},{"age":84,"mean_cum":13.60495044270121,"x":84,"y":13.60495044270121},{"age":85,"mean_cum":13.76664446437557,"x":85,"y":13.76664446437557},{"age":86,"mean_cum":13.64949179724054,"x":86,"y":13.64949179724054},{"age":87,"mean_cum":13.51439473711865,"x":87,"y":13.51439473711865},{"age":88,"mean_cum":13.69838793345795,"x":88,"y":13.69838793345795},{"age":89,"mean_cum":13.56603071189994,"x":89,"y":13.56603071189994},{"age":90,"mean_cum":13.5080446365009,"x":90,"y":13.5080446365009},{"age":91,"mean_cum":13.67380907839705,"x":91,"y":13.67380907839705},{"age":92,"mean_cum":13.74132669797407,"x":92,"y":13.74132669797407},{"age":93,"mean_cum":13.97158813292747,"x":93,"y":13.97158813292747},{"age":94,"mean_cum":14.03083241726002,"x":94,"y":14.03083241726002},{"age":95,"mean_cum":13.94525361118685,"x":95,"y":13.94525361118685},{"age":96,"mean_cum":13.95626057989579,"x":96,"y":13.95626057989579}],"type":"line"},{"name":"Not incubated","data":[{"age":1,"mean_cum":0.04624898705540915,"x":1,"y":0.04624898705540915},{"age":2,"mean_cum":0.04907249353789105,"x":2,"y":0.04907249353789105},{"age":3,"mean_cum":0.1144878052077555,"x":3,"y":0.1144878052077555},{"age":4,"mean_cum":0.14611048767266,"x":4,"y":0.14611048767266},{"age":5,"mean_cum":0.05879308591379379,"x":5,"y":0.05879308591379379},{"age":6,"mean_cum":0.1629120018614973,"x":6,"y":0.1629120018614973},{"age":7,"mean_cum":0.05070381717817139,"x":7,"y":0.05070381717817139},{"age":8,"mean_cum":0.04596284118711935,"x":8,"y":0.04596284118711935},{"age":9,"mean_cum":0.0481637655214514,"x":9,"y":0.0481637655214514},{"age":10,"mean_cum":0.05947246594390566,"x":10,"y":0.05947246594390566},{"age":11,"mean_cum":0.07057302419057351,"x":11,"y":0.07057302419057351},{"age":12,"mean_cum":0.1031968046842675,"x":12,"y":0.1031968046842675},{"age":13,"mean_cum":0.1063669383597201,"x":13,"y":0.1063669383597201},{"age":14,"mean_cum":0.1068291162480107,"x":14,"y":0.1068291162480107},{"age":15,"mean_cum":0.01274563549342751,"x":15,"y":0.01274563549342751},{"age":16,"mean_cum":0.06235378716247608,"x":16,"y":0.06235378716247608},{"age":17,"mean_cum":0.08450336327905462,"x":17,"y":0.08450336327905462},{"age":18,"mean_cum":0.1076354531849677,"x":18,"y":0.1076354531849677},{"age":19,"mean_cum":0.05386625809436664,"x":19,"y":0.05386625809436664},{"age":20,"mean_cum":0.03625573960735544,"x":20,"y":0.03625573960735544},{"age":21,"mean_cum":-0.0152381485925411,"x":21,"y":-0.0152381485925411},{"age":22,"mean_cum":-0.05632461762481347,"x":22,"y":-0.05632461762481347},{"age":23,"mean_cum":-0.1208136666977345,"x":23,"y":-0.1208136666977345},{"age":24,"mean_cum":-0.1398616753308553,"x":24,"y":-0.1398616753308553},{"age":25,"mean_cum":-0.1063434407422093,"x":25,"y":-0.1063434407422093},{"age":26,"mean_cum":-0.1066867776406579,"x":26,"y":-0.1066867776406579},{"age":27,"mean_cum":-0.08808394391638426,"x":27,"y":-0.08808394391638426},{"age":28,"mean_cum":-0.06636654624060755,"x":28,"y":-0.06636654624060755},{"age":29,"mean_cum":0.01534228266604592,"x":29,"y":0.01534228266604592},{"age":30,"mean_cum":0.06160546792473637,"x":30,"y":0.06160546792473637},{"age":31,"mean_cum":-0.013425032860642,"x":31,"y":-0.013425032860642},{"age":32,"mean_cum":0.05024845358354849,"x":32,"y":0.05024845358354849},{"age":33,"mean_cum":0.04202905280958383,"x":33,"y":0.04202905280958383},{"age":34,"mean_cum":0.01160703123146587,"x":34,"y":0.01160703123146587},{"age":35,"mean_cum":0.02184981515719026,"x":35,"y":0.02184981515719026},{"age":36,"mean_cum":-0.01845921887822138,"x":36,"y":-0.01845921887822138},{"age":37,"mean_cum":0.0398977018140745,"x":37,"y":0.0398977018140745},{"age":38,"mean_cum":0.1188995490529045,"x":38,"y":0.1188995490529045},{"age":39,"mean_cum":0.1231398943940156,"x":39,"y":0.1231398943940156},{"age":40,"mean_cum":0.08790521444464658,"x":40,"y":0.08790521444464658},{"age":41,"mean_cum":0.1721727518710662,"x":41,"y":0.1721727518710662},{"age":42,"mean_cum":0.1428970993598687,"x":42,"y":0.1428970993598687},{"age":43,"mean_cum":0.1411544283878489,"x":43,"y":0.1411544283878489},{"age":44,"mean_cum":0.07307776980297197,"x":44,"y":0.07307776980297197},{"age":45,"mean_cum":-0.002258745790326828,"x":45,"y":-0.002258745790326828},{"age":46,"mean_cum":-0.03442107380009344,"x":46,"y":-0.03442107380009344},{"age":47,"mean_cum":0.03016355216418575,"x":47,"y":0.03016355216418575},{"age":48,"mean_cum":0.01066182946634717,"x":48,"y":0.01066182946634717},{"age":49,"mean_cum":0.08754266277820784,"x":49,"y":0.08754266277820784},{"age":50,"mean_cum":0.08476058127850734,"x":50,"y":0.08476058127850734},{"age":51,"mean_cum":0.05639534193617599,"x":51,"y":0.05639534193617599},{"age":52,"mean_cum":-0.03184152893345007,"x":52,"y":-0.03184152893345007},{"age":53,"mean_cum":0.01187875475782661,"x":53,"y":0.01187875475782661},{"age":54,"mean_cum":-0.01494449065540657,"x":54,"y":-0.01494449065540657},{"age":55,"mean_cum":-0.05187467132036173,"x":55,"y":-0.05187467132036173},{"age":56,"mean_cum":-0.06658187698385436,"x":56,"y":-0.06658187698385436},{"age":57,"mean_cum":-0.05207701741664541,"x":57,"y":-0.05207701741664541},{"age":58,"mean_cum":-0.05671200835856235,"x":58,"y":-0.05671200835856235},{"age":59,"mean_cum":-0.09572624355221242,"x":59,"y":-0.09572624355221242},{"age":60,"mean_cum":-0.07264261140381391,"x":60,"y":-0.07264261140381391},{"age":61,"mean_cum":-0.08747515039252415,"x":61,"y":-0.08747515039252415},{"age":62,"mean_cum":-0.07379327801582694,"x":62,"y":-0.07379327801582694},{"age":63,"mean_cum":-0.08722028991370773,"x":63,"y":-0.08722028991370773},{"age":64,"mean_cum":-0.08148154386450858,"x":64,"y":-0.08148154386450858},{"age":65,"mean_cum":-0.08959417473792688,"x":65,"y":-0.08959417473792688},{"age":66,"mean_cum":-0.03825748825211563,"x":66,"y":-0.03825748825211563},{"age":67,"mean_cum":-0.06135782820049166,"x":67,"y":-0.06135782820049166},{"age":68,"mean_cum":-0.01041409706199926,"x":68,"y":-0.01041409706199926},{"age":69,"mean_cum":-0.00378684023908491,"x":69,"y":-0.00378684023908491},{"age":70,"mean_cum":0.0735162347779829,"x":70,"y":0.0735162347779829},{"age":71,"mean_cum":0.07534394100896344,"x":71,"y":0.07534394100896344},{"age":72,"mean_cum":0.1064257222400739,"x":72,"y":0.1064257222400739},{"age":73,"mean_cum":0.1249831178030083,"x":73,"y":0.1249831178030083},{"age":74,"mean_cum":0.1176601517277692,"x":74,"y":0.1176601517277692},{"age":75,"mean_cum":0.120821380778686,"x":75,"y":0.120821380778686},{"age":76,"mean_cum":0.09594478947820183,"x":76,"y":0.09594478947820183},{"age":77,"mean_cum":0.06604051239341691,"x":77,"y":0.06604051239341691},{"age":78,"mean_cum":0.02560713392749209,"x":78,"y":0.02560713392749209},{"age":79,"mean_cum":0.04210326049578415,"x":79,"y":0.04210326049578415},{"age":80,"mean_cum":0.1281510791782163,"x":80,"y":0.1281510791782163},{"age":81,"mean_cum":0.102502022578186,"x":81,"y":0.102502022578186},{"age":82,"mean_cum":0.1085902094656382,"x":82,"y":0.1085902094656382},{"age":83,"mean_cum":0.1800137406774735,"x":83,"y":0.1800137406774735},{"age":84,"mean_cum":0.2231862760556721,"x":84,"y":0.2231862760556721},{"age":85,"mean_cum":0.1978421258189526,"x":85,"y":0.1978421258189526},{"age":86,"mean_cum":0.2464041526589089,"x":86,"y":0.2464041526589089},{"age":87,"mean_cum":0.2672867944599243,"x":87,"y":0.2672867944599243},{"age":88,"mean_cum":0.2454305922719735,"x":88,"y":0.2454305922719735},{"age":89,"mean_cum":0.3183889007746563,"x":89,"y":0.3183889007746563},{"age":90,"mean_cum":0.4304138873837858,"x":90,"y":0.4304138873837858},{"age":91,"mean_cum":0.4239831016468195,"x":91,"y":0.4239831016468195},{"age":92,"mean_cum":0.4073612317670974,"x":92,"y":0.4073612317670974},{"age":93,"mean_cum":0.4590602978791574,"x":93,"y":0.4590602978791574},{"age":94,"mean_cum":0.4246818438124568,"x":94,"y":0.4246818438124568},{"age":95,"mean_cum":0.4398938242986446,"x":95,"y":0.4398938242986446},{"age":96,"mean_cum":0.5500138023618492,"x":96,"y":0.5500138023618492}],"type":"line"}],"xAxis":{"type":"linear","title":{"text":"Fund age (months)"},"plotLines":[{"value":36,"color":"#444444","width":1,"dashStyle":"Dash","zIndex":3,"label":{"text":"Opens to the public","rotation":0,"y":12,"x":6}}]},"colors":["#E15759","#4E79A7"],"tooltip":{"shared":true,"valueDecimals":2,"valueSuffix":"%"}},"theme":{"colors":["#4E79A7","#F28E2B","#E15759","#76B7B2","#59A14F","#EDC948","#B07AA1","#FF9DA7","#9C755F","#BAB0AC"],"chart":{"style":{"fontFamily":"Roboto","color":"#666666"}},"title":{"align":"left","style":{"fontFamily":"Roboto Condensed","fontWeight":"bold"}},"subtitle":{"align":"left","style":{"fontFamily":"Roboto Condensed"}},"legend":{"align":"right","verticalAlign":"bottom"},"xAxis":{"gridLineWidth":1,"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"yAxis":{"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"plotOptions":{"line":{"marker":{"enabled":false}},"spline":{"marker":{"enabled":false}},"area":{"marker":{"enabled":false}},"areaspline":{"marker":{"enabled":false}},"arearange":{"marker":{"enabled":false}},"bubble":{"maxSize":"10%"}}},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadCSV":"Download CSV","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","downloadXLS":"Download XLS","drillUpText":"◁ Back to {series.name}","exitFullscreen":"Exit from full screen","exportData":{"annotationHeader":"Annotations","categoryDatetimeHeader":"DateTime","categoryHeader":"Category"},"hideData":"Hide data table","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbolMagnitude":1000,"numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"shortWeekdays":["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],"thousandsSep":" ","viewData":"View data table","viewFullscreen":"View in full screen","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":["Roboto","Roboto+Condensed"],"debug":false},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Incubated funds’ alpha: <strong>1.7% per year</strong> with the backfilled record, <strong>0.2%</strong> after dropping the first 36 months.</p>
+<div class="notes">
+<p>Simulated, not calibrated. Evans (2010) finds incubated funds outperform non-incubated ones by about 3.5% risk-adjusted while private, and the gap disappears after opening. Link to Lecture 2: this is a selection problem that manufactures false discoveries.</p>
+</div>
+</section>
+<section id="the-window-is-a-design-choice" class="level2">
+<h2 class="anchored" data-anchor-id="the-window-is-a-design-choice">The window is a design choice</h2>
+<div class="incremental">
+<ul class="incremental">
+<li><span class="citation" data-cites="doshi2015">Doshi et al. (<a href="#ref-doshi2015" role="doc-biblioref">2015</a>)</span>: drop the first <strong>18 months</strong></li>
+<li><span class="citation" data-cites="back2018">Back et al. (<a href="#ref-back2018" role="doc-biblioref">2018</a>)</span>: use returns only after the <strong>first offer date</strong> and once the fund <strong>name</strong> appears</li>
+<li><span class="citation" data-cites="dannhauser2026">Dannhauser and Pontiff (<a href="#ref-dannhauser2026" role="doc-biblioref">2026</a>)</span>: drop the first <strong>3 years</strong> — also removes the burst of sentiment-driven ETF launches <span class="citation" data-cites="bendavid2023">(<a href="#ref-bendavid2023" role="doc-biblioref">Ben-David et al. 2023</a>)</span></li>
+</ul>
+</div>
+<p>. . .</p>
+<p>Longer window → safer filter, fewer young funds. <strong>Report it, and show robustness to it.</strong></p>
+</section>
+</section>
+<section id="part-2-classifying-funds" class="level1" data-background-color="#3b3b6b">
+<h1 data-background-color="#3b3b6b">Part 2 · Classifying Funds</h1>
+<section id="why-classification-is-not-a-detail" class="level2">
+<h2 class="anchored" data-anchor-id="why-classification-is-not-a-detail">Why classification is not a detail</h2>
+<p><span class="citation" data-cites="dannhauser2026">Dannhauser and Pontiff (<a href="#ref-dannhauser2026" role="doc-biblioref">2026</a>)</span>, domestic-equity fund assets, 2005 → 2022:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Vehicle</th>
+<th>Start</th>
+<th>End</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Active mutual funds</td>
+<td>&gt; 82%</td>
+<td>43%</td>
+</tr>
+<tr class="even">
+<td>Index mutual funds</td>
+<td>11%</td>
+<td>24%</td>
+</tr>
+<tr class="odd">
+<td>ETFs</td>
+<td>7%</td>
+<td>33%</td>
+</tr>
+</tbody>
+</table>
+<p>. . .</p>
+<p>“Equity funds” today means <strong>three vehicles</strong>. Pool them without labels and you mix mandates; pool index funds into a skill test and you dilute the tails (Lecture 2).</p>
+</section>
+<section id="three-published-recipes" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="three-published-recipes">Three published recipes</h2>
+<table class="caption-top table">
+<caption>Same raw data, three populations</caption>
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><span class="citation" data-cites="doshi2015">Doshi et al. (<a href="#ref-doshi2015" role="doc-biblioref">2015</a>)</span></th>
+<th><span class="citation" data-cites="back2018">Back et al. (<a href="#ref-back2018" role="doc-biblioref">2018</a>)</span></th>
+<th><span class="citation" data-cites="dannhauser2026">Dannhauser and Pontiff (<a href="#ref-dannhauser2026" role="doc-biblioref">2026</a>)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Core rule</strong></td>
+<td><em>Any</em> of four vendor codes on a diversified-equity list</td>
+<td>CRSP objective <code>ED</code> + <code>C</code>/<code>Y</code></td>
+<td>CRSP <code>ED…</code> <strong>or</strong> Lipper list incl.&nbsp;sectors</td>
+</tr>
+<tr class="even">
+<td><strong>Drops</strong></td>
+<td>Int’l, balanced, sector, index</td>
+<td>Hedged/short (<code>YH</code>/<code>YS</code>), option income, index, TDF</td>
+<td>Foreign names, ETNs, leveraged, FoF, active ETFs, TDF</td>
+</tr>
+<tr class="odd">
+<td><strong>Passive / ETFs</strong></td>
+<td>Dropped</td>
+<td>Dropped</td>
+<td><strong>Kept and labeled</strong></td>
+</tr>
+<tr class="even">
+<td><strong>Goal</strong></td>
+<td>Clean active sample</td>
+<td>Clean active sample</td>
+<td>Comparable sample of <em>all</em> vehicles</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="where-the-recipes-disagree" class="level2">
+<h2 class="anchored" data-anchor-id="where-the-recipes-disagree">Where the recipes disagree</h2>
+<p>In the handout’s simulation (where the true type of every fund is known), the recipes agree on core broad active funds and <strong>differ at the edges</strong>:</p>
+<div class="incremental">
+<ul class="incremental">
+<li><strong>Vendor codes</strong> <span class="citation" data-cites="doshi2015">(<a href="#ref-doshi2015" role="doc-biblioref">Doshi et al. 2015</a>)</span> let in hedged, short, and option-income funds and some target-date funds</li>
+<li><strong>CRSP code + index flag</strong> <span class="citation" data-cites="back2018">(<a href="#ref-back2018" role="doc-biblioref">Back et al. 2018</a>)</span> lets in index funds whose CRSP index flag is missing (it starts late)</li>
+<li><strong>Domestic-equity universe</strong> <span class="citation" data-cites="dannhauser2026">(<a href="#ref-dannhauser2026" role="doc-biblioref">Dannhauser and Pontiff 2026</a>)</span> adds sector funds by design and strips passive products</li>
+</ul>
+</div>
+<p>. . .</p>
+<p>Choosing a recipe is choosing a population. <strong>Re-run your main result under a second recipe.</strong></p>
+</section>
+<section id="names-are-data-dirty-data" class="level2">
+<h2 class="anchored" data-anchor-id="names-are-data-dirty-data">Names are data — dirty data</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div id="senrkaqfwi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#senrkaqfwi table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#senrkaqfwi thead, #senrkaqfwi tbody, #senrkaqfwi tfoot, #senrkaqfwi tr, #senrkaqfwi td, #senrkaqfwi th {
+  border-style: none;
+}
+
+#senrkaqfwi p {
+  margin: 0;
+  padding: 0;
+}
+
+#senrkaqfwi .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 20px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#senrkaqfwi .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#senrkaqfwi .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#senrkaqfwi .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#senrkaqfwi .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#senrkaqfwi .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#senrkaqfwi .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#senrkaqfwi .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#senrkaqfwi .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#senrkaqfwi .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#senrkaqfwi .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#senrkaqfwi .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#senrkaqfwi .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#senrkaqfwi .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#senrkaqfwi .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#senrkaqfwi .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#senrkaqfwi .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#senrkaqfwi .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#senrkaqfwi .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#senrkaqfwi .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#senrkaqfwi .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#senrkaqfwi .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#senrkaqfwi .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#senrkaqfwi .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#senrkaqfwi .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#senrkaqfwi .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#senrkaqfwi .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#senrkaqfwi .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#senrkaqfwi .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#senrkaqfwi .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#senrkaqfwi .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#senrkaqfwi .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#senrkaqfwi .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#senrkaqfwi .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#senrkaqfwi .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#senrkaqfwi .gt_left {
+  text-align: left;
+}
+
+#senrkaqfwi .gt_center {
+  text-align: center;
+}
+
+#senrkaqfwi .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#senrkaqfwi .gt_font_normal {
+  font-weight: normal;
+}
+
+#senrkaqfwi .gt_font_bold {
+  font-weight: bold;
+}
+
+#senrkaqfwi .gt_font_italic {
+  font-style: italic;
+}
+
+#senrkaqfwi .gt_super {
+  font-size: 65%;
+}
+
+#senrkaqfwi .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#senrkaqfwi .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#senrkaqfwi .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#senrkaqfwi .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#senrkaqfwi .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#senrkaqfwi .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#senrkaqfwi .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#senrkaqfwi .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#senrkaqfwi div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_col_headings header">
+<th id="Fund-name-(fictional)" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Fund name (fictional)</th>
+<th id="Truth" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Truth</th>
+<th id="Substring-rule" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Substring rule</th>
+<th id="Whole-word-rule" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Whole-word rule</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="Fund name (fictional)">Alder Total Stock Indx Fund</td>
+<td class="gt_row gt_left" headers="Truth">Index</td>
+<td class="gt_row gt_left" headers="Substring rule">Index</td>
+<td class="gt_row gt_left" headers="Whole-word rule">Index</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Fund name (fictional)">Granite Growth Fund RSP</td>
+<td class="gt_row gt_left" headers="Truth">Active</td>
+<td class="gt_row gt_left" headers="Substring rule" style="background-color: #F4B6B6">Index</td>
+<td class="gt_row gt_left" headers="Whole-word rule">—</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Fund name (fictional)">Alder Wind Energy Fund</td>
+<td class="gt_row gt_left" headers="Truth">Active</td>
+<td class="gt_row gt_left" headers="Substring rule" style="background-color: #F4B6B6">Index</td>
+<td class="gt_row gt_left" headers="Whole-word rule">—</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Fund name (fictional)">Beacon Select 100 Opportunities Fund</td>
+<td class="gt_row gt_left" headers="Truth">Active</td>
+<td class="gt_row gt_left" headers="Substring rule" style="background-color: #F4B6B6">Index</td>
+<td class="gt_row gt_left" headers="Whole-word rule">—</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Fund name (fictional)">Delta Russell 2000 Alpha Fund</td>
+<td class="gt_row gt_left" headers="Truth">Active</td>
+<td class="gt_row gt_left" headers="Substring rule" style="background-color: #F4B6B6">Index</td>
+<td class="gt_row gt_left" headers="Whole-word rule" style="background-color: #F4B6B6">Index</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p><code>SP</code> sits inside “RSP”, <code>ind</code> inside “Wind”, “100” in a fund name. Whole words fix some errors, not all (“Russell 2000 <em>Alpha</em>”). Published papers <strong>hand-check</strong> what their rules flag; <span class="citation" data-cites="dannhauser2026">Dannhauser and Pontiff (<a href="#ref-dannhauser2026" role="doc-biblioref">2026</a>)</span> report a false positive in their own data.</p>
+</section>
+</section>
+<section id="part-3-style-and-style-drift" class="level1" data-background-color="#3b3b6b">
+<h1 data-background-color="#3b3b6b">Part 3 · Style and Style Drift</h1>
+<section id="three-ways-to-know-a-funds-style" class="level2">
+<h2 class="anchored" data-anchor-id="three-ways-to-know-a-funds-style">Three ways to know a fund’s style</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Approach</th>
+<th>Source</th>
+<th>Weakness</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Stated</strong></td>
+<td>Prospectus objective; Lipper / Morningstar / CRSP codes</td>
+<td>It is what the fund <em>chooses to say</em> <span class="citation" data-cites="kim2000 cooper2005">(<a href="#ref-kim2000" role="doc-biblioref">Kim et al. 2000</a>; <a href="#ref-cooper2005" role="doc-biblioref">Cooper et al. 2005</a>)</span></td>
+</tr>
+<tr class="even">
+<td><strong>Returns-based</strong></td>
+<td>Factor loadings; Sharpe <span class="citation" data-cites="sharpe1992">(<a href="#ref-sharpe1992" role="doc-biblioref">1992</a>)</span> style weights</td>
+<td>Needs a long window; lags</td>
+</tr>
+<tr class="odd">
+<td><strong>Holdings-based</strong></td>
+<td>Size, B/M, momentum of stocks held <span class="citation" data-cites="daniel1997">(<a href="#ref-daniel1997" role="doc-biblioref">Daniel et al. 1997</a>)</span></td>
+<td>Needs holdings; quarterly snapshots</td>
+</tr>
+</tbody>
+</table>
+<p>. . .</p>
+<p><strong>Style drift</strong> = the style moves over time. Two sources: the manager <strong>trades</strong> into a new style (active), or the stocks <strong>migrate</strong> while held (passive) <span class="citation" data-cites="wermers2012">(<a href="#ref-wermers2012" role="doc-biblioref">Wermers 2012</a>)</span>.</p>
+</section>
+<section id="why-researchers-care-about-drift" class="level2">
+<h2 class="anchored" data-anchor-id="why-researchers-care-about-drift">Why researchers care about drift</h2>
+<div class="incremental">
+<ul class="incremental">
+<li><strong>Benchmarks.</strong> A “growth” fund holding value stocks earns an alpha that is a style bet (Lecture 1)</li>
+<li><strong>Investors’ portfolios.</strong> A growth + value mix only diversifies if each fund <em>stays</em> what it is</li>
+<li><strong>Agency.</strong> A manager behind in the race may change strategy to catch up <span class="citation" data-cites="brown1996 chevalier1997">(<a href="#ref-brown1996" role="doc-biblioref">Brown et al. 1996</a>; <a href="#ref-chevalier1997" role="doc-biblioref">Chevalier and Ellison 1997</a>)</span> — drift is one way to do it</li>
+<li><strong>Sample selection.</strong> A paper on “growth funds” studies whatever the label contains</li>
+</ul>
+</div>
+</section>
+<section id="the-source-paper" class="level2">
+<h2 class="anchored" data-anchor-id="the-source-paper">The source paper</h2>
+<p><strong><span class="citation" data-cites="chan2002">Chan et al. (<a href="#ref-chan2002" role="doc-biblioref">2002</a>)</span></strong> — “On Mutual Fund Investment Styles”, <em>RFS</em> 15(5)</p>
+<div class="columns">
+<div class="column" style="width:55%;">
+<p><strong>Data</strong></p>
+<ul>
+<li>Morningstar: monthly returns 1976–1997, holdings from 1983</li>
+<li><strong>3,336</strong> U.S. domestic equity funds alive at end-1997</li>
+<li>Defunct funds only from 1989 → early years are survivor-biased</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<p><strong>Two style measures</strong></p>
+<ul>
+<li><strong>Characteristics</strong>: rank every stock 0–1 on size, B/M, past return; a fund’s score = holdings-weighted average rank</li>
+<li><strong>Loadings</strong>: Fama-French three-factor loadings over the past 36 months, ranked 0–1</li>
+</ul>
+</div>
+</div>
+<p>. . .</p>
+<p>Four questions: Where do funds sit? Do styles persist? <strong>Who changes style?</strong> Does style-adjusted performance differ?</p>
+</section>
+<section id="finding-1-funds-hug-the-market" class="level2">
+<h2 class="anchored" data-anchor-id="finding-1-funds-hug-the-market">Finding 1 · Funds hug the market</h2>
+<p>Holdings-weighted style scores (0 = lowest stock rank, 1 = highest), CCL Table 4:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th>Fund average</th>
+<th>S&amp;P 500</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Size score</td>
+<td>0.94</td>
+<td>0.98</td>
+</tr>
+<tr class="even">
+<td>Book-to-market score</td>
+<td>0.35</td>
+<td>0.38</td>
+</tr>
+<tr class="odd">
+<td>Past 3-year return score</td>
+<td>0.63</td>
+<td>0.63</td>
+</tr>
+</tbody>
+</table>
+<p>. . .</p>
+<div class="incremental">
+<ul class="incremental">
+<li>About <strong>26%</strong> of funds sit in the smallest size decile, but they hold only ~<strong>11%</strong> of fund assets</li>
+<li><strong>60%</strong> of funds (67% of assets) fall in B/M deciles 3–5; only <strong>3.2%</strong> sit in the three most “value” deciles</li>
+<li>When funds deviate from the market, they lean toward <strong>growth</strong> and <strong>past winners</strong></li>
+</ul>
+</div>
+</section>
+<section id="finding-2-styles-persist-but-not-tightly" class="level2">
+<h2 class="anchored" data-anchor-id="finding-2-styles-persist-but-not-tightly">Finding 2 · Styles persist, but not tightly</h2>
+<p>Correlation between a fund’s style rank (FF3 loadings) over the past 3 years and over the <strong>non-overlapping</strong> 3 years after, year-ends 1984–1994 (CCL Table 3):</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="highchart html-widget html-fill-item" id="htmlwidget-9d0814c70d3f9e32e1fe" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-9d0814c70d3f9e32e1fe">{"x":{"hc_opts":{"chart":{"reflow":true,"type":"bar","height":360},"title":{"text":null},"yAxis":{"title":{"text":"Correlation, past vs. future style rank"},"min":0,"max":1},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0},"treemap":{"layoutAlgorithm":"squarified"},"bar":{"dataLabels":{"enabled":true,"format":"{y:.2f}"}}},"xAxis":{"categories":["All funds","Large cap","Small cap","Value","Growth"]},"series":[{"data":[0.73,0.79,0.88,0.73,0.74],"name":"Size rank"},{"data":[0.71,0.71,0.71,0.77,0.83],"name":"Book-to-market rank"}],"tooltip":{"shared":true,"valueDecimals":2}},"theme":{"colors":["#4E79A7","#F28E2B","#E15759","#76B7B2","#59A14F","#EDC948","#B07AA1","#FF9DA7","#9C755F","#BAB0AC"],"chart":{"style":{"fontFamily":"Roboto","color":"#666666"}},"title":{"align":"left","style":{"fontFamily":"Roboto Condensed","fontWeight":"bold"}},"subtitle":{"align":"left","style":{"fontFamily":"Roboto Condensed"}},"legend":{"align":"right","verticalAlign":"bottom"},"xAxis":{"gridLineWidth":1,"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"yAxis":{"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"plotOptions":{"line":{"marker":{"enabled":false}},"spline":{"marker":{"enabled":false}},"area":{"marker":{"enabled":false}},"areaspline":{"marker":{"enabled":false}},"arearange":{"marker":{"enabled":false}},"bubble":{"maxSize":"10%"}}},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadCSV":"Download CSV","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","downloadXLS":"Download XLS","drillUpText":"◁ Back to {series.name}","exitFullscreen":"Exit from full screen","exportData":{"annotationHeader":"Annotations","categoryDatetimeHeader":"DateTime","categoryHeader":"Category"},"hideData":"Hide data table","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbolMagnitude":1000,"numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"shortWeekdays":["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],"thousandsSep":" ","viewData":"View data table","viewFullscreen":"View in full screen","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":["Roboto","Roboto+Condensed"],"debug":false},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Correlations of 0.7–0.9, yet the <strong>average absolute change in rank is 0.11–0.18</strong> — a fund moves more than a decile, on average, every three years.</p>
+</section>
+<section id="finding-3-losers-change-style" class="level2">
+<h2 class="anchored" data-anchor-id="finding-3-losers-change-style">Finding 3 · Losers change style</h2>
+<p>Sort funds on past two-year return (winners = top 20%, losers = bottom 20%) and on style (top / middle / bottom 30%); measure the absolute change in <strong>B/M rank</strong> (CCL Section 5.2, Table 8).</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="highchart html-widget html-fill-item" id="htmlwidget-01eb1c313150572a6d37" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-01eb1c313150572a6d37">{"x":{"hc_opts":{"chart":{"reflow":true,"type":"column","height":330},"title":{"text":null},"yAxis":{"title":{"text":"Mean |change in B/M rank|"},"min":0},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0},"treemap":{"layoutAlgorithm":"squarified"},"column":{"dataLabels":{"enabled":true,"format":"{y:.3f}"}}},"xAxis":{"categories":["All funds","Value funds"]},"series":[{"data":[0.077,0.06],"name":"Past winners","color":"#4E79A7"},{"data":[0.1,0.12],"name":"Past losers","color":"#E15759"}],"tooltip":{"shared":true,"valueDecimals":3}},"theme":{"colors":["#4E79A7","#F28E2B","#E15759","#76B7B2","#59A14F","#EDC948","#B07AA1","#FF9DA7","#9C755F","#BAB0AC"],"chart":{"style":{"fontFamily":"Roboto","color":"#666666"}},"title":{"align":"left","style":{"fontFamily":"Roboto Condensed","fontWeight":"bold"}},"subtitle":{"align":"left","style":{"fontFamily":"Roboto Condensed"}},"legend":{"align":"right","verticalAlign":"bottom"},"xAxis":{"gridLineWidth":1,"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"yAxis":{"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"plotOptions":{"line":{"marker":{"enabled":false}},"spline":{"marker":{"enabled":false}},"area":{"marker":{"enabled":false}},"areaspline":{"marker":{"enabled":false}},"arearange":{"marker":{"enabled":false}},"bubble":{"maxSize":"10%"}}},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadCSV":"Download CSV","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","downloadXLS":"Download XLS","drillUpText":"◁ Back to {series.name}","exitFullscreen":"Exit from full screen","exportData":{"annotationHeader":"Annotations","categoryDatetimeHeader":"DateTime","categoryHeader":"Category"},"hideData":"Hide data table","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbolMagnitude":1000,"numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"shortWeekdays":["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],"thousandsSep":" ","viewData":"View data table","viewFullscreen":"View in full screen","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":["Roboto","Roboto+Condensed"],"debug":false},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Losing <strong>value</strong> funds drift twice as far as winning ones — and toward <strong>growth</strong> (B/M rank 0.648 → 0.572). Losing <strong>growth</strong> funds stay put (0.146 → 0.171).</p>
+<div class="notes">
+<p>The paper’s reading: style shifts are concentrated among poor performers and driven by value funds. Note this is a descriptive sort; the paper does not report standard errors on these differences.</p>
+</div>
+</section>
+<section id="is-that-drift-active-a-quick-argument" class="level2">
+<h2 class="anchored" data-anchor-id="is-that-drift-active-a-quick-argument">Is that drift <em>active</em>? A quick argument</h2>
+<p>A value fund that <strong>lost</strong> money holds stocks whose prices <strong>fell</strong> → their B/M ratios <strong>rose</strong>.</p>
+<p>. . .</p>
+<p>Passive migration alone would push a losing value fund <strong>further toward value</strong>.</p>
+<p>. . .</p>
+<p>CCL find losing value funds move <strong>toward growth</strong> — against the passive channel. For holdings characteristics, that points to <strong>trading</strong>, consistent with a manager abandoning a style that has not paid off.</p>
+<p>. . .</p>
+<p><em>(This is our reading of the result, not a test in the paper. Holdings changes are what separate active from passive drift <span class="citation" data-cites="wermers2012">(<a href="#ref-wermers2012" role="doc-biblioref">Wermers 2012</a>)</span>.)</em></p>
+</section>
+<section id="finding-4-style-adjusted-performance" class="level2">
+<h2 class="anchored" data-anchor-id="finding-4-style-adjusted-performance">Finding 4 · Style-adjusted performance</h2>
+<p>Equal-weighted alphas of size × B/M fund groups (CCL Table 6 and conclusion):</p>
+<div class="incremental">
+<ul class="incremental">
+<li>Growth minus value: about <strong>0.143% per month (≈ 1.7% per year)</strong> under three factors</li>
+<li>About <strong>1.2% per year</strong> after adding momentum</li>
+<li>Concentrated in <strong>small-cap</strong> funds: <strong>2.82% per year</strong> four-factor gap</li>
+</ul>
+</div>
+<p>. . .</p>
+<p>The authors call this “some evidence.” The difference itself carries no reported standard error, and the sample conditions on survival to 1997.</p>
+</section>
+<section id="finding-5-which-style-measure-predicts-better" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="finding-5-which-style-measure-predicts-better">Finding 5 · Which style measure predicts better?</h2>
+<p>For the funds where the two measures <strong>disagree most</strong> (one says value, the other says growth), CCL predict returns in extreme-HML months (Table 9):</p>
+<table class="caption-top table">
+<caption>Mean absolute prediction error (lower is better)</caption>
+<thead>
+<tr class="header">
+<th>Disagreement</th>
+<th>Months</th>
+<th>Characteristics</th>
+<th>Loadings</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Value by chars, growth by loadings</td>
+<td>Lowest HML</td>
+<td>1.395</td>
+<td>1.702</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Highest HML</td>
+<td>1.480</td>
+<td>1.766</td>
+</tr>
+<tr class="odd">
+<td>Growth by chars, value by loadings</td>
+<td>Lowest HML</td>
+<td>1.367</td>
+<td>1.640</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Highest HML</td>
+<td>1.490</td>
+<td>2.076</td>
+</tr>
+</tbody>
+</table>
+<p>. . .</p>
+<p>Holdings characteristics win in all four cases: they see the <strong>current</strong> portfolio; loadings see the <strong>last 36 months</strong>.</p>
+</section>
+<section id="why-loadings-lag-a-fund-we-control" class="level2">
+<h2 class="anchored" data-anchor-id="why-loadings-lag-a-fund-we-control">Why loadings lag: a fund we control</h2>
+<p>A simulated fund holds 70% large growth + 30% small growth, then <strong>switches entirely to value at month 121</strong>. Rolling 36-month Sharpe weights:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="highchart html-widget html-fill-item" id="htmlwidget-c9abee71a2b18525de2f" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-c9abee71a2b18525de2f">{"x":{"hc_opts":{"chart":{"reflow":true,"height":330},"title":{"text":null},"yAxis":{"title":{"text":"Weight on growth styles"},"min":0,"max":1},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0},"treemap":{"layoutAlgorithm":"squarified"},"line":{"marker":{"enabled":false},"lineWidth":2}},"series":[{"group":"group","data":[{"month":36,"est_growth":0.9950635943707149,"true_growth":1,"x":36,"y":1},{"month":37,"est_growth":0.9948776989784448,"true_growth":1,"x":37,"y":1},{"month":38,"est_growth":0.9939444742197321,"true_growth":1,"x":38,"y":1},{"month":39,"est_growth":0.9946654579875782,"true_growth":1,"x":39,"y":1},{"month":40,"est_growth":0.9911026473317806,"true_growth":1,"x":40,"y":1},{"month":41,"est_growth":0.9972359564034097,"true_growth":1,"x":41,"y":1},{"month":42,"est_growth":0.9979882333612045,"true_growth":1,"x":42,"y":1},{"month":43,"est_growth":1,"true_growth":1,"x":43,"y":1},{"month":44,"est_growth":1,"true_growth":1,"x":44,"y":1},{"month":45,"est_growth":1,"true_growth":1,"x":45,"y":1},{"month":46,"est_growth":1,"true_growth":1,"x":46,"y":1},{"month":47,"est_growth":1,"true_growth":1,"x":47,"y":1},{"month":48,"est_growth":1,"true_growth":1,"x":48,"y":1},{"month":49,"est_growth":1,"true_growth":1,"x":49,"y":1},{"month":50,"est_growth":1,"true_growth":1,"x":50,"y":1},{"month":51,"est_growth":1,"true_growth":1,"x":51,"y":1},{"month":52,"est_growth":1,"true_growth":1,"x":52,"y":1},{"month":53,"est_growth":1,"true_growth":1,"x":53,"y":1},{"month":54,"est_growth":1,"true_growth":1,"x":54,"y":1},{"month":55,"est_growth":1,"true_growth":1,"x":55,"y":1},{"month":56,"est_growth":1,"true_growth":1,"x":56,"y":1},{"month":57,"est_growth":1,"true_growth":1,"x":57,"y":1},{"month":58,"est_growth":1,"true_growth":1,"x":58,"y":1},{"month":59,"est_growth":1,"true_growth":1,"x":59,"y":1},{"month":60,"est_growth":1,"true_growth":1,"x":60,"y":1},{"month":61,"est_growth":1,"true_growth":1,"x":61,"y":1},{"month":62,"est_growth":1,"true_growth":1,"x":62,"y":1},{"month":63,"est_growth":1,"true_growth":1,"x":63,"y":1},{"month":64,"est_growth":1,"true_growth":1,"x":64,"y":1},{"month":65,"est_growth":1,"true_growth":1,"x":65,"y":1},{"month":66,"est_growth":1,"true_growth":1,"x":66,"y":1},{"month":67,"est_growth":1,"true_growth":1,"x":67,"y":1},{"month":68,"est_growth":1,"true_growth":1,"x":68,"y":1},{"month":69,"est_growth":1,"true_growth":1,"x":69,"y":1},{"month":70,"est_growth":1,"true_growth":1,"x":70,"y":1},{"month":71,"est_growth":1,"true_growth":1,"x":71,"y":1},{"month":72,"est_growth":1,"true_growth":1,"x":72,"y":1},{"month":73,"est_growth":1,"true_growth":1,"x":73,"y":1},{"month":74,"est_growth":1,"true_growth":1,"x":74,"y":1},{"month":75,"est_growth":1,"true_growth":1,"x":75,"y":1},{"month":76,"est_growth":1,"true_growth":1,"x":76,"y":1},{"month":77,"est_growth":1,"true_growth":1,"x":77,"y":1},{"month":78,"est_growth":1,"true_growth":1,"x":78,"y":1},{"month":79,"est_growth":1,"true_growth":1,"x":79,"y":1},{"month":80,"est_growth":1,"true_growth":1,"x":80,"y":1},{"month":81,"est_growth":1,"true_growth":1,"x":81,"y":1},{"month":82,"est_growth":1,"true_growth":1,"x":82,"y":1},{"month":83,"est_growth":1,"true_growth":1,"x":83,"y":1},{"month":84,"est_growth":1,"true_growth":1,"x":84,"y":1},{"month":85,"est_growth":1,"true_growth":1,"x":85,"y":1},{"month":86,"est_growth":1,"true_growth":1,"x":86,"y":1},{"month":87,"est_growth":1,"true_growth":1,"x":87,"y":1},{"month":88,"est_growth":0.9997749758951997,"true_growth":1,"x":88,"y":1},{"month":89,"est_growth":1,"true_growth":1,"x":89,"y":1},{"month":90,"est_growth":0.9998808147445484,"true_growth":1,"x":90,"y":1},{"month":91,"est_growth":1,"true_growth":1,"x":91,"y":1},{"month":92,"est_growth":1,"true_growth":1,"x":92,"y":1},{"month":93,"est_growth":1,"true_growth":1,"x":93,"y":1},{"month":94,"est_growth":1,"true_growth":1,"x":94,"y":1},{"month":95,"est_growth":1,"true_growth":1,"x":95,"y":1},{"month":96,"est_growth":1,"true_growth":1,"x":96,"y":1},{"month":97,"est_growth":1,"true_growth":1,"x":97,"y":1},{"month":98,"est_growth":1,"true_growth":1,"x":98,"y":1},{"month":99,"est_growth":1,"true_growth":1,"x":99,"y":1},{"month":100,"est_growth":1,"true_growth":1,"x":100,"y":1},{"month":101,"est_growth":1,"true_growth":1,"x":101,"y":1},{"month":102,"est_growth":1,"true_growth":1,"x":102,"y":1},{"month":103,"est_growth":1,"true_growth":1,"x":103,"y":1},{"month":104,"est_growth":1,"true_growth":1,"x":104,"y":1},{"month":105,"est_growth":1,"true_growth":1,"x":105,"y":1},{"month":106,"est_growth":0.9995850534210327,"true_growth":1,"x":106,"y":1},{"month":107,"est_growth":0.9971678411370254,"true_growth":1,"x":107,"y":1},{"month":108,"est_growth":0.9929695696735061,"true_growth":1,"x":108,"y":1},{"month":109,"est_growth":0.9947473571024659,"true_growth":1,"x":109,"y":1},{"month":110,"est_growth":0.9959284451517808,"true_growth":1,"x":110,"y":1},{"month":111,"est_growth":0.9901410393297232,"true_growth":1,"x":111,"y":1},{"month":112,"est_growth":0.9875989038211719,"true_growth":1,"x":112,"y":1},{"month":113,"est_growth":0.9867744387209343,"true_growth":1,"x":113,"y":1},{"month":114,"est_growth":0.9864911583318889,"true_growth":1,"x":114,"y":1},{"month":115,"est_growth":0.987017899654112,"true_growth":1,"x":115,"y":1},{"month":116,"est_growth":0.9879767172207654,"true_growth":1,"x":116,"y":1},{"month":117,"est_growth":0.9909129642957493,"true_growth":1,"x":117,"y":1},{"month":118,"est_growth":0.9945446929291211,"true_growth":1,"x":118,"y":1},{"month":119,"est_growth":0.9935163571916723,"true_growth":1,"x":119,"y":1},{"month":120,"est_growth":0.9941619924289611,"true_growth":1,"x":120,"y":1},{"month":121,"est_growth":0.9867864909256417,"true_growth":0,"x":121,"y":0},{"month":122,"est_growth":0.9871597051814529,"true_growth":0,"x":122,"y":0},{"month":123,"est_growth":0.9163453227661097,"true_growth":0,"x":123,"y":0},{"month":124,"est_growth":0.889133960852594,"true_growth":0,"x":124,"y":0},{"month":125,"est_growth":0.8619459976972503,"true_growth":0,"x":125,"y":0},{"month":126,"est_growth":0.7443628606740443,"true_growth":0,"x":126,"y":0},{"month":127,"est_growth":0.6942926164272234,"true_growth":0,"x":127,"y":0},{"month":128,"est_growth":0.6901036563072681,"true_growth":0,"x":128,"y":0},{"month":129,"est_growth":0.6172549048788105,"true_growth":0,"x":129,"y":0},{"month":130,"est_growth":0.6077761876350638,"true_growth":0,"x":130,"y":0},{"month":131,"est_growth":0.5913766688363471,"true_growth":0,"x":131,"y":0},{"month":132,"est_growth":0.5638405472651832,"true_growth":0,"x":132,"y":0},{"month":133,"est_growth":0.5631532098120022,"true_growth":0,"x":133,"y":0},{"month":134,"est_growth":0.5394034657092961,"true_growth":0,"x":134,"y":0},{"month":135,"est_growth":0.537533196233215,"true_growth":0,"x":135,"y":0},{"month":136,"est_growth":0.5343025618948867,"true_growth":0,"x":136,"y":0},{"month":137,"est_growth":0.5285234183045255,"true_growth":0,"x":137,"y":0},{"month":138,"est_growth":0.4747987877988911,"true_growth":0,"x":138,"y":0},{"month":139,"est_growth":0.4434460755319564,"true_growth":0,"x":139,"y":0},{"month":140,"est_growth":0.3800600870048918,"true_growth":0,"x":140,"y":0},{"month":141,"est_growth":0.3792003297343786,"true_growth":0,"x":141,"y":0},{"month":142,"est_growth":0.3729130370487996,"true_growth":0,"x":142,"y":0},{"month":143,"est_growth":0.3691579290275825,"true_growth":0,"x":143,"y":0},{"month":144,"est_growth":0.325761710808726,"true_growth":0,"x":144,"y":0},{"month":145,"est_growth":0.3146085305593307,"true_growth":0,"x":145,"y":0},{"month":146,"est_growth":0.3136470601021034,"true_growth":0,"x":146,"y":0},{"month":147,"est_growth":0.2155052347507113,"true_growth":0,"x":147,"y":0},{"month":148,"est_growth":0.1988662813307832,"true_growth":0,"x":148,"y":0},{"month":149,"est_growth":0.197825262552267,"true_growth":0,"x":149,"y":0},{"month":150,"est_growth":0.1887433837529758,"true_growth":0,"x":150,"y":0},{"month":151,"est_growth":0.1874111898279341,"true_growth":0,"x":151,"y":0},{"month":152,"est_growth":0.1832745927493304,"true_growth":0,"x":152,"y":0},{"month":153,"est_growth":0.1247120351726755,"true_growth":0,"x":153,"y":0},{"month":154,"est_growth":0.03184521810623335,"true_growth":0,"x":154,"y":0},{"month":155,"est_growth":0,"true_growth":0,"x":155,"y":0},{"month":156,"est_growth":0.001818581273774623,"true_growth":0,"x":156,"y":0},{"month":157,"est_growth":0.002285348189300647,"true_growth":0,"x":157,"y":0},{"month":158,"est_growth":0.002995786610173652,"true_growth":0,"x":158,"y":0},{"month":159,"est_growth":9.460162853866443e-20,"true_growth":0,"x":159,"y":0},{"month":160,"est_growth":0.004176004258338801,"true_growth":0,"x":160,"y":0},{"month":161,"est_growth":0.01095177223116884,"true_growth":0,"x":161,"y":0},{"month":162,"est_growth":0.01096666149200687,"true_growth":0,"x":162,"y":0},{"month":163,"est_growth":0.01199592728494021,"true_growth":0,"x":163,"y":0},{"month":164,"est_growth":0.01254294613058747,"true_growth":0,"x":164,"y":0},{"month":165,"est_growth":0.02040708443832748,"true_growth":0,"x":165,"y":0},{"month":166,"est_growth":0.01804749849872604,"true_growth":0,"x":166,"y":0},{"month":167,"est_growth":0.01473346050779284,"true_growth":0,"x":167,"y":0},{"month":168,"est_growth":0.01730818406212106,"true_growth":0,"x":168,"y":0},{"month":169,"est_growth":0.01312364940599482,"true_growth":0,"x":169,"y":0},{"month":170,"est_growth":0.0157361408451712,"true_growth":0,"x":170,"y":0},{"month":171,"est_growth":0.01524180782499066,"true_growth":0,"x":171,"y":0},{"month":172,"est_growth":0.01470013606933656,"true_growth":0,"x":172,"y":0},{"month":173,"est_growth":0.01541799085179065,"true_growth":0,"x":173,"y":0},{"month":174,"est_growth":0.0143779296436663,"true_growth":0,"x":174,"y":0},{"month":175,"est_growth":0.01400865888220622,"true_growth":0,"x":175,"y":0},{"month":176,"est_growth":0.01393130641902557,"true_growth":0,"x":176,"y":0},{"month":177,"est_growth":0.0116855048541516,"true_growth":0,"x":177,"y":0},{"month":178,"est_growth":0.01290278215234969,"true_growth":0,"x":178,"y":0},{"month":179,"est_growth":0.01476844364293242,"true_growth":0,"x":179,"y":0},{"month":180,"est_growth":0.01633160553746819,"true_growth":0,"x":180,"y":0},{"month":181,"est_growth":0.01526270873063417,"true_growth":0,"x":181,"y":0},{"month":182,"est_growth":0.01518878173531255,"true_growth":0,"x":182,"y":0},{"month":183,"est_growth":0.01568884533254654,"true_growth":0,"x":183,"y":0},{"month":184,"est_growth":0.018300494150366,"true_growth":0,"x":184,"y":0},{"month":185,"est_growth":0.01867447126776184,"true_growth":0,"x":185,"y":0},{"month":186,"est_growth":0.01950695520184688,"true_growth":0,"x":186,"y":0},{"month":187,"est_growth":0.01723091354918743,"true_growth":0,"x":187,"y":0},{"month":188,"est_growth":0.01858202389145473,"true_growth":0,"x":188,"y":0},{"month":189,"est_growth":0.02013001074013768,"true_growth":0,"x":189,"y":0},{"month":190,"est_growth":0.02123107547520175,"true_growth":0,"x":190,"y":0},{"month":191,"est_growth":0.02492568703120525,"true_growth":0,"x":191,"y":0},{"month":192,"est_growth":0.02492482608281519,"true_growth":0,"x":192,"y":0},{"month":193,"est_growth":0.0230295653416434,"true_growth":0,"x":193,"y":0},{"month":194,"est_growth":0.02193445537854161,"true_growth":0,"x":194,"y":0},{"month":195,"est_growth":0.02081895058333341,"true_growth":0,"x":195,"y":0},{"month":196,"est_growth":0.01789254218399643,"true_growth":0,"x":196,"y":0},{"month":197,"est_growth":0.01213066119109941,"true_growth":0,"x":197,"y":0},{"month":198,"est_growth":0.01182445400851017,"true_growth":0,"x":198,"y":0},{"month":199,"est_growth":0.01198336125541783,"true_growth":0,"x":199,"y":0},{"month":200,"est_growth":0.0103301383100131,"true_growth":0,"x":200,"y":0},{"month":201,"est_growth":0.01159580683018883,"true_growth":0,"x":201,"y":0},{"month":202,"est_growth":0.01070461222629808,"true_growth":0,"x":202,"y":0},{"month":203,"est_growth":0.01034506711523173,"true_growth":0,"x":203,"y":0},{"month":204,"est_growth":0.01064110501055112,"true_growth":0,"x":204,"y":0},{"month":205,"est_growth":0.01505508918910791,"true_growth":0,"x":205,"y":0},{"month":206,"est_growth":0.01177714338832871,"true_growth":0,"x":206,"y":0},{"month":207,"est_growth":0.01288057306803137,"true_growth":0,"x":207,"y":0},{"month":208,"est_growth":0.009119298933181533,"true_growth":0,"x":208,"y":0},{"month":209,"est_growth":0.007560355584821546,"true_growth":0,"x":209,"y":0},{"month":210,"est_growth":0.00706510852562892,"true_growth":0,"x":210,"y":0},{"month":211,"est_growth":0.007833263354185249,"true_growth":0,"x":211,"y":0},{"month":212,"est_growth":0.007427342588475317,"true_growth":0,"x":212,"y":0},{"month":213,"est_growth":0.006768570191799406,"true_growth":0,"x":213,"y":0},{"month":214,"est_growth":0.005240817239258926,"true_growth":0,"x":214,"y":0},{"month":215,"est_growth":0.003977521339407283,"true_growth":0,"x":215,"y":0},{"month":216,"est_growth":0.003235825023205788,"true_growth":0,"x":216,"y":0},{"month":217,"est_growth":0.004610550721643148,"true_growth":0,"x":217,"y":0},{"month":218,"est_growth":0.004137574585250184,"true_growth":0,"x":218,"y":0},{"month":219,"est_growth":0.009316056872065931,"true_growth":0,"x":219,"y":0},{"month":220,"est_growth":0.008590302274172236,"true_growth":0,"x":220,"y":0},{"month":221,"est_growth":0.00860510090113289,"true_growth":0,"x":221,"y":0},{"month":222,"est_growth":0.003862409648881695,"true_growth":0,"x":222,"y":0},{"month":223,"est_growth":0.005134323911042362,"true_growth":0,"x":223,"y":0},{"month":224,"est_growth":0.004434433106191621,"true_growth":0,"x":224,"y":0},{"month":225,"est_growth":1.314976742631217e-18,"true_growth":0,"x":225,"y":0},{"month":226,"est_growth":5.244648521218181e-19,"true_growth":0,"x":226,"y":0},{"month":227,"est_growth":0,"true_growth":0,"x":227,"y":0},{"month":228,"est_growth":6.310029334259565e-19,"true_growth":0,"x":228,"y":0},{"month":229,"est_growth":0,"true_growth":0,"x":229,"y":0},{"month":230,"est_growth":0,"true_growth":0,"x":230,"y":0},{"month":231,"est_growth":8.048148333342603e-19,"true_growth":0,"x":231,"y":0},{"month":232,"est_growth":0,"true_growth":0,"x":232,"y":0},{"month":233,"est_growth":0,"true_growth":0,"x":233,"y":0},{"month":234,"est_growth":6.729713503401196e-19,"true_growth":0,"x":234,"y":0},{"month":235,"est_growth":0,"true_growth":0,"x":235,"y":0},{"month":236,"est_growth":7.677335832573568e-19,"true_growth":0,"x":236,"y":0},{"month":237,"est_growth":0,"true_growth":0,"x":237,"y":0},{"month":238,"est_growth":6.750313838600519e-19,"true_growth":0,"x":238,"y":0},{"month":239,"est_growth":1.647029023648346e-19,"true_growth":0,"x":239,"y":0},{"month":240,"est_growth":1.74168883473706e-19,"true_growth":0,"x":240,"y":0}],"type":"line","name":"True growth weight","color":"#444444","dashStyle":"Dash","step":"left"},{"group":"group","data":[{"month":36,"est_growth":0.9950635943707149,"true_growth":1,"x":36,"y":0.995},{"month":37,"est_growth":0.9948776989784448,"true_growth":1,"x":37,"y":0.995},{"month":38,"est_growth":0.9939444742197321,"true_growth":1,"x":38,"y":0.994},{"month":39,"est_growth":0.9946654579875782,"true_growth":1,"x":39,"y":0.995},{"month":40,"est_growth":0.9911026473317806,"true_growth":1,"x":40,"y":0.991},{"month":41,"est_growth":0.9972359564034097,"true_growth":1,"x":41,"y":0.997},{"month":42,"est_growth":0.9979882333612045,"true_growth":1,"x":42,"y":0.998},{"month":43,"est_growth":1,"true_growth":1,"x":43,"y":1},{"month":44,"est_growth":1,"true_growth":1,"x":44,"y":1},{"month":45,"est_growth":1,"true_growth":1,"x":45,"y":1},{"month":46,"est_growth":1,"true_growth":1,"x":46,"y":1},{"month":47,"est_growth":1,"true_growth":1,"x":47,"y":1},{"month":48,"est_growth":1,"true_growth":1,"x":48,"y":1},{"month":49,"est_growth":1,"true_growth":1,"x":49,"y":1},{"month":50,"est_growth":1,"true_growth":1,"x":50,"y":1},{"month":51,"est_growth":1,"true_growth":1,"x":51,"y":1},{"month":52,"est_growth":1,"true_growth":1,"x":52,"y":1},{"month":53,"est_growth":1,"true_growth":1,"x":53,"y":1},{"month":54,"est_growth":1,"true_growth":1,"x":54,"y":1},{"month":55,"est_growth":1,"true_growth":1,"x":55,"y":1},{"month":56,"est_growth":1,"true_growth":1,"x":56,"y":1},{"month":57,"est_growth":1,"true_growth":1,"x":57,"y":1},{"month":58,"est_growth":1,"true_growth":1,"x":58,"y":1},{"month":59,"est_growth":1,"true_growth":1,"x":59,"y":1},{"month":60,"est_growth":1,"true_growth":1,"x":60,"y":1},{"month":61,"est_growth":1,"true_growth":1,"x":61,"y":1},{"month":62,"est_growth":1,"true_growth":1,"x":62,"y":1},{"month":63,"est_growth":1,"true_growth":1,"x":63,"y":1},{"month":64,"est_growth":1,"true_growth":1,"x":64,"y":1},{"month":65,"est_growth":1,"true_growth":1,"x":65,"y":1},{"month":66,"est_growth":1,"true_growth":1,"x":66,"y":1},{"month":67,"est_growth":1,"true_growth":1,"x":67,"y":1},{"month":68,"est_growth":1,"true_growth":1,"x":68,"y":1},{"month":69,"est_growth":1,"true_growth":1,"x":69,"y":1},{"month":70,"est_growth":1,"true_growth":1,"x":70,"y":1},{"month":71,"est_growth":1,"true_growth":1,"x":71,"y":1},{"month":72,"est_growth":1,"true_growth":1,"x":72,"y":1},{"month":73,"est_growth":1,"true_growth":1,"x":73,"y":1},{"month":74,"est_growth":1,"true_growth":1,"x":74,"y":1},{"month":75,"est_growth":1,"true_growth":1,"x":75,"y":1},{"month":76,"est_growth":1,"true_growth":1,"x":76,"y":1},{"month":77,"est_growth":1,"true_growth":1,"x":77,"y":1},{"month":78,"est_growth":1,"true_growth":1,"x":78,"y":1},{"month":79,"est_growth":1,"true_growth":1,"x":79,"y":1},{"month":80,"est_growth":1,"true_growth":1,"x":80,"y":1},{"month":81,"est_growth":1,"true_growth":1,"x":81,"y":1},{"month":82,"est_growth":1,"true_growth":1,"x":82,"y":1},{"month":83,"est_growth":1,"true_growth":1,"x":83,"y":1},{"month":84,"est_growth":1,"true_growth":1,"x":84,"y":1},{"month":85,"est_growth":1,"true_growth":1,"x":85,"y":1},{"month":86,"est_growth":1,"true_growth":1,"x":86,"y":1},{"month":87,"est_growth":1,"true_growth":1,"x":87,"y":1},{"month":88,"est_growth":0.9997749758951997,"true_growth":1,"x":88,"y":1},{"month":89,"est_growth":1,"true_growth":1,"x":89,"y":1},{"month":90,"est_growth":0.9998808147445484,"true_growth":1,"x":90,"y":1},{"month":91,"est_growth":1,"true_growth":1,"x":91,"y":1},{"month":92,"est_growth":1,"true_growth":1,"x":92,"y":1},{"month":93,"est_growth":1,"true_growth":1,"x":93,"y":1},{"month":94,"est_growth":1,"true_growth":1,"x":94,"y":1},{"month":95,"est_growth":1,"true_growth":1,"x":95,"y":1},{"month":96,"est_growth":1,"true_growth":1,"x":96,"y":1},{"month":97,"est_growth":1,"true_growth":1,"x":97,"y":1},{"month":98,"est_growth":1,"true_growth":1,"x":98,"y":1},{"month":99,"est_growth":1,"true_growth":1,"x":99,"y":1},{"month":100,"est_growth":1,"true_growth":1,"x":100,"y":1},{"month":101,"est_growth":1,"true_growth":1,"x":101,"y":1},{"month":102,"est_growth":1,"true_growth":1,"x":102,"y":1},{"month":103,"est_growth":1,"true_growth":1,"x":103,"y":1},{"month":104,"est_growth":1,"true_growth":1,"x":104,"y":1},{"month":105,"est_growth":1,"true_growth":1,"x":105,"y":1},{"month":106,"est_growth":0.9995850534210327,"true_growth":1,"x":106,"y":1},{"month":107,"est_growth":0.9971678411370254,"true_growth":1,"x":107,"y":0.997},{"month":108,"est_growth":0.9929695696735061,"true_growth":1,"x":108,"y":0.993},{"month":109,"est_growth":0.9947473571024659,"true_growth":1,"x":109,"y":0.995},{"month":110,"est_growth":0.9959284451517808,"true_growth":1,"x":110,"y":0.996},{"month":111,"est_growth":0.9901410393297232,"true_growth":1,"x":111,"y":0.99},{"month":112,"est_growth":0.9875989038211719,"true_growth":1,"x":112,"y":0.988},{"month":113,"est_growth":0.9867744387209343,"true_growth":1,"x":113,"y":0.987},{"month":114,"est_growth":0.9864911583318889,"true_growth":1,"x":114,"y":0.986},{"month":115,"est_growth":0.987017899654112,"true_growth":1,"x":115,"y":0.987},{"month":116,"est_growth":0.9879767172207654,"true_growth":1,"x":116,"y":0.988},{"month":117,"est_growth":0.9909129642957493,"true_growth":1,"x":117,"y":0.991},{"month":118,"est_growth":0.9945446929291211,"true_growth":1,"x":118,"y":0.995},{"month":119,"est_growth":0.9935163571916723,"true_growth":1,"x":119,"y":0.994},{"month":120,"est_growth":0.9941619924289611,"true_growth":1,"x":120,"y":0.994},{"month":121,"est_growth":0.9867864909256417,"true_growth":0,"x":121,"y":0.987},{"month":122,"est_growth":0.9871597051814529,"true_growth":0,"x":122,"y":0.987},{"month":123,"est_growth":0.9163453227661097,"true_growth":0,"x":123,"y":0.916},{"month":124,"est_growth":0.889133960852594,"true_growth":0,"x":124,"y":0.889},{"month":125,"est_growth":0.8619459976972503,"true_growth":0,"x":125,"y":0.862},{"month":126,"est_growth":0.7443628606740443,"true_growth":0,"x":126,"y":0.744},{"month":127,"est_growth":0.6942926164272234,"true_growth":0,"x":127,"y":0.694},{"month":128,"est_growth":0.6901036563072681,"true_growth":0,"x":128,"y":0.6899999999999999},{"month":129,"est_growth":0.6172549048788105,"true_growth":0,"x":129,"y":0.617},{"month":130,"est_growth":0.6077761876350638,"true_growth":0,"x":130,"y":0.608},{"month":131,"est_growth":0.5913766688363471,"true_growth":0,"x":131,"y":0.591},{"month":132,"est_growth":0.5638405472651832,"true_growth":0,"x":132,"y":0.5639999999999999},{"month":133,"est_growth":0.5631532098120022,"true_growth":0,"x":133,"y":0.5629999999999999},{"month":134,"est_growth":0.5394034657092961,"true_growth":0,"x":134,"y":0.539},{"month":135,"est_growth":0.537533196233215,"true_growth":0,"x":135,"y":0.538},{"month":136,"est_growth":0.5343025618948867,"true_growth":0,"x":136,"y":0.534},{"month":137,"est_growth":0.5285234183045255,"true_growth":0,"x":137,"y":0.529},{"month":138,"est_growth":0.4747987877988911,"true_growth":0,"x":138,"y":0.475},{"month":139,"est_growth":0.4434460755319564,"true_growth":0,"x":139,"y":0.443},{"month":140,"est_growth":0.3800600870048918,"true_growth":0,"x":140,"y":0.38},{"month":141,"est_growth":0.3792003297343786,"true_growth":0,"x":141,"y":0.379},{"month":142,"est_growth":0.3729130370487996,"true_growth":0,"x":142,"y":0.373},{"month":143,"est_growth":0.3691579290275825,"true_growth":0,"x":143,"y":0.369},{"month":144,"est_growth":0.325761710808726,"true_growth":0,"x":144,"y":0.326},{"month":145,"est_growth":0.3146085305593307,"true_growth":0,"x":145,"y":0.315},{"month":146,"est_growth":0.3136470601021034,"true_growth":0,"x":146,"y":0.314},{"month":147,"est_growth":0.2155052347507113,"true_growth":0,"x":147,"y":0.216},{"month":148,"est_growth":0.1988662813307832,"true_growth":0,"x":148,"y":0.199},{"month":149,"est_growth":0.197825262552267,"true_growth":0,"x":149,"y":0.198},{"month":150,"est_growth":0.1887433837529758,"true_growth":0,"x":150,"y":0.189},{"month":151,"est_growth":0.1874111898279341,"true_growth":0,"x":151,"y":0.187},{"month":152,"est_growth":0.1832745927493304,"true_growth":0,"x":152,"y":0.183},{"month":153,"est_growth":0.1247120351726755,"true_growth":0,"x":153,"y":0.125},{"month":154,"est_growth":0.03184521810623335,"true_growth":0,"x":154,"y":0.032},{"month":155,"est_growth":0,"true_growth":0,"x":155,"y":0},{"month":156,"est_growth":0.001818581273774623,"true_growth":0,"x":156,"y":0.002},{"month":157,"est_growth":0.002285348189300647,"true_growth":0,"x":157,"y":0.002},{"month":158,"est_growth":0.002995786610173652,"true_growth":0,"x":158,"y":0.003},{"month":159,"est_growth":9.460162853866443e-20,"true_growth":0,"x":159,"y":0},{"month":160,"est_growth":0.004176004258338801,"true_growth":0,"x":160,"y":0.004},{"month":161,"est_growth":0.01095177223116884,"true_growth":0,"x":161,"y":0.011},{"month":162,"est_growth":0.01096666149200687,"true_growth":0,"x":162,"y":0.011},{"month":163,"est_growth":0.01199592728494021,"true_growth":0,"x":163,"y":0.012},{"month":164,"est_growth":0.01254294613058747,"true_growth":0,"x":164,"y":0.013},{"month":165,"est_growth":0.02040708443832748,"true_growth":0,"x":165,"y":0.02},{"month":166,"est_growth":0.01804749849872604,"true_growth":0,"x":166,"y":0.018},{"month":167,"est_growth":0.01473346050779284,"true_growth":0,"x":167,"y":0.015},{"month":168,"est_growth":0.01730818406212106,"true_growth":0,"x":168,"y":0.017},{"month":169,"est_growth":0.01312364940599482,"true_growth":0,"x":169,"y":0.013},{"month":170,"est_growth":0.0157361408451712,"true_growth":0,"x":170,"y":0.016},{"month":171,"est_growth":0.01524180782499066,"true_growth":0,"x":171,"y":0.015},{"month":172,"est_growth":0.01470013606933656,"true_growth":0,"x":172,"y":0.015},{"month":173,"est_growth":0.01541799085179065,"true_growth":0,"x":173,"y":0.015},{"month":174,"est_growth":0.0143779296436663,"true_growth":0,"x":174,"y":0.014},{"month":175,"est_growth":0.01400865888220622,"true_growth":0,"x":175,"y":0.014},{"month":176,"est_growth":0.01393130641902557,"true_growth":0,"x":176,"y":0.014},{"month":177,"est_growth":0.0116855048541516,"true_growth":0,"x":177,"y":0.012},{"month":178,"est_growth":0.01290278215234969,"true_growth":0,"x":178,"y":0.013},{"month":179,"est_growth":0.01476844364293242,"true_growth":0,"x":179,"y":0.015},{"month":180,"est_growth":0.01633160553746819,"true_growth":0,"x":180,"y":0.016},{"month":181,"est_growth":0.01526270873063417,"true_growth":0,"x":181,"y":0.015},{"month":182,"est_growth":0.01518878173531255,"true_growth":0,"x":182,"y":0.015},{"month":183,"est_growth":0.01568884533254654,"true_growth":0,"x":183,"y":0.016},{"month":184,"est_growth":0.018300494150366,"true_growth":0,"x":184,"y":0.018},{"month":185,"est_growth":0.01867447126776184,"true_growth":0,"x":185,"y":0.019},{"month":186,"est_growth":0.01950695520184688,"true_growth":0,"x":186,"y":0.02},{"month":187,"est_growth":0.01723091354918743,"true_growth":0,"x":187,"y":0.017},{"month":188,"est_growth":0.01858202389145473,"true_growth":0,"x":188,"y":0.019},{"month":189,"est_growth":0.02013001074013768,"true_growth":0,"x":189,"y":0.02},{"month":190,"est_growth":0.02123107547520175,"true_growth":0,"x":190,"y":0.021},{"month":191,"est_growth":0.02492568703120525,"true_growth":0,"x":191,"y":0.025},{"month":192,"est_growth":0.02492482608281519,"true_growth":0,"x":192,"y":0.025},{"month":193,"est_growth":0.0230295653416434,"true_growth":0,"x":193,"y":0.023},{"month":194,"est_growth":0.02193445537854161,"true_growth":0,"x":194,"y":0.022},{"month":195,"est_growth":0.02081895058333341,"true_growth":0,"x":195,"y":0.021},{"month":196,"est_growth":0.01789254218399643,"true_growth":0,"x":196,"y":0.018},{"month":197,"est_growth":0.01213066119109941,"true_growth":0,"x":197,"y":0.012},{"month":198,"est_growth":0.01182445400851017,"true_growth":0,"x":198,"y":0.012},{"month":199,"est_growth":0.01198336125541783,"true_growth":0,"x":199,"y":0.012},{"month":200,"est_growth":0.0103301383100131,"true_growth":0,"x":200,"y":0.01},{"month":201,"est_growth":0.01159580683018883,"true_growth":0,"x":201,"y":0.012},{"month":202,"est_growth":0.01070461222629808,"true_growth":0,"x":202,"y":0.011},{"month":203,"est_growth":0.01034506711523173,"true_growth":0,"x":203,"y":0.01},{"month":204,"est_growth":0.01064110501055112,"true_growth":0,"x":204,"y":0.011},{"month":205,"est_growth":0.01505508918910791,"true_growth":0,"x":205,"y":0.015},{"month":206,"est_growth":0.01177714338832871,"true_growth":0,"x":206,"y":0.012},{"month":207,"est_growth":0.01288057306803137,"true_growth":0,"x":207,"y":0.013},{"month":208,"est_growth":0.009119298933181533,"true_growth":0,"x":208,"y":0.008999999999999999},{"month":209,"est_growth":0.007560355584821546,"true_growth":0,"x":209,"y":0.008},{"month":210,"est_growth":0.00706510852562892,"true_growth":0,"x":210,"y":0.007},{"month":211,"est_growth":0.007833263354185249,"true_growth":0,"x":211,"y":0.008},{"month":212,"est_growth":0.007427342588475317,"true_growth":0,"x":212,"y":0.007},{"month":213,"est_growth":0.006768570191799406,"true_growth":0,"x":213,"y":0.007},{"month":214,"est_growth":0.005240817239258926,"true_growth":0,"x":214,"y":0.005},{"month":215,"est_growth":0.003977521339407283,"true_growth":0,"x":215,"y":0.004},{"month":216,"est_growth":0.003235825023205788,"true_growth":0,"x":216,"y":0.003},{"month":217,"est_growth":0.004610550721643148,"true_growth":0,"x":217,"y":0.005},{"month":218,"est_growth":0.004137574585250184,"true_growth":0,"x":218,"y":0.004},{"month":219,"est_growth":0.009316056872065931,"true_growth":0,"x":219,"y":0.008999999999999999},{"month":220,"est_growth":0.008590302274172236,"true_growth":0,"x":220,"y":0.008999999999999999},{"month":221,"est_growth":0.00860510090113289,"true_growth":0,"x":221,"y":0.008999999999999999},{"month":222,"est_growth":0.003862409648881695,"true_growth":0,"x":222,"y":0.004},{"month":223,"est_growth":0.005134323911042362,"true_growth":0,"x":223,"y":0.005},{"month":224,"est_growth":0.004434433106191621,"true_growth":0,"x":224,"y":0.004},{"month":225,"est_growth":1.314976742631217e-18,"true_growth":0,"x":225,"y":0},{"month":226,"est_growth":5.244648521218181e-19,"true_growth":0,"x":226,"y":0},{"month":227,"est_growth":0,"true_growth":0,"x":227,"y":0},{"month":228,"est_growth":6.310029334259565e-19,"true_growth":0,"x":228,"y":0},{"month":229,"est_growth":0,"true_growth":0,"x":229,"y":0},{"month":230,"est_growth":0,"true_growth":0,"x":230,"y":0},{"month":231,"est_growth":8.048148333342603e-19,"true_growth":0,"x":231,"y":0},{"month":232,"est_growth":0,"true_growth":0,"x":232,"y":0},{"month":233,"est_growth":0,"true_growth":0,"x":233,"y":0},{"month":234,"est_growth":6.729713503401196e-19,"true_growth":0,"x":234,"y":0},{"month":235,"est_growth":0,"true_growth":0,"x":235,"y":0},{"month":236,"est_growth":7.677335832573568e-19,"true_growth":0,"x":236,"y":0},{"month":237,"est_growth":0,"true_growth":0,"x":237,"y":0},{"month":238,"est_growth":6.750313838600519e-19,"true_growth":0,"x":238,"y":0},{"month":239,"est_growth":1.647029023648346e-19,"true_growth":0,"x":239,"y":0},{"month":240,"est_growth":1.74168883473706e-19,"true_growth":0,"x":240,"y":0}],"type":"line","name":"Estimated growth weight","color":"#E15759"}],"xAxis":{"title":{"text":"Month"}},"tooltip":{"shared":true,"valueDecimals":2}},"theme":{"colors":["#4E79A7","#F28E2B","#E15759","#76B7B2","#59A14F","#EDC948","#B07AA1","#FF9DA7","#9C755F","#BAB0AC"],"chart":{"style":{"fontFamily":"Roboto","color":"#666666"}},"title":{"align":"left","style":{"fontFamily":"Roboto Condensed","fontWeight":"bold"}},"subtitle":{"align":"left","style":{"fontFamily":"Roboto Condensed"}},"legend":{"align":"right","verticalAlign":"bottom"},"xAxis":{"gridLineWidth":1,"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"yAxis":{"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"plotOptions":{"line":{"marker":{"enabled":false}},"spline":{"marker":{"enabled":false}},"area":{"marker":{"enabled":false}},"areaspline":{"marker":{"enabled":false}},"arearange":{"marker":{"enabled":false}},"bubble":{"maxSize":"10%"}}},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadCSV":"Download CSV","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","downloadXLS":"Download XLS","drillUpText":"◁ Back to {series.name}","exitFullscreen":"Exit from full screen","exportData":{"annotationHeader":"Annotations","categoryDatetimeHeader":"DateTime","categoryHeader":"Category"},"hideData":"Hide data table","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbolMagnitude":1000,"numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"shortWeekdays":["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],"thousandsSep":" ","viewData":"View data table","viewFullscreen":"View in full screen","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":["Roboto","Roboto+Condensed"],"debug":false},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>The estimate crosses 50% only <strong>17 months</strong> after the switch. Short windows react faster but are noisier — the core trade-off in every returns-based drift measure.</p>
+</section>
+<section id="a-referees-view-of-ccl-2002" class="level2">
+<h2 class="anchored" data-anchor-id="a-referees-view-of-ccl-2002">A referee’s view of CCL (2002)</h2>
+<div class="incremental">
+<ul class="incremental">
+<li><strong>Survivorship.</strong> The sample is funds <em>alive at end-1997</em>. Losers that survived may be precisely those that changed style — drift and survival are jointly selected</li>
+<li><strong>Mean reversion and a mechanical gap.</strong> Estimated extreme ranks revert, and past returns depend on true style, so losers and winners differ in how noisy their ranks are. In a simulation with <em>no</em> drift, value losers still move ~0.016 more than value winners (handout §6.3) — the null is not zero</li>
+<li><strong>No inference on the key contrasts.</strong> Table 8 and the growth–value alpha gap are descriptive sorts</li>
+<li><strong>Drift ≠ decision.</strong> Rank changes mix trading, stock migration, and estimation error; separating them needs holdings and trades</li>
+</ul>
+</div>
+<div class="notes">
+<p>Ask the class which objection is most damaging and what data would address it. Natural follow-ups: CRSP survivor-bias-free data, holdings-based decomposition (Wermers 2012), a placebo using a synthetic constant-style fund to calibrate the noise floor.</p>
+</div>
+</section>
+</section>
+<section id="wrapping-up" class="level1" data-background-color="#3b3b6b">
+<h1 data-background-color="#3b3b6b">Wrapping Up</h1>
+<section id="key-takeaways" class="level2">
+<h2 class="anchored" data-anchor-id="key-takeaways">Key takeaways</h2>
+<div class="incremental">
+<ul class="incremental">
+<li><strong>The sample is the first model.</strong> Each filter removes a documented bias; skipping incubation turns zero skill into apparent skill</li>
+<li><strong>Share classes are not funds.</strong> Aggregate to WFICN before counting, aging, or averaging fees</li>
+<li><strong>Three recipes, three populations.</strong> They agree on the core and disagree at the edges; report robustness to a second recipe</li>
+<li><strong>Styles cluster near the market and persist imperfectly</strong> <span class="citation" data-cites="chan2002">(<a href="#ref-chan2002" role="doc-biblioref">Chan et al. 2002</a>)</span></li>
+<li><strong>Losers drift</strong>, especially value losers moving toward growth</li>
+<li><strong>Holdings beat loadings</strong> for measuring <em>current</em> style; loadings lag by construction</li>
+</ul>
+</div>
+</section>
+<section id="discussion-questions" class="level2">
+<h2 class="anchored" data-anchor-id="discussion-questions">Discussion questions</h2>
+<div class="incremental">
+<ol class="incremental" type="1">
+<li>Survivorship: how would you redo CCL’s Table 8 with the CRSP survivor-bias-free database? What result would change your conclusion?</li>
+<li>Design a test that separates active drift (trading) from passive drift (stock migration) for a value fund that lost money.</li>
+<li>A fund keeps its “growth” label while its returns load like a value fund. Why might the manager leave the label unchanged? How would that bias a study of fund flows?</li>
+</ol>
+</div>
+</section>
+<section id="coming-up" class="level2">
+<h2 class="anchored" data-anchor-id="coming-up">Coming up</h2>
+<p><strong>Next lab:</strong> run the Lecture 3 handout end to end — the filter pipeline, the three recipes, and rolling style weights for real funds (FCNTX, VWNDX).</p>
+<p>. . .</p>
+<p><strong>Next week:</strong> benchmarks and <strong>Active Share</strong> <span class="citation" data-cites="cremers2009 petajisto2013">(<a href="#ref-cremers2009" role="doc-biblioref">Cremers and Petajisto 2009</a>; <a href="#ref-petajisto2013" role="doc-biblioref">Petajisto 2013</a>)</span> — now that we know which funds we study and what style they really follow.</p>
+</section>
+<section id="references" class="level2 smaller scrollable">
+<h2 class="smaller scrollable anchored" data-anchor-id="references">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-back2018" class="csl-entry" role="listitem">
+Back, Kerry, Alan D. Crane, and Kevin Crotty. 2018. <span>“Skewness Consequences of Seeking Alpha.”</span> <em>Review of Financial Studies</em> 31 (12): 4720–61. <a href="https://doi.org/10.1093/rfs/hhy029">https://doi.org/10.1093/rfs/hhy029</a>.
+</div>
+<div id="ref-bendavid2023" class="csl-entry" role="listitem">
+Ben-David, Itzhak, Francesco Franzoni, Byungwook Kim, and Rabih Moussawi. 2023. <span>“Competition for Attention in the <span>ETF</span> Space.”</span> <em>Review of Financial Studies</em> 36 (3): 987–1042.
+</div>
+<div id="ref-brown1996" class="csl-entry" role="listitem">
+Brown, Keith C., W. V. Harlow, and Laura T. Starks. 1996. <span>“Of Tournaments and Temptations: An Analysis of Managerial Incentives in the Mutual Fund Industry.”</span> <em>Journal of Finance</em> 51 (1): 85–110. <a href="https://doi.org/10.1111/j.1540-6261.1996.tb05203.x">https://doi.org/10.1111/j.1540-6261.1996.tb05203.x</a>.
+</div>
+<div id="ref-chan2002" class="csl-entry" role="listitem">
+Chan, Louis K. C., Hsiu-Lang Chen, and Josef Lakonishok. 2002. <span>“On Mutual Fund Investment Styles.”</span> <em>Review of Financial Studies</em> 15 (5): 1407–37.
+</div>
+<div id="ref-chevalier1997" class="csl-entry" role="listitem">
+Chevalier, Judith, and Glenn Ellison. 1997. <span>“Risk Taking by Mutual Funds as a Response to Incentives.”</span> <em>Journal of Political Economy</em> 105 (6): 1167–200. <a href="https://doi.org/10.1086/516389">https://doi.org/10.1086/516389</a>.
+</div>
+<div id="ref-cooper2005" class="csl-entry" role="listitem">
+Cooper, Michael J., Huseyin Gulen, and P. Raghavendra Rau. 2005. <span>“Changing Names with Style: Mutual Fund Name Changes and Their Effects on Fund Flows.”</span> <em>Journal of Finance</em> 60 (6): 2825–58.
+</div>
+<div id="ref-cremers2009" class="csl-entry" role="listitem">
+Cremers, K. J. Martijn, and Antti Petajisto. 2009. <span>“How Active Is Your Fund Manager? A New Measure That Predicts Performance.”</span> <em>Review of Financial Studies</em> 22 (9): 3329–65. <a href="https://doi.org/10.1093/rfs/hhp057">https://doi.org/10.1093/rfs/hhp057</a>.
+</div>
+<div id="ref-daniel1997" class="csl-entry" role="listitem">
+Daniel, Kent, Mark Grinblatt, Sheridan Titman, and Russ Wermers. 1997. <span>“Measuring Mutual Fund Performance with Characteristic-Based Benchmarks.”</span> <em>Journal of Finance</em> 52 (3): 1035–58.
+</div>
+<div id="ref-dannhauser2026" class="csl-entry" role="listitem">
+Dannhauser, Caitlin, and Jeffrey Pontiff. 2026. <span>“Flow.”</span> <em>Review of Financial Studies</em>, ahead of print. <a href="https://doi.org/10.1093/rfs/hhag080">https://doi.org/10.1093/rfs/hhag080</a>.
+</div>
+<div id="ref-doshi2015" class="csl-entry" role="listitem">
+Doshi, Hitesh, Redouane Elkamhi, and Mikhail Simutin. 2015. <span>“Managerial Activeness and Mutual Fund Performance.”</span> <em>Review of Asset Pricing Studies</em> 5 (2): 156–84. <a href="https://doi.org/10.1093/rapstu/rav005">https://doi.org/10.1093/rapstu/rav005</a>.
+</div>
+<div id="ref-elton2001" class="csl-entry" role="listitem">
+Elton, Edwin J., Martin J. Gruber, and Christopher R. Blake. 2001. <span>“A First Look at the Accuracy of the <span>CRSP</span> Mutual Fund Database and a Comparison of the <span>CRSP</span> and Morningstar Mutual Fund Databases.”</span> <em>Journal of Finance</em> 56 (6): 2415–30.
+</div>
+<div id="ref-evans2010" class="csl-entry" role="listitem">
+Evans, Richard B. 2010. <span>“Mutual Fund Incubation.”</span> <em>Journal of Finance</em> 65 (4): 1581–611. <a href="https://doi.org/10.1111/j.1540-6261.2010.01579.x">https://doi.org/10.1111/j.1540-6261.2010.01579.x</a>.
+</div>
+<div id="ref-kacperczyk2008" class="csl-entry" role="listitem">
+Kacperczyk, Marcin, Clemens Sialm, and Lu Zheng. 2008. <span>“Unobserved Actions of Mutual Funds.”</span> <em>Review of Financial Studies</em> 21 (6): 2379–416.
+</div>
+<div id="ref-kim2000" class="csl-entry" role="listitem">
+Kim, Mina, Ravi Shukla, and Michael Tomas. 2000. <span>“Mutual Fund Objective Misclassification.”</span> <em>Journal of Economics and Business</em> 52 (4): 309–23.
+</div>
+<div id="ref-parker2023" class="csl-entry" role="listitem">
+Parker, Jonathan A., Antoinette Schoar, and Yang Sun. 2023. <span>“Retail Financial Innovation and Stock Market Dynamics: The Case of Target Date Funds.”</span> <em>Journal of Finance</em> 78 (5): 2673–723.
+</div>
+<div id="ref-petajisto2013" class="csl-entry" role="listitem">
+Petajisto, Antti. 2013. <span>“Active Share and Mutual Fund Performance.”</span> <em>Financial Analysts Journal</em> 69 (4): 73–93. <a href="https://doi.org/10.2469/faj.v69.n4.7">https://doi.org/10.2469/faj.v69.n4.7</a>.
+</div>
+<div id="ref-sharpe1992" class="csl-entry" role="listitem">
+Sharpe, William F. 1992. <span>“Asset Allocation: Management Style and Performance Measurement.”</span> <em>Journal of Portfolio Management</em> 18 (2): 7–19. <a href="https://doi.org/10.3905/jpm.1992.409394">https://doi.org/10.3905/jpm.1992.409394</a>.
+</div>
+<div id="ref-wermers2012" class="csl-entry" role="listitem">
+Wermers, Russ. 2012. <span>“Matter of Style: The Causes and Consequences of Style Drift in Institutional Portfolios.”</span> Unpublished manuscript.
+</div>
+</div>
+<hr>
+<p><br><br></p>
+<section id="questions" class="level3">
+<h3 class="anchored" data-anchor-id="questions">Questions?</h3>
+<p><br></p>
+<p><strong>Calvin J. Chiou</strong><br>
+jjchiou@nccu.edu.tw<br>
+Office: Commerce Building 261233</p>
+<p><br></p>
+<p><em>See you next Thursday.</em></p>
+
+
+</section>
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p><i class="fa-brands fa-creative-commons" aria-label="creative-commons"></i> 2024–2026 Calvin J. Chiou<br>
+All content licensed under <a href="https://creativecommons.org/licenses/by/4.0/"><i class="fa-brands fa-creative-commons" aria-label="creative-commons"></i> <i class="fa-brands fa-creative-commons-by" aria-label="creative-commons-by"></i>CC BY 4.0</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>This website is made with <i class="fa-brands fa-r-project" aria-label="r-project"></i> and <a href="https://quarto.org/">Quarto</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

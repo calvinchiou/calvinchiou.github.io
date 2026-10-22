@@ -1,0 +1,1852 @@
+---
+title: "Lecture 3: Fund Classification, Style, and Style Drift"
+subtitle: "Institutional Investors"
+author: "Calvin J. Chiou"
+institution: "National Chengchi University"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    highlight-style: github
+    self-contained: true
+execute:
+  warning: false
+  message: false
+  cache: true
+bibliography: references.bib
+---
+
+## Overview
+
+Lecture 1 built the Carhart benchmark and warned that **alpha is only as good as the model**. Lecture 2 asked whether the alpha that survives is skill or luck. Both lectures took one thing for granted: that we already know **which funds are in the sample, what kind of funds they are, and whether each fund stays the same kind of fund over time**. In empirical work on mutual funds, that assumption is where many results are won or lost.
+
+This lecture therefore studies the front end of every fund study, in three steps:
+
+1.  **Clean the sample.** The CRSP Survivor-Bias-Free US Mutual Fund Database is not a random draw of funds. Incubation, tiny funds, share classes, and mislabeled products all push estimates in predictable directions. We follow the sample filters of @dannhauser2026, @doshi2015, and @back2018 and show *why* each filter exists.
+2.  **Classify the funds.** Who is an *active* equity fund, an *index* fund, or an *ETF*? We compare three published recipes — @doshi2015, @back2018, and @dannhauser2026 — on the same data.
+3.  **Study style and style drift.** What is a fund's investment style, where do style labels come from, and what happens when a fund's style moves? The key paper is @chan2002: we report their findings, then rebuild their design on simulated funds to see what it can and cannot detect.
+
+::: callout-note
+## What moved out of this lecture
+
+Benchmark selection and Active Share, which the earlier draft of this lecture covered, move to a later lecture. They need the clean sample and the style infrastructure built here.
+:::
+
+By the end of the lecture, you should be able to:
+
+- explain the unit-of-observation problem in CRSP (share class vs. fund) and aggregate share classes correctly;
+- explain, with a simulation, how incubation bias manufactures "skilled" managers;
+- apply and compare three classification recipes and diagnose their failure modes (name-parsing false positives, sector funds, hedged funds);
+- distinguish *stated* style from *revealed* style, and measure style drift both ways;
+- summarize the evidence in @chan2002 on style consistency and on who changes style, and explain why a rank-based drift measure has a noise floor and a mechanical winner-loser gap;
+- interactively explore the results: every figure in this handout is a `highcharter` chart you can hover, zoom, and toggle.
+
+------------------------------------------------------------------------
+
+## 1. Setup
+
+```{r}
+#| label: setup
+
+library(tidyverse)
+library(highcharter)   # interactive charts (no ggplot2 in this lecture)
+library(gt)
+library(quadprog)      # Sharpe (1992) style analysis
+library(tidyquant)     # Yahoo Finance prices (style-drift section, §6.5)
+library(frenchdata)    # Kenneth French's Data Library
+
+```
+
+### 1.1 Where does the fund data come from?
+
+The CRSP Mutual Fund Database is licensed, so a public handout cannot ship it, and the results of this lecture cannot be shown on real CRSP data. Every chunk below therefore runs on a **simulated CRSP-style panel** with the same column names as the CRSP fund summary file (`crsp_fundno`, `wficn`, `lipper_obj_cd`, `crsp_obj_cd`, `index_fund_flag`, `et_flag`, `tna_latest`, `exp_ratio`, and so on). If you have WRDS access, the same code runs on your own extract once you replace `simulate_crsp()` with a loader that returns these columns.
+
+Simulated data have one advantage that real data never have: we **know the true type of every fund**, so we can score each filter and each classification recipe against the truth.
+
+::: callout-tip
+## Caching
+
+Chunk results are cached (`cache: true`). If you change the simulator or its seed, render once with `quarto render --cache-refresh` so that cached chunks are rebuilt.
+:::
+
+The simulator builds portfolios of twelve true types, spins each into one to four share classes, lets styles drift, blanks out some codes, and plants the data problems we will filter later. It is long, but the point of the lecture is what happens *after* it; skim it.
+
+```{r}
+#| label: simulate
+
+simulate_crsp <- function(n_port = 1500, seed = 2026) {
+  set.seed(seed)
+
+  # --- vendor style codes for broad domestic-equity funds (illustrative) ------
+  broad <- tribble(
+    ~lipper_obj_cd, ~lipper_class, ~si_obj_cd, ~wbrger_obj_cd, ~crsp_obj_cd,
+    "G",  "LCGE", "GRO", "G",   "EDYG",
+    "GI", "LCCE", "GRI", "GCI", "EDYB",
+    "EI", "EIEI", "ING", "IEQ", "EDYI",
+    "MC", "MCGE", "GMC", "MCG", "EDCM",
+    "SG", "SCGE", "SCG", "SCG", "EDCS",
+    "CA", "MLGE", "AGG", "LTG", "EDYG",
+    "MR", "MLCE", "GRO", "IEQ", "EDCM"
+  ) |> mutate(sid = row_number())
+
+  sector <- tribble(
+    ~lipper_obj_cd, ~lipper_class, ~si_obj_cd, ~wbrger_obj_cd, ~crsp_obj_cd, ~sector_name,
+    "TK", "SPTK", "SEC", "S", "EDSF", "Technology",
+    "H",  "SPHE", "SEC", "S", "EDSH", "Health Sciences",
+    "FS", "SPFS", "SEC", "S", "EDSN", "Financial Services",
+    "RE", "SPRE", "SEC", "S", "EDSR", "Real Estate",
+    "UT", "SPUT", "SEC", "S", "EDSU", "Wind Energy"
+  ) |> mutate(sid = row_number()) |> rename_with(~ paste0(.x, "_s"), -sid)
+
+  type_lvls <- c("active_broad", "active_sector", "active_special",
+                 "active_foreign_name", "index", "etf_index", "etf_active",
+                 "etn", "enhanced", "target", "intl", "bond")
+  type_prob <- c(.38, .07, .03, .02, .09, .05, .02, .01, .02, .06, .13, .12)
+
+  families <- c("Alder", "Beacon", "Cedar", "Delta", "Everest",
+                "Falcon", "Granite", "Harbor", "Juniper", "Kestrel")
+
+  style_path <- function(n, k, p_switch = 0.04) {
+    s <- integer(n); s[1] <- sample(k, 1)
+    for (i in seq_len(n)[-1]) s[i] <- if (runif(1) < p_switch) sample(k, 1) else s[i - 1]
+    s
+  }
+
+  # --- portfolios -------------------------------------------------------------
+  port <- tibble(
+    wficn     = 1:n_port,
+    true_type = sample(type_lvls, n_port, TRUE, type_prob),
+    family    = sample(families, n_port, TRUE)
+  ) |>
+    mutate(
+      first_year = map_int(true_type, \(t) {
+        lo <- switch(t, etf_index = , etf_active = , etn = 2000L, index = 1990L, 1985L)
+        sample(lo:2022L, 1, prob = (lo:2022L) - lo + 5)   # launches grow over time
+      }),
+      last_year    = pmin(2023L, first_year + 2L + rgeom(n(), 0.07)),
+      no_codes     = runif(n()) < 0.03,                   # some funds never carry a style code
+      special_kind = sample(1:3, n(), TRUE),
+      tdf_eq_code  = runif(n()) < 0.40,
+      idx_flagged  = runif(n()) < 0.70,
+      base_tna     = exp(rnorm(n(), 4.5, 1.8)),            # $ millions
+      offer_month  = sample(1:12, n(), TRUE),
+      first_offer  = as.Date(sprintf("%d-%02d-15", first_year, offer_month)),
+      name_pick    = sample(1:11, n(), TRUE),
+      trap_pick    = runif(n())
+    ) |>
+    filter(last_year >= 2000L)
+
+  # --- fund names (with a few planted traps) ------------------------------------
+  act_words <- c("Growth", "Value Opportunities", "Capital Appreciation", "Mid Cap",
+                 "Small Cap", "Equity Income", "Blue Chip", "Dividend Growth",
+                 "Select", "Contrarian", "Core")
+  port <- port |>
+    mutate(
+      base_name = case_when(
+        true_type == "active_broad" ~ paste(family, act_words[name_pick], "Fund"),
+        true_type == "active_special" ~ paste(family, c("Market Neutral", "Short Alpha", "Covered Call")[special_kind], "Fund"),
+        true_type == "active_foreign_name" ~ paste(family, c("China", "India", "Japan", "Asia", "Europe")[name_pick %% 5 + 1], "Opportunities Fund"),
+        true_type == "index" ~ paste(family, c("500 Index", "Total Market Index", "Small Cap Index", "Value Index", "Growth Index", "Extended Market Index", "Russell 1000 Index", "Mid Cap Index", "Large Cap Idx", "Equity Index", "Total Stock Indx")[name_pick], "Fund"),
+        true_type == "etf_index" ~ paste(family, c("Core S&P 500 ETF", "Total Market ETF", "Small Cap ETF", "Large Cap ETF", "Dividend ETF")[name_pick %% 5 + 1]),
+        true_type == "etf_active" ~ paste(family, c("Active Growth ETF", "Active Value ETF", "Dynamic Equity ETF")[name_pick %% 3 + 1]),
+        true_type == "etn" ~ paste(family, "Leveraged Energy ETN"),
+        true_type == "enhanced" ~ paste(family, c("Ultra Equity", "2x Large Cap", "Enhanced Equity", "Equity Plus")[name_pick %% 4 + 1], "Fund"),
+        true_type == "target" ~ paste(family, "Retirement", seq(2010, 2060, 5)[name_pick], "Fund"),
+        true_type == "intl" ~ paste(family, c("International", "Global", "Emerging Markets", "World")[name_pick %% 4 + 1], "Fund"),
+        true_type == "bond" ~ paste(family, c("Core Bond", "High Yield", "Municipal Bond")[name_pick %% 3 + 1], "Fund"),
+        TRUE ~ paste(family, "Fund")
+      ),
+      # traps: names that fool naive substring rules
+      base_name = if_else(true_type == "active_broad" & trap_pick < 0.04, paste(family, "Growth Fund RSP"), base_name),
+      base_name = if_else(true_type == "active_broad" & trap_pick > 0.97, paste(family, "Select 100 Opportunities Fund"), base_name)
+    )
+
+  # --- share classes ----------------------------------------------------------------
+  cls <- port |>
+    mutate(n_cls = sample(1:4, n(), TRUE, c(.35, .30, .20, .15))) |>
+    uncount(n_cls, .id = "k") |>
+    mutate(crsp_fundno = 10000L + row_number(),
+           crsp_cl_grp = 500000L + wficn,
+           crsp_portno = if_else(runif(n()) < .8, 8000L + wficn, NA_integer_),
+           w_cls       = c(.50, .30, .15, .05)[k]) |>
+    mutate(class_share = w_cls / sum(w_cls), .by = wficn) |>
+    select(wficn, k, crsp_fundno, crsp_cl_grp, crsp_portno, class_share)
+
+  # --- portfolio-year panel with style paths ------------------------------------------
+  pp <- port |>
+    mutate(year = map2(pmax(first_year, 2000L), last_year, \(a, b) a:b)) |>
+    unnest(year) |>
+    mutate(style_id = style_path(n(), 7L,
+                                 if (first(true_type) %in% c("active_broad", "active_special", "active_foreign_name")) 0.04 else 0),
+           .by = wficn) |>
+    mutate(sid = style_id, sid_s = ((style_id - 1L) %% 5L) + 1L) |>
+    left_join(broad,  by = "sid") |>
+    left_join(sector, by = c("sid_s" = "sid"))
+
+  pp <- pp |>
+    mutate(
+      equity_coded = true_type %in% c("active_broad", "active_special", "active_foreign_name",
+                                      "index", "etf_index", "etf_active", "etn", "enhanced") |
+                     (true_type == "target" & tdf_eq_code),
+      lipper_obj_cd = case_when(true_type == "active_sector" ~ lipper_obj_cd_s,
+                                equity_coded ~ lipper_obj_cd,
+                                true_type == "intl" ~ "IL", true_type == "bond" ~ "A",
+                                TRUE ~ "MTD"),
+      lipper_class  = case_when(true_type == "active_sector" ~ lipper_class_s,
+                                equity_coded ~ lipper_class, TRUE ~ "OTHR"),
+      si_obj_cd     = case_when(true_type == "active_sector" ~ si_obj_cd_s,
+                                true_type == "active_special" & special_kind == 3L ~ "OPI",
+                                equity_coded ~ si_obj_cd, TRUE ~ "OTH"),
+      wbrger_obj_cd = case_when(true_type == "active_sector" ~ wbrger_obj_cd_s,
+                                equity_coded ~ wbrger_obj_cd, TRUE ~ "OTH"),
+      crsp_obj_cd   = case_when(true_type == "active_sector" ~ crsp_obj_cd_s,
+                                true_type == "active_special" ~ c("EDYH", "EDYS", "EDYI")[special_kind],
+                                equity_coded ~ crsp_obj_cd,
+                                true_type == "intl" ~ "EICE", true_type == "bond" ~ "ICQY",
+                                TRUE ~ "MTAL"),
+      base_name = if_else(true_type == "active_sector",
+                          paste(family, sector_name_s, "Fund"), base_name),
+      age_y     = year - first_year,
+      index_fund_flag = case_when(
+        year < 2008 ~ NA_character_,
+        true_type == "index" & idx_flagged ~ sample(c("D", "B"), n(), TRUE),
+        true_type == "etf_index" ~ "D",
+        true_type == "enhanced" ~ "E",
+        TRUE ~ NA_character_),
+      et_flag = case_when(true_type %in% c("etf_index", "etf_active") ~ "F",
+                          true_type == "etn" ~ "N", TRUE ~ NA_character_),
+      tna_port  = base_tna * exp(0.08 * pmin(pmax(age_y, 0), 20) + rnorm(n(), 0, .25))
+    )
+
+  blank <- function(x, p) if_else(runif(length(x)) < p, "", x)
+
+  pp |>
+    inner_join(cls, by = "wficn", relationship = "many-to-many") |>
+    mutate(
+      class_suffix = c("A", "C", "I", "Admiral")[k],
+      fund_name    = paste0(base_name, ";", class_suffix),
+      caldt        = as.Date(sprintf("%d-12-31", year)),
+      first_offer_dt = first_offer + (k - 1L) * 180L,
+      tna_latest   = if_else(runif(n()) < 0.02, NA_real_, tna_port * class_share),
+      er_mean      = case_when(str_detect(true_type, "^active") ~ .0115,
+                               true_type == "index" ~ .0020,
+                               str_detect(true_type, "^etf") ~ .0040, TRUE ~ .0100),
+      exp_ratio    = pmax(.0005, rnorm(n(), er_mean, er_mean / 3) + c(0, .0075, 0, -.003)[k]),
+      exp_ratio    = case_when(runif(n()) < .02  ~ -99,
+                               runif(n()) < .005 ~ .15,
+                               runif(n()) < .01  ~ NA_real_, TRUE ~ exp_ratio),
+      across(c(lipper_obj_cd, crsp_obj_cd), \(x) blank(x, .06)),
+      across(c(lipper_class, si_obj_cd, wbrger_obj_cd), \(x) blank(x, .25)),
+      across(c(lipper_obj_cd, lipper_class, si_obj_cd, wbrger_obj_cd, crsp_obj_cd),
+             \(x) if_else(no_codes, "", x))
+    ) |>
+    select(crsp_fundno, crsp_cl_grp, crsp_portno, wficn, fund_name, year, caldt,
+           first_offer_dt, tna_latest, exp_ratio, lipper_class, lipper_obj_cd,
+           si_obj_cd, wbrger_obj_cd, crsp_obj_cd, index_fund_flag, et_flag, true_type)
+}
+```
+
+```{r}
+#| label: load-data
+
+fund_raw <- simulate_crsp(n_port = 1500, seed = 2026)
+
+fund_raw <- fund_raw |> filter(!is.na(tna_latest))   # require non-missing TNA
+
+cat("Data source: simulated CRSP-style panel", "\n",
+    "Share-class-years:", format(nrow(fund_raw), big.mark = ","), "\n",
+    "Share classes:    ", format(n_distinct(fund_raw$crsp_fundno), big.mark = ","), "\n",
+    "Funds (WFICN):    ", format(n_distinct(fund_raw$wficn), big.mark = ","), "\n")
+```
+
+------------------------------------------------------------------------
+
+## 2. The Unit of Observation: Share Class vs. Fund
+
+A "fund" in CRSP is not one row. Most funds sell several **share classes** (A, C, institutional, ...) that hold the same portfolio and differ only in fees and target clients. CRSP gives each share class its own identifier, and a handful of other identifiers sit above it.
+
+| Identifier | Level | Use |
+|------------------------|------------------------|------------------------|
+| `crsp_fundno` | Share class | Fees, loads, 12b-1 fees, and TNA differ by share class |
+| `crsp_cl_grp` | Class group | CRSP's grouping of share classes of the same fund |
+| `crsp_portno` | Portfolio | Links to holdings; not populated for every share class |
+| `wficn` | Fund | MFLINKS identifier that links CRSP to Thomson Reuters holdings |
+
+: CRSP fund identifiers
+
+If we treat each share class as a fund, a fund with four share classes counts four times in every cross-section, and its alpha is counted four times in a skill test. The standard fix, used by @doshi2015, @back2018, and @dannhauser2026, is to **aggregate share classes to the portfolio level**: TNA is summed, fund age is the age of the *oldest* share class, and all other characteristics (expense ratio, turnover) are **TNA-weighted** averages.
+
+```{r}
+#| label: toy-aggregation
+
+toy <- tribble(
+  ~class, ~first_offer_dt,  ~tna,  ~exp_ratio,
+  "A",    "2004-03-15",     600,   0.0115,
+  "C",    "2006-09-15",     150,   0.0190,
+  "I",    "2009-01-15",     250,   0.0085
+) |> mutate(first_offer_dt = as.Date(first_offer_dt))
+
+toy_fund <- toy |>
+  summarise(
+    total_tna        = sum(tna),
+    fund_first_offer = min(first_offer_dt),                 # oldest share class
+    er_tna_weighted  = weighted.mean(exp_ratio, tna),
+    er_simple_mean   = mean(exp_ratio)
+  )
+
+toy_fund |>
+  gt() |>
+  fmt_number(columns = total_tna, decimals = 0) |>
+  fmt_number(columns = c(er_tna_weighted, er_simple_mean), decimals = 4) |>
+  cols_label(total_tna = "Fund TNA ($M)", fund_first_offer = "Fund first offer date",
+             er_tna_weighted = "Expense ratio (TNA-weighted)",
+             er_simple_mean = "Expense ratio (simple mean)") |>
+  tab_header(title = "Aggregating Three Share Classes into One Fund",
+             subtitle = "The simple mean overstates the fee that the average dollar pays")
+```
+
+The simple mean over-weights the expensive, small share class. The TNA-weighted average is what the *average dollar invested in the fund actually pays*.
+
+------------------------------------------------------------------------
+
+## 3. Why Filter? Cleaning the CRSP Sample
+
+A raw CRSP extract is *not* a sample of "equity mutual funds". It also contains bond funds, international funds, target-date funds, tiny funds, funds in their private incubation period, and funds with missing or nonsensical fields. Each of the papers below applies a short list of filters before computing anything. The filters look like housekeeping, but each one removes a specific, documented bias.
+
+### 3.1 The Filters and Why They Exist
+
+| Filter | Rule (paper) | Why |
+|------------------------|------------------------|------------------------|
+| **Incubation / backfill** | Drop the first 18 months of returns [@doshi2015]; only use returns after the first offer date and when the fund name is non-missing [@back2018]; drop the first 3 years of a fund's life [@dannhauser2026] | Funds incubated privately are opened to the public only after good results [@evans2010] |
+| **Small funds** | Drop fund-periods with TNA below \$15 million [@doshi2015; @back2018; @dannhauser2026] | Returns of very small funds are noisy and, as @elton2001 show, biased upward in CRSP |
+| **Equity share** | Drop funds that on average hold less than 80% of assets in equity [@doshi2015, following @kacperczyk2008] | Objective codes do not always describe what the fund really holds |
+| **Too few holdings** | Drop observations with ten or fewer stock holdings [@doshi2015; @back2018] | Holdings-based measures become meaningless |
+| **Missing name** | Drop funds with missing names [@doshi2015] | Names are needed for classification; missing names also flag backfilled periods [@back2018] |
+| **Missing fields** | Drop observations with missing returns or expense ratio [@dannhauser2026]; require at least 60 days of returns and at least 90% non-missing daily returns [@back2018] | Reporting irregularities (for example weekly-reporting funds) |
+| **Not domestic equity** | Keep CRSP objective codes starting with `ED` or the listed Lipper codes; drop China, Brazil, India, Europe, Asia, or Japan in the name [@dannhauser2026] | Different asset class or mandate |
+| **Special products** | Drop target-date funds [@parker2023], ETNs, leveraged and inverse funds, funds of funds, and active ETFs [@dannhauser2026] | Different mandate; not comparable with plain-vanilla funds |
+| **Consistency** | Require a fund to meet its type definition in at least 50% of its observations [@dannhauser2026] | Avoids funds flagged as index for just 2% of their history |
+
+: Sample filters used in the three papers
+
+Three of these filters need data beyond the fund summary table: the 80% equity-share rule and the ten-holdings rule need holdings data (Thomson Reuters S12 or N-PORT), and the daily-return rules need the daily returns file. The pipeline in §3.3 implements the filters that can be applied to the summary table.
+
+### 3.2 Incubation Bias: A Simulation
+
+@evans2010 documents the mechanism. A fund family starts several funds **privately**, often funded by the family itself, and tracks their results. After an evaluation period it opens only *some* of them to the public. The funds that are opened are, by construction, the ones that did well. Evans finds that incubated funds outperform non-incubated funds by roughly 3.5% on a risk-adjusted basis, that the outperformance disappears after the fund goes public, and that this inflates reported returns. A fund-size filter does not remove the bias, but fund-age and ticker-creation-date filters do.
+
+We simulate the mechanism with **zero skill**: every fund's true alpha is exactly zero.
+
+```{r}
+#| label: incubation-sim
+
+set.seed(2026)
+n_fam <- 200; k <- 8                # 200 families, each incubates 8 private funds
+T_inc <- 36; T_pub <- 60            # 36 private months, then 60 public months
+sd_m  <- 0.018                      # monthly idiosyncratic volatility
+release_share <- 0.25               # the best quarter of incubated funds are opened
+
+# Incubated funds: monthly abnormal returns, true alpha = 0
+inc <- expand_grid(family = 1:n_fam, fund = 1:k, age = 1:(T_inc + T_pub)) |>
+  mutate(fid = paste(family, fund, sep = "-"),
+         ar  = rnorm(n(), 0, sd_m))
+
+# The family opens the funds with the best incubation record
+released <- inc |>
+  filter(age <= T_inc) |>
+  summarise(cum_inc = sum(ar), .by = c(family, fund, fid)) |>
+  mutate(rk = rank(-cum_inc), .by = family) |>
+  filter(rk <= ceiling(release_share * k)) |>
+  pull(fid)
+
+inc_rel <- inc |> filter(fid %in% released) |> mutate(group = "Incubated, then opened")
+
+# Comparison funds: never incubated, listed from their first month
+n_ctrl <- 3 * length(released)
+ctrl <- expand_grid(fund = 1:n_ctrl, age = 1:(T_inc + T_pub)) |>
+  mutate(fid = paste0("c", fund), ar = rnorm(n(), 0, sd_m), group = "Not incubated")
+
+sim_funds <- bind_rows(inc_rel, ctrl) |> select(group, fid, age, ar)
+
+cat("Incubated funds opened:", length(released), "of", n_fam * k, "\n",
+    "Never-incubated funds: ", n_ctrl, "\n")
+```
+
+```{r}
+#| label: fig-incubation
+#| fig-cap: "Average cumulative abnormal return by fund age: incubated funds look skilled only while they are private"
+
+cum_path <- sim_funds |>
+  arrange(group, fid, age) |>
+  mutate(cum_ar = cumsum(ar), .by = c(group, fid)) |>
+  summarise(mean_cum = mean(cum_ar) * 100, .by = c(group, age))
+
+hchart(cum_path, "line", hcaes(x = age, y = mean_cum, group = group)) |>
+  hc_chart(zoomType = "x", height = 420) |>
+  hc_title(text = "True alpha is zero for every fund") |>
+  hc_xAxis(title = list(text = "Fund age (months)"),
+           plotLines = list(list(value = T_inc, color = "#444444", width = 1,
+                                 dashStyle = "Dash", zIndex = 3,
+                                 label = list(text = "Fund opens to the public",
+                                              rotation = 0, y = 12, x = 6)))) |>
+  hc_yAxis(title = list(text = "Mean cumulative abnormal return (%)"),
+           labels = list(format = "{value}%")) |>
+  hc_tooltip(shared = TRUE, valueDecimals = 2, valueSuffix = "%") |>
+  hc_plotOptions(series = list(lineWidth = 2, marker = list(enabled = FALSE)))
+```
+
+The released funds climb steadily while private, because the family selected them on that very record. Once the fund is open, the line goes flat: the selection effect is gone, and the true alpha of zero is visible. The never-incubated funds are flat throughout.
+
+Why this matters: if the database backfills the private record into the fund's history and we use it, a pooled estimate is biased upward and "skilled" managers appear. We can measure both effects in the simulation.
+
+```{r}
+#| label: tbl-incubation
+#| tbl-cap: "Incubation bias: pooled alpha and false 'skilled' funds, before and after the age filter"
+
+eval_sample <- function(d, label) {
+  fund_stats <- d |>
+    summarise(m = mean(ar), s = sd(ar), n = n(), .by = c(group, fid)) |>
+    mutate(t = m / (s / sqrt(n)))
+  inc_only <- d$group == "Incubated, then opened"
+  tibble(sample = label,
+         `Pooled alpha (% per year)`          = mean(d$ar) * 1200,
+         `Incubated funds only (% per year)`  = mean(d$ar[inc_only]) * 1200,
+         `Funds with t > 1.96 (%)`            = mean(fund_stats$t > 1.96) * 100,
+         `... incubated funds only (%)`       = mean(fund_stats$t[fund_stats$group == "Incubated, then opened"] > 1.96) * 100)
+}
+
+bind_rows(
+  eval_sample(sim_funds, "No filter (backfilled history included)"),
+  eval_sample(filter(sim_funds, age > T_inc), "Drop first 36 months of every fund")
+) |>
+  gt() |>
+  fmt_number(columns = 2:5, decimals = 2) |>
+  tab_header(title = "Same Funds, Same Returns, Different Conclusions",
+             subtitle = "True alpha = 0 for every fund; a one-sided 5% test should flag about 2.5% by luck") |>
+  tab_source_note("Illustrative simulation; parameters are chosen for visibility, not calibrated to CRSP.")
+```
+
+Without the filter, the incubated funds show a sizeable positive alpha and several times the luck rate of statistically "skilled" funds, even though every fund has zero true alpha. The pooled alpha is smaller because only a quarter of the simulated funds were incubated, but it is still visibly positive. With the age filter, both alphas fall to roughly zero and the share of "skilled" funds returns to the luck rate. (The remaining differences from exactly zero are sampling noise.) This connects directly to Lecture 2: incubation bias is a *selection* problem, so it feeds the false discoveries that the luck-versus-skill tests are designed to count.
+
+::: callout-important
+**Three papers, three versions of the same fix.** @doshi2015 drop 18 months, @back2018 use the first offer date and the name-availability date, and @dannhauser2026 drop three years (which also removes the burst of newly launched ETFs that cater to investor sentiment, see @bendavid2023). The longer the window, the safer the filter, and the more young funds you lose. This is a design choice that you should report and test for robustness.
+:::
+
+### 3.3 The Filter Pipeline, Step by Step
+
+We now apply the filters that can be applied to the fund summary table and **record how many funds survive each step**. First, the helpers and the classification flags used in the pipeline (they are explained in §4).
+
+```{r}
+#| label: helpers
+
+blank_to_na <- function(x) if_else(x == "", NA_character_, x)
+mode_chr    <- function(x) {                        # most frequent non-missing value
+  x <- x[!is.na(x)]
+  if (length(x) == 0) return(NA_character_)
+  names(sort(table(x), decreasing = TRUE))[1]
+}
+
+# ---- Dannhauser & Pontiff (2026) parameters ---------------------------------
+dp_lipper  <- c("CA", "EI", "G", "GI", "MC", "MR", "SG", "SP", "BM", "CG", "CS",
+                "FS", "H", "ID", "N", "RE", "TK", "TL", "S", "UT")
+dp_foreign <- "china|brazil|india|europe|asia|japan"
+dp_index_names <- paste0("index|idx|indx|ind |composite|russell|s&p|s and p|s & p|",
+                         "msci|bloomberg|kbw|nasdaq|nyse|stoxx|ftse|wilshire|",
+                         "morningstar|100|400|500|600|900|1000|1500|2000|3000|5000")
+dp_etf_names   <- "etf|ishares|spdr|holdrs|streettracks|exchange traded|exchange-traded"
+dp_enh_names   <- "plus|enhanced|inverse|bull|bear|2x|3x|ultra|1\\.5x|2\\.5x"
+
+# ---- Target-date funds (Parker, Schoar, and Sun 2023): name contains a vintage
+identify_tdf <- function(x, year) {
+  # a year, but not when it follows "Russell" or "Russ" (the Russell 2000 index)
+  td <- if_else(str_detect(x, sprintf("(?<!Russell ?|Russ ?)%i", year)), 1, 0)
+  td <- if_else(str_detect(x, sprintf("%i\\+|V%i|AXA Tactical|AXA %i|%i ETF|Focused %i Value",
+                                      year, year, year, year, year)), 1, td)
+  td
+}
+
+flag_types <- function(d) {
+  d |>
+    mutate(
+      name_lc = str_to_lower(coalesce(fund_name, "")),
+
+      # Step 1 of DP (2026): domestic-equity universe
+      domestic_equity =
+        (coalesce(str_starts(crsp_obj_cd, "ED"), FALSE) | lipper_obj_cd %in% dp_lipper) &
+        !str_detect(name_lc, dp_foreign),
+
+      # Passive funds: CRSP index flag D or B, or a name match
+      index_fund = coalesce(index_fund_flag %in% c("D", "B"), FALSE) |
+                   str_detect(coalesce(fund_name, ""), "SP|DOW|Dow|DJ") |
+                   str_detect(name_lc, dp_index_names),
+
+      # Exchange-traded products
+      ETF = coalesce(et_flag == "F", FALSE) | str_detect(name_lc, dp_etf_names),
+      ETN = coalesce(et_flag == "N", FALSE) | str_detect(coalesce(fund_name, ""), "ETN") |
+            str_detect(name_lc, "exchange traded note|exchange-traded note"),
+
+      # Leveraged / inverse / enhanced
+      enhanced = coalesce(index_fund_flag == "E", FALSE) | str_detect(name_lc, dp_enh_names),
+
+      # Target-date funds
+      target = reduce(map(seq(2000, 2065, by = 5), \(y) identify_tdf(coalesce(fund_name, ""), y)),
+                      `|`) == 1
+    )
+}
+```
+
+```{r}
+#| label: pipeline
+
+steps <- list()
+log_step <- function(label, d, unit) {
+  steps[[length(steps) + 1]] <<- tibble(step = label, unit = unit,
+                                        n_obs = nrow(d), n_funds = n_distinct(d$wficn))
+}
+
+style_cols <- c("lipper_class", "lipper_obj_cd", "si_obj_cd", "wbrger_obj_cd", "crsp_obj_cd")
+
+# 0. Raw
+d <- fund_raw
+log_step("0. Raw file (2000+, year-end, TNA non-missing)", d, "share-class-years")
+
+# 1. Style codes: drop funds that never have a Lipper or CRSP objective code
+d <- d |>
+  mutate(across(all_of(style_cols), blank_to_na)) |>
+  mutate(no_style = all(is.na(lipper_obj_cd) & is.na(crsp_obj_cd)), .by = crsp_fundno) |>
+  filter(!no_style) |>
+  select(-no_style)
+log_step("1. Drop funds with no style code in any year", d, "share-class-years")
+
+# 2. Fill missing style codes: carry the last known code forward, then back-fill the start
+d <- d |>
+  arrange(crsp_fundno, year) |>
+  group_by(crsp_fundno) |>
+  fill(all_of(style_cols), .direction = "downup") |>
+  ungroup()
+
+# 3. Flag types, then remove ETNs, leveraged/inverse funds, and target-date funds
+d <- flag_types(d)
+d <- d |> filter(!(ETN | enhanced | target))
+log_step("2. Drop ETNs, leveraged/inverse, target-date funds", d, "share-class-years")
+
+# 4. Domestic equity for at least 50% of a fund's observations, then keep those years
+d <- d |>
+  mutate(share_dom = mean(domestic_equity), .by = crsp_fundno) |>
+  filter(share_dom >= 0.5, domestic_equity)
+log_step("3. Domestic equity (CRSP/Lipper codes; no foreign names; >= 50% of years)", d, "share-class-years")
+
+# 5. Drop active ETFs (ETF flag but not passive); label the three vehicle types
+d <- d |>
+  filter(!(ETF & !index_fund)) |>
+  mutate(fund_type = case_when(ETF ~ "ETF", index_fund ~ "Index", TRUE ~ "Active"))
+log_step("4. Drop active ETFs; label Active / Index / ETF", d, "share-class-years")
+
+# 6. Aggregate share classes to the fund (WFICN) level
+d <- d |>
+  mutate(exp_ratio_clean = if_else(exp_ratio == -99 | exp_ratio > 0.1, NA_real_, exp_ratio)) |>
+  mutate(fund_first_offer = min(first_offer_dt, na.rm = TRUE), .by = wficn)   # oldest share class
+
+fund_year <- d |>
+  summarise(
+    fund_type      = mode_chr(fund_type),
+    lipper_obj_cd  = mode_chr(lipper_obj_cd),
+    true_type      = mode_chr(true_type),
+    total_tna      = sum(tna_latest, na.rm = TRUE),
+    exp_ratio      = weighted.mean(exp_ratio_clean, tna_latest, na.rm = TRUE),
+    first_offer_dt = first(fund_first_offer),
+    caldt          = max(caldt),
+    n_classes      = n(),
+    .by = c(wficn, year)
+  ) |>
+  mutate(fund_age = time_length(caldt - first_offer_dt, unit = "year"))
+log_step("5. Aggregate share classes to funds (WFICN-years)", fund_year, "fund-years")
+
+# 7. Incubation: drop the first three years of a fund's life (DP 2026)
+fund_year <- fund_year |> filter(fund_age >= 3)
+log_step("6. Drop first 3 years of life (incubation bias)", fund_year, "fund-years")
+
+# 8. Size: drop fund-years with TNA below $15 million
+fund_year <- fund_year |> filter(total_tna >= 15)
+log_step("7. Drop TNA below $15 million", fund_year, "fund-years")
+
+# 9. Missing or invalid expense ratio (DP 2026)
+fund_year <- fund_year |> filter(!is.na(exp_ratio), is.finite(exp_ratio))
+log_step("8. Drop missing / invalid expense ratio", fund_year, "fund-years")
+
+attrition <- bind_rows(steps)
+```
+
+```{r}
+#| label: tbl-attrition
+#| tbl-cap: "Sample attrition after each filter (this run)"
+
+attrition |>
+  mutate(pct_funds = n_funds / first(n_funds)) |>
+  gt() |>
+  fmt_number(columns = c(n_obs, n_funds), decimals = 0) |>
+  fmt_percent(columns = pct_funds, decimals = 0) |>
+  cols_label(step = "Step", unit = "Unit", n_obs = "Observations",
+             n_funds = "Funds (WFICN)", pct_funds = "% of raw funds") |>
+  tab_header(title = "How Many Funds Survive Each Filter?",
+             subtitle = "Simulated CRSP-style panel")
+```
+
+```{r}
+#| label: fig-attrition
+#| fig-cap: "Number of distinct funds remaining after each filter"
+
+hchart(attrition, "column", hcaes(x = step, y = n_funds)) |>
+  hc_chart(height = 420) |>
+  hc_title(text = "Funds remaining after each filter") |>
+  hc_xAxis(title = list(text = NULL),
+           labels = list(style = list(fontSize = "9px"), rotation = -35)) |>
+  hc_yAxis(title = list(text = "Distinct funds (WFICN)")) |>
+  hc_legend(enabled = FALSE) |>
+  hc_plotOptions(column = list(dataLabels = list(enabled = TRUE, format = "{y:,.0f}"))) |>
+  hc_tooltip(pointFormat = "<b>{point.y:,.0f}</b> funds")
+```
+
+------------------------------------------------------------------------
+
+## 4. Classifying Funds: Active, Index, or ETF?
+
+### 4.1 Why Classification Is Not a Detail
+
+The industry the literature studied in the 1990s is not the industry today. @dannhauser2026 report that active funds held more than 82% of domestic-equity fund assets at the start of their 2005--2022 sample and 43% at the end, while index mutual funds rose from 11% to 24% and ETFs from 7% to 33%. Studying "equity funds" now means studying three vehicles at once, and any test that pools them without labels mixes mandates. Their central finding about flows (performance chasing is pervasive in *all three* vehicles, with ETFs the most sensitive) can only be seen because the three vehicles are separated first.
+
+The label also matters for skill evaluation. A closet indexer or an index fund has near-zero alpha by construction, so pooling it into a luck-versus-skill test (Lecture 2) dilutes the tails.
+
+### 4.2 Three Recipes
+
+All three papers start from the same raw data (CRSP objective codes and fund names) but define "an active domestic equity fund" differently.
+
+|   | @doshi2015 | @back2018 | @dannhauser2026 |
+|------------------|------------------|------------------|------------------|
+| **Core rule** | A fund counts if *any* of four vendor codes (Lipper class, Lipper objective, Strategic Insight, Wiesenberger) is on a list of diversified-equity styles | CRSP objective code has `E` in the first position, `D` in the second, and `C` or `Y` in the third | CRSP objective code starts with `ED` **or** Lipper objective code is on a list that includes sector styles |
+| **Exclusions** | International, balanced, sector, bond, money market, and index funds (by style and name) | Hedged or short funds (`YH` / `YS`), option-income funds (`si_obj_cd = OPI`), index and target-date funds | Names containing China, Brazil, India, Europe, Asia, Japan; ETNs, leveraged/inverse funds, funds of funds, active ETFs, target-date funds |
+| **Passive funds** | Dropped | Dropped | **Kept and labeled** (CRSP index flag D/B, or index-related name strings) |
+| **ETFs** | Not in sample | Not in sample | **Kept and labeled** (CRSP ETF identifier or name) |
+| **Consistency** |  |  | Must satisfy the definition in at least 50% of observations |
+| **Goal** | Sample of *diversified, actively managed* funds for an activeness study | Sample of *active* funds for a coskewness study | A comprehensive, *comparable* sample of all domestic-equity vehicles |
+
+: Three classification recipes
+
+@doshi2015 note in a footnote that a sample defined with the CRSP objective code is nearly identical to the one obtained with the Lipper, Strategic Insight, and Wiesenberger codes, so the first two recipes should agree closely. @dannhauser2026 differ because their goal is not a clean active sample. They want *all* domestic-equity vehicles (broad-based and sector), then separate passive from active.
+
+### 4.3 Implementation and Comparison
+
+We implement the three rules as functions that return a TRUE/FALSE flag per share-class-year, and apply them to the same data (after style-code filling, so they see the same codes).
+
+```{r}
+#| label: classification-methods
+
+# Method 1: Doshi, Elkamhi, and Simutin (2015) -- union of vendor style codes
+doshi_flag <- function(d) {
+  vendor <- (d$lipper_class %in% c("EIEI", "G", "LCCE", "LCGE", "LCVE", "MCCE", "MCGE",
+                                   "MCVE", "MLCE", "MLGE", "MLVE", "SCCE", "SCGE", "SCVE")) |
+            (d$lipper_obj_cd %in% c("CA", "EI", "G", "GI", "MC", "MR", "SG")) |
+            (d$si_obj_cd     %in% c("AGG", "GMC", "GRI", "GRO", "ING", "SCG")) |
+            (d$wbrger_obj_cd %in% c("G", "GCI", "IEQ", "LTG", "MCG", "SCG"))
+  vendor & !(d$index_fund_flag %in% c("B", "D", "E")) &
+    !str_detect(str_to_lower(coalesce(d$fund_name, "")), "index|international|global|bond|balanced")
+}
+
+# Method 2: Back, Crane, and Crotty (2018) -- CRSP objective code ED(C|Y), no hedged/short/option income
+back_flag <- function(d) {
+  is_tdf <- reduce(map(seq(2000, 2065, by = 5),
+                       \(y) identify_tdf(coalesce(d$fund_name, ""), y)), `|`) == 1
+  coalesce(str_detect(d$crsp_obj_cd, "^ED[CY]"), FALSE) &
+    !coalesce(str_detect(d$crsp_obj_cd, "^ED(YH|YS)"), FALSE) &
+    (is.na(d$si_obj_cd) | d$si_obj_cd != "OPI") &
+    !(d$index_fund_flag %in% c("B", "D", "E")) &      # index funds out (by CRSP flag)
+    !is_tdf                                           # target-date funds out
+}
+
+# Method 3: Dannhauser and Pontiff (2026) -- domestic-equity universe, then passive vs. active
+dp_flag <- function(d) {
+  dd <- flag_types(d)
+  dd$domestic_equity & !dd$index_fund & !dd$ETF & !dd$ETN & !dd$enhanced & !dd$target
+}
+
+cmp_raw <- fund_raw |>
+  mutate(across(all_of(style_cols), blank_to_na)) |>
+  arrange(crsp_fundno, year) |>
+  group_by(crsp_fundno) |>
+  fill(all_of(style_cols), .direction = "downup") |>
+  ungroup()
+
+cmp <- cmp_raw |>
+  mutate(m_doshi = doshi_flag(cmp_raw),
+         m_back  = back_flag(cmp_raw),
+         m_dp    = dp_flag(cmp_raw))
+
+by_fund <- cmp |>
+  summarise(across(c(m_doshi, m_back, m_dp), any), true_type = mode_chr(true_type),
+            .by = wficn)
+```
+
+```{r}
+#| label: tbl-method-counts
+#| tbl-cap: "Funds flagged as active domestic equity by each recipe"
+
+by_fund |>
+  summarise(`Doshi et al. (2015)` = sum(m_doshi),
+            `Back et al. (2018)`  = sum(m_back),
+            `Dannhauser & Pontiff (2026)` = sum(m_dp),
+            `All funds in file` = n()) |>
+  pivot_longer(everything(), names_to = "Recipe", values_to = "Funds (WFICN)") |>
+  gt() |>
+  fmt_number(columns = 2, decimals = 0) |>
+  tab_header(title = "How Many 'Active Domestic Equity Funds' Do We Get?",
+             subtitle = "Same data, three recipes") |>
+  tab_source_note("Funds flagged in at least one year.")
+```
+
+```{r}
+#| label: tbl-method-overlap
+#| tbl-cap: "Overlap between the three recipes"
+
+by_fund |>
+  count(m_doshi, m_back, m_dp, name = "funds") |>
+  arrange(desc(funds)) |>
+  mutate(across(starts_with("m_"), \(x) if_else(x, "yes", "no"))) |>
+  gt() |>
+  fmt_number(columns = funds, decimals = 0) |>
+  cols_label(m_doshi = "Doshi", m_back = "Back", m_dp = "D&P", funds = "Funds") |>
+  tab_header(title = "Who Is Flagged By Which Recipe?")
+```
+
+**Because the data are simulated, we know the truth.** The chart below shows which *true* fund types each recipe lets in.
+
+```{r}
+#| label: fig-method-truth
+#| fig-cap: "What each recipe lets in, by true fund type"
+
+truth_lbl <- c(active_broad = "Active, broad", active_sector = "Active, sector",
+               active_special = "Hedged / short / option income",
+               active_foreign_name = "Domestic code, foreign name",
+               index = "Index fund", etf_index = "Index ETF", etf_active = "Active ETF",
+               etn = "ETN", enhanced = "Leveraged / enhanced", target = "Target-date",
+               intl = "International", bond = "Bond")
+
+truth_df <- by_fund |>
+  pivot_longer(starts_with("m_"), names_to = "method", values_to = "flag") |>
+  filter(flag) |>
+  count(method, true_type) |>
+  mutate(method = recode(method, m_doshi = "Doshi et al.", m_back = "Back et al.",
+                         m_dp = "Dannhauser & Pontiff"),
+         true_type = factor(unname(truth_lbl[true_type]), levels = unname(truth_lbl))) |>
+  complete(method, true_type, fill = list(n = 0))
+
+hchart(truth_df, "column", hcaes(x = method, y = n, group = true_type)) |>
+  hc_chart(height = 450) |>
+  hc_title(text = "Composition of each recipe's 'active equity' sample") |>
+  hc_xAxis(title = list(text = NULL)) |>
+  hc_yAxis(title = list(text = "Funds flagged (WFICN)"), reversedStacks = FALSE) |>
+  hc_plotOptions(column = list(stacking = "normal")) |>
+  hc_tooltip(shared = FALSE, pointFormat = "{series.name}: <b>{point.y}</b>")
+```
+
+The pattern is the lesson. The vendor-code recipe and the CRSP-code recipe return mostly broad active funds, and **the differences between them sit at the edges**: Doshi's vendor codes keep the hedged, short, and option-income funds and some target-date funds that Back's CRSP-code rule drops, while Back's rule, which removes index funds only through the CRSP index flag, lets in index funds whose flag is missing (in this panel the flag starts in 2008, mimicking its late start in CRSP). Both let in funds with a domestic code but a foreign name. The Dannhauser-Pontiff recipe adds the **sector funds** (which is intentional) and strips out passive products and ETFs by design. Choosing a recipe is choosing a population, and the population determines the answer.
+
+### 4.4 Classification by Name: Powerful, and Easy to Get Wrong
+
+Index funds, ETFs, ETNs, leveraged funds, and target-date funds are found partly by **searching fund names**. @dannhauser2026 hand-validate their name parsing, and they point out false positives, including a Mairs & Power fund that was wrongly identified as an index fund (their fn. 12). Substring rules fire in unexpected places. We test the rules on a small set of fictional names.
+
+```{r}
+#| label: tbl-name-traps
+#| tbl-cap: "Name-parsing rules: true positives and false positives"
+
+trap <- tribble(
+  ~fund_name,                              ~truth,
+  "Vanguard-like 500 Index Fund",           "index fund",
+  "Alder Total Stock Indx Fund",            "index fund",
+  "Granite Growth Fund RSP",                "active fund",
+  "Alder Wind Energy Fund",                 "active fund",
+  "Beacon Select 100 Opportunities Fund",   "active fund",
+  "Cedar Retirement 2040 Fund",             "target-date fund",
+  "Delta Russell 2000 Alpha Fund",          "active fund",
+  "Falcon Core S&P 500 ETF",                "index ETF",
+  "Harbor Ultra Equity Fund",               "leveraged fund",
+  "Juniper Equity Plus Fund",               "enhanced fund",
+  "Kestrel Surplus Value Fund",             "active fund"
+)
+
+trap_flags <- trap |>
+  mutate(
+    nm_lc = str_to_lower(fund_name),
+    # DP substring rules, as published
+    `index (substring)` = str_detect(fund_name, "SP|DOW|Dow|DJ") | str_detect(nm_lc, dp_index_names),
+    # a stricter version: whole words only
+    `index (whole words)` = str_detect(fund_name, "\\b(SP|DOW|Dow|DJ)\\b") |
+      str_detect(nm_lc, "\\b(index|idx|indx|composite|russell|s&p|msci|nasdaq|nyse|ftse|wilshire)\\b"),
+    enhanced = str_detect(nm_lc, dp_enh_names),
+    `target-date` = reduce(map(seq(2000, 2065, 5), \(y) identify_tdf(fund_name, y)), `|`) == 1
+  ) |>
+  select(-nm_lc)
+
+trap_flags |>
+  gt() |>
+  data_color(columns = c(`index (substring)`, `index (whole words)`, enhanced, `target-date`),
+             fn = \(x) if_else(x, "#f4b6b6", "white")) |>
+  tab_header(title = "Where Name Rules Go Wrong",
+             subtitle = "Red = flagged. Check each red cell against the 'truth' column") |>
+  tab_source_note("Fictional fund names. 'SP' occurs inside 'RSP'; 'ind ' occurs inside 'wind '; digits occur in many names; 'plus' occurs inside 'surplus'.")
+```
+
+Read down the red cells. "Growth Fund RSP" contains the string `SP`; "Wind Energy" contains `ind` (the "ind\_" index rule); "Select 100 Opportunities" contains a number from the index-number list; "Surplus" contains `plus`. The **Russell 2000** target-date trap is handled by a look-behind: `identify_tdf()` refuses to read "2000" as a vintage when it follows "Russell". Substring rules need a hand check on whatever they flag, which is why the published papers validate their parsing manually.
+
+### 4.5 Fund Types Over Time
+
+With the labels in place, we can reproduce the kind of picture in Figure 1 of @dannhauser2026: the industry's shift from active funds to index funds and ETFs.
+
+```{r}
+#| label: fig-types-count
+#| fig-cap: "Number of funds by vehicle type, by year (simulated panel)"
+
+type_year <- fund_year |>
+  count(year, fund_type, name = "n") |>
+  mutate(fund_type = factor(fund_type, levels = c("Active", "Index", "ETF")),
+         year = as.character(year)) |>
+  complete(year, fund_type, fill = list(n = 0))
+
+hchart(type_year, "column", hcaes(x = year, y = n, group = fund_type)) |>
+  hc_title(text = "Funds by vehicle type") |>
+  hc_xAxis(title = list(text = NULL)) |>
+  hc_yAxis(title = list(text = "Distinct funds (WFICN)")) |>
+  hc_plotOptions(column = list(stacking = "normal")) |>
+  hc_tooltip(shared = TRUE)
+```
+
+```{r}
+#| label: fig-types-tna
+#| fig-cap: "Share of total net assets by vehicle type, by year"
+
+tna_year <- fund_year |>
+  summarise(tna = sum(total_tna), .by = c(year, fund_type)) |>
+  mutate(share = tna / sum(tna) * 100, .by = year) |>
+  mutate(fund_type = factor(fund_type, levels = c("Active", "Index", "ETF")),
+         year = as.character(year)) |>
+  complete(year, fund_type, fill = list(share = 0))
+
+hchart(tna_year, "column", hcaes(x = year, y = share, group = fund_type)) |>
+  hc_title(text = "Share of assets by vehicle type") |>
+  hc_xAxis(title = list(text = NULL)) |>
+  hc_yAxis(title = list(text = "% of total net assets"), max = 100,
+           labels = list(format = "{value}%")) |>
+  hc_plotOptions(column = list(stacking = "normal")) |>
+  hc_tooltip(shared = TRUE, valueDecimals = 1, valueSuffix = "%")
+```
+
+::: callout-note
+The published picture is the benchmark: @dannhauser2026 find the active-fund share of assets falling from above 82% to 43%, index funds rising from 11% to 24%, and ETFs from 7% to 33% over 2005--2022. The simulated panel is not calibrated to those numbers, so read the two charts above for the mechanics, not the levels. Run on a real CRSP extract, the same code is a replication of their Figure 1.
+:::
+
+### 4.6 Beyond Active vs. Passive: The Four-Tier Style View
+
+@dannhauser2026 add a second dimension, following @bendavid2023, which classifies each fund by *what it tracks*:
+
+| Tier | Definition (@dannhauser2026) |
+|------------------------------------|------------------------------------|
+| **Broad-based** | Well-diversified benchmark without a strategic tilt |
+| **Strategic (smart) beta** | Replicates known factor exposures |
+| **Sector** | Follows a specific economic sector or industry |
+| **Thematic** | Concentrates on a small set of social, environmental, or other issues |
+
+: Four-tier classification (Ben-David et al. 2023; Dannhauser and Pontiff 2026)
+
+They report that the industry's mix across these tiers moved too: broad-based funds held 30.5% of industry assets at the start of the sample and 44.8% at the end, strategic-beta funds fell from 63.6% to 44.9%, sector funds rose from 5.5% to 9.4%, and thematic funds from 0.5% to 0.9%. They also note that most active mutual funds are classified as strategic beta.
+
+```{r}
+#| label: fig-four-tier
+#| fig-cap: "Industry assets by four-tier classification, start and end of the Dannhauser-Pontiff sample (values reported in the paper)"
+
+tiers <- tribble(
+  ~tier,                        ~period,        ~share,
+  "Broad-based",                "Start (2005)",  30.5,
+  "Strategic beta",             "Start (2005)",  63.6,
+  "Sector",                     "Start (2005)",   5.5,
+  "Thematic",                   "Start (2005)",   0.5,
+  "Broad-based",                "End (2022)",    44.8,
+  "Strategic beta",             "End (2022)",    44.9,
+  "Sector",                     "End (2022)",     9.4,
+  "Thematic",                   "End (2022)",     0.9
+) |>
+  mutate(tier = factor(tier, levels = c("Broad-based", "Strategic beta", "Sector", "Thematic")),
+         period = factor(period, levels = c("Start (2005)", "End (2022)")))
+
+hchart(tiers, "column", hcaes(x = period, y = share, group = tier)) |>
+  hc_chart(height = 380) |>
+  hc_title(text = "Share of industry assets, by tier") |>
+  hc_xAxis(title = list(text = NULL)) |>
+  hc_yAxis(title = list(text = "% of industry assets"), max = 100,
+           labels = list(format = "{value}%")) |>
+  hc_plotOptions(column = list(stacking = "normal",
+                               dataLabels = list(enabled = TRUE, format = "{y:.1f}%"))) |>
+  hc_tooltip(pointFormat = "{series.name}: <b>{point.y:.1f}%</b>")
+```
+
+The tier is itself a **style label**, which brings us to the next topic.
+
+### 4.7 Name-Based Thematic Flags: An ESG Example
+
+The thematic tier is usually found by name. A common research use is an **ESG fund flag** built from a keyword list. A regex with a *character class* in place of a negation is a classic bug: `[^inflation]` means "any one character that is not i, n, f, l, a, t, or o", not "anything except the word *inflation*".
+
+```{r}
+#| label: tbl-esg-regex
+#| tbl-cap: "Character class vs. negative look-ahead in an ESG name flag"
+
+esg_names <- tribble(
+  ~fund_name,
+  "Alder Social Awareness Fund",
+  "Beacon Social Media Fund",
+  "Cedar Social Impact Fund",
+  "Delta Inflation Response Fund",
+  "Everest Climate Response Fund",
+  "Granite Climate Alert Response Fund",
+  "Falcon Responsible Growth Fund"
+) |> mutate(nm = str_to_lower(fund_name))
+
+esg_names |>
+  mutate(
+    `class: social [^media]` = str_detect(nm, "social [^media]"),
+    `lookahead: social (?!media)` = str_detect(nm, "social (?!media)"),
+    `class: [^inflation] response` = str_detect(nm, "[^inflation] response"),
+    `lookbehind: (?<!inflation) response` = str_detect(nm, "(?<!inflation) response")
+  ) |>
+  select(-nm) |>
+  gt() |>
+  tab_header(title = "Same Intent, Different Regex",
+             subtitle = "The character-class versions miss 'Social Awareness' and 'Alert Response' (the letters a and t sit inside the excluded set)")
+```
+
+------------------------------------------------------------------------
+
+## 5. Fund Style
+
+### 5.1 What Is a Style?
+
+An **investment style** is a persistent tilt in what a fund holds: large vs. small stocks, growth vs. value, high-momentum vs. low-momentum. Investors use styles to build portfolios (a "core and satellite" mix of style funds), and researchers use them to choose benchmarks and to measure what a manager adds beyond a style bet. There are three ways to learn a fund's style, and they can disagree.
+
+| Approach | Where the style comes from | Examples |
+|------------------------|------------------------|------------------------|
+| **Stated** | The label the fund or a data vendor assigns: prospectus objective, Lipper or Morningstar category, CRSP objective code | CRSP vendor codes; @kim2000 on objective misclassification |
+| **Returns-based** | Regress the fund's returns on style-index returns, with or without constraints | @sharpe1992 style analysis; @brown1997; Carhart loadings (Lecture 1) |
+| **Holdings-based** | Characteristics of the stocks the fund actually holds (size, book-to-market, momentum) | @daniel1997; @chan2002; Morningstar's style box |
+
+: Three ways to measure a fund's style
+
+A fund's **stated** style is cheap, available for the whole CRSP universe, and what investors and the media see. It is also *what the fund chooses to say*, so it can lag, or be chosen for marketing reasons. @cooper2005 show that funds that change their names to match a hot style attract inflows whether or not the holdings change. **Revealed** style is harder to compute but cannot be changed with a press release.
+
+### 5.2 Stated Style in the CRSP Data
+
+CRSP carries several vendor coding systems side by side. We used them all in Section 4, because the three classification recipes differ mainly in *which* of them they trust.
+
+```{r}
+#| label: tbl-vendor-codes
+#| tbl-cap: "Style fields in the CRSP Mutual Fund database"
+
+tribble(
+  ~Field,           ~Source,                 ~Granularity,                                    ~`Used by`,
+  "lipper_class",   "Lipper",                "Fine (e.g., large-cap core, mid-cap value)",    "Doshi",
+  "lipper_obj_cd",  "Lipper",                "Coarse (e.g., G, GI, EI, MC, SG)",              "Doshi, Dannhauser-Pontiff",
+  "si_obj_cd",      "Strategic Insight",     "Coarse; flags 'option income' (OPI)",           "Doshi, Back",
+  "wbrger_obj_cd",  "Wiesenberger",          "Coarse",                   "Doshi",
+  "crsp_obj_cd",    "CRSP (own hierarchy)",  "ED... = domestic equity; 3rd-4th letter = style", "Back, Dannhauser-Pontiff"
+) |>
+  gt() |>
+  tab_header(title = "Where a Stated Style Comes From",
+             subtitle = "Vendors cover different periods and use different taxonomies")
+```
+
+A style label only matters if it is stable enough to mean something. Here is the composition of active domestic-equity funds by Lipper objective code in our cleaned sample. Codes outside the seven broad styles (sector, specialty) are pooled as "Other".
+
+```{r}
+#| label: style-labels
+
+lipper_labels <- tribble(
+  ~code, ~label,
+  "CA", "Capital appreciation",
+  "EI", "Equity income",
+  "G",  "Growth",
+  "GI", "Growth & income",
+  "MC", "Mid-cap",
+  "MR", "Multi-cap",
+  "SG", "Small-cap"
+)
+# (Illustrative names; the CRSP data guide has the authoritative definitions.)
+
+lump_style <- function(x) if_else(x %in% lipper_labels$code, x, "Other")
+
+style_mix <- fund_year |>
+  filter(fund_type == "Active", !is.na(lipper_obj_cd)) |>
+  mutate(style = lump_style(lipper_obj_cd), year = as.character(year)) |>
+  count(year, style) |>
+  complete(year, style, fill = list(n = 0L))
+```
+
+```{r}
+#| label: fig-style-mix
+#| fig-cap: "Share of active domestic-equity funds by Lipper objective code (stacked to 100%)"
+
+hchart(style_mix, "column", hcaes(x = year, y = n, group = style)) |>
+  hc_chart(height = 400) |>
+  hc_title(text = "Active funds by stated style") |>
+  hc_xAxis(title = list(text = NULL)) |>
+  hc_yAxis(title = list(text = "% of active funds"), labels = list(format = "{value}%")) |>
+  hc_plotOptions(column = list(stacking = "percent")) |>
+  hc_tooltip(shared = TRUE, pointFormat = "{series.name}: <b>{point.percentage:.1f}%</b><br/>")
+```
+
+### 5.3 Why Style Matters for Empirical Work
+
+1.  **Benchmarks.** A fund's alpha depends on the benchmark, and the right benchmark depends on the style (Lecture 1). A "growth" label with a value portfolio produces an alpha that is just a style bet.
+2.  **Characteristic-adjusted performance.** @daniel1997 benchmark each stock a fund holds against a portfolio matched on size, book-to-market, and momentum, so that style exposure is not mistaken for skill.
+3.  **Flows and prices.** @barberis2003 model investors who allocate money across *styles* rather than individual stocks, so style-level flows move prices of stocks in the same style.
+4.  **Selection into samples.** Many studies pool "growth funds" or "small-cap funds". If the label is wrong, the pooled estimate describes some other group of funds. @kim2000 document objective misclassification.
+5.  **Fund-level controls.** Style fixed effects absorb the performance differences that come from the fund's mandate.
+
+::: callout-tip
+## The Morningstar style box
+
+Holdings-based styles are often shown on a 3 x 3 grid. A fund's portfolio is placed in one cell by the average size and value/growth characteristics of its holdings. Each cell has a name, and the box tells investors in a glance which part of the market a fund covers.
+
+|           | **Value**   | **Blend**   | **Growth**   |
+|-----------|-------------|-------------|--------------|
+| **Large** | Large value | Large blend | Large growth |
+| **Mid**   | Mid value   | Mid blend   | Mid growth   |
+| **Small** | Small value | Small blend | Small growth |
+
+A fund is assigned to a cell by the average characteristics of its holdings. A fund can sit on a cell boundary and move cells for small changes in its holdings, which is one way a *measured* style drift can arise without any decision by the manager.
+:::
+
+------------------------------------------------------------------------
+
+## 6. Style Drift
+
+### 6.1 What Is Style Drift?
+
+**Style drift** is a change in a fund's style over time. Two questions come up right away.
+
+**Why does the style change?** There are two sources. In *active* drift, the manager changes the portfolio: from growth to value, from small to large, or chasing whatever has recently done well. In *passive* drift, the stocks migrate while the manager holds them: a small-cap fund's winners grow into mid-caps, so the fund looks larger without a single trade. The two have different implications, and holdings data can separate them, because only active drift involves trading [@wermers2012].
+
+**Which style do we measure?** We can measure drift in the *stated* label (a change in the Lipper code) or in the *revealed* style (a change in estimated factor loadings or in the characteristics of the stocks held). The first is available for the whole universe and easy to compute. The second needs returns or holdings, and it works even when the label never changes. A fund that keeps its "growth" label while holding a value portfolio is a drifting fund that the label cannot detect.
+
+|   | **Stated drift** | **Revealed drift** |
+|-------------------|---------------------------|---------------------------|
+| Data | Vendor style code by year | Fund returns (loadings) or holdings (characteristics) |
+| Frequency | Annual, whole CRSP universe | Monthly or quarterly, rolling or non-overlapping windows |
+| Detects | Label changes (and coding noise) | Changes in actual exposure |
+| Misses | Drift under a constant label | Short windows; estimation noise |
+
+: Two ways to measure style drift
+
+Why would anyone care? An investor who combines a growth fund and a value fund for diversification relies on each fund to *stay* what it is. A researcher who benchmarks a fund by its style needs the style to hold over the evaluation window. And drift can be a symptom of incentives: a manager who is behind in the annual race has reasons to change strategy [@brown1996; @chevalier1997].
+
+The rest of this section is organized around one paper. §6.2 reports what @chan2002 find, §6.3 rebuilds their design on simulated funds so that you can see what it can and cannot detect, and §6.4–§6.6 apply the same ideas to stated labels and to individual real funds.
+
+### 6.2 The Key Paper: Chan, Chen, and Lakonishok (2002)
+
+@chan2002 is the classic empirical study of mutual fund styles. It asks four questions: where do funds sit in the style space, how consistent are styles over time, which funds change style, and does performance differ across styles once style is accounted for.
+
+**Data.** Morningstar monthly returns from 1976 to 1997 and portfolio holdings from 1983, for the 3,336 U.S. domestic equity funds in existence at the end of 1997. Morningstar's data on defunct funds start only in 1989, so the early years carry survivorship bias, a point the authors acknowledge.
+
+**Two ways to measure style**, which map onto the stated/revealed distinction above (both are *revealed* measures; the paper does not rely on vendor labels):
+
+1.  **Characteristics (holdings-based).** Every stock is ranked from 0 (lowest) to 1 (highest) on size, book-to-market, and past return. A fund's score on each dimension is the holdings-weighted average of its stocks' ranks.
+2.  **Factor loadings (returns-based).** The fund's Fama-French three-factor loadings, estimated over the past 36 months, are ranked across funds from 0 to 1.
+
+**Measuring consistency.** At each year-end from 1984 to 1994, a fund's style rank is computed from the past three years and again from the *following, non-overlapping* three years. Consistency is the cross-sectional correlation between the past and future ranks, together with the average absolute change in rank. Non-overlapping windows matter: with overlapping windows, the two ranks would share data and look consistent by construction.
+
+**Measuring who drifts.** Funds are sorted two ways: by past two-year return (winners are the top 20%, losers the bottom 20%) and by style (top, middle, and bottom 30%). The average absolute change in style rank is then compared across the cells.
+
+#### What they find
+
+```{r}
+#| label: tbl-ccl-findings
+#| tbl-cap: "Main findings of Chan, Chen, and Lakonishok (2002)"
+
+tribble(
+  ~Question, ~Finding, ~Source,
+  "Where do funds sit?",
+  "Close to the market. Average holdings-weighted size score 0.94 vs. 0.98 for the S&P 500; book-to-market 0.35 vs. 0.38. About 60% of funds (67% of assets) sit in book-to-market deciles 3-5; only 3.2% sit in the three most value-oriented deciles. When funds deviate from the market, they tilt toward growth stocks and past winners.",
+  "Table 4",
+  "Are styles consistent?",
+  "Partly. Correlation between past and future style ranks is 0.73 (size) and 0.71 (book-to-market) for all funds, but the average absolute change in rank is 0.15-0.16, more than a decile every three years.",
+  "Table 3",
+  "Who changes style?",
+  "Past losers. The average absolute change in book-to-market rank is 0.10 for losers vs. 0.077 for winners. The gap comes from value funds: 0.12 for losing value funds vs. 0.06 for winning ones, and losing value funds move toward growth. Losing growth funds stay put.",
+  "Section 5.2, Table 8",
+  "Does style-adjusted performance differ?",
+  "Some evidence that growth funds beat value funds: about 1.7% per year under three factors and 1.2% per year under four factors, concentrated in small-cap funds (2.82% per year).",
+  "Table 6, Section 7",
+  "Which style measure is better?",
+  "Where the two measures disagree, characteristics predict a fund's returns in extreme-HML months with smaller errors than loadings in all four cases tested.",
+  "Table 9"
+) |>
+  gt() |>
+  cols_width(Question ~ px(170), Source ~ px(130)) |>
+  tab_source_note("Figures transcribed from the published article. Sample: U.S. domestic equity funds alive at the end of 1997.")
+```
+
+Two of these results are worth seeing as pictures. The first is the consistency of styles by fund group.
+
+```{r}
+#| label: fig-ccl-consistency
+#| fig-cap: "Correlation between past and future style ranks, by fund group (Chan, Chen, and Lakonishok 2002, Table 3)"
+
+# Transcribed from Chan, Chen, and Lakonishok (2002), Table 3.
+# Ranks of Fama-French loadings, past 36 months vs. the following 36 months, year-ends 1984-1994.
+ccl_t3 <- tribble(
+  ~group,      ~size_corr, ~size_absdiff, ~btm_corr, ~btm_absdiff,
+  "All funds",       0.73,          0.15,      0.71,         0.16,
+  "Large cap",       0.79,          0.15,      0.71,         0.14,
+  "Small cap",       0.88,          0.11,      0.71,         0.18,
+  "Value",           0.73,          0.16,      0.77,         0.16,
+  "Growth",          0.74,          0.16,      0.83,         0.14
+)
+
+highchart() |>
+  hc_chart(type = "bar", height = 380) |>
+  hc_title(text = "Styles persist, but not tightly") |>
+  hc_xAxis(categories = ccl_t3$group) |>
+  hc_add_series(name = "Size rank", data = ccl_t3$size_corr) |>
+  hc_add_series(name = "Book-to-market rank", data = ccl_t3$btm_corr) |>
+  hc_yAxis(title = list(text = "Correlation, past vs. future style rank"), min = 0, max = 1) |>
+  hc_plotOptions(bar = list(dataLabels = list(enabled = TRUE, format = "{y:.2f}"))) |>
+  hc_tooltip(shared = TRUE, valueDecimals = 2)
+```
+
+The second is the paper's central drift result: style changes are concentrated among funds that performed poorly, and specifically among *value* funds that performed poorly.
+
+```{r}
+#| label: fig-ccl-losers
+#| fig-cap: "Average absolute change in book-to-market rank, past winners vs. past losers (Chan, Chen, and Lakonishok 2002, Section 5.2 and Table 8)"
+
+ccl_t8 <- tribble(
+  ~group,         ~winners, ~losers,
+  "All funds",       0.077,   0.100,
+  "Value funds",     0.060,   0.120
+)
+
+highchart() |>
+  hc_chart(type = "column", height = 360) |>
+  hc_title(text = "Losers drift, especially losing value funds") |>
+  hc_xAxis(categories = ccl_t8$group) |>
+  hc_add_series(name = "Past winners (top 20%)",  data = ccl_t8$winners) |>
+  hc_add_series(name = "Past losers (bottom 20%)", data = ccl_t8$losers) |>
+  hc_yAxis(title = list(text = "Mean |change in B/M rank|"), min = 0) |>
+  hc_plotOptions(column = list(dataLabels = list(enabled = TRUE, format = "{y:.3f}"))) |>
+  hc_tooltip(shared = TRUE, valueDecimals = 3)
+```
+
+In Table 8, the losing value funds' average book-to-market rank falls from 0.648 to 0.572, a move toward growth, while losing growth funds barely move (0.146 to 0.171). The authors read this as managers of poorly performing value funds abandoning a style that has not paid off, while managers of losing growth funds stick with theirs.
+
+::: callout-tip
+## Is the drift active? A back-of-the-envelope argument
+
+A value fund that lost money holds stocks whose prices fell, so their book-to-market ratios *rose*. Passive migration alone would push a losing value fund *further* toward value. Chan, Chen, and Lakonishok find the opposite: losing value funds move toward growth. The direction therefore points to trading, not to stocks migrating under a passive manager. This is our reading of the result, not a test reported in the paper, and it applies to *characteristics*. With loadings-based ranks, a second force also pulls value funds toward the middle without any trading: mean reversion in estimated ranks (§6.3). A holdings-based decomposition of the change into trades and price movements [@wermers2012] would test the argument directly.
+:::
+
+::: callout-warning
+## A referee's view of the evidence
+
+The paper is exploratory, and its authors say so. Four objections are worth having in mind before you build on it.
+
+1.  **Survivorship.** The sample is funds alive at the end of 1997. If losing funds that changed style were more likely to survive (or less likely), "losers drift" is partly a statement about which losers survived. A replication on the CRSP survivor-bias-free database removes this concern.
+2.  **Mean reversion in ranks.** Funds sorted into the extreme style groups on *estimated* ranks are partly there because of estimation noise, so their future ranks drift back toward the middle even if nothing changes. Comparing winners with losers *within* the same style group nets this out only if noise is unrelated to past performance. §6.3 shows that it is not.
+3.  **No inference on the key contrasts.** The winner-loser comparison and the growth-value alpha gap are descriptive sorts; standard errors for the differences themselves are not reported.
+4.  **Drift is not a decision.** A rank change mixes trading, stock migration, and measurement error. Separating them needs holdings and trades.
+:::
+
+### 6.3 Rebuilding the Design on Simulated Funds
+
+The best way to understand a research design is to run it on data where you know the answer. We simulate a cross-section of funds around several formation dates, estimate three-factor loadings in the 36 months before and the 36 months after each date, and compute the two statistics of @chan2002: consistency of ranks (their Table 3) and the change in book-to-market rank by past performance (their Table 8).
+
+We run the design twice:
+
+- **No drift.** Every fund's true loadings move only by a small random amount between the two windows. Any measured "drift" is noise plus that random evolution.
+- **Losers drift.** Same, except that value funds in the bottom 20% of past two-year returns cut their HML loading by 0.15 in the second window, the behavior Chan, Chen, and Lakonishok describe.
+
+The factors and fund returns are simulated, so the chunk needs no data.
+
+```{r}
+#| label: ccl-sim
+
+simulate_ccl <- function(n_funds = 800, n_dates = 100, drift = TRUE, seed = 2002,
+                         shift = 0.15, sd_evolve = 0.15) {
+  set.seed(seed)
+  map(seq_len(n_dates), \(dt) {
+    # 72 months of factor returns around one formation date (36 before, 36 after)
+    f <- cbind(MKT = rnorm(72, 0.006, 0.045),
+               SMB = rnorm(72, 0.002, 0.030),
+               HML = rnorm(72, 0.003, 0.030))
+
+    # True style in the past window
+    b0 <- rnorm(n_funds, 1.00, 0.12)
+    s0 <- rnorm(n_funds, 0.10, 0.35)            # SMB loading: high = small cap
+    h0 <- rnorm(n_funds, -0.05, 0.30)           # HML loading: high = value
+    sd_e <- runif(n_funds, 0.008, 0.020)        # idiosyncratic volatility
+
+    past <- 1:36; fut <- 37:72
+    E <- matrix(rnorm(72 * n_funds), 72, n_funds) %*% diag(sd_e)
+    R_past <- f[past, ] %*% rbind(b0, s0, h0) + E[past, ]
+
+    # Past two-year return (months 13-36) decides who is a winner or a loser
+    ret24  <- apply(R_past[13:36, ], 2, \(r) prod(1 + r) - 1)
+    loser  <- ret24 <= quantile(ret24, 0.2)
+    value0 <- h0 >= quantile(h0, 0.7)
+
+    # True style in the future window: everyone evolves a little;
+    # under the drift rule, losing value funds also tilt toward growth
+    s1 <- s0 + rnorm(n_funds, 0, sd_evolve)
+    h1 <- h0 + rnorm(n_funds, 0, sd_evolve) - if (drift) shift * (loser & value0) else 0
+    R_fut <- f[fut, ] %*% rbind(b0, s1, h1) + E[fut, ]
+
+    # Three-factor OLS for all funds at once, separately in each window
+    ols <- function(R, F) {
+      X <- cbind(1, F)
+      solve(crossprod(X), crossprod(X, R))     # 4 x n_funds: alpha, MKT, SMB, HML
+    }
+    B_past <- ols(R_past, f[past, ]); B_fut <- ols(R_fut, f[fut, ])
+
+    tibble(date = dt, fid = seq_len(n_funds), ret24 = ret24,
+           # size rank: 1 = largest (most negative SMB loading); B/M rank: 1 = most value
+           size_past = percent_rank(-B_past[3, ]), size_fut = percent_rank(-B_fut[3, ]),
+           btm_past  = percent_rank( B_past[4, ]), btm_fut  = percent_rank( B_fut[4, ]))
+  }) |> list_rbind()
+}
+
+ccl_none  <- simulate_ccl(drift = FALSE)
+ccl_drift <- simulate_ccl(drift = TRUE)
+```
+
+The two summary functions follow the paper's definitions: style groups are the top and bottom 30% of the *past* rank, winners and losers are the top and bottom 20% of past two-year return, and statistics are computed date by date and then averaged across dates.
+
+```{r}
+#| label: ccl-tables
+
+# Analogue of CCL Table 3: consistency of style ranks, by style group
+consistency_table <- function(d) {
+  groups <- list(
+    "All funds" = rep(TRUE, nrow(d)),
+    "Large cap" = d$size_past >= 0.7, "Small cap" = d$size_past <= 0.3,
+    "Value"     = d$btm_past  >= 0.7, "Growth"    = d$btm_past  <= 0.3
+  )
+  imap(groups, \(g, nm) {
+    d[g, ] |>
+      summarise(size_corr = cor(size_past, size_fut), size_absdiff = mean(abs(size_fut - size_past)),
+                btm_corr  = cor(btm_past,  btm_fut),  btm_absdiff  = mean(abs(btm_fut  - btm_past)),
+                .by = date) |>
+      summarise(across(-date, mean)) |>
+      mutate(group = nm, .before = 1)
+  }) |> list_rbind()
+}
+
+# Analogue of CCL Table 8: change in B/M rank by past performance and style
+loser_table <- function(d) {
+  d |>
+    mutate(perf  = case_when(ret24 >= quantile(ret24, 0.8) ~ "Winners (top 20%)",
+                             ret24 <= quantile(ret24, 0.2) ~ "Losers (bottom 20%)"),
+           style = case_when(btm_past >= 0.7 ~ "Value", btm_past <= 0.3 ~ "Growth",
+                             TRUE ~ "Middle"),
+           .by = date) |>
+    filter(!is.na(perf)) |>
+    summarise(n = n(), absdiff = mean(abs(btm_fut - btm_past)),   # before btm_* are overwritten
+              btm_past = mean(btm_past), btm_fut = mean(btm_fut), .by = c(perf, style)) |>
+    mutate(style = factor(style, c("Value", "Middle", "Growth")),
+           perf  = factor(perf, c("Winners (top 20%)", "Losers (bottom 20%)"))) |>
+    arrange(style, perf)
+}
+```
+
+```{r}
+#| label: tbl-ccl-consistency-sim
+#| tbl-cap: "Consistency of style ranks in the simulation (analogue of CCL Table 3)"
+
+bind_rows(consistency_table(ccl_none)  |> mutate(dgp = "No drift"),
+          consistency_table(ccl_drift) |> mutate(dgp = "Losers drift")) |>
+  gt(groupname_col = "dgp") |>
+  fmt_number(columns = -c(group, dgp), decimals = 2) |>
+  cols_label(group = "Fund group", size_corr = "Correlation", size_absdiff = "Mean |change|",
+             btm_corr = "Correlation", btm_absdiff = "Mean |change|") |>
+  tab_spanner("Size rank", c(size_corr, size_absdiff)) |>
+  tab_spanner("Book-to-market rank", c(btm_corr, btm_absdiff)) |>
+  tab_source_note("800 simulated funds at each of 100 formation dates; ranks of three-factor loadings over the 36 months before and the 36 months after each date.")
+```
+
+The first panel is the lesson about **measurement**. No fund in it changes style by design, apart from a small random evolution of its loadings, yet the correlations are below one and the mean absolute change in rank is well above zero. A rank-based consistency statistic has a *noise floor*: estimation error in 36-month loadings plus ordinary evolution of a portfolio. The numbers in @chan2002 Table 3 should be read against such a floor, not against zero. (Within-group correlations, such as size ranks among large-cap funds, are lower than for all funds simply because the ranks are compared over a narrower range.)
+
+```{r}
+#| label: tbl-ccl-losers-sim
+#| tbl-cap: "Change in book-to-market rank by past performance (analogue of CCL Table 8)"
+
+ccl_t8_sim <- bind_rows(loser_table(ccl_none)  |> mutate(dgp = "No drift"),
+                        loser_table(ccl_drift) |> mutate(dgp = "Losers drift"))
+
+ccl_t8_sim |>
+  gt(groupname_col = "dgp") |>
+  fmt_number(columns = c(btm_past, btm_fut, absdiff), decimals = 3) |>
+  fmt_number(columns = n, decimals = 0) |>
+  cols_move(absdiff, after = btm_fut) |>
+  cols_move_to_start(c(style, perf)) |>
+  cols_label(style = "Past style", perf = "Past performance", n = "Fund-dates",
+             btm_past = "B/M rank, past", btm_fut = "B/M rank, future",
+             absdiff = "Mean |change|") |>
+  tab_source_note("Style groups: top 30% (Value), middle 40%, bottom 30% (Growth) of the past B/M rank. Winners and losers: top and bottom 20% of past two-year return.")
+```
+
+```{r}
+#| label: fig-ccl-losers-sim
+#| fig-cap: "Mean absolute change in book-to-market rank, losers minus winners, by style group: simulation with and without a losers-drift rule"
+
+gap_sim <- ccl_t8_sim |>
+  filter(style != "Middle") |>
+  select(dgp, style, perf, absdiff) |>
+  pivot_wider(names_from = perf, values_from = absdiff) |>
+  mutate(gap = round(`Losers (bottom 20%)` - `Winners (top 20%)`, 3),
+         style = paste(style, "funds"),
+         dgp = factor(dgp, levels = c("No drift", "Losers drift")))
+
+hchart(gap_sim, "column", hcaes(x = style, y = gap, group = dgp)) |>
+  hc_title(text = "Losers minus winners: part of the gap is mechanical") |>
+  hc_xAxis(title = list(text = NULL)) |>
+  hc_yAxis(title = list(text = "Losers' minus winners' mean |change|"),
+           plotLines = list(list(value = 0, color = "#999999", width = 1))) |>
+  hc_plotOptions(column = list(dataLabels = list(enabled = TRUE, format = "{y:.3f}"))) |>
+  hc_tooltip(shared = TRUE, valueDecimals = 3)
+```
+
+Read the two panels together, starting with the one where **nobody drifts**.
+
+1.  **Extreme groups revert.** Value funds' average rank falls and growth funds' rises between the two windows, for winners and losers alike. A fund ranked in the top 30% on an *estimated* loading is there partly by luck, so its next rank is closer to the middle. A move "toward growth" by value funds is therefore expected even with no change in strategy.
+2.  **Losers and winners do not revert equally.** Even with no drift, losing value funds move more than winning value funds, and among growth funds the pattern flips: winners move more. The reason is that past performance depends on the *true* loading. In the simulation the value premium is positive on average. Among funds with a high *estimated* HML loading, those whose true loading is lower than estimated earn less of the premium, so they are over-represented among losers; their inflated ranks then fall back. Among growth funds, the funds whose true loading is *higher* than estimated earn more of the premium and are over-represented among winners. Sorting on past performance therefore sorts partly on measurement error.
+
+With the drift rule switched on, the losing value funds move much further and in the direction of growth, which is the pattern in CCL's Table 8, and the value-fund gap grows well beyond its no-drift level. The lesson for reading the paper is that the right null is **not a gap of zero**: a winner-loser gap of the mechanical kind arises without any manager decision, its sign depends on whether the value premium was positive in the ranking period, and it predicts the mirror pattern among growth funds. A careful replication would estimate this null (for instance, with a placebo that re-sorts on returns from a period that does not overlap the loading window) and test the observed gap against it.
+
+::: callout-note
+## What the simulation does not settle
+
+The simulation shows that the design *can* detect drift by losers, and that part of the winner-loser gap it reports is mechanical. It cannot tell you whether real funds drift, whether the funds that drift are the ones that survive, or whether the drift is active or passive. Those questions need real data: the CRSP survivor-bias-free database for the first two, and holdings for the third. Holdings-based characteristics, the paper's preferred measure, also suffer much less from estimation noise than 36-month loadings, so the mechanical gap should be smaller with them.
+:::
+
+### 6.4 Stated Drift: Label Changes in CRSP
+
+@chan2002 never use vendor labels; both of their measures are revealed styles. Most CRSP studies, however, start from the labels, because they are available for every fund in every year. How often do the labels move?
+
+We compare each fund's Lipper objective code with the previous year's code, for consecutive years only (the filters in Section 3 can leave gaps, and a change across a gap is not an annual change).
+
+```{r}
+#| label: stated-drift
+
+transitions <- fund_year |>
+  filter(!is.na(lipper_obj_cd)) |>
+  arrange(wficn, year) |>
+  mutate(prev_cd = lag(lipper_obj_cd), prev_year = lag(year), .by = wficn) |>
+  filter(!is.na(prev_cd), year - prev_year == 1) |>
+  mutate(switched = lipper_obj_cd != prev_cd)
+
+drift_by_type <- transitions |>
+  summarise(
+    n_funds        = n_distinct(wficn),
+    n_transitions  = n(),
+    annual_rate    = mean(switched),
+    .by = fund_type
+  ) |>
+  left_join(
+    transitions |>
+      summarise(ever = any(switched), .by = c(wficn, fund_type)) |>
+      summarise(ever_share = mean(ever), .by = fund_type),
+    by = "fund_type"
+  ) |>
+  arrange(desc(annual_rate))
+```
+
+```{r}
+#| label: tbl-stated-drift
+#| tbl-cap: "Stated style drift by fund type"
+
+drift_by_type |>
+  gt() |>
+  fmt_number(columns = c(n_funds, n_transitions), decimals = 0) |>
+  fmt_percent(columns = c(annual_rate, ever_share), decimals = 1) |>
+  cols_label(fund_type = "Fund type", n_funds = "Funds",
+             n_transitions = "Fund-year transitions",
+             annual_rate = "Annual switch rate",
+             ever_share = "Share that ever switch") |>
+  tab_header(title = "How Often Does the Stated Style Change?",
+             subtitle = "Lipper objective code, consecutive years")
+```
+
+```{r}
+#| label: fig-drift-rate
+#| fig-cap: "Annual probability that a fund's Lipper objective code changes, by fund type"
+
+hchart(drift_by_type, "column", hcaes(x = fund_type, y = round(100 * annual_rate, 2))) |>
+  hc_chart(height = 360) |>
+  hc_title(text = "Annual style-label switch rate") |>
+  hc_xAxis(title = list(text = NULL)) |>
+  hc_yAxis(title = list(text = "% of fund-years with a new label"), min = 0) |>
+  hc_plotOptions(column = list(dataLabels = list(enabled = TRUE, format = "{y:.1f}%"))) |>
+  hc_legend(enabled = FALSE) |>
+  hc_tooltip(pointFormat = "Switch rate: <b>{point.y:.2f}%</b>")
+```
+
+::: callout-note
+## Reading this in the simulation
+
+In the simulated panel, broad active funds can change style (a 4% chance of a new draw each year), sector funds keep one sector, and true index funds keep one label for life. The table recovers that pattern, with two lessons. First, the *Active* rate is diluted because the group includes sector funds that never switch. Second, the *Index* rate is not zero even though no true index fund ever changes style: the switches come from a few active funds whose names contain a trap (a name ending in "RSP", or "100" in "Select 100 Opportunities") and so were classified as index funds in Section 4. A classification error leaks directly into a drift statistic. In real CRSP data, label changes among index funds also come from coding noise (a vendor revises a category, or a fund appears under a different code for one year), so a nonzero index-fund switch rate is a data-quality diagnostic, not evidence that the index fund drifted.
+:::
+
+Where do funds go when they switch? A transition matrix, row by row, shows the destination style given the origin style.
+
+```{r}
+#| label: stated-transitions
+
+trans_mat <- transitions |>
+  filter(fund_type == "Active") |>
+  mutate(from = lump_style(prev_cd), to = lump_style(lipper_obj_cd)) |>
+  count(from, to) |>
+  mutate(share = n / sum(n), .by = from) |>
+  complete(from, to, fill = list(n = 0L, share = 0)) |>
+  mutate(share = round(share, 3))
+```
+
+```{r}
+#| label: fig-transition
+#| fig-cap: "Transition probabilities between stated styles (active funds): origin on the vertical axis, destination on the horizontal axis"
+
+hchart(trans_mat, "heatmap", hcaes(x = to, y = from, value = share)) |>
+  hc_title(text = "Where do active funds go next year?") |>
+  hc_xAxis(title = list(text = "Style next year")) |>
+  hc_yAxis(title = list(text = "Style this year"), reversed = TRUE) |>
+  hc_colorAxis(min = 0, max = 1) |>
+  hc_plotOptions(series = list(dataLabels = list(enabled = TRUE, format = "{point.value:.2f}"))) |>
+  hc_tooltip(pointFormat = "P(<b>{point.y}</b> to <b>{point.x}</b>) = {point.value:.3f}")
+```
+
+The diagonal dominates: most funds keep their label from one year to the next, as they should. The off-diagonal cells show which styles funds migrate between. With real data, look at whether the largest off-diagonal cells connect *adjacent* categories (growth to growth-and-income, mid-cap to small-cap). If they do, many of the switches may be a vendor re-labeling a fund whose portfolio has barely changed. That is why stated drift is a good first screen but a poor final measure.
+
+### 6.5 Revealed Drift in Individual Funds
+
+@chan2002 compare a fund's style in two non-overlapping windows, which is what a cross-sectional study needs. To *watch* one fund's style move, we instead estimate its exposures month by month in a rolling window. Two tools are common, and we run both on public data so that you can reproduce them without CRSP.
+
+- **Rolling Carhart loadings** (Lecture 1): regress monthly excess returns on the four factors in a rolling 36-month window. @dannhauser2026 use the *lagged* version of these rolling betas to split fund returns into a style component and a residual.
+- **Sharpe style weights** [@sharpe1992]: regress the fund's returns on a handful of *style index* returns, constrained so the weights are non-negative and sum to one, so the weights read as "this fund behaves like 70% large growth and 30% small growth".
+
+#### Data
+
+```{r}
+#| label: style-data
+
+start_date <- "2005-01-01"
+end_date   <- "2025-12-31"
+
+# Four style "corners" (Russell 1000/2000 growth and value ETFs) as the style indexes
+style_etfs   <- c(LG = "IWF", LV = "IWD", SG = "IWO", SV = "IWN")
+style_labels <- c(LG = "Large growth", LV = "Large value", SG = "Small growth", SV = "Small value")
+
+# Four long-lived mutual funds to analyze (you can change these tickers)
+drift_funds  <- c(FMAGX = "Fidelity Magellan", FCNTX = "Fidelity Contrafund",
+                  AGTHX = "Growth Fund of America", VWNDX = "Vanguard Windsor")
+
+# unname(): a named vector would make tq_get() use the first name ("LG") as the
+# column name instead of "symbol"
+px_raw <- tq_get(unname(c(style_etfs, names(drift_funds))),
+                 from = start_date, to = end_date, get = "stock.prices")
+
+px_ret <- px_raw |>
+  group_by(symbol) |>
+  tq_transmute(select = adjusted, mutate_fun = periodReturn,
+               period = "monthly", type = "arithmetic", col_rename = "ret") |>
+  ungroup() |>
+  mutate(ym = lubridate::floor_date(date, "month")) |>
+  select(symbol, ym, ret)
+
+# Kenneth French's factors (monthly, in percent)
+ff3_raw <- download_french_data("Fama/French 3 Factors")
+mom_raw <- download_french_data("Momentum Factor (Mom)")
+
+ff4 <- ff3_raw$subsets$data[[1]] |>
+  mutate(ym = lubridate::floor_date(lubridate::ym(date), "month"),
+         across(c(`Mkt-RF`, SMB, HML, RF), \(x) x / 100)) |>
+  rename(RMRF = `Mkt-RF`) |>
+  select(ym, RMRF, SMB, HML, RF) |>
+  inner_join(
+    mom_raw$subsets$data[[1]] |>
+      mutate(ym = lubridate::floor_date(lubridate::ym(date), "month"), UMD = Mom / 100) |>
+      select(ym, UMD),
+    by = "ym"
+  )
+```
+
+```{r}
+#| label: style-wide
+
+# One row per month: style ETFs, funds, and factors
+ret_wide <- px_ret |>
+  pivot_wider(names_from = symbol, values_from = ret) |>
+  inner_join(ff4, by = "ym") |>
+  filter(ym >= as.Date(start_date), ym <= as.Date(end_date)) |>
+  drop_na(all_of(c(unname(style_etfs), "RMRF", "SMB", "HML", "UMD", "RF"))) |>
+  arrange(ym)
+
+# Style-return matrix with columns named by style code (LG, LV, SG, SV), not by ticker.
+# Renaming inside select() keeps the names tied to the tickers they belong to.
+X_style <- ret_wide |>
+  select(LG = all_of(style_etfs[["LG"]]), LV = all_of(style_etfs[["LV"]]),
+         SG = all_of(style_etfs[["SG"]]), SV = all_of(style_etfs[["SV"]])) |>
+  as.matrix()
+stopifnot(nrow(X_style) == nrow(ret_wide),
+          identical(colnames(X_style), c("LG", "LV", "SG", "SV")))
+
+cat("Months:", nrow(ret_wide), "from", format(min(ret_wide$ym)), "to", format(max(ret_wide$ym)), "\n")
+```
+
+#### The Estimators
+
+```{r}
+#| label: style-functions
+
+# Sharpe (1992): min ||y - Xw||^2  s.t.  w >= 0, sum(w) = 1  (no intercept)
+sharpe_weights <- function(y, X) {
+  y <- 100 * y; X <- 100 * X                       # percent units keep the QP well scaled
+  k    <- ncol(X)
+  sol  <- quadprog::solve.QP(Dmat = 2 * crossprod(X) + diag(1e-8, k),
+                             dvec = 2 * crossprod(X, y),
+                             Amat = cbind(rep(1, k), diag(k)),
+                             bvec = c(1, rep(0, k)), meq = 1)
+  w <- pmax(sol$solution, 0)
+  w / sum(w)
+}
+
+# Rolling Sharpe weights; the weight for month t uses months t-width+1 ... t
+roll_style <- function(y, X, dates, width = 36) {
+  map(width:length(y), \(i) {
+    idx <- (i - width + 1):i
+    tibble(ym = dates[i], style = colnames(X),
+           w  = sharpe_weights(y[idx], X[idx, , drop = FALSE]))
+  }) |> list_rbind()
+}
+
+# Rolling Carhart loadings
+roll_carhart <- function(d, width = 36) {          # d: ym, ex (excess return), RMRF, SMB, HML, UMD
+  map(width:nrow(d), \(i) {
+    b <- coef(lm(ex ~ RMRF + SMB + HML + UMD, data = d[(i - width + 1):i, ]))
+    tibble(ym = d$ym[i], Mkt = b[["RMRF"]], SMB = b[["SMB"]], HML = b[["HML"]], UMD = b[["UMD"]])
+  }) |> list_rbind()
+}
+```
+
+#### Validate first: a fund whose style we control
+
+Before applying an estimator to real funds, apply it to a fund whose true style we *know*. We build a synthetic fund from the real style-ETF returns. Until the end of 2015 it holds 70% large growth and 30% small growth; from January 2016 it switches to 70% large value and 30% small value. A little noise stands in for stock selection. A good estimator should recover the switch.
+
+```{r}
+#| label: synthetic-fund
+
+switch_date <- as.Date("2016-01-01")
+
+set.seed(3)
+post <- ret_wide$ym >= switch_date
+
+# True weights as a matrix with the same rows and columns as X_style
+W_true_mat <- cbind(LG = if_else(post, 0, 0.7), LV = if_else(post, 0.7, 0),
+                    SG = if_else(post, 0, 0.3), SV = if_else(post, 0.3, 0))
+W_true_mat <- W_true_mat[, colnames(X_style), drop = FALSE]
+stopifnot(identical(dim(W_true_mat), dim(X_style)))
+
+synth_ret <- rowSums(W_true_mat * X_style) +
+  rnorm(nrow(X_style), 0, 0.0025)       # 25 bp monthly noise = "stock selection"
+
+W_true <- bind_cols(tibble(ym = ret_wide$ym), as_tibble(W_true_mat))
+
+W_est <- roll_style(synth_ret, X_style, ret_wide$ym, width = 36)
+
+# Share of weight placed on the right side of the switch, month by month
+est_check <- W_est |>
+  pivot_wider(names_from = style, values_from = w) |>
+  mutate(est_growth = LG + SG, true_growth = if_else(ym < switch_date, 1, 0))
+
+W_true_long <- W_true |>
+  pivot_longer(-ym, names_to = "style", values_to = "w") |>
+  mutate(style = unname(style_labels[style]))
+W_est_long <- W_est |>
+  mutate(style = unname(style_labels[style]), w = round(w, 3))
+
+switch_ts <- as.numeric(as.POSIXct(switch_date, tz = "UTC")) * 1000   # highcharts uses ms
+```
+
+```{r}
+#| label: fig-synth-true
+#| fig-cap: "The true style weights of the synthetic fund"
+
+hchart(W_true_long, "area", hcaes(x = ym, y = w, group = style)) |>
+  hc_title(text = "True weights: growth until 2015, value from 2016") |>
+  hc_xAxis(title = list(text = NULL)) |>
+  hc_yAxis(title = list(text = "Weight"), max = 1) |>
+  hc_plotOptions(area = list(stacking = "normal", marker = list(enabled = FALSE))) |>
+  hc_tooltip(shared = TRUE, pointFormat = "{series.name}: <b>{point.y:.2f}</b><br/>")
+```
+
+```{r}
+#| label: fig-synth-est
+#| fig-cap: "Rolling 36-month Sharpe style weights recovered from the synthetic fund's returns"
+
+hchart(W_est_long, "area", hcaes(x = ym, y = w, group = style)) |>
+  hc_title(text = "Estimated weights: rolling 36-month window") |>
+  hc_xAxis(title = list(text = NULL),
+           plotLines = list(list(value = switch_ts, color = "#E15759", width = 2, dashStyle = "Dash",
+                                 label = list(text = "True switch", rotation = 0)))) |>
+  hc_yAxis(title = list(text = "Weight"), max = 1) |>
+  hc_plotOptions(area = list(stacking = "normal", marker = list(enabled = FALSE))) |>
+  hc_tooltip(shared = TRUE, pointFormat = "{series.name}: <b>{point.y:.2f}</b><br/>")
+```
+
+The estimator finds the switch, but it finds it *late and gradually*. A window of 36 months mixes old and new months until the old months have rolled out, so the estimated weights move for about three years after the true change. This is the central trade-off of every rolling-window drift measure: a short window reacts fast but is noisy, a long window is stable but slow. A related design choice: @dannhauser2026 use *lagged* betas (estimated through the previous month) when they build the style component of a return, so that the style measure does not use the return being explained.
+
+```{r}
+#| label: synth-lag
+
+# How many months after the true switch does the estimated growth weight fall below 50%?
+first_below <- est_check |> filter(ym >= switch_date, est_growth < 0.5) |> slice_head(n = 1) |> pull(ym)
+cat("Estimated growth weight falls below 50% in", format(first_below, "%b %Y"),
+    "-", round(time_length(first_below - switch_date, "month")), "months after the true switch.\n")
+```
+
+#### Real funds: rolling style weights
+
+```{r}
+#| label: real-style-weights
+
+fund_style <- map(names(drift_funds), \(s) {
+  d <- ret_wide |> select(ym, y = all_of(s)) |> drop_na()
+  X <- X_style[match(d$ym, ret_wide$ym), , drop = FALSE]
+  roll_style(d$y, X, d$ym, width = 36) |> mutate(symbol = s)
+}) |> list_rbind() |>
+  mutate(fund = unname(drift_funds[symbol]), style = unname(style_labels[style]), w = round(w, 3))
+```
+
+```{r}
+#| label: fig-style-contrafund
+#| fig-cap: "Rolling 36-month Sharpe style weights: Fidelity Contrafund"
+
+hchart(filter(fund_style, symbol == "FCNTX"), "area", hcaes(x = ym, y = w, group = style)) |>
+  hc_title(text = "Fidelity Contrafund: estimated style weights") |>
+  hc_xAxis(title = list(text = NULL)) |>
+  hc_yAxis(title = list(text = "Weight"), max = 1) |>
+  hc_plotOptions(area = list(stacking = "normal", marker = list(enabled = FALSE))) |>
+  hc_tooltip(shared = TRUE, pointFormat = "{series.name}: <b>{point.y:.2f}</b><br/>")
+```
+
+```{r}
+#| label: fig-style-windsor
+#| fig-cap: "Rolling 36-month Sharpe style weights: Vanguard Windsor"
+
+hchart(filter(fund_style, symbol == "VWNDX"), "area", hcaes(x = ym, y = w, group = style)) |>
+  hc_title(text = "Vanguard Windsor: estimated style weights") |>
+  hc_xAxis(title = list(text = NULL)) |>
+  hc_yAxis(title = list(text = "Weight"), max = 1) |>
+  hc_plotOptions(area = list(stacking = "normal", marker = list(enabled = FALSE))) |>
+  hc_tooltip(shared = TRUE, pointFormat = "{series.name}: <b>{point.y:.2f}</b><br/>")
+```
+
+To look at another fund, change the ticker in the `filter(symbol == ...)` call. Two cautions apply to every chart of this kind. The four ETFs are correlated, so a few percentage points of weight can move between neighbors without changing the fit; do not over-read small wiggles. And the weights describe *behavior*, not *holdings*: a fund that holds cash or non-US stocks will have that part of its return mapped onto whichever style index it happens to resemble.
+
+#### Real funds: rolling Carhart loadings
+
+```{r}
+#| label: real-carhart
+
+carhart_roll <- map(names(drift_funds), \(s) {
+  d <- ret_wide |> select(ym, ret = all_of(s), RMRF, SMB, HML, UMD, RF) |>
+    drop_na() |> mutate(ex = ret - RF)
+  roll_carhart(d, width = 36) |> mutate(symbol = s)
+}) |> list_rbind() |>
+  mutate(fund = unname(drift_funds[symbol]),
+         across(c(Mkt, SMB, HML, UMD), \(x) round(x, 3)))
+```
+
+Each chart below shows one loading for all four funds. A line that trends across the sample is a drifting loading; a line that stays flat is a stable style. The SMB and HML charts are the time-series counterparts of the size and book-to-market ranks in @chan2002.
+
+```{r}
+#| label: fig-drift-mkt
+#| fig-cap: "Rolling 36-month market beta"
+
+hchart(carhart_roll, "line", hcaes(x = ym, y = Mkt, group = fund)) |>
+  hc_title(text = "Market loading (rolling 36 months)") |>
+  hc_xAxis(title = list(text = NULL)) |>
+  hc_yAxis(title = list(text = "Loading"),
+           plotLines = list(list(value = 1, color = "#999999", width = 1, dashStyle = "Dash"))) |>
+  hc_plotOptions(line = list(marker = list(enabled = FALSE))) |>
+  hc_tooltip(shared = TRUE, valueDecimals = 2)
+```
+
+```{r}
+#| label: fig-drift-smb
+#| fig-cap: "Rolling 36-month size loading (SMB)"
+
+hchart(carhart_roll, "line", hcaes(x = ym, y = SMB, group = fund)) |>
+  hc_title(text = "Size loading, SMB (rolling 36 months)") |>
+  hc_xAxis(title = list(text = NULL)) |>
+  hc_yAxis(title = list(text = "Loading"),
+           plotLines = list(list(value = 0, color = "#999999", width = 1))) |>
+  hc_plotOptions(line = list(marker = list(enabled = FALSE))) |>
+  hc_tooltip(shared = TRUE, valueDecimals = 2)
+```
+
+```{r}
+#| label: fig-drift-hml
+#| fig-cap: "Rolling 36-month value loading (HML)"
+
+hchart(carhart_roll, "line", hcaes(x = ym, y = HML, group = fund)) |>
+  hc_title(text = "Value loading, HML (rolling 36 months)") |>
+  hc_xAxis(title = list(text = NULL)) |>
+  hc_yAxis(title = list(text = "Loading"),
+           plotLines = list(list(value = 0, color = "#999999", width = 1))) |>
+  hc_plotOptions(line = list(marker = list(enabled = FALSE))) |>
+  hc_tooltip(shared = TRUE, valueDecimals = 2)
+```
+
+```{r}
+#| label: fig-drift-umd
+#| fig-cap: "Rolling 36-month momentum loading (UMD)"
+
+hchart(carhart_roll, "line", hcaes(x = ym, y = UMD, group = fund)) |>
+  hc_title(text = "Momentum loading, UMD (rolling 36 months)") |>
+  hc_xAxis(title = list(text = NULL)) |>
+  hc_yAxis(title = list(text = "Loading"),
+           plotLines = list(list(value = 0, color = "#999999", width = 1))) |>
+  hc_plotOptions(line = list(marker = list(enabled = FALSE))) |>
+  hc_tooltip(shared = TRUE, valueDecimals = 2)
+```
+
+### 6.6 A Number for Drift: Style Turnover
+
+Charts are good for a handful of funds. A study of thousands of funds needs *one number per fund and year*. A simple choice is **style turnover**: the distance between a fund's style weights today and twelve months ago,
+
+$$
+\text{StyleTurnover}_{i,t} = \frac{1}{2}\sum_{s=1}^{S}\left| w_{i,s,t} - w_{i,s,t-12} \right|.
+\tag{1}
+$$
+
+It equals the fraction of the portfolio that would have to be reassigned to a different style to get from last year's weights to this year's. It is 0 for a fund that never changes style and 1 for a fund that moved entirely from one style to another. Because the weights come from a rolling window, the measure is smooth and has the lag we saw above. It is a *measure we construct* for teaching. It is the within-fund cousin of the mean absolute change in style rank in @chan2002: theirs measures how far a fund moves *relative to other funds*, ours how far its own style weights move. Both inherit the noise floor of §6.3.
+
+```{r}
+#| label: style-turnover
+
+style_turnover <- fund_style |>
+  arrange(symbol, style, ym) |>
+  mutate(w_lag = lag(w, 12), .by = c(symbol, style)) |>
+  filter(!is.na(w_lag)) |>
+  summarise(turnover = 0.5 * sum(abs(w - w_lag)), .by = c(fund, symbol, ym)) |>
+  mutate(turnover = round(turnover, 3))
+
+turnover_summary <- style_turnover |>
+  summarise(mean_turnover = mean(turnover), max_turnover = max(turnover),
+            share_above_30 = mean(turnover > 0.3), .by = fund) |>
+  arrange(desc(mean_turnover))
+```
+
+```{r}
+#| label: fig-style-turnover
+#| fig-cap: "12-month style turnover, Equation (1)"
+
+hchart(style_turnover, "line", hcaes(x = ym, y = turnover, group = fund)) |>
+  hc_title(text = "Style turnover over twelve months") |>
+  hc_xAxis(title = list(text = NULL)) |>
+  hc_yAxis(title = list(text = "Style turnover"), min = 0, max = 1) |>
+  hc_plotOptions(line = list(marker = list(enabled = FALSE))) |>
+  hc_tooltip(shared = TRUE, valueDecimals = 2)
+```
+
+```{r}
+#| label: tbl-turnover-summary
+#| tbl-cap: "Summary of style turnover by fund"
+
+turnover_summary |>
+  gt() |>
+  fmt_number(columns = c(mean_turnover, max_turnover), decimals = 2) |>
+  fmt_percent(columns = share_above_30, decimals = 0) |>
+  cols_label(fund = "Fund", mean_turnover = "Mean", max_turnover = "Max",
+             share_above_30 = "Months above 0.30") |>
+  tab_header(title = "Which Fund Drifts the Most?",
+             subtitle = "Style turnover from rolling 36-month Sharpe weights")
+```
+
+::: callout-warning
+## Five traps in drift measurement
+
+1.  **Noise looks like drift.** Estimation error in rolling or windowed loadings produces movement even for a fund whose style never changes. Always run the estimator on synthetic funds with a known, constant style to calibrate the *noise floor* before interpreting any number (§6.3, §6.5).
+2.  **Extreme groups revert.** Funds sorted into the top or bottom of an *estimated* style ranking move back toward the middle next period without any decision. A "move toward growth" by value funds is partly this.
+3.  **Sorting on performance sorts on noise.** Past returns depend on true style, so winners and losers differ in how much of their estimated style is error. A winner-loser gap in drift has a mechanical component whose sign depends on the realized style premium (§6.3).
+4.  **Label changes are not portfolio changes.** A vendor can re-code a fund because its own taxonomy changed. Check the filled and unfilled codes (Section 3.3, step 2) before counting a switch.
+5.  **Drift is conditional on the benchmark set.** Style weights depend on which style indexes are in the regression. With four corners, a fund that holds mid-cap stocks is a blend of large and small. Report the style set with the result.
+:::
+
+------------------------------------------------------------------------
+
+## 7. Putting It Together: A Replication Checklist
+
+Use this list every time you start a new mutual fund study. Each item names the problem it prevents.
+
+1.  **Start from the right unit.** Work at the fund (WFICN) level unless the question is about share classes. Sum TNA across classes; take the age of the *oldest* class; TNA-weight the expense ratio and fees.
+2.  **Remove incubation.** Drop the first years of life (three, following @dannhauser2026; 18 months in @doshi2015). Use the *oldest* class's first offer date.
+3.  **Remove tiny funds.** TNA below \$15 million [@elton2001], as a size filter in addition to the age filter.
+4.  **Validate missing and sentinel values.** CRSP stores missing expense ratios as -99 and has implausible values; handle them before aggregating.
+5.  **Restrict to domestic equity and say how.** Vendor codes, name screens (foreign names), and a minimum share of years in domestic equity.
+6.  **Remove what is not an active equity fund.** ETNs, leveraged and inverse funds, target-date funds [@parker2023], and either index funds or active ETFs, depending on the question.
+7.  **Parse names with word boundaries, not substrings.** Test every regex on a list of known true and false positives.
+8.  **Fill style codes deliberately.** Document how you carry codes forward and backward, and check the result against the unfilled series.
+9.  **Report the attrition table.** Funds and observations after each step. Readers can then see which filter drives the result.
+10. **Report robustness.** Re-run the main result with a different classification recipe and a different age cutoff.
+11. **Measure drift against a null, not against zero.** Calibrate the noise floor of any drift measure on synthetic funds with a known style, and test winner-loser differences against a placebo sort.
+
+------------------------------------------------------------------------
+
+## 8. Key Takeaways
+
+1.  **The sample is the first model.** Filters are not housekeeping: each one removes a documented bias, and the incubation simulation shows that skipping one can turn zero skill into apparent skill.
+2.  **Share classes are not funds.** Aggregate to the fund level before counting funds, assigning age, or averaging fees.
+3.  **Three recipes, three universes.** @doshi2015, @back2018, and @dannhauser2026 agree on core active equity funds and disagree at the edges (index funds, hedged strategies, sector funds, name parsing). Use the recipe that fits the question, and report how much your result moves with another.
+4.  **Names are data, but dirty data.** A regex that works on ten fund names fails on ten thousand; test with true and false positives.
+5.  **Stated and revealed style are different objects.** The stated label is cheap and universal; revealed style is harder but reflects what the fund does.
+6.  **Styles cluster near the market and persist imperfectly** [@chan2002]. Funds that change style are disproportionately past losers, especially value funds moving toward growth.
+7.  **A drift statistic needs the right null.** Estimated ranks revert, and sorting on past performance sorts partly on estimation error, so part of a winner-loser gap is mechanical. Rolling-window measures also trade speed for noise. Validate every estimator on funds whose true style you set.
+8.  **Not all style change is a decision.** Stocks migrate across style boundaries, and vendors re-label funds; only holdings and trades can separate active from passive drift.
+
+------------------------------------------------------------------------
+
+## 9. Discussion Questions
+
+1.  The incubation simulation sets true alpha to zero for every fund. Explain, in terms of the *selection rule* that decides which funds are released, why the released funds still show a positive average alpha during incubation. Why does the alpha vanish once the funds are public, and what does this imply for studies that include the incubation years?
+
+2.  @dannhauser2026 drop the first three years of a fund's life, while @doshi2015 drop 18 months. Design a test to choose between the two windows. What would you compare, and what does a "too short" window look like in your test?
+
+3.  The TNA filter of \$15 million is applied to the fund after the share classes are summed. What would change if it were applied to each share class instead? Which funds would be dropped that should be kept, and which kept that should be dropped?
+
+4.  Compare the active-fund counts of the three recipes in the simulation (@tbl-method-counts). For the funds that only one recipe flags, which true type are they? What do the differences imply for a paper whose result is about "active funds"?
+
+5.  A name filter contains the pattern `ind` to catch "Index" and "Ind" funds. Give three fund names for which the filter makes the wrong call. How would you test the filter before using it on the full sample?
+
+6.  In the simulation, the stated-drift table shows a nonzero label-switch rate for the *Index* group even though no true index fund changes style. We traced it to one cause (name-parsing errors). List three other reasons a real index fund could show a label change that are not "the fund changed its style". How would you tell them apart?
+
+7.  In the rolling-window validation (§6.5), the rolling estimate takes roughly half the window length to register a style change that happened in a single month. A shorter window would react sooner. What do you lose with the shorter window? Propose a way to choose the window length from the data.
+
+8.  Equation (1) and the mean absolute rank change in @chan2002 are both computed from styles estimated with error. If the true style never changes, is the expected value of either measure zero? Use the "No drift" panel of @tbl-ccl-consistency-sim to explain, and propose a way to remove the bias.
+
+9.  A fund that keeps its "growth" label while its returns load on HML like a value fund is a case of *revealed* drift without *stated* drift. What are two reasons the manager might leave the label unchanged, and how would each affect your inference in a study of flows?
+
+10. In @tbl-ccl-losers-sim, losing value funds move more than winning value funds even when no fund changes style, and the pattern flips for growth funds. Explain the mechanism. Would the sign of this mechanical gap change in a period when the value premium was negative? Modify `simulate_ccl()` to check, and say what this implies for comparing @chan2002's 1984–1994 sample with a post-2007 sample.
+
+11. @chan2002 study funds alive at the end of 1997. Describe how you would redo their Table 8 on the CRSP survivor-bias-free database. Which result would most change your reading of "losers drift": losers that drift being *more* likely to survive, or *less* likely? Why?
+
+------------------------------------------------------------------------
+
+## References
+
+::: {#refs}
+:::
