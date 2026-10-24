@@ -207,7 +207,7 @@ Installation guide on Moodle.
 ## Schedule Overview (cont.) {.smaller}
 
 | Week | Date | Topic | Type |
-|-----------------|-----------------|---------------------|:---------------:|
+|----|----|----|:--:|
 | 9 | Nov 5 | Fund Performance III: Bootstrap Inference | **Lab 3** |
 | 10 | **Nov 12** | Fund Holdings and Trading Behavior | Lecture |
 | 11 | Nov 19 | Holdings Measures: Active Share, Churn, Window Dressing | **Lab 4** |
@@ -324,7 +324,7 @@ Download factor data → compute excess returns → estimate CAPM / FF3 / Carhar
 ## Five Labs, Tightly Linked to Theory {.smaller}
 
 | Lab | Week | What You'll Build |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | **Lab 1** | 3 | Carhart 4-factor alpha for a set of ETFs |
 | **Lab 2** | 5 | DGTW CS and CT components; fund-level flow and turnover |
 | **Lab 3** | 9 | Bootstrap alpha distribution (Fama-French 2010 replication) |

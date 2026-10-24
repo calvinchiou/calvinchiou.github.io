@@ -3,7 +3,7 @@ title: "Slides 03: Fund Classification and Style Drift"
 subtitle: "Institutional Investors"
 author: "Calvin J. Chiou (邱健嘉)"
 institute: "Department of Finance · National Chengchi University"
-date: "Fall AY115"
+date: "2026-10-22"
 format:
   revealjs:
     theme: [serif, custom.scss]
@@ -11,6 +11,7 @@ format:
     progress: true
     transition: fade
     transition-speed: fast
+    embed-resources: true
     footer: "Institutional Investors · Slides 03 · NCCU Finance"
     width: 1280
     height: 720
@@ -58,17 +59,17 @@ Three decisions hide inside that sentence:
 Today's empirical anchor for (3): @chan2002, *Review of Financial Studies*.
 
 ::: notes
-~3 min. Lectures 1–2 assumed we already know the sample. Today we open that box. Parts 1–2 are the front end (~25 min); Part 3 is the paper (~25 min); 5 min to wrap.
+\~3 min. Lectures 1–2 assumed we already know the sample. Today we open that box. Parts 1–2 are the front end (\~25 min); Part 3 is the paper (\~25 min); 5 min to wrap.
 :::
 
 ## Plan for the hour
 
-| Part | Topic | Minutes |
-|----|----|----|
-| 1 | Cleaning the CRSP sample: units, filters, incubation | 12 |
-| 2 | Classifying funds: active, index, ETF | 13 |
-| 3 | Style drift: @chan2002 | 25 |
-| — | Takeaways and discussion | 5 |
+| Part | Topic                                                | Minutes |
+|------|------------------------------------------------------|---------|
+| 1    | Cleaning the CRSP sample: units, filters, incubation | 12      |
+| 2    | Classifying funds: active, index, ETF                | 13      |
+| 3    | Style drift: @chan2002                               | 25      |
+| —    | Takeaways and discussion                             | 5       |
 
 : The full code for every step is in the Lecture 3 handout.
 
@@ -76,12 +77,12 @@ Today's empirical anchor for (3): @chan2002, *Review of Financial Studies*.
 
 ## A "fund" in CRSP is not one row
 
-| Identifier | Level | Use |
-|----|----|----|
-| `crsp_fundno` | Share class | Fees, loads, TNA differ by class |
-| `crsp_cl_grp` | Class group | CRSP's grouping of a fund's classes |
-| `crsp_portno` | Portfolio | Links to holdings; not always populated |
-| `wficn` | Fund | MFLINKS link to Thomson Reuters holdings |
+| Identifier    | Level       | Use                                      |
+|---------------|-------------|------------------------------------------|
+| `crsp_fundno` | Share class | Fees, loads, TNA differ by class         |
+| `crsp_cl_grp` | Class group | CRSP's grouping of a fund's classes      |
+| `crsp_portno` | Portfolio   | Links to holdings; not always populated  |
+| `wficn`       | Fund        | MFLINKS link to Thomson Reuters holdings |
 
 . . .
 
@@ -94,7 +95,7 @@ A fund with four share classes counted as four funds is **four votes** in every 
 ## Why each filter exists {.smaller}
 
 | Filter | Typical rule | Bias it removes |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | Incubation | Drop first 18 months [@doshi2015] to 3 years [@dannhauser2026] | Backfilled private track records [@evans2010] |
 | Small funds | TNA \< \$15 million | Noisy, upward-biased small-fund returns [@elton2001] |
 | Equity share | ≥ 80% in equity [@kacperczyk2008] | Codes ≠ what the fund holds |
@@ -181,11 +182,11 @@ Longer window → safer filter, fewer young funds. **Report it, and show robustn
 
 @dannhauser2026, domestic-equity fund assets, 2005 → 2022:
 
-| Vehicle | Start | End |
-|----|----|----|
+| Vehicle             | Start  | End |
+|---------------------|--------|-----|
 | Active mutual funds | \> 82% | 43% |
-| Index mutual funds | 11% | 24% |
-| ETFs | 7% | 33% |
+| Index mutual funds  | 11%    | 24% |
+| ETFs                | 7%     | 33% |
 
 . . .
 
@@ -194,7 +195,7 @@ Longer window → safer filter, fewer young funds. **Report it, and show robustn
 ## Three published recipes {.smaller}
 
 |   | @doshi2015 | @back2018 | @dannhauser2026 |
-|----|----|----|----|
+|------------------|------------------|------------------|------------------|
 | **Core rule** | *Any* of four vendor codes on a diversified-equity list | CRSP objective `ED` + `C`/`Y` | CRSP `ED…` **or** Lipper list incl. sectors |
 | **Drops** | Int'l, balanced, sector, index | Hedged/short (`YH`/`YS`), option income, index, TDF | Foreign names, ETNs, leveraged, FoF, active ETFs, TDF |
 | **Passive / ETFs** | Dropped | Dropped | **Kept and labeled** |
@@ -252,14 +253,14 @@ tribble(
   tab_options(table.font.size = px(20))
 ```
 
-`SP` sits inside "RSP", `ind ` inside "Wind ", "100" in a fund name. Whole words fix some errors, not all ("Russell 2000 *Alpha*"). Published papers **hand-check** what their rules flag; @dannhauser2026 report a false positive in their own data.
+`SP` sits inside "RSP", `ind` inside "Wind ", "100" in a fund name. Whole words fix some errors, not all ("Russell 2000 *Alpha*"). Published papers **hand-check** what their rules flag; @dannhauser2026 report a false positive in their own data.
 
 # Part 3 · Style and Style Drift {background-color="#3b3b6b"}
 
 ## Three ways to know a fund's style
 
 | Approach | Source | Weakness |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | **Stated** | Prospectus objective; Lipper / Morningstar / CRSP codes | It is what the fund *chooses to say* [@kim2000; @cooper2005] |
 | **Returns-based** | Factor loadings; Sharpe [-@sharpe1992] style weights | Needs a long window; lags |
 | **Holdings-based** | Size, B/M, momentum of stocks held [@daniel1997] | Needs holdings; quarterly snapshots |
@@ -279,7 +280,7 @@ tribble(
 
 ## The source paper
 
-**@chan2002** — "On Mutual Fund Investment Styles", *RFS* 15(5)
+@chan2002 — "On Mutual Fund Investment Styles", *RFS* 15(5)
 
 ::::: columns
 ::: {.column width="55%"}
@@ -306,16 +307,16 @@ Four questions: Where do funds sit? Do styles persist? **Who changes style?** Do
 
 Holdings-weighted style scores (0 = lowest stock rank, 1 = highest), CCL Table 4:
 
-| | Fund average | S&P 500 |
-|----|----|----|
-| Size score | 0.94 | 0.98 |
-| Book-to-market score | 0.35 | 0.38 |
-| Past 3-year return score | 0.63 | 0.63 |
+|                          | Fund average | S&P 500 |
+|--------------------------|--------------|---------|
+| Size score               | 0.94         | 0.98    |
+| Book-to-market score     | 0.35         | 0.38    |
+| Past 3-year return score | 0.63         | 0.63    |
 
 . . .
 
 ::: incremental
-- About **26%** of funds sit in the smallest size decile, but they hold only ~**11%** of fund assets
+- About **26%** of funds sit in the smallest size decile, but they hold only \~**11%** of fund assets
 - **60%** of funds (67% of assets) fall in B/M deciles 3–5; only **3.2%** sit in the three most "value" deciles
 - When funds deviate from the market, they lean toward **growth** and **past winners**
 :::
@@ -414,12 +415,12 @@ The authors call this "some evidence." The difference itself carries no reported
 
 For the funds where the two measures **disagree most** (one says value, the other says growth), CCL predict returns in extreme-HML months (Table 9):
 
-| Disagreement | Months | Characteristics | Loadings |
-|----|----|----|----|
-| Value by chars, growth by loadings | Lowest HML | 1.395 | 1.702 |
-|  | Highest HML | 1.480 | 1.766 |
-| Growth by chars, value by loadings | Lowest HML | 1.367 | 1.640 |
-|  | Highest HML | 1.490 | 2.076 |
+| Disagreement                       | Months      | Characteristics | Loadings |
+|------------------------------------|-------------|-----------------|----------|
+| Value by chars, growth by loadings | Lowest HML  | 1.395           | 1.702    |
+|                                    | Highest HML | 1.480           | 1.766    |
+| Growth by chars, value by loadings | Lowest HML  | 1.367           | 1.640    |
+|                                    | Highest HML | 1.490           | 2.076    |
 
 : Mean absolute prediction error (lower is better)
 
@@ -484,7 +485,7 @@ The estimate crosses 50% only **`r lag_m` months** after the switch. Short windo
 
 ::: incremental
 - **Survivorship.** The sample is funds *alive at end-1997*. Losers that survived may be precisely those that changed style — drift and survival are jointly selected
-- **Mean reversion and a mechanical gap.** Estimated extreme ranks revert, and past returns depend on true style, so losers and winners differ in how noisy their ranks are. In a simulation with *no* drift, value losers still move ~0.016 more than value winners (handout §6.3) — the null is not zero
+- **Mean reversion and a mechanical gap.** Estimated extreme ranks revert, and past returns depend on true style, so losers and winners differ in how noisy their ranks are. In a simulation with *no* drift, value losers still move \~0.016 more than value winners (handout §6.3) — the null is not zero
 - **No inference on the key contrasts.** Table 8 and the growth–value alpha gap are descriptive sorts
 - **Drift ≠ decision.** Rank changes mix trading, stock migration, and estimation error; separating them needs holdings and trades
 :::

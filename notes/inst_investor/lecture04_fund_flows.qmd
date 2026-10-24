@@ -1,0 +1,1521 @@
+---
+title: "Lecture 4: Fund Flows and the Flow–Performance Relationship"
+subtitle: "Institutional Investors"
+author: "Calvin J. Chiou"
+institution: "National Chengchi University"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    highlight-style: github
+    self-contained: true
+execute:
+  warning: false
+  message: false
+  cache: true
+bibliography: references.bib
+---
+
+## Overview
+
+Lectures 1 and 2 asked how well managers perform and whether the performance is skill. Lecture 3 asked which funds belong in the sample and what kind of funds they are. This lecture turns from the manager to the **investor**: how does money move between funds, and how does it respond to performance?
+
+The question matters because of how a fund company is paid. Its revenue is
+
+$$
+\text{Revenue}_{i,t} = f_i \times \text{TNA}_{i,t},
+\tag{1}
+$$
+
+where $f_i$ is the expense ratio and TNA is total net assets. Fees change rarely, so revenue grows mainly through TNA, and TNA grows in two ways: the return on the assets already in the fund, and **flows**, the new money investors put in or take out. The way flows respond to performance is therefore the fund company's implicit incentive contract. It is written by investors, not by the board, and it shapes what managers do. @berkgreen2004, which we met in Lecture 2, is a model in which this response is what competes skill away.
+
+We work with **100 randomly selected active U.S. domestic equity funds** from the CRSP Survivor-Bias-Free Mutual Fund Database, observed monthly from 2000 to 2025 at the fund (class-group) level. The lecture has three parts.
+
+1.  **Measure flows.** We compute fund-level flows, see which problems survive the aggregation of share classes into funds, and decide what to filter.
+2.  **Estimate the flow–performance relationship.** We review the theory and the evidence (@sirri1998 and what followed), then run a replication-style version of the @sirri1998 regression on the 100 funds, ask which performance measure explains flows best, and look at young funds and at funds that disappear.
+3.  **Ask whether the shape is behavior or design.** The headline result of the literature is that flows are *convex* in performance. @spiegel2013 argue that this convexity is an artifact of how the regression is run. We simulate an industry three times to see when the standard estimator recovers the true shape and when it manufactures one.
+
+::: callout-note
+## What moved out of this lecture
+
+The tournament and risk-shifting tests (@brown1996, @busse2001, @schwarz2012), which an earlier draft paired with flows, move to the next lecture. They take the shape of the flow function as given, so they need what we build here first.
+:::
+
+By the end of the lecture, you should be able to:
+
+- compute dollar and percentage flows from fund-level TNA and returns, and explain each requirement (consecutive months, a valid return, a minimum lagged TNA);
+- recognize what a flow is *not*: mergers, share-class launches, reporting gaps, cash distributions, and liquidations;
+- summarize the evidence on the shape of the flow–performance relationship and on which performance measure investors respond to;
+- estimate the @sirri1998 piecewise-linear regression and test for convexity;
+- explain, with data and with simulations, why survivorship and heterogeneous investors can produce convexity when no investor behaves convexly.
+
+------------------------------------------------------------------------
+
+## 1. Setup
+
+```{r}
+#| label: setup
+
+library(tidyverse)
+library(highcharter)   # interactive charts
+library(gt)
+library(DT)
+library(fixest)        # panel regressions
+library(arrow)         # read the parquet sample
+library(frenchdata)    # Kenneth French's Data Library
+
+# Data source for Sections 2 and 4:
+#   "crsp"      -> sample_funds_100_clgrp.parquet (built from the licensed CRSP Mutual Fund Database)
+#   "simulated" -> a simulated panel with the same columns, for readers without CRSP access
+data_source <- "crsp"
+pq_path     <- "sample_funds_100_clgrp.parquet"
+```
+
+### 1.1 The sample
+
+The sample is built by `make_fund_sample.R`. The script works from two CRSP tables, `fund_summary2` (quarterly fund characteristics) and `monthly_tna_ret_nav` (monthly returns and TNA), and identifies a **fund** with its CRSP class group, `crsp_cl_grp`: all share classes of the same portfolio share one class group. It then draws 100 funds at random from those that pass the screens below.
+
+| Screen | Rule |
+|---------------------------|---------------------------------------------|
+| Style | At least 75% of the fund's CRSP objective codes are diversified domestic equity (`EDCL`, `EDCM`, `EDCS`, `EDCI`, `EDYG`, `EDYB`, `EDYI`); sector, hedged, and short funds are out |
+| Equity share | Average share of assets in common stock (`per_com`) of at least 80% |
+| Not passive or packaged | No share class ever carries an index-fund flag, an ETF/ETN flag, a variable-annuity flag, or an index/ETF or target-date/allocation name |
+| History | At least 120 months between 2000 and 2025 with a valid return for at least one share class |
+
+: How the 100 funds were selected (`make_fund_sample.R`)
+
+Share classes are then aggregated to the class group by month (Part B of the script). TNA is summed across share classes; the fund return `ret_vw` weights each class's return by its *lagged* TNA; expense ratio, management fee, 12b-1 fee, and turnover are lagged-TNA-weighted averages; fund age is measured from the first offer date of the **oldest** share class. These are the rules of Lecture 3, §2.
+
+| Column | Meaning |
+|------------------|------------------------------------------------------|
+| `crsp_cl_grp` | CRSP class group (the fund) |
+| `caldt` | Month-end date |
+| `fund_name` | Name of the largest share class, class suffix removed |
+| `n_class` | Number of share classes with a record that month |
+| `tna` | Fund TNA, sum over share classes (\$ millions) |
+| `ret_vw` | Fund return, share-class returns weighted by lagged class TNA |
+| `ret_ew` | Fund return, equal-weighted across share classes |
+| `exp_ratio`, `mgmt_fee`, `actual_12b1`, `turn_ratio` | Lagged-TNA-weighted fees and turnover (decimal) |
+| `first_offer` | First offer date of the oldest share class |
+| `crsp_obj_cd` | CRSP objective code of the largest share class |
+| `age_years` | Fund age in years |
+
+: Columns of `sample_funds_100_clgrp.parquet`
+
+::: callout-warning
+## What the selection rule does to a flow study
+
+The **120-month history requirement** keeps only funds that lived at least ten years inside 2000–2025. A fund launched in 2018, or one that was closed after five bad years, cannot be in the sample. Those are exactly the funds with the most extreme flows: young funds, whose flows respond most to performance in the @berkgreen2004 logic, and dying funds, whose last outflows shape the bottom of the flow function (§4.5 and §5). The database is survivor-bias free; this *sample* is selected on survival. Keep this in mind whenever a number below looks small.
+:::
+
+::: callout-warning
+## Licensed data
+
+CRSP data are licensed. The 100-fund file is for use in class. A public version of this handout should be rendered with `data_source <- "simulated"`: the simulator below produces a panel with the same columns and the same kinds of data problems, so every chunk runs unchanged, but its numbers are not CRSP's.
+:::
+
+Performance in Section 4 is measured against factor models, so we need the Fama-French factors. They are public.
+
+```{r}
+#| label: french
+
+ff3_raw <- download_french_data("Fama/French 3 Factors")
+
+ff <- ff3_raw$subsets$data[[1]] |>
+  transmute(ym    = floor_date(ym(date), "month"),
+            mktrf = `Mkt-RF` / 100,
+            smb   = SMB / 100,
+            hml   = HML / 100,
+            rf    = RF / 100)
+```
+
+The simulator is only used when `data_source == "simulated"` or when the parquet file is missing. It builds 100 funds whose flows respond convexly to their within-month performance rank, more strongly when the fund is young, and plants the problems we look for in Section 2: share-class launches, one-month reporting gaps, mergers, and funds that wind down before they exit. Skim it.
+
+```{r}
+#| label: simulate
+
+simulate_clgrp <- function(ff, n_funds = 100, seed = 2026) {
+  set.seed(seed)
+  mkt <- ff |> filter(ym >= as.Date("2000-01-01"), ym <= as.Date("2025-12-01"))
+  n_t <- nrow(mkt)
+
+  obj  <- c("EDCL", "EDCM", "EDCS", "EDCI", "EDYG", "EDYB", "EDYI")
+  fam  <- c("Alder", "Beacon", "Cedar", "Delta", "Everest", "Falcon", "Granite", "Harbor",
+            "Juniper", "Kestrel")
+  word <- c("Growth", "Value", "Opportunities", "Equity Income", "Small Cap", "Mid Cap",
+            "Select", "Capital Appreciation", "Core Equity", "Discovery")
+
+  launched <- runif(n_funds) < 0.35                                   # launched after 2000
+  start    <- if_else(launched, sample(2:180, n_funds, TRUE), 1L)
+  exits    <- runif(n_funds) < 0.30
+  end      <- if_else(exits & start + 120 < n_t,
+                      map2_int(start, n_t, \(s, n) if (s + 120 < n) sample((s + 120):(n - 1), 1) else n),
+                      n_t)
+  first_offer <- if_else(launched, mkt$ym[start] - sample(0:25, n_funds, TRUE),
+                         as.Date("2000-01-01") - sample(365:(365 * 35), n_funds, TRUE))
+
+  beta <- runif(n_funds, 0.8, 1.2); sd_e <- runif(n_funds, 0.012, 0.03)
+  tna0 <- if_else(launched, exp(rnorm(n_funds, log(8), 0.8)), exp(rnorm(n_funds, log(200), 1.5)))
+  merger_t <- rep(NA_integer_, n_funds)
+  mg <- sample(which(end - start > 60), 3)
+  merger_t[mg] <- map_int(mg, \(i) sample((start[i] + 24):(end[i] - 12), 1))
+
+  R   <- matrix(NA_real_, n_funds, n_t); TNA <- R; FL <- R
+  ncl <- matrix(NA_integer_, n_funds, n_t)
+  for (t in seq_len(n_t)) {
+    alive <- start <= t & t <= end
+    R[alive, t] <- mkt$rf[t] + beta[alive] * mkt$mktrf[t] + rnorm(sum(alive), 0, sd_e[alive]) -
+                   if_else(end[alive] < n_t & end[alive] - t < 36, 0.004, 0)   # funds about to exit underperform
+    born <- alive & start == t
+    TNA[born, t] <- tna0[born]; ncl[born, t] <- sample(1:4, sum(born), TRUE)
+    old <- alive & start < t
+    if (!any(old)) next
+    has12 <- old & start <= t - 12
+    r12 <- rep(NA_real_, n_funds)
+    if (t > 12) r12[has12] <- apply(1 + R[has12, (t - 12):(t - 1), drop = FALSE], 1, prod) - 1
+    rk  <- rep(NA_real_, n_funds); rk[has12] <- percent_rank(r12[has12])
+    seg <- 0.010 * pmin(rk, 0.2) + 0.012 * pmin(0.6, pmax(rk - 0.2, 0)) + 0.060 * pmax(rk - 0.8, 0)
+    age <- as.numeric(mkt$ym[t] - first_offer) / 365.25
+    f   <- if_else(has12, -0.010 + if_else(age < 6, 1.8, 1) * seg, 0.015) +
+           0.25 * coalesce(FL[, t - 1], 0) +
+           rnorm(n_funds, 0, 0.008 + 0.04 / sqrt(pmax(coalesce(TNA[, t - 1], 1), 1)))
+    f <- f - if_else(end - t < 24 & end < n_t, 0.03, 0)               # funds winding down
+    launch_class <- old & runif(n_funds) < 0.004                     # a new share class brings money
+    f <- f + if_else(launch_class, runif(n_funds, 0.05, 0.30), 0)
+    f <- f + if_else(!is.na(merger_t) & merger_t == t, runif(n_funds, 1, 2.5), 0)
+    FL[old, t]  <- f[old]
+    ncl[old, t] <- ncl[old, t - 1] + launch_class[old]
+    TNA[old, t] <- pmax(0.1, TNA[old, t - 1] * (1 + R[old, t]) * (1 + f[old]))
+  }
+
+  out <- map(seq_len(n_funds), \(i) {
+    idx <- start[i]:end[i]
+    tibble(crsp_cl_grp = 3000000 + i, ym = mkt$ym[idx], n_class = ncl[i, idx],
+           tna = TNA[i, idx], ret = R[i, idx])
+  }) |> list_rbind()
+
+  chars <- tibble(crsp_cl_grp = 3000000 + seq_len(n_funds),
+                  fund_name   = paste(sample(fam, n_funds, TRUE), sample(word, n_funds, TRUE), "Fund"),
+                  first_offer = first_offer,
+                  crsp_obj_cd = sample(obj, n_funds, TRUE, c(.2, .12, .12, .03, .25, .2, .08)),
+                  er0 = pmax(0.002, rnorm(n_funds, 0.0115, 0.003)),
+                  b12 = sample(c(0, 0.0025, 0.005, 0.0075), n_funds, TRUE),
+                  turn0 = exp(rnorm(n_funds, log(0.6), 0.6)))
+
+  out |>
+    left_join(chars, by = "crsp_cl_grp") |>
+    mutate(# one-month reporting gap: a share class's TNA is missing, so the fund total dips
+           gap   = runif(n()) < 0.003 & ym > min(ym) & ym < max(ym),
+           tna   = round(if_else(gap, tna * (1 - runif(n(), 0.2, 0.6)), tna), 1),
+           .by = crsp_cl_grp) |>
+    mutate(ret_vw = if_else(ym == min(ym), NA_real_, ret),           # no lagged class TNA in month 1
+           ret_ew = ret + rnorm(n(), 0, 0.0003),
+           exp_ratio   = round(er0 - 0.00002 * (as.numeric(ym - min(ym)) / 30), 4),
+           mgmt_fee    = round(0.65 * exp_ratio, 4),
+           actual_12b1 = b12,
+           turn_ratio  = round(turn0 * exp(rnorm(n(), 0, 0.05)), 2),
+           .by = crsp_cl_grp) |>
+    mutate(caldt     = ceiling_date(ym, "month") - days(1),
+           age_years = as.numeric(caldt - first_offer) / 365.25) |>
+    select(crsp_cl_grp, caldt, fund_name, n_class, tna, ret_vw, ret_ew, exp_ratio, mgmt_fee,
+           actual_12b1, turn_ratio, first_offer, crsp_obj_cd, age_years)
+}
+```
+
+```{r}
+#| label: load-data
+
+if (data_source == "crsp" && !file.exists(pq_path)) {
+  message(pq_path, " not found; switching to the simulated panel.")
+  data_source <- "simulated"
+}
+
+raw <- if (data_source == "crsp") read_parquet(pq_path) else simulate_clgrp(ff)
+
+fund <- raw |>
+  mutate(crsp_cl_grp = as.integer(crsp_cl_grp),
+         caldt       = as.Date(caldt),
+         first_offer = as.Date(first_offer),
+         ym          = floor_date(caldt, "month"),
+         # CRSP stores some missing characteristics as negative codes (e.g., -99)
+         across(c(exp_ratio, mgmt_fee, actual_12b1, turn_ratio), \(x) if_else(x < 0, NA_real_, x))) |>
+  arrange(crsp_cl_grp, ym)
+
+# One row per fund and calendar month, or every lag below is wrong
+dup <- fund |> count(crsp_cl_grp, ym) |> filter(n > 1)
+stopifnot("More than one row per class group and month" = nrow(dup) == 0)
+
+last_month <- max(fund$ym)
+
+fund_life <- fund |>
+  summarise(first_ym = min(ym), last_ym = max(ym), months = n(),
+            exits = max(ym) < last_month, .by = crsp_cl_grp)
+
+cat("Data source:", data_source, "\n",
+    "Funds (class groups):", n_distinct(fund$crsp_cl_grp), "\n",
+    "Fund-months:         ", format(nrow(fund), big.mark = ","), "\n",
+    "Months:              ", format(min(fund$ym), "%Y-%m"), "to", format(last_month, "%Y-%m"), "\n",
+    "Funds that stop reporting before the last month:", sum(fund_life$exits), "\n")
+```
+
+```{r}
+#| label: tbl-sample
+#| tbl-cap: "The 100 funds at a glance"
+
+fund |>
+  summarise(tna_med = median(tna, na.rm = TRUE), age = median(age_years, na.rm = TRUE),
+            er = median(exp_ratio, na.rm = TRUE), b12 = mean(coalesce(actual_12b1, 0) > 0),
+            n_class = median(n_class, na.rm = TRUE), .by = crsp_cl_grp) |>
+  left_join(fund_life, by = "crsp_cl_grp") |>
+  summarise(
+    `Funds`                              = n(),
+    `Median months in sample`            = median(months),
+    `Funds that exit before the end`     = sum(exits),
+    `Median fund TNA ($M, fund median)`  = median(tna_med),
+    `Median fund age (years)`            = median(age),
+    `Median expense ratio (%)`           = 100 * median(er, na.rm = TRUE),
+    `Median number of share classes`     = median(n_class),
+    `Share of fund-months with 12b-1 fee`= mean(b12)
+  ) |>
+  pivot_longer(everything(), names_to = "Statistic", values_to = "Value") |>
+  gt() |>
+  fmt_number(columns = Value, decimals = 2, drop_trailing_zeros = TRUE)
+```
+
+------------------------------------------------------------------------
+
+## 2. What Is a Flow?
+
+### 2.1 Definition
+
+TNA changes because the assets earn a return and because investors buy or redeem shares. The flow is what is left after the return is taken out. The **dollar flow** of fund $i$ in month $t$ is
+
+$$
+F_{i,t} = \text{TNA}_{i,t} - \text{TNA}_{i,t-1}\,(1 + R_{i,t}),
+\tag{2}
+$$
+
+and the **percentage flow**, the measure used by @sirri1998, @chevalier1997, and most of the literature, scales it by lagged TNA:
+
+$$
+\text{Flow}_{i,t} = \frac{\text{TNA}_{i,t} - \text{TNA}_{i,t-1}\,(1 + R_{i,t})}{\text{TNA}_{i,t-1}}.
+\tag{3}
+$$
+
+Equation (3) carries an assumption about **timing**: all of month $t$'s flow arrives at the end of the month, so it earns none of month $t$'s return. If money arrived at the start of the month instead, the flow would be $\text{TNA}_{i,t}/(1+R_{i,t}) - \text{TNA}_{i,t-1}$. At a monthly frequency the two are close; over a year they are not (§2.6).
+
+Because $R_{i,t}$ is the CRSP total return, which assumes distributions are reinvested, a distribution that investors take in cash rather than reinvest leaves the fund and shows up as an **outflow**. Funds that pay large year-end capital-gain distributions will therefore show December outflows that have nothing to do with investors' views of performance.
+
+### 2.2 From share classes to the fund
+
+We measure flows at the **fund** level, using the class-group TNA and the value-weighted return `ret_vw`. Aggregation helps and hurts.
+
+It **helps** because the most common non-flow in share-class data disappears: investors who move from one share class to another (for example, C shares converting to A shares after some years) create an outflow in one class and an equal inflow in another, which net out in the fund total. Tiny share classes no longer have their own explosive percentage flows.
+
+It **hurts** in two ways that are easy to miss.
+
+1.  **Share-class launches and closures.** When a fund adds a class, the new class's first-month assets enter fund TNA. If the money is new, it is a genuine inflow; if it was seeded by the sponsor or moved from another fund, it is not. Months in which `n_class` changes are the place to look.
+2.  **A missing share class.** Fund TNA is the sum of the class TNAs that are reported. If one class's TNA is missing for a month, fund TNA drops by that class's assets and comes back the next month. Equation (3) records an outflow followed by an equal inflow. Because `n_class` counts share-class records rather than non-missing TNAs, it does not reveal this; the signature is a pair of offsetting dollar flows.
+
+The return has its own aggregation detail: `ret_vw` weights by *lagged* class TNA, so it is missing in a fund's first month and in any month in which no class has a lagged TNA. `ret_ew` exists in those months, but using it would change the weights of the return that Equation (3) subtracts.
+
+```{r}
+#| label: tbl-diagnostics
+#| tbl-cap: "Where the class-group panel needs care"
+
+diag <- fund |>
+  group_by(crsp_cl_grp) |>
+  mutate(consec       = !is.na(lag(ym)) & lag(ym) == ym %m-% months(1),
+         class_change = consec & n_class != lag(n_class)) |>
+  ungroup()
+
+tibble(
+  Issue = c("Fund-months",
+            "Previous calendar month missing (first month or a gap)",
+            "ret_vw missing",
+            "... of which ret_ew is available",
+            "TNA missing",
+            "TNA below $15M",
+            "Number of share classes changes from last month"),
+  `Fund-months` = c(nrow(diag),
+                    sum(!diag$consec),
+                    sum(is.na(diag$ret_vw)),
+                    sum(is.na(diag$ret_vw) & !is.na(diag$ret_ew)),
+                    sum(is.na(diag$tna)),
+                    sum(diag$tna < 15, na.rm = TRUE),
+                    sum(diag$class_change)),
+  Funds = c(n_distinct(diag$crsp_cl_grp),
+            n_distinct(diag$crsp_cl_grp[!diag$consec]),
+            n_distinct(diag$crsp_cl_grp[is.na(diag$ret_vw)]),
+            n_distinct(diag$crsp_cl_grp[is.na(diag$ret_vw) & !is.na(diag$ret_ew)]),
+            n_distinct(diag$crsp_cl_grp[is.na(diag$tna)]),
+            n_distinct(diag$crsp_cl_grp[coalesce(diag$tna < 15, FALSE)]),
+            n_distinct(diag$crsp_cl_grp[diag$class_change]))
+) |>
+  gt() |>
+  fmt_number(columns = c(`Fund-months`, Funds), decimals = 0) |>
+  tab_header(title = "Data Checks Before Computing a Single Flow")
+```
+
+```{r}
+#| label: fig-live
+#| fig-cap: "Number of funds reporting each month, and the cross-sectional distribution of fund TNA"
+
+live <- fund |>
+  summarise(n_funds = n(),
+            p25 = quantile(tna, .25, na.rm = TRUE), p50 = median(tna, na.rm = TRUE),
+            p75 = quantile(tna, .75, na.rm = TRUE), .by = ym) |>
+  arrange(ym)
+
+highchart() |>
+  hc_chart(height = 380, zoomType = "x") |>
+  hc_title(text = "Funds in the sample and their size") |>
+  hc_xAxis(type = "datetime") |>
+  hc_yAxis_multiples(
+    list(title = list(text = "Fund TNA ($M, log scale)"), type = "logarithmic"),
+    list(title = list(text = "Funds reporting"), opposite = TRUE, min = 0)
+  ) |>
+  hc_add_series(live, "arearange", hcaes(x = ym, low = p25, high = p75),
+                name = "TNA, 25th-75th percentile", yAxis = 0, fillOpacity = 0.25,
+                lineWidth = 0) |>
+  hc_add_series(live, "line", hcaes(x = ym, y = p50), name = "TNA, median", yAxis = 0) |>
+  hc_add_series(live, "line", hcaes(x = ym, y = n_funds), name = "Funds reporting", yAxis = 1,
+                dashStyle = "ShortDash", color = "#555555") |>
+  hc_plotOptions(series = list(marker = list(enabled = FALSE))) |>
+  hc_tooltip(shared = TRUE, valueDecimals = 1)
+```
+
+The number of funds reporting is not constant: funds enter the panel when they are launched (or when their class group first appears in CRSP) and leave when they are merged or liquidated. Because every fund must have ten years of returns, entries are concentrated early in the sample and exits late.
+
+### 2.3 Computing monthly flows
+
+A flow in month $t$ requires a row in month $t$ **and** in month $t-1$, a fund return in $t$, and TNA in both months. We apply the requirements one at a time and count what survives.
+
+```{r}
+#| label: flows
+
+flows <- fund |>
+  group_by(crsp_cl_grp) |>
+  mutate(tna_lag     = lag(tna),
+         n_class_lag = lag(n_class),
+         consec      = !is.na(lag(ym)) & lag(ym) == ym %m-% months(1)) |>
+  ungroup() |>
+  mutate(dflow        = tna - tna_lag * (1 + ret_vw),         # Equation (2), $ millions
+         flow         = dflow / tna_lag,                      # Equation (3)
+         class_change = consec & n_class != n_class_lag)
+
+attr_steps <- list(
+  "0. All fund-months"                              = rep(TRUE, nrow(flows)),
+  "1. Previous calendar month present"              = flows$consec,
+  "2. ... and fund return (ret_vw) this month"      = flows$consec & !is.na(flows$ret_vw),
+  "3. ... and TNA in both months (lagged TNA > 0)"  = flows$consec & !is.na(flows$ret_vw) &
+                                                       !is.na(flows$tna) & coalesce(flows$tna_lag > 0, FALSE),
+  "4. ... and lagged TNA >= $15M"                   = flows$consec & !is.na(flows$ret_vw) &
+                                                       !is.na(flows$tna) & coalesce(flows$tna_lag >= 15, FALSE)
+)
+
+attr_tbl <- imap(attr_steps, \(keep, nm)
+  tibble(step = nm, months = sum(keep), funds = n_distinct(flows$crsp_cl_grp[keep]))) |>
+  list_rbind()
+```
+
+```{r}
+#| label: tbl-flow-attrition
+#| tbl-cap: "How many fund-months have a computable flow?"
+
+attr_tbl |>
+  mutate(share = months / first(months)) |>
+  gt() |>
+  fmt_number(columns = months, decimals = 0) |>
+  fmt_percent(columns = share, decimals = 0) |>
+  cols_label(step = "Requirement", months = "Fund-months", funds = "Funds", share = "% of rows") |>
+  tab_header(title = "From Rows to Flows")
+```
+
+Step 4 applies the \$15 million size filter of Lecture 3 to the *lagged* TNA, because lagged TNA is the denominator of Equation (3). Unlike in the share-class data, it is applied to the whole fund, as it should be.
+
+### 2.4 Small denominators and extreme flows
+
+```{r}
+#| label: tbl-flow-size
+#| tbl-cap: "Distribution of monthly percentage flows by lagged fund TNA"
+
+valid <- flows |> filter(consec, !is.na(ret_vw), !is.na(tna), coalesce(tna_lag > 0, FALSE))
+
+valid |>
+  mutate(size = cut(tna_lag, c(0, 15, 100, Inf), right = FALSE,
+                    labels = c("Below $15M", "$15M to $100M", "$100M and above"))) |>
+  summarise(n    = n(),
+            p01  = quantile(flow, .01), p50 = median(flow), p99 = quantile(flow, .99),
+            min  = min(flow), max = max(flow), sd = sd(flow),
+            .by = size) |>
+  arrange(size) |>
+  gt() |>
+  fmt_number(columns = n, decimals = 0) |>
+  fmt_percent(columns = c(p01, p50, p99, min, max, sd), decimals = 1) |>
+  cols_label(size = "Lagged TNA", n = "Fund-months", p01 = "1st pct.", p50 = "Median",
+             p99 = "99th pct.", min = "Min", max = "Max", sd = "Std. dev.") |>
+  tab_header(title = "Percentage Flows Are Fat-Tailed, Most of All for Small Funds")
+```
+
+The dispersion of percentage flows falls steeply with fund size. A small fund that wins one institutional mandate can double in a month; a large fund cannot. This is why a minimum lagged TNA matters: without it, a few small funds decide the regression. Even above \$15 million, some months remain extreme. Those are the months to read one by one.
+
+```{r}
+#| label: tbl-extreme
+#| tbl-cap: "The largest monthly flows that survive the size filter (search, sort, and filter)"
+
+clean <- valid |> filter(tna_lag >= 15)
+
+extreme <- clean |>
+  slice_max(abs(flow), n = 100) |>                       # the 100 most extreme fund-months
+  mutate(month   = format(ym, "%Y-%m"),
+         classes = paste(n_class_lag, "→", n_class),
+         event   = case_when(n_class > n_class_lag ~ "Class added",
+                             n_class < n_class_lag ~ "Class dropped",
+                             TRUE                  ~ "No change")) |>
+  arrange(desc(abs(flow))) |>
+  select(crsp_cl_grp, fund_name, month, tna_lag, tna, dflow, ret_vw, flow, classes, event)
+
+datatable(
+  extreme,
+  rownames   = FALSE,
+  filter     = "top",                                     # a filter box above each column
+  extensions = "Buttons",
+  colnames   = c("crsp_cl_grp", "Fund", "Month", "TNA t-1 ($M)", "TNA t ($M)",
+                 "Dollar flow ($M)", "Return t", "Flow t", "Share classes", "Class change"),
+  caption    = "Read these before you trust them: the 100 largest |flows| after the $15M filter",
+  options  = list(
+    pageLength = 10,
+    lengthMenu = c(10, 25, 50, 100),
+    order      = list(list(7, "desc")),                   # sort by Flow t (0-based column index)
+    scrollX    = TRUE,
+    dom        = "lfrtip"                                 # no buttons
+  )
+) |>
+  formatRound(c("tna_lag", "tna", "dflow"), digits = 1) |>
+  formatPercentage(c("ret_vw", "flow"), digits = 1) |>
+  formatStyle("flow",
+              color      = styleInterval(0, c("#C0392B", "#1F618D")),
+              fontWeight = "bold") |>
+  formatStyle("event",
+              backgroundColor = styleEqual(c("Class added", "Class dropped"),
+                                           c("#FDEBD0", "#EBF5FB")))
+```
+
+Three patterns account for most of the rows in a table like this. A one-month jump that multiplies assets, with no offsetting outflow afterwards, in a fund whose assets otherwise move slowly, is what a **merger** looks like: the target fund's assets arrive at once. A jump in a month in which the number of share classes rises is a **share-class launch**. A large outflow followed by an inflow of about the same dollar amount is a **reporting gap**. The next two tables look for the last two systematically.
+
+```{r}
+#| label: tbl-class-change
+#| tbl-cap: "Flows in months when the number of share classes changes"
+
+clean |>
+  mutate(group = case_when(n_class > n_class_lag ~ "Share class added",
+                           n_class < n_class_lag ~ "Share class dropped",
+                           TRUE                  ~ "No change")) |>
+  summarise(n = n(), mean = mean(flow), median = median(flow),
+            p05 = quantile(flow, .05), p95 = quantile(flow, .95), .by = group) |>
+  arrange(desc(n)) |>
+  gt() |>
+  fmt_number(columns = n, decimals = 0) |>
+  fmt_percent(columns = c(mean, median, p05, p95), decimals = 1) |>
+  cols_label(group = "Month type", n = "Fund-months", mean = "Mean flow", median = "Median",
+             p05 = "5th pct.", p95 = "95th pct.") |>
+  tab_header(title = "Do Share-Class Launches Look Like Inflows?")
+```
+
+```{r}
+#| label: tbl-reversals
+#| tbl-cap: "Candidate reporting gaps: a large flow reversed in dollars the next month"
+
+reversals <- clean |>
+  group_by(crsp_cl_grp) |>
+  mutate(dflow_next = if_else(lead(ym) == ym %m+% months(1), lead(dflow), NA_real_),
+         flow_next  = if_else(lead(ym) == ym %m+% months(1), lead(flow), NA_real_)) |>
+  ungroup() |>
+  filter(abs(flow) > 0.15, !is.na(dflow_next),
+         sign(dflow_next) != sign(dflow),
+         abs(dflow + dflow_next) < 0.2 * abs(dflow))       # the next month undoes >= 80% of it
+
+cat("Fund-months with |flow| > 15% that are reversed (in dollars) the next month:",
+    nrow(reversals), "of", sum(abs(clean$flow) > 0.15), "\n")
+
+reversals |>
+  slice_max(abs(flow), n = 6) |>
+  mutate(ym = format(ym, "%Y-%m")) |>
+  select(crsp_cl_grp, ym, tna_lag, tna, flow, flow_next) |>
+  gt() |>
+  fmt_number(columns = c(tna_lag, tna), decimals = 1) |>
+  fmt_percent(columns = c(flow, flow_next), decimals = 1) |>
+  cols_label(crsp_cl_grp = "crsp_cl_grp", ym = "Month", tna_lag = "TNA t-1 ($M)",
+             tna = "TNA t ($M)", flow = "Flow t", flow_next = "Flow t+1")
+```
+
+The percentage flows of a reversal are not symmetric (a 40% drop is undone by a 67% rise), which is why the check is done in dollars. These pairs make measured flows **negatively autocorrelated** and inflate their variance without carrying any information about investors. Two fixes are available: add the count of share classes with non-missing TNA to the aggregation step, and drop months in which that count changes; or, as here, flag reversals and check them by hand.
+
+::: callout-important
+## What a flow is not
+
+Equation (3) attributes to "investor flows" every change in TNA not explained by the return. Six other things also change TNA:
+
+1.  **Mergers.** The surviving fund gains the target's assets in one month; the target disappears.
+2.  **Share-class launches.** Seed money and assets moved from elsewhere arrive as an "inflow".
+3.  **Share-class conversions.** They net out at the fund level, which is one reason to aggregate.
+4.  **Missing class TNA.** A one-month gap in one class's TNA produces a reversal pair.
+5.  **Cash distributions.** Distributions not reinvested appear as outflows (§2.1).
+6.  **Liquidations.** A fund being wound down shows a final collapse in TNA, and often its last flow is never recorded (§4.5, §5).
+:::
+
+We use the filtered sample from here on, drop the flagged reversal months, and **winsorize** flows at the 1st and 99th percentiles to limit the influence of the remaining extreme months.
+
+```{r}
+#| label: winsorize
+
+winsor <- function(x, p = 0.01) {
+  q <- quantile(x, c(p, 1 - p), na.rm = TRUE)
+  pmin(pmax(x, q[1]), q[2])
+}
+
+rev_keys <- reversals |>
+  transmute(crsp_cl_grp, ym) |>
+  bind_rows(reversals |> transmute(crsp_cl_grp, ym = ym %m+% months(1)))   # both months of a pair
+
+clean <- clean |>
+  anti_join(rev_keys, by = c("crsp_cl_grp", "ym")) |>
+  mutate(flow_w = winsor(flow)) |>
+  group_by(crsp_cl_grp) |>
+  mutate(flow_lag = if_else(lag(ym) == ym %m-% months(1), lag(flow_w), NA_real_)) |>
+  ungroup()
+
+cat("Filtered sample:", format(nrow(clean), big.mark = ","), "fund-months from",
+    n_distinct(clean$crsp_cl_grp), "funds\n",
+    "Winsorization bounds (monthly flow):",
+    paste(scales::percent(range(clean$flow_w), accuracy = 0.1), collapse = " to "), "\n")
+```
+
+### 2.5 Flows over time
+
+Before asking how flows respond to each fund's performance, look at what the sample's funds as a group experienced. The aggregate flow rate in month $t$ is total dollar flow over total lagged TNA, $\sum_i F_{i,t} / \sum_i \text{TNA}_{i,t-1}$; we add up the twelve monthly rates in each calendar year.
+
+```{r}
+#| label: fig-aggregate
+#| fig-cap: "Aggregate annual flow rate of the sample funds (sum of monthly dollar flows over lagged TNA)"
+
+agg <- clean |>
+  summarise(rate = sum(dflow) / sum(tna_lag), .by = ym) |>
+  mutate(year = year(ym)) |>
+  summarise(rate = 100 * sum(rate), months = n(), .by = year) |>
+  arrange(year)
+
+hchart(agg, "column", hcaes(x = year, y = round(rate, 2))) |>
+  hc_chart(height = 340) |>
+  hc_title(text = "Net flows into the sample funds, by year") |>
+  hc_xAxis(title = list(text = NULL)) |>
+  hc_yAxis(title = list(text = "Aggregate flow (% of assets per year)"),
+           plotLines = list(list(value = 0, color = "#999999", width = 1))) |>
+  hc_plotOptions(column = list(negativeColor = "#C0392B")) |>
+  hc_legend(enabled = FALSE) |>
+  hc_tooltip(pointFormat = "Flow: <b>{point.y:.1f}%</b> of assets")
+```
+
+The level of these flows is not the subject of this lecture: it reflects the industry-wide move from active funds to index funds and ETFs documented in Lecture 3 [@dannhauser2026], and it is absorbed by time fixed effects in every regression below. What we study is how flows are **distributed across funds** within a period.
+
+### 2.6 From monthly to annual flows
+
+@sirri1998 measure flows at the annual frequency, from year-end TNA. Applying Equation (3) to a year and adding up twelve monthly dollar flows are not the same thing. If $F_s$ is the dollar flow in month $s$ of the year,
+
+$$
+\text{TNA}_{\text{Dec}} - \text{TNA}_{\text{Dec}-1}\prod_{s=1}^{12}(1+R_s)
+= \sum_{s=1}^{12} F_s \prod_{u=s+1}^{12}(1+R_u).
+\tag{4}
+$$
+
+The annual formula counts as "flow" not only the new money but also **the return that new money earned** for the rest of the year. In a year with high returns and early inflows, the annual measure is larger than the sum of the monthly flows. A second, more important difference: the annual formula needs a December TNA, so **a fund that disappears during the year has no annual flow at all**, while the sum of its monthly flows up to its last month is perfectly well defined. §4.5 shows why this matters.
+
+```{r}
+#| label: annual-panel
+
+# Calendar-year panel: December TNA, 12-month return, Dec-to-Dec flow, and summed monthly flows
+monthly_all <- valid |> mutate(year = year(ym))
+
+dec <- fund |>
+  filter(month(ym) == 12) |>
+  transmute(crsp_cl_grp, year = year(ym), tna_dec = tna, age_dec = age_years,
+            er_dec = exp_ratio, b12_dec = actual_12b1, obj_dec = crsp_obj_cd)
+
+yr_ret <- fund |>
+  mutate(year = year(ym)) |>
+  summarise(n_ret = sum(!is.na(ret_vw)), ret_y = prod(1 + ret_vw) - 1,
+            vol_y = sd(ret_vw), .by = c(crsp_cl_grp, year)) |>
+  mutate(ret_y = if_else(n_ret == 12, ret_y, NA_real_),
+         vol_y = if_else(n_ret == 12, vol_y, NA_real_))
+
+yr_flow <- fund |>
+  mutate(year = year(ym)) |>
+  summarise(rows = n(), .by = c(crsp_cl_grp, year)) |>
+  left_join(monthly_all |> summarise(n_flow = n(), sum_dflow = sum(dflow), .by = c(crsp_cl_grp, year)),
+            by = c("crsp_cl_grp", "year")) |>
+  mutate(complete_year = coalesce(n_flow, 0L) == rows)    # every month the fund existed has a flow
+
+annual <- yr_ret |>
+  left_join(dec, by = c("crsp_cl_grp", "year")) |>
+  left_join(yr_flow, by = c("crsp_cl_grp", "year")) |>
+  left_join(fund_life |> select(crsp_cl_grp, last_ym, exits), by = "crsp_cl_grp") |>
+  arrange(crsp_cl_grp, year) |>
+  group_by(crsp_cl_grp) |>
+  mutate(prev_ok     = lag(year) == year - 1,
+         tna_dec_lag = if_else(prev_ok, lag(tna_dec), NA_real_)) |>
+  ungroup() |>
+  mutate(exit_year   = exits & year == year(last_ym),
+         flow_annual = (tna_dec - tna_dec_lag * (1 + ret_y)) / tna_dec_lag,   # Dec-to-Dec, Eq. (3)
+         flow_summed = if_else(complete_year, sum_dflow / tna_dec_lag, NA_real_))
+```
+
+```{r}
+#| label: fig-annual
+#| fig-cap: "Annual flow from year-end TNA vs. the sum of monthly dollar flows (fund-years, lagged TNA of at least $15M)"
+
+annual_plot <- annual |>
+  filter(!is.na(flow_annual), !is.na(flow_summed), tna_dec_lag >= 15) |>
+  mutate(x = round(100 * flow_summed, 2), y = round(100 * flow_annual, 2))
+lim <- range(c(annual_plot$x, annual_plot$y))
+
+hchart(annual_plot, "scatter", hcaes(x = x, y = y)) |>
+  hc_chart(height = 420) |>
+  hc_title(text = "Two annual flow measures") |>
+  hc_xAxis(title = list(text = "Sum of monthly dollar flows / TNA at start of year (%)")) |>
+  hc_yAxis(title = list(text = "Annual flow from year-end TNA (%)")) |>
+  hc_add_series(data = list(list(lim[1], lim[1]), list(lim[2], lim[2])), type = "line",
+                name = "45-degree line", color = "#999999", dashStyle = "Dash",
+                marker = list(enabled = FALSE), enableMouseTracking = FALSE) |>
+  hc_plotOptions(scatter = list(marker = list(radius = 3), opacity = 0.6)) |>
+  hc_legend(enabled = FALSE) |>
+  hc_tooltip(pointFormat = "Summed: {point.x:.1f}%<br/>Annual: {point.y:.1f}%")
+```
+
+```{r}
+#| label: tbl-annual-summary
+#| tbl-cap: "Annual vs. summed monthly flows"
+
+annual |>
+  filter(tna_dec_lag >= 15) |>
+  summarise(
+    both        = sum(!is.na(flow_annual) & !is.na(flow_summed)),
+    correlation = cor(flow_annual, flow_summed, use = "complete.obs"),
+    mad_pp      = 100 * mean(abs(flow_annual - flow_summed), na.rm = TRUE),
+    exit_years  = sum(exit_year & !is.na(flow_summed)),
+    exit_dec    = sum(exit_year & !is.na(flow_annual))
+  ) |>
+  gt() |>
+  fmt_number(columns = c(correlation, mad_pp), decimals = 2) |>
+  cols_label(both = "Fund-years with both", correlation = "Correlation",
+             mad_pp = "Mean |difference| (pp)",
+             exit_years = "Exit years with a summed flow",
+             exit_dec = "Exit years with a Dec-to-Dec flow")
+```
+
+The two measures agree closely when both exist. The last two columns are the difference that matters: exit years have a summed monthly flow but no December-to-December flow.
+
+------------------------------------------------------------------------
+
+## 3. Why Should Flows Respond to Performance?
+
+### 3.1 The rational benchmark
+
+Investors cannot observe a manager's skill, but they can observe returns. In @berkgreen2004, investors update their beliefs about skill after each return and move money toward managers who look skilled. Two further assumptions close the model: skill has **decreasing returns to scale**, and capital is supplied competitively. Money then flows to a good manager until the expected net alpha of the marginal dollar is zero. Three implications are worth keeping:
+
+1.  Flows **respond strongly to past performance**, even though past performance does not predict future net returns. Chasing performance is rational in the model, and the absence of persistence is its consequence, not evidence against it.
+2.  The response is **larger for young funds**, because each return is more informative when there is less history.
+3.  Skill shows up in **size**, not in net alpha, which is why Lecture 2 measured skill in dollars of value added [@berkvanBinsbergen2015].
+
+Early evidence that flows follow past performance predates the model [@ippolito1992]. The question that occupies the literature is the **shape** of the response, and which performance investors respond to.
+
+### 3.2 Convexity and costly search
+
+@sirri1998 estimate annual flows of equity funds as a piecewise-linear function of the fund's performance rank. They find a **convex** relationship: funds in the top performance quintile receive large inflows, while funds in the bottom quintiles lose comparatively little. Their explanation is **search costs**. Investors find it costly to evaluate many funds, so they buy the visible ones, and visibility (media attention, advertising, star ratings) is concentrated on top performers. Investors in poorly performing funds, meanwhile, face their own frictions in leaving.
+
+Three papers refine the explanation:
+
+- @chevalier1997 estimate the shape of the flow–performance relationship semiparametrically and show that it gives managers an incentive to change the riskiness of the portfolio late in the year, depending on the year-to-date return. They find that funds do change their risk between September and December in the predicted direction. The shape is an incentive; the next lecture studies the behavior it induces.
+- @huang2007 model investors who learn about skill and pay **participation costs**. Funds with lower participation costs (for example, those in large families or with wider distribution) have *higher* flow sensitivity to **medium** performance and *lower* sensitivity to **high** performance than funds with higher participation costs.
+- @lynch2003 argue that the weak response to poor performance is rational: funds tend to change strategy after poor returns, and the past returns of a strategy that has been abandoned say little about the future. Their evidence supports both predictions: strategy changes follow poor performance, and poor performers that change strategy have flows that are less sensitive to past returns.
+
+### 3.3 Which performance do investors respond to?
+
+If flows reflect learning about skill, investors should respond to a risk-adjusted measure. Three papers use flows to infer *which* measure, with conflicting answers.
+
+- @berkvanBinsbergen2016 rank asset pricing models by how well the sign of each model's alpha predicts the sign of flows. The CAPM wins, beating no adjustment and the multi-factor models.
+- @barber2016 decompose returns into alpha and factor-related returns and ask which components flows respond to. Investors attend most to **market risk**: they discount returns due to market beta, but treat returns due to size, value, momentum, and industry exposures largely as alpha. More sophisticated investors use more sophisticated benchmarks.
+- @evans2021 use the 2002 change in Morningstar's rating methodology, which began comparing funds within size and value categories, as a natural experiment. Before the change, retail flows track CAPM alphas; after it, they respond more to Fama-French three-factor alphas. Institutional flows track three-factor alphas throughout. A better heuristic made retail investors look more sophisticated.
+- @bendavid2022 argue that investors do not use the CAPM at all. Morningstar ratings and recent returns explain flows better than any model's alpha, flows do not adjust for market beta, and the earlier CAPM results come from the correlation between alphas and ratings and from how pooled regressions weight extreme market periods.
+
+The common thread: the performance measure investors respond to is shaped by **what is shown to them**. For empirical work, this means the choice of performance measure in a flow regression is a hypothesis about investors, and it should be tested, not assumed.
+
+### 3.4 The shape is not universal
+
+| Setting | Finding | Source |
+|--------------------|-----------------------------------|------------------|
+| U.S. equity mutual funds | Convex: top performers gain much more than poor performers lose | @sirri1998 |
+| Pension fund managers | Clients withdraw from poor performers but do not disproportionately reward winners | @delguercio2002 |
+| Corporate bond funds | Concave: outflows respond more to poor performance than inflows to good performance; stronger when assets are illiquid | @goldstein2017 |
+| 28 countries | Shape varies by country; in more developed markets investors sell losers more and buy winners less | @ferreira2012 |
+| Market states | Sensitivity is hump-shaped in aggregate factor realizations: weaker when factor returns are large | @franzoni2017 |
+| Active funds, index funds, ETFs | Performance chasing in all three vehicles; ETFs most sensitive | @dannhauser2026 |
+| Specification | Convexity in percentage flows disappears when heterogeneity is controlled for or flows are measured as changes in market share | @spiegel2013 |
+
+: Evidence on the shape of the flow–performance relationship
+
+Two patterns stand out. First, the shape depends on the **clientele**: pension sponsors, who evaluate managers in committee and against benchmarks, punish losers but do not chase winners [@delguercio2002]. Second, it depends on **liquidity**: in corporate bond funds, an investor who redeems early avoids the cost of the fire sales that later redemptions force, so outflows respond strongly to poor performance and the relationship becomes concave [@goldstein2017]. The convex shape that the tournament literature takes as given is a feature of retail equity funds in the United States, not a law.
+
+------------------------------------------------------------------------
+
+## 4. The Flow–Performance Relationship in 100 Funds
+
+### 4.1 Performance measures and ranks
+
+@sirri1998 rank each fund against the other funds in the same period, because a rank is closer to what an investor sees in a fund table or a rating than a raw number. With 100 funds drawn at random from one population, a fund's rank among the sample funds is an estimate of its rank in the population of active domestic equity funds.
+
+::: callout-warning
+## How good is a rank among 100 funds?
+
+If $p$ is a fund's true percentile in the population and $n$ funds are drawn at random, the fund's percentile in the sample has a standard error of about $\sqrt{p(1-p)/n}$: roughly 5 percentile points at the median with $n = 100$, and fewer in the tails. Our ranks therefore measure investors' rankings **with error**, and errors in a regressor flatten the estimated slopes. The error is largest in the middle and smallest at the extremes, so it flattens the Mid segment more than the High segment, a small bias *toward* finding convexity. Ranking within CRSP objective codes, as many studies do, is not an option here: 100 funds spread across seven codes leaves too few funds per code and month.
+:::
+
+We use three performance measures, all over a window that ends **before** the month whose flow we explain:
+
+- **Raw return**: the compounded return over the past twelve months (monthly design) or the previous calendar year (annual design).
+- **CAPM alpha**: $\sum_{s=t-12}^{t-1}\bigl[(R_{i,s} - R_{f,s}) - \hat\beta_{i}\,(R_{m,s} - R_{f,s})\bigr]$, with $\hat\beta_i$ estimated over months $t-48$ to $t-13$ (at least 24 months), in the spirit of @barber2016.
+- **Three-factor alpha**: the same with the Fama-French market, size, and value factors.
+
+A market-adjusted return, $R_i - R_m$, is not on the list. Within a month every fund is adjusted by the same market return, so it ranks funds exactly as the raw return does; it would differ only in a regression on levels without time fixed effects.
+
+```{r}
+#| label: performance
+
+# Realized CAPM and FF3 alphas over months t-12..t-1, betas from t-48..t-13 (>= 24 months)
+alphas_one <- function(d) {
+  n <- nrow(d); a1 <- a3 <- rep(NA_real_, n)
+  X1 <- cbind(1, d$mktrf); X3 <- cbind(1, d$mktrf, d$smb, d$hml)
+  if (n >= 49) for (t in 49:n) {
+    est <- (t - 48):(t - 13); ev <- (t - 12):(t - 1)
+    ok  <- !is.na(d$exr[est])
+    if (sum(ok) < 24 || anyNA(d$exr[ev])) next
+    b1 <- lm.fit(X1[est, , drop = FALSE][ok, , drop = FALSE], d$exr[est][ok])$coefficients
+    b3 <- lm.fit(X3[est, , drop = FALSE][ok, , drop = FALSE], d$exr[est][ok])$coefficients
+    a1[t] <- sum(d$exr[ev] - X1[ev, -1, drop = FALSE] %*% b1[-1])
+    a3[t] <- sum(d$exr[ev] - X3[ev, -1, drop = FALSE] %*% b3[-1])
+  }
+  tibble(ym = d$ym, alpha_capm = a1, alpha_ff3 = a3)
+}
+
+roll_sum <- function(x, k) as.numeric(stats::filter(x, rep(1, k), sides = 1))   # sum of last k values
+
+grid <- fund |>
+  select(crsp_cl_grp, ym, ret_vw) |>
+  group_by(crsp_cl_grp) |>
+  complete(ym = seq(min(ym), max(ym), by = "month")) |>        # explicit NA for skipped months
+  ungroup() |>
+  left_join(ff, by = "ym") |>
+  arrange(crsp_cl_grp, ym) |>
+  mutate(exr = ret_vw - rf) |>
+  group_by(crsp_cl_grp) |>
+  mutate(ret12 = expm1(lag(roll_sum(log1p(ret_vw), 12)))) |>  # months t-12 ... t-1
+  ungroup()
+
+perf <- grid |>
+  group_split(crsp_cl_grp) |>
+  map(\(d) alphas_one(d) |> mutate(crsp_cl_grp = d$crsp_cl_grp[1])) |>
+  list_rbind() |>
+  right_join(grid |> select(crsp_cl_grp, ym, ret12), by = c("crsp_cl_grp", "ym")) |>
+  # ranks among all sample funds with the measure in that month
+  mutate(rank_ret  = if_else(is.na(ret12), NA_real_, percent_rank(ret12)),
+         rank_capm = if_else(is.na(alpha_capm), NA_real_, percent_rank(alpha_capm)),
+         rank_ff3  = if_else(is.na(alpha_ff3), NA_real_, percent_rank(alpha_ff3)),
+         .by = ym)
+
+perf |>
+  summarise(across(c(ret12, alpha_capm, alpha_ff3), \(x) sum(!is.na(x)))) |>
+  pivot_longer(everything(), names_to = "Measure", values_to = "Fund-months available") |>
+  gt() |>
+  fmt_number(columns = 2, decimals = 0)
+```
+
+```{r}
+#| label: tbl-rank-corr
+#| tbl-cap: "How differently do the three measures rank funds? (average within-month rank correlation)"
+
+perf |>
+  filter(!is.na(rank_ret), !is.na(rank_capm), !is.na(rank_ff3)) |>
+  summarise(ret_capm  = cor(rank_ret, rank_capm),
+            ret_ff3   = cor(rank_ret, rank_ff3),
+            capm_ff3  = cor(rank_capm, rank_ff3),
+            n = n(), .by = ym) |>
+  filter(n >= 20) |>
+  summarise(across(c(ret_capm, ret_ff3, capm_ff3), mean)) |>
+  gt() |>
+  fmt_number(decimals = 2) |>
+  cols_label(ret_capm = "Raw return vs. CAPM alpha", ret_ff3 = "Raw return vs. FF3 alpha",
+             capm_ff3 = "CAPM alpha vs. FF3 alpha")
+```
+
+The lower these correlations, the more power a flow regression has to tell the measures apart (§4.3). If two measures rank funds almost identically, no flow regression can say which one investors use.
+
+### 4.2 Replicating Sirri and Tufano (1998)
+
+The @sirri1998 design is annual. For each fund-year we take the December-to-December flow of year $y$ (Equation 3 at the annual frequency) and the fund's fractional rank on its raw return in year $y-1$, split into the three segments of Equation (6):
+
+$$
+\text{Flow}_{i,y} = \beta_L\,\text{Low}_{i,y-1} + \beta_M\,\text{Mid}_{i,y-1} + \beta_H\,\text{High}_{i,y-1} + \gamma' X_{i,y-1} + \delta_y + \varepsilon_{i,y},
+\tag{6}
+$$
+
+with $\text{Low} = \min(\text{Rank}, 0.2)$, $\text{Mid} = \min(0.6, \text{Rank} - \text{Low})$, and $\text{High} = \text{Rank} - \text{Low} - \text{Mid}$, so the pieces add up to the rank and each coefficient is the slope within one segment. **Convexity means** $\beta_H > \beta_M$ and $\beta_H > \beta_L$. The controls $X$ are measured at the end of year $y-1$: log TNA, log age, the expense ratio, the volatility of monthly returns, and, in the last column, the previous year's flow. $\delta_y$ is a year fixed effect, which absorbs the aggregate flows of §2.5. This is a stripped-down version of their specification, not a copy of it.
+
+```{r}
+#| label: annual-reg-data
+
+rank_segments <- function(d, r = "rank") {
+  d |> mutate(Low  = pmin(.data[[r]], 0.2),
+              Mid  = pmin(0.6, pmax(.data[[r]] - 0.2, 0)),
+              High = pmax(.data[[r]] - 0.8, 0))
+}
+
+prior <- annual |>
+  filter(!is.na(ret_y)) |>
+  mutate(rank = percent_rank(ret_y), .by = year) |>               # rank among sample funds in y-1
+  transmute(crsp_cl_grp, year = year + 1, rank, ret_prev = ret_y, vol_prev = vol_y,
+            log_tna_prev = log(tna_dec), log_age_prev = log(pmax(age_dec, 0.1)),
+            er_prev = er_dec, b12_prev = b12_dec, flow_prev = flow_annual, age_prev = age_dec)
+
+st <- annual |>
+  select(crsp_cl_grp, year, tna_dec_lag, flow_annual, flow_summed, exit_year) |>
+  inner_join(prior, by = c("crsp_cl_grp", "year")) |>
+  filter(tna_dec_lag >= 15) |>
+  rank_segments() |>
+  mutate(flow_annual_w = winsor(flow_annual), flow_summed_w = winsor(flow_summed),
+         flow_prev_w   = winsor(flow_prev))
+
+st_dec <- st |> filter(!is.na(flow_annual_w), !is.na(log_age_prev), !is.na(er_prev), !is.na(vol_prev))
+
+cat("Fund-years with a Dec-to-Dec flow and prior-year rank:", nrow(st_dec),
+    "| funds:", n_distinct(st_dec$crsp_cl_grp),
+    "| years:", min(st_dec$year), "to", max(st_dec$year), "\n")
+```
+
+```{r}
+#| label: reg-helpers
+
+# A gt regression table: coefficient (stars) over (standard error)
+reg_gt <- function(models, rows, title, subtitle = NULL, note = NULL) {
+  stars <- function(p) case_when(p < .01 ~ "***", p < .05 ~ "**", p < .10 ~ "*", TRUE ~ "")
+  body <- imap(models, \(m, nm) {
+    ct <- coeftable(m)
+    map(names(rows), \(v) {
+      vv <- rows[[v]][rows[[v]] %in% rownames(ct)]
+      if (length(vv) == 0) return(tibble(term = v, stat = c("b", "se"), value = ""))
+      tibble(term = v, stat = c("b", "se"),
+             value = c(sprintf("%.3f%s", ct[vv, 1], stars(ct[vv, 4])), sprintf("(%.3f)", ct[vv, 2])))
+    }) |> list_rbind() |> mutate(model = nm)
+  }) |> list_rbind()
+  fit <- imap(models, \(m, nm) tibble(
+    term = c("Observations", "Within R²"), stat = "b", model = nm,
+    value = c(format(nobs(m), big.mark = ","), sprintf("%.3f", fitstat(m, "wr2")[[1]])))) |> list_rbind()
+  bind_rows(body, fit) |>
+    pivot_wider(names_from = model, values_from = value) |>
+    mutate(term = if_else(stat == "se", "", term)) |>
+    select(-stat) |>
+    gt() |>
+    cols_label(term = "") |>
+    tab_header(title = title, subtitle = subtitle) |>
+    tab_source_note(paste(note, "* p<0.10, ** p<0.05, *** p<0.01."))
+}
+
+# Wald test of convexity: High slope minus Mid slope
+convexity_test <- function(m, hi = "High", mid = "Mid") {
+  b <- coef(m); V <- vcov(m)
+  d <- b[[hi]] - b[[mid]]; se <- sqrt(V[hi, hi] + V[mid, mid] - 2 * V[hi, mid])
+  tibble(diff = d, se = se, t = d / se)
+}
+```
+
+```{r}
+#| label: st-models
+
+ctrl <- "log_tna_prev + log_age_prev + er_prev + vol_prev"
+st_models <- list(
+  "Rank"             = feols(flow_annual_w ~ rank | year, st_dec, cluster = ~crsp_cl_grp + year),
+  "Piecewise"        = feols(flow_annual_w ~ Low + Mid + High | year, st_dec, cluster = ~crsp_cl_grp + year),
+  "+ controls"       = feols(as.formula(paste("flow_annual_w ~ Low + Mid + High +", ctrl, "| year")),
+                             st_dec, cluster = ~crsp_cl_grp + year),
+  "+ lagged flow"    = feols(as.formula(paste("flow_annual_w ~ Low + Mid + High +", ctrl, "+ flow_prev_w | year")),
+                             st_dec, cluster = ~crsp_cl_grp + year)
+)
+
+st_rows <- list(
+  "Fractional rank"           = "rank",
+  "Low (bottom quintile)"     = "Low",
+  "Mid (middle three)"        = "Mid",
+  "High (top quintile)"       = "High",
+  "log TNA"                   = "log_tna_prev",
+  "log age"                   = "log_age_prev",
+  "Expense ratio"             = "er_prev",
+  "Return volatility"         = "vol_prev",
+  "Flow, previous year"       = "flow_prev_w"
+)
+```
+
+```{r}
+#| label: tbl-st
+#| tbl-cap: "Annual flows on prior-year performance rank (Sirri-Tufano design), 100 funds"
+
+reg_gt(st_models, st_rows,
+       title = "The Flow–Performance Relationship, Annual",
+       subtitle = "Dependent variable: December-to-December flow in year y (winsorized 1%/99%)",
+       note = "Year fixed effects. Standard errors clustered by fund and year. Controls measured at the end of year y-1.")
+```
+
+```{r}
+#| label: tbl-st-convexity
+#| tbl-cap: "Is the top segment steeper than the middle?"
+
+imap(st_models[-1], \(m, nm) convexity_test(m) |> mutate(model = nm, .before = 1)) |>
+  list_rbind() |>
+  gt() |>
+  fmt_number(columns = c(diff, se, t), decimals = 3) |>
+  cols_label(model = "Specification", diff = "High − Mid", se = "Std. error", t = "t-statistic")
+```
+
+Read the first column as the average sensitivity: moving from the bottom to the top of the ranking changes next year's flow by the coefficient on the rank (in units of TNA). The piecewise columns ask where along the ranking that change happens. In the @sirri1998 data, almost all of it happens in the top quintile. With 100 funds and 20-odd years, the standard errors are large, so let the convexity test, not the point estimates, carry the conclusion. Look at the controls before the slopes. A negative coefficient on log age means older funds attract less new money for a given rank, the pattern @berkgreen2004 predict; a negative coefficient on log TNA means larger funds have smaller percentage flows. If adding the controls moves the segment slopes, rank was partly standing in for size or age.
+
+```{r}
+#| label: fig-st
+#| fig-cap: "Average annual flow by decile of prior-year rank, with the fitted piecewise line (year effects removed)"
+
+m_pw <- st_models[["Piecewise"]]
+st_bins <- st_dec |>
+  mutate(flow_dm = flow_annual_w - mean(flow_annual_w), .by = year) |>
+  mutate(bin = ntile(rank, 10)) |>
+  summarise(x = mean(rank), y = mean(flow_dm), .by = bin) |>
+  arrange(bin)
+
+pw_fit  <- function(r) coef(m_pw)[["Low"]] * pmin(r, .2) + coef(m_pw)[["Mid"]] * pmin(.6, pmax(r - .2, 0)) +
+                       coef(m_pw)[["High"]] * pmax(r - .8, 0)
+pw_line <- tibble(x = seq(0, 1, by = 0.01)) |>
+  mutate(y = pw_fit(x) - mean(pw_fit(st_dec$rank)))       # same level as the demeaned flows
+
+highchart() |>
+  hc_chart(height = 400) |>
+  hc_title(text = "Flows and prior-year performance rank") |>
+  hc_xAxis(title = list(text = "Fractional rank on prior-year return"), min = 0, max = 1,
+           plotLines = list(list(value = 0.2, dashStyle = "Dot", color = "#999999"),
+                            list(value = 0.8, dashStyle = "Dot", color = "#999999"))) |>
+  hc_yAxis(title = list(text = "Annual flow, demeaned by year (%)")) |>
+  hc_add_series(st_bins |> mutate(y = round(100 * y, 2), x = round(x, 3)), "scatter",
+                hcaes(x = x, y = y), name = "Decile averages", marker = list(radius = 6)) |>
+  hc_add_series(pw_line |> mutate(y = round(100 * y, 2)), "line", hcaes(x = x, y = y),
+                name = "Piecewise fit", marker = list(enabled = FALSE)) |>
+  hc_tooltip(valueDecimals = 1, pointFormat = "Rank {point.x:.2f}: flow {point.y:.1f}%")
+```
+
+### 4.3 Which performance do investors respond to?
+
+The annual design uses raw returns because that is what @sirri1998 use. §3.3 showed that the choice is itself a hypothesis. We move to the monthly frequency, where each fund contributes many more observations, and run the same piecewise regression with the rank on each of the three measures. The flow is the monthly flow of §2.4; the rank is computed among sample funds in month $t-1$'s information set; month fixed effects absorb aggregate flows.
+
+```{r}
+#| label: monthly-data
+
+mp <- clean |>
+  left_join(perf, by = c("crsp_cl_grp", "ym")) |>
+  filter(!is.na(rank_ret), !is.na(rank_capm), !is.na(rank_ff3), !is.na(flow_lag),
+         !is.na(exp_ratio), !is.na(age_years)) |>
+  mutate(log_tna_lag = log(tna_lag), log_age = log(pmax(age_years, 0.1))) |>
+  rank_segments("rank_ret")  |> rename(Low_ret  = Low, Mid_ret  = Mid, High_ret  = High) |>
+  rank_segments("rank_capm") |> rename(Low_capm = Low, Mid_capm = Mid, High_capm = High) |>
+  rank_segments("rank_ff3")  |> rename(Low_ff3  = Low, Mid_ff3  = Mid, High_ff3  = High)
+
+cat("Monthly sample:", format(nrow(mp), big.mark = ","), "fund-months,",
+    n_distinct(mp$crsp_cl_grp), "funds,", format(min(mp$ym), "%Y-%m"), "to", format(max(mp$ym), "%Y-%m"), "\n")
+
+mctrl <- "log_tna_lag + log_age + exp_ratio + flow_lag"
+mp_models <- list(
+  "Raw return"   = feols(as.formula(paste("flow_w ~ Low_ret + Mid_ret + High_ret +", mctrl, "| ym")),
+                         mp, cluster = ~crsp_cl_grp + ym),
+  "CAPM alpha"   = feols(as.formula(paste("flow_w ~ Low_capm + Mid_capm + High_capm +", mctrl, "| ym")),
+                         mp, cluster = ~crsp_cl_grp + ym),
+  "FF3 alpha"    = feols(as.formula(paste("flow_w ~ Low_ff3 + Mid_ff3 + High_ff3 +", mctrl, "| ym")),
+                         mp, cluster = ~crsp_cl_grp + ym)
+)
+```
+
+```{r}
+#| label: tbl-monthly
+#| tbl-cap: "Monthly flows on the rank of three performance measures"
+
+reg_gt(mp_models,
+       list("Low (bottom quintile)" = c("Low_ret", "Low_capm", "Low_ff3"),
+            "Mid (middle three)"    = c("Mid_ret", "Mid_capm", "Mid_ff3"),
+            "High (top quintile)"   = c("High_ret", "High_capm", "High_ff3"),
+            "log TNA (t-1)"         = "log_tna_lag",
+            "log age"               = "log_age",
+            "Expense ratio"         = "exp_ratio",
+            "Flow (t-1)"            = "flow_lag"),
+       title = "Which Rank Explains Flows?",
+       subtitle = "Dependent variable: monthly flow (winsorized 1%/99%); same fund-months in every column",
+       note = "Month fixed effects. Standard errors clustered by fund and month.")
+```
+
+Because every column uses the same fund-months and controls, the within-$R^2$ is comparable across columns: the measure whose rank explains more of the variation in flows is the better description of what investors respond to, the logic of @berkvanBinsbergen2016 and @barber2016. A cruder but more transparent version of the @berkvanBinsbergen2016 test asks how often a measure gets the **direction** right: does a fund ranked in the top half receive more money than the median fund that month?
+
+```{r}
+#| label: tbl-sign
+#| tbl-cap: "How often does the rank predict whether a fund's flow is above the month's median?"
+
+mp |>
+  mutate(above = flow_w > median(flow_w), .by = ym) |>
+  summarise(`Raw return` = mean((rank_ret  > 0.5) == above),
+            `CAPM alpha` = mean((rank_capm > 0.5) == above),
+            `FF3 alpha`  = mean((rank_ff3  > 0.5) == above)) |>
+  pivot_longer(everything(), names_to = "Ranking measure", values_to = "Agreement") |>
+  gt() |>
+  fmt_percent(columns = Agreement, decimals = 1) |>
+  tab_source_note("50% is no information. Fund-months are not independent, so differences of a percentage point or two are within noise.")
+```
+
+Two cautions. First, the measures are highly correlated (@tbl-rank-corr), so the horse race has little power in 100 funds: @berkvanBinsbergen2016 and @bendavid2022 use thousands. Second, in the period after 2002, Morningstar's star ratings, which @bendavid2022 argue explain flows better than any model, are themselves close to a style-adjusted ranking [@evans2021]; a three-factor alpha can "win" because it resembles the rating, not because investors run regressions.
+
+### 4.4 Young funds and old funds
+
+@berkgreen2004 predict that flows respond more to the performance of **young** funds, because investors know less about their managers. We split each year's funds at the median age and estimate the annual regression in each half.
+
+```{r}
+#| label: tbl-age
+#| tbl-cap: "Annual flow–performance slopes for younger and older funds"
+
+st_age <- st_dec |>
+  mutate(age_group = if_else(age_prev < median(age_prev), "Younger half", "Older half"), .by = year)
+
+age_models <- map(c(`Younger half` = "Younger half", `Older half` = "Older half"), \(g)
+  feols(as.formula(paste("flow_annual_w ~ Low + Mid + High +", ctrl, "| year")),
+        filter(st_age, age_group == g), cluster = ~crsp_cl_grp + year))
+
+reg_gt(age_models,
+       list("Low (bottom quintile)" = "Low", "Mid (middle three)" = "Mid", "High (top quintile)" = "High"),
+       title = "Do Investors Learn More from Young Funds' Returns?",
+       subtitle = "Controls as in column 3 of the annual regression (not shown)",
+       note = "Year fixed effects. Standard errors clustered by fund and year.")
+```
+
+```{r}
+#| label: tbl-age-summary
+
+age_models |>
+  imap(\(m, nm) tibble(group = nm,
+                       median_age = median(st_age$age_prev[st_age$age_group == nm]),
+                       slope_rank_0_to_1 = sum(coef(m)[c("Low", "Mid", "High")] * c(0.2, 0.6, 0.2)))) |>
+  list_rbind() |>
+  gt() |>
+  fmt_number(columns = c(median_age, slope_rank_0_to_1), decimals = 2) |>
+  cols_label(group = "", median_age = "Median age (years)",
+             slope_rank_0_to_1 = "Flow difference, top vs. bottom fund")
+```
+
+Keep the selection rule in mind: every fund in the sample lived at least ten years, so the "younger half" contains young funds that went on to survive. Young funds that failed early were never drawn, and the comparison likely understates how differently investors treat young funds in the population.
+
+### 4.5 Funds that disappear
+
+A fund that is merged or liquidated stops reporting. In the 100-fund sample, a fund "exits" when its last month comes before the end of the sample. What do its flows look like on the way out?
+
+```{r}
+#| label: fig-exit
+#| fig-cap: "Monthly flows in the three years before a fund's last month (exiting funds), compared with all other fund-months"
+
+exit_months <- valid |>
+  left_join(fund_life |> select(crsp_cl_grp, last_ym, exits), by = "crsp_cl_grp") |>
+  mutate(flow_w = winsor(flow))
+
+event <- exit_months |>
+  filter(exits) |>
+  mutate(k = -(interval(ym, last_ym) %/% months(1))) |>
+  filter(k >= -36) |>
+  summarise(mean = 100 * mean(flow_w), median = 100 * median(flow_w), funds = n(), .by = k) |>
+  arrange(k)
+
+base_mean <- 100 * mean(exit_months$flow_w[!exit_months$exits])
+
+highchart() |>
+  hc_chart(height = 380) |>
+  hc_title(text = "The road to exit") |>
+  hc_xAxis(title = list(text = "Months relative to the fund's last month (0)"),
+           plotLines = list(list(value = 0, color = "#999999", width = 1))) |>
+  hc_yAxis(title = list(text = "Monthly flow (%)"),
+           plotLines = list(list(value = base_mean, color = "#C0392B", dashStyle = "Dash", width = 1,
+                                 label = list(text = "Mean flow, funds that do not exit", align = "right", y = 14)))) |>
+  hc_add_series(event, "line", hcaes(x = k, y = round(mean, 2)), name = "Mean (winsorized)") |>
+  hc_add_series(event, "line", hcaes(x = k, y = round(median, 2)), name = "Median", dashStyle = "ShortDot") |>
+  hc_tooltip(shared = TRUE, valueDecimals = 2, valueSuffix = "%")
+```
+
+Read the chart for two things: how many months before the exit the flows fall below those of other funds, and how extreme the last months are. A fund that is liquidated typically bleeds assets for a long time; a fund that is merged may show little until the end. Now ask what happens to these months in the annual regression. The December-to-December flow needs a December TNA, so **the year in which a fund exits drops out**. The sum of monthly dollar flows does not need it. We estimate the annual regression three ways on the same funds: with the December-to-December flow; with the summed monthly flow on the same fund-years; and with the summed monthly flow **adding the exit years**.
+
+```{r}
+#| label: tbl-exit
+#| tbl-cap: "Does dropping exit years change the shape of the flow function?"
+
+st_sum <- st |> filter(!is.na(flow_summed_w), !is.na(log_age_prev), !is.na(er_prev), !is.na(vol_prev))
+f_ctrl <- \(y) as.formula(paste(y, "~ Low + Mid + High +", ctrl, "| year"))
+
+exit_models <- list(
+  "Dec-to-Dec flow"                 = feols(f_ctrl("flow_annual_w"), st_dec, cluster = ~crsp_cl_grp + year),
+  "Summed flow, same fund-years"    = feols(f_ctrl("flow_summed_w"), filter(st_sum, !exit_year, !is.na(flow_annual_w)),
+                                            cluster = ~crsp_cl_grp + year),
+  "Summed flow, with exit years"    = feols(f_ctrl("flow_summed_w"), st_sum, cluster = ~crsp_cl_grp + year)
+)
+
+reg_gt(exit_models,
+       list("Low (bottom quintile)" = "Low", "Mid (middle three)" = "Mid", "High (top quintile)" = "High"),
+       title = "Survivorship Inside the Regression",
+       subtitle = "Controls as in column 3 of the annual regression (not shown)",
+       note = paste0("Exit years in the third column: ", sum(st_sum$exit_year),
+                     ". Year fixed effects. Standard errors clustered by fund and year."))
+```
+
+The first two columns differ only through Equation (4), and should be close. The third adds the exit years. If exiting funds were poor performers with large outflows, adding them steepens the **Low** segment, and the gap between the bottom and the top of the flow function shrinks. With only a few dozen exit years among well over a thousand fund-years, expect a modest change; its direction is the point of §5's experiment B, now in real data: a sample that measures flows only for funds alive at year-end understates how strongly investors leave losers. And this sample is already selected on ten years of survival, so the funds that would show this most strongly were never drawn.
+
+### 4.6 One sensitivity per fund
+
+The pooled regressions impose one flow function on all 100 funds. With a long monthly history per fund, we can instead estimate a sensitivity for each, regressing the monthly flow on the fund's monthly rank (raw return), with Newey-West standard errors because the twelve-month windows behind consecutive ranks overlap.
+
+```{r}
+#| label: fp-by-fund
+
+by_fund <- mp |>
+  mutate(t = interval(min(ym), ym) %/% months(1)) |>
+  filter(n() >= 60, .by = crsp_cl_grp) |>
+  group_split(crsp_cl_grp) |>
+  map(\(d) {
+    m  <- feols(flow_w ~ rank_ret, d, panel.id = ~crsp_cl_grp + t, vcov = NW(12))
+    ct <- coeftable(m)
+    tibble(fund = as.character(d$crsp_cl_grp[1]), name = d$fund_name[nrow(d)], n = nobs(m),
+           b = ct["rank_ret", 1], se = ct["rank_ret", 2],
+           log_tna = mean(d$log_tna_lag), b12 = mean(coalesce(d$actual_12b1, 0) > 0))
+  }) |>
+  list_rbind() |>
+  mutate(lo = b - 1.96 * se, hi = b + 1.96 * se) |>
+  arrange(b)
+
+pooled_b <- coef(feols(flow_w ~ rank_ret | crsp_cl_grp, mp))[["rank_ret"]]
+```
+
+```{r}
+#| label: fig-by-fund
+#| fig-cap: "Flow–performance sensitivity fund by fund (monthly flow on monthly rank), with 95% confidence intervals"
+
+highchart() |>
+  hc_chart(height = 420) |>
+  hc_title(text = "One sensitivity per fund") |>
+  hc_xAxis(categories = by_fund$name, labels = list(enabled = FALSE),
+           title = list(text = "Funds, sorted by estimated sensitivity")) |>
+  hc_yAxis(title = list(text = "Monthly flow, top vs. bottom rank"),
+           plotLines = list(list(value = 0, color = "#999999", width = 1),
+                            list(value = pooled_b, color = "#C0392B", width = 1, dashStyle = "Dash",
+                                 label = list(text = "Pooled (fund fixed effects)", align = "left")))) |>
+  hc_add_series(name = "95% CI", type = "errorbar",
+                data = map2(round(by_fund$lo, 4), round(by_fund$hi, 4), \(l, h) list(l, h))) |>
+  hc_add_series(name = "Estimate", type = "scatter", data = round(by_fund$b, 4),
+                marker = list(radius = 3)) |>
+  hc_tooltip(shared = TRUE, valueDecimals = 3)
+```
+
+```{r}
+#| label: tbl-by-fund
+
+by_fund |>
+  summarise(funds = n(),
+            positive = mean(b > 0), significant_pos = mean(lo > 0), significant_neg = mean(hi < 0),
+            sd_b = sd(b), mean_se = mean(se)) |>
+  gt() |>
+  fmt_number(columns = c(sd_b, mean_se), decimals = 3) |>
+  fmt_percent(columns = c(positive, significant_pos, significant_neg), decimals = 0) |>
+  cols_label(funds = "Funds", positive = "Estimate > 0", significant_pos = "Significantly > 0",
+             significant_neg = "Significantly < 0", sd_b = "Std. dev. of estimates",
+             mean_se = "Average std. error")
+```
+
+Compare the last two columns. If the dispersion of the estimates across funds is about the size of the average standard error, most of what the chart shows is sampling noise. If it is clearly larger, investors in different funds really do respond differently, and a pooled slope is an average over heterogeneous flow functions. That is the premise of @spiegel2013, and §5 shows what such heterogeneity can do to a pooled estimate of the *shape*.
+
+------------------------------------------------------------------------
+
+## 5. Is the Convexity Real? Three Simulations
+
+Section 4 estimated a shape, but real data never reveal the truth it should be compared with. Simulation lets us set the truth and check what the estimator returns. We build an industry of 1,000 funds over 20 years. Each year, every fund earns a return, is ranked within the year, and receives a flow. We then estimate Equation (6) with year fixed effects and no controls.
+
+We run three data-generating processes:
+
+- **A. Convex investors.** Flows are convex in rank by construction. Does the estimator recover it?
+- **B. Linear investors, losers disappear.** Flows are *linear* in rank, but some poorly performing funds are liquidated or merged during the year; their large outflows are never recorded because the fund has no year-end TNA.
+- **C. Linear investors, two clienteles.** Flows are linear in rank *within* each of two clienteles, but the slopes differ, and the more sensitive clientele owns high-beta funds that rank high when the market rises.
+
+```{r}
+#| label: sim-industry
+
+simulate_industry <- function(dgp, n_funds = 1000, n_years = 20, seed = 2026) {
+  set.seed(seed)
+  # C needs a mostly rising market; A and B use an ordinary one
+  mkt_mu <- if (dgp == "C") 0.10 else 0.08
+  mkt_sd <- if (dgp == "C") 0.10 else 0.16
+
+  years <- tibble(year = 1:n_years, mkt = rnorm(n_years, mkt_mu, mkt_sd))
+  funds <- tibble(fund = 1:n_funds,
+                  clientele = if_else(runif(n_funds) < 0.5, "Retail", "Institutional"),
+                  beta = if (dgp == "C") if_else(clientele == "Retail", 1.5, 0.5)
+                         else            if_else(clientele == "Retail", 1.3, 0.7),
+                  idio = if (dgp == "C") 0.05 else 0.06)
+
+  d <- expand_grid(fund = 1:n_funds, year = 1:n_years) |>
+    left_join(funds, by = "fund") |>
+    left_join(years, by = "year") |>
+    mutate(ret = beta * mkt + rnorm(n(), 0, idio)) |>
+    mutate(rank = percent_rank(ret), .by = year) |>
+    rank_segments() |>
+    mutate(e = rnorm(n(), 0, 0.15))
+
+  if (dgp == "A") {
+    d <- d |> mutate(flow = -0.05 + 0.10 * Low + 0.40 * Mid + 1.80 * High + e)
+  }
+  if (dgp == "B") {
+    d <- d |>
+      mutate(flow = -0.25 + 0.50 * rank + e,
+             # probability that the fund is gone by year end: high for low-ranked funds with large outflows
+             p_exit = plogis(0 - 8 * rank + 12 * (-0.20 - flow)),
+             exits  = runif(n()) < p_exit)
+  }
+  if (dgp == "C") {
+    d <- d |> mutate(flow = if_else(clientele == "Retail", -0.30 + 0.80 * rank,
+                                                           -0.10 + 0.20 * rank) + e)
+  }
+  d
+}
+
+sim_A <- simulate_industry("A")
+sim_B <- simulate_industry("B")
+sim_C <- simulate_industry("C")
+
+est_segments <- function(d) {
+  m <- feols(flow ~ Low + Mid + High | year, d)
+  tibble(segment = c("Low", "Mid", "High"), est = unname(coef(m)[c("Low", "Mid", "High")]),
+         se = unname(se(m)[c("Low", "Mid", "High")]))
+}
+
+sim_results <- bind_rows(
+  est_segments(sim_A) |> mutate(dgp = "A. Convex investors", sample = "Full panel",
+                                truth = c(0.10, 0.40, 1.80)),
+  est_segments(sim_B) |> mutate(dgp = "B. Linear, losers exit", sample = "All fund-years",
+                                truth = 0.50),
+  est_segments(filter(sim_B, !exits)) |> mutate(dgp = "B. Linear, losers exit",
+                                                sample = "Survivors only (what the data show)",
+                                                truth = 0.50),
+  est_segments(sim_C) |> mutate(dgp = "C. Linear, two clienteles", sample = "Pooled",
+                                truth = NA_real_),
+  est_segments(filter(sim_C, clientele == "Retail")) |>
+    mutate(dgp = "C. Linear, two clienteles", sample = "Retail clientele only", truth = 0.80),
+  est_segments(filter(sim_C, clientele == "Institutional")) |>
+    mutate(dgp = "C. Linear, two clienteles", sample = "Institutional clientele only", truth = 0.20)
+)
+```
+
+```{r}
+#| label: tbl-sim
+#| tbl-cap: "Estimated segment slopes (Equation 6) under three data-generating processes"
+
+sim_results |>
+  select(dgp, sample, segment, est, truth) |>
+  pivot_wider(names_from = segment, values_from = c(est, truth)) |>
+  mutate(convex = est_High - est_Low) |>
+  gt(groupname_col = "dgp") |>
+  fmt_number(columns = -c(dgp, sample), decimals = 2) |>
+  sub_missing(missing_text = "—") |>
+  cols_label(sample = "Sample", est_Low = "Low", est_Mid = "Mid", est_High = "High",
+             truth_Low = "Low", truth_Mid = "Mid", truth_High = "High",
+             convex = "High − Low") |>
+  tab_spanner("Estimated slope", c(est_Low, est_Mid, est_High)) |>
+  tab_spanner("True slope", c(truth_Low, truth_Mid, truth_High)) |>
+  tab_source_note("1,000 funds x 20 years. Year fixed effects. In C, the pooled sample has no single true slope: each clientele has its own.") |>
+  tab_source_note("Illustrative simulation; parameters are chosen for visibility, not calibrated to CRSP.")
+```
+
+```{r}
+#| label: sim-curves
+
+curve_from <- function(b) {                    # flow implied by segment slopes, relative to rank 0
+  tibble(rank = seq(0, 1, by = 0.01)) |>
+    rank_segments() |>
+    mutate(flow = b[1] * Low + b[2] * Mid + b[3] * High) |>
+    select(rank, flow)
+}
+sim_curve <- function(dgp_name, sample_name) {
+  b <- sim_results |> filter(dgp == dgp_name, sample == sample_name) |> pull(est)
+  curve_from(b) |> mutate(series = sample_name)
+}
+```
+
+```{r}
+#| label: fig-sim-A
+#| fig-cap: "A. Convex investors: the estimator recovers the planted shape"
+
+bind_rows(curve_from(c(0.10, 0.40, 1.80)) |> mutate(series = "True flow function"),
+          sim_curve("A. Convex investors", "Full panel") |> mutate(series = "Estimated")) |>
+  mutate(rank = round(rank, 2), flow = round(flow, 3)) |>
+  hchart("line", hcaes(x = rank, y = flow, group = series)) |>
+  hc_chart(height = 340) |>
+  hc_title(text = "A. Convex investors") |>
+  hc_xAxis(title = list(text = "Fractional performance rank"),
+           plotLines = list(list(value = 0.2, dashStyle = "Dot", color = "#999999"),
+                            list(value = 0.8, dashStyle = "Dot", color = "#999999"))) |>
+  hc_yAxis(title = list(text = "Flow relative to rank 0")) |>
+  hc_plotOptions(line = list(marker = list(enabled = FALSE))) |>
+  hc_tooltip(shared = TRUE, valueDecimals = 3)
+```
+
+```{r}
+#| label: fig-sim-B
+#| fig-cap: "B. Linear investors: losing funds that exit flatten the bottom of the estimated curve"
+
+bind_rows(curve_from(c(0.5, 0.5, 0.5)) |> mutate(series = "True flow function"),
+          sim_curve("B. Linear, losers exit", "Survivors only (what the data show)")) |>
+  mutate(rank = round(rank, 2), flow = round(flow, 3)) |>
+  hchart("line", hcaes(x = rank, y = flow, group = series)) |>
+  hc_chart(height = 340) |>
+  hc_title(text = "B. Linear investors, losers exit") |>
+  hc_xAxis(title = list(text = "Fractional performance rank"),
+           plotLines = list(list(value = 0.2, dashStyle = "Dot", color = "#999999"),
+                            list(value = 0.8, dashStyle = "Dot", color = "#999999"))) |>
+  hc_yAxis(title = list(text = "Flow relative to rank 0")) |>
+  hc_plotOptions(line = list(marker = list(enabled = FALSE))) |>
+  hc_tooltip(shared = TRUE, valueDecimals = 3)
+```
+
+```{r}
+#| label: fig-sim-C
+#| fig-cap: "C. Two linear clienteles: the pooled curve is convex although neither clientele's is"
+
+bind_rows(sim_curve("C. Linear, two clienteles", "Pooled"),
+          sim_curve("C. Linear, two clienteles", "Retail clientele only"),
+          sim_curve("C. Linear, two clienteles", "Institutional clientele only")) |>
+  mutate(rank = round(rank, 2), flow = round(flow, 3)) |>
+  hchart("line", hcaes(x = rank, y = flow, group = series)) |>
+  hc_chart(height = 340) |>
+  hc_title(text = "C. Linear investors, two clienteles") |>
+  hc_xAxis(title = list(text = "Fractional performance rank"),
+           plotLines = list(list(value = 0.2, dashStyle = "Dot", color = "#999999"),
+                            list(value = 0.8, dashStyle = "Dot", color = "#999999"))) |>
+  hc_yAxis(title = list(text = "Flow relative to rank 0")) |>
+  hc_plotOptions(line = list(marker = list(enabled = FALSE))) |>
+  hc_tooltip(shared = TRUE, valueDecimals = 3)
+```
+
+```{r}
+#| label: tbl-sim-composition
+#| tbl-cap: "C. Share of retail-clientele funds by performance quintile"
+
+sim_C |>
+  mutate(quintile = ntile(rank, 5)) |>
+  summarise(retail_share = mean(clientele == "Retail"), .by = quintile) |>
+  arrange(quintile) |>
+  mutate(quintile = c("Bottom", "2", "3", "4", "Top")) |>
+  gt() |>
+  fmt_percent(columns = retail_share, decimals = 0) |>
+  cols_label(quintile = "Performance quintile", retail_share = "Retail-clientele funds") |>
+  tab_header(title = "Who Sits Where in the Ranking?")
+```
+
+### 5.1 Reading the three experiments
+
+**A. The estimator works when the model is right.** With convex investors, the segment slopes are recovered close to their true values. Equation (6) is not biased in itself.
+
+**B. Survivorship manufactures convexity.** All investors respond linearly, with the same slope everywhere. But a fund that is liquidated or merged during the year has no year-end TNA, so its flow for that year never enters the data, and the funds that disappear are disproportionately those with low ranks and *large outflows*. Removing them raises the average flow at the bottom of the ranking and flattens the Low segment. The estimate is convex; the investors are not. §4.5 runs the same comparison on the 100 funds: the December-to-December flow drops exit years, the summed monthly flow keeps them. Be suspicious of any study that measures flows only for funds alive at year-end, and of any sample selected on a long history.
+
+**C. Heterogeneity manufactures convexity.** Each clientele responds linearly. The retail clientele is more sensitive, and in a mostly rising market its high-beta funds sit disproportionately at the top of the ranking. The pooled regression sees steep slopes at the top, where retail funds dominate, and flat slopes at the bottom, where institutional funds dominate. Estimated within each clientele, the slopes are flat across segments, as they should be. This is the mechanism @spiegel2013 have in mind when they argue that "heterogeneous linear response functions" combined with pooled regressions produce false convexity, and why they prefer a conditional analysis and market-share flows. Note what the example also implies about @franzoni2017: the shape of the pooled flow function depends on the market state, because the market state decides which funds sit where in the ranking.
+
+::: callout-important
+## The referee's question for any flow regression
+
+What would the estimated shape look like if every investor responded **linearly**? Experiments B and C give two answers that are not "linear". A convex estimate is evidence of convex investors only after survivorship and heterogeneity in sensitivity have been ruled out, for example by recording the flows of exiting funds and by estimating the relationship within groups of funds with similar clienteles, ages, and risk.
+:::
+
+------------------------------------------------------------------------
+
+## 6. Why the Shape Matters
+
+**For managers.** A convex flow function is an option on performance: the fund company gains a lot from a top rank and loses little from a bottom one, so the value of the option rises with risk. @chevalier1997 show that the shape of the flow function predicts how funds change their risk late in the year. The next lecture tests this tournament behavior directly, and shows how fragile the tests are.
+
+**For equilibrium.** In @berkgreen2004, flows are the mechanism that drives net alpha to zero. Whether flows respond to the *right* performance measure (§3.3) decides how efficiently capital is allocated across managers.
+
+**For prices.** Flows force trades. Funds with large outflows sell their holdings at the same time, and the stocks they hold in common fall in price before recovering [@coval2007]. Flow-induced purchases can push up the prices of stocks that funds already own, which in turn raises the funds' returns and attracts more flows, a mechanism @lou2012 links to the persistence of fund performance and to stock price momentum.
+
+**For investors.** Whether flows are "smart" is itself debated. New money appears to flow to funds that subsequently do well [@gruber1996; @zheng1999], but over longer horizons, the stocks that fund investors buy underperform [@frazzini2008]. Week 8 takes up the behavioral side.
+
+**For fragility.** Where investors who leave early impose costs on those who stay, as in less liquid bond funds, the flow function becomes concave and redemptions can feed on themselves [@goldstein2017].
+
+------------------------------------------------------------------------
+
+## 7. A Checklist for Flow Studies
+
+1.  **Choose the unit.** Measure flows at the fund level (class group or portfolio), so that share-class conversions net out. Aggregate TNA by summing and returns with lagged-TNA weights.
+2.  **Check the panel.** One row per fund and calendar month; never take "the previous row" as "the previous month".
+3.  **Know what aggregation creates.** Flag months in which the number of share classes changes, and record how many classes report TNA; a missing class produces a reversal pair.
+4.  **Clean the characteristics.** Negative values in CRSP expense ratios and similar fields are missing-value codes.
+5.  **Filter on the denominator.** Apply a minimum lagged TNA (\$15 million is common) at the fund level.
+6.  **Read the extremes.** Inspect the largest flows by hand. Mergers, share-class launches, and reporting gaps are not investor decisions.
+7.  **Winsorize, and report the bounds.** Percentage flows have very fat tails even after filtering.
+8.  **Keep the dying funds.** Use monthly data to record the flows of funds that exit before year-end; an annual sample of year-end survivors truncates the bottom of the flow function. Ask whether the sample itself was selected on survival.
+9.  **Use lagged performance.** The month-$t$ return enters the month-$t$ flow; performance should end at $t-1$.
+10. **Rank deliberately.** Ranks within a sample estimate ranks in the population with error; ranks within objective codes need enough funds per code.
+11. **Test the performance measure.** Raw return, CAPM alpha, multi-factor alpha, and Morningstar ratings are competing hypotheses about investors [@berkvanBinsbergen2016; @barber2016; @bendavid2022].
+12. **Allow for heterogeneity.** Estimate the flow function within groups (age, size, clientele, distribution channel) before concluding that it is convex [@spiegel2013].
+13. **Cluster appropriately.** Flows are persistent within funds and correlated across funds within periods; cluster by both.
+
+------------------------------------------------------------------------
+
+## 8. Key Takeaways
+
+1.  **The flow function is the fund company's incentive contract.** Revenue is fee times TNA, and flows are how TNA responds to performance.
+2.  **A flow is a residual.** Equation (3) attributes to investors every change in TNA not explained by the return, including mergers, share-class launches, reporting gaps, cash distributions, and liquidations. Most of the work in measuring flows is removing what is not investor demand.
+3.  **Aggregating to the fund removes some problems and creates others.** Conversions between share classes net out; class launches and missing class TNA do not.
+4.  **The standard finding is convexity** [@sirri1998], explained by search costs and visibility, and refined by participation costs [@huang2007] and strategy changes after poor performance [@lynch2003].
+5.  **Investors respond to what they are shown.** The evidence on CAPM, factor-adjusted, and rating-based performance [@berkvanBinsbergen2016; @barber2016; @evans2021; @bendavid2022] says that the performance measure in a flow regression is a hypothesis about investors.
+6.  **The shape depends on the clientele, the asset class, and the market state** [@delguercio2002; @goldstein2017; @ferreira2012; @franzoni2017].
+7.  **Estimated convexity can be manufactured.** Dropping the flows of funds that exit, and pooling heterogeneous linear responses, both produce convex pooled estimates from linear investors [@spiegel2013]. Ask what your estimate would look like if every investor were linear, and what your sample selection rule did to the funds at the bottom.
+
+------------------------------------------------------------------------
+
+## 9. Discussion Questions
+
+1.  Equation (3) assumes flows arrive at the end of the month. Derive the flow under the assumption that they arrive at the start of the month. Compute both versions for the 100 funds. For which funds and months does the choice matter most?
+
+2.  A fund pays a large capital-gain distribution in December and most investors reinvest it. Does Equation (3) record an outflow? What if most investors take it in cash? Using the monthly flows, check whether December flows in the sample look different from other months.
+
+3.  The aggregation step in `make_fund_sample.R` sums the TNA of the share classes that report in a month. Modify it to also count the share classes with non-missing TNA, and redo @tbl-reversals using months in which that count changes. How many of the flagged reversals does the new variable explain?
+
+4.  Pick the largest inflow in @tbl-extreme. List the possible explanations and, for each one, a piece of CRSP data that would confirm or rule it out.
+
+5.  `make_fund_sample.R` requires 120 months of returns. Re-draw the sample with a 36-month requirement. Which results in Section 4 would you expect to change, and in which direction? Check the Low segment and the young-fund slopes in particular.
+
+6.  In @tbl-monthly, which ranking explains flows best? Is the difference large relative to what you would expect from chance? Design a test that accounts for the high correlation between the rankings (@tbl-rank-corr).
+
+7.  @berkvanBinsbergen2016 conclude that investors use the CAPM; @bendavid2022 conclude that they use Morningstar ratings and past returns. Using only the variables in this sample, which feature of the data would you exploit to distinguish the two views? What extra data would make the test sharp?
+
+8.  In @tbl-exit, adding exit years changes the Low slope. Propose a way to bound the bias from funds whose final flows are never recorded at all, for example funds that exit between two monthly reports.
+
+9.  In experiment C, the convexity comes from where each clientele sits in the ranking. Modify `simulate_industry()` so that the market mostly *falls*. What shape does the pooled regression estimate now? Relate the answer to @franzoni2017.
+
+10. Funds with a 12b-1 fee are typically sold through intermediaries. Estimate the annual flow–performance regression separately for funds with and without a 12b-1 fee. Which theory in §3.2 would predict a difference, and in which direction?
+
+11. @ferreira2012 find that the shape of the flow–performance relationship differs across countries. What would you expect for Taiwanese equity funds, and why? What data would you need, and which of the measurement problems in Section 2 would be most severe?
+
+------------------------------------------------------------------------
+
+## References
+
+::: {#refs}
+:::
